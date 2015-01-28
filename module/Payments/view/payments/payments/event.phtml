@@ -1,0 +1,359 @@
+<?php
+if (!is_null($this->message)):
+
+    // d($this->message);
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+<?php
+$date = date('Y-m-d');
+//d($this->collection); die; //echo $date; die;
+?>
+
+<script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->paymenttyp)) {
+    echo $this->paymenttyp;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+    });
+</script>    
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Event Payments</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+
+
+
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+
+
+        <div class="formRight">
+            <form method="post" action="<?php echo $this->url('payments-event'); ?>">
+                Date From : <input type="date" id="startDate" name="mydate" class="" value="<?php
+                if (!empty($this->startdat)) {
+                    echo $this->startdat;
+                } else {
+                    echo '';
+                }
+                ?>">  
+                Date To : <input type="date" id="endDate" name="mydate1" class="" value="<?php
+                if (!empty($this->enddat)) {
+                    echo $this->enddat;
+                } else {
+                    echo '';
+                }
+                ?>">       
+                
+               <select name="myselect" id="myselect" onchange="this.form.submit()">
+                    <option value="">Select</option>
+                    <option value="2">Due</option>
+                    <option value="1">Rcvd</option>
+                    <option value="0">All</option>
+
+                </select>
+                
+                
+                <input type="submit" name="submit" class="btn btn-info" id="btnmargin" value="Search">
+            </form> 
+
+<!--
+            <form action="<?php //echo $this->url('payments-event'); ?>" method="post">
+                <select name="myselect" id="myselect" onchange="this.form.submit()">
+                    <option value="">Select</option>
+                    <option value="2">Due</option>
+                    <option value="1">Rcvd</option>
+                    <option value="0">All</option>
+
+                </select>
+            </form>
+-->
+
+        </div>
+
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Sr. No.</th>
+                    <th class="hidden-mobile">Name</th>
+                    <th class="hidden-mobile">For</th> 
+                    <th class="hidden-mobile">Order Date</th>
+                    <th class="hidden-mobile">Order Total</th>
+                    <th class="hidden-mobile">Total Received</th>
+                    <th class="hidden-mobile">Total Due</th>
+                    <th class="hidden-mobile">Refund Amount</th>
+                    <th class="hidden-mobile">Status</th>
+                    <th class="hidden-mobile">Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $total = 0;
+                $i = 0;
+                $totalreceived = 0;
+                $totaldue = 0;
+                foreach ($this->collection as $item):
+
+                    $hotelName = $item['hotelName'];
+                    $type = $item['type'];
+                    $roomName = $item['roomName'];
+                    $travellers = $item['travellers'];
+                    $reservation = $item['reservation'];
+                    $status = $item['status'];
+                    $paymentDue = $item['paymentDues'];
+//echo "<pre>";
+                    //                  print_r($paymentDue);
+                    $invoice = $item['invoice'];
+                    $total = ($total + $reservation->getfinalCost());
+                    $totalreceived = ($totalreceived + $reservation->getdepositAmoun());
+                    $totaldue = ($totaldue + $reservation->getBalansAfterDeposit());
+                    $refund  = $reservation->getRefundAmt();
+                    if($refund <= 0){
+                        $refund = 0;
+                    }
+                    
+                     $due = $reservation->getfinalCost() - $reservation->getdepositAmoun();
+                    if($due < 0){
+                        $due = 0;
+                    }
+                    
+                    $i++;
+                    ?>                  
+
+                    <tr>
+                     <!--   <td class="hidden-mobile"><?php //echo $reservation->getId();         ?></td>        -->                
+                        <td class="hidden-mobile"><?php echo $i;?></td>
+                        <td class="hidden-mobile"><?php
+                           // foreach ($travellers as $traveller) {
+                                echo $travellers[0];
+                                // $output[]= $traveller;
+                                //echo implode(', ', $output);
+                                // echo $traveller;
+                            //}
+                            ?></td>
+                        <td class="hidden-mobile"><?php echo $hotelName; ?></td>    
+
+                        <td class="hidden-mobile"> <?php
+                            //   foreach ($invoice as $item1) {
+                            echo ($invoice[0]->getdateAdded() instanceof \DateTime) ? $invoice[0]->getdateAdded()->format('Y-m-d') : $invoice[0]->getdateAdded();
+                            // }//echo ($reservation->getCreatedAt() instanceof \DateTime) ? $reservation->getCreatedAt()->format('Y-m-d') : $reservation->getCreatedAt(); 
+                            ?></td>				
+
+                        <td class="hidden-mobile"><?php echo $reservation->getCurrencyCode().' ' . $reservation->getfinalCost(); ?></td>
+
+                        <td class="hidden-mobile"><?php echo $reservation->getCurrencyCode(). ' ' . $reservation->getdepositAmoun(); ?></td>
+
+                         <td class="hidden-mobile"><?php  echo $reservation->getCurrencyCode(). " ".$due; ?></td>
+                        <td class="hidden-mobile"><?php echo $reservation->getCurrencyCode().'  '.$refund; ?> </td>
+
+                        <td class="hidden-mobile">
+                            <?php if ($reservation->getPaymentType() == 1 && ($status != 'Canceled') && $reservation->getIsRefund() == 0) { ?>
+                                <?php if($reservation->getIsUpdated() == 1 && $reservation->getIsRefund() == 0  && $reservation->getIsExtraPaid() == 0){ ?>    
+                            <span class="s_green"> Pending </span>
+                            <?php } else{?>
+                            <span class="s_green"> Paid in full </span> 
+                            <?php }?>
+                             <?php
+                            } elseif($reservation->getPaymentType() == 0 && ($status != 'Canceled') && $reservation->getIsRefund() == 0) {
+                                ?>
+                                <?php
+                                if (count($paymentDue) > 0) {
+                                    foreach ($paymentDue as $paymentDue):
+                                        ?>
+                                        <?php if ($paymentDue['status'] == 0) { ?>
+                                            <?php
+                                            if ($paymentDue['DueDate'] instanceof \DateTime):
+                                                if ($paymentDue['DueDate']->format("Y-m-d") < $date) {
+                                                    $class = "s_orange";
+                                                } else {
+                                                    $class = "s_blue";
+                                                }
+                                            endif;
+                                            ?> 
+
+                                            <span class="<?php echo $class; ?>">
+                                                <?php echo'$' . $paymentDue['nextDueAmount']; ?>				
+
+                                                <?php
+                                                if ($paymentDue['DueDate'] instanceof \DateTime):
+                                                    if ($paymentDue['DueDate']->format("Y-m-d") < $date) {
+                                                        echo "Pst.Due";
+                                                    } else {
+                                                        echo "Due on";
+                                                    }
+
+                                                endif;
+                                                ?>
+                                                <?php
+                                                if ($paymentDue['DueDate'] instanceof \DateTime):
+
+                                                    echo $paymentDue['DueDate']->format("Y-m-d");
+                                                endif;
+                                                ?>			
+                                            </span><br>    
+                                            <?php }else {
+                                            $class = "s_green";
+                                            ?> 
+
+                                            <span class="<?php echo $class; ?>">
+                                                <?php echo 'Due Paid on'; ?>				
+
+                                                <?php
+                                                if ($paymentDue['DueDate'] instanceof \DateTime):
+
+                                                    echo $paymentDue['DueDate']->format("Y-m-d");
+                                                endif;
+                                                ?>			
+                                            </span><br>    
+                                            <?php
+                                        }
+                                        $i++;
+                                    endforeach;
+                                }
+                            }elseif($reservation->getIsRefund() == 1 && $reservation->getRefundAmt() != 0.00){ ?>
+                                 <span class="s_pink"> Refund </span>
+                           <?php }else{ ?>
+                                <span class="s_red"> Cancelled </span>
+                            <?php } ?>
+
+                        </td> 
+                        <td class="action-table">                            
+                        <!--    <a href="javascript:alert('In Progress...')<?php //echo $this->url('orders-view', array('id' => $reservation->getId()));     ?>" title="View">
+                                <img src="/images/icon/table_view.png" alt="View">
+                            </a>
+                            -->
+<!--                            <a data-toggle="modal" href="<?php echo $this->url('ajax-payment', array('id' => $reservation->getId())); ?>" data-target=".bs-example-modal-lg">
+                                <img src="/images/icon/table_view.png" alt="View">
+                            </a>-->
+                            <a onclick="info('<?php echo $this->url('ajax-payment', array('id' => $reservation->getId())); ?>')" href='javascript:void(0);'>
+                                <img src="/images/icon/table_view.png" alt="View">
+                            </a>
+
+                            <?php if ($reservation->getPaymentType() == 0) { ?>
+
+                                <a href="<?php echo $this->url('payments-edit', array('id' => $reservation->getId())); ?>" title="Update">
+                                    <img src="/images/icon/table_edit.png" alt="Update">
+                                </a> 
+                            <?php } ?>
+
+                            <?php if ($reservation->getPaymentType() == 0) { ?>
+                                <a href="<?php echo $this->url('payments-applypayment', array('id' => $reservation->getId())); ?>" title="Apply">
+                                    <img src="/images/icon/icon_cont_check.png" alt="Apply">
+                                </a>
+                            <?php } ?>
+
+                            <?php if ($reservation->getPaymentType() == 0 && $paymentDue['status'] == 0) { ?>
+                            <a href="<?php echo $this->url('payment-sendreminder', array('id' => $reservation->getId())); ?>" title="Reminder">
+                                Reminder
+                            </a>
+                            <?php } ?>
+                            <a href="<?php echo $this->url('payments-canceled', array('id' => $reservation->getId())); ?>" title="Cancel" data-confirm='Are you Sure.?'>
+                                <img src="/images/icon/table_del.png" alt="Cancel">
+                            </a>
+
+                        </td>
+
+                    </tr>                    
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <br><br>
+        <p>  Order Total :	
+            <?php echo 'USD ' . $total . ' , '; ?>
+            Total Received :	
+            <?php echo 'USD ' . $totalreceived . ' , '; ?>
+            Total Due :	
+            <?php echo ($totaldue != '')?'USD ' . $totaldue:0; ?>
+        </p>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close">×</button>
+    <h3 id="myModalLabel"></h3>
+  </div>
+  <div class="modal-body">
+    <p></p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn close">Close</button>
+  </div>
+</div>
+
+<script>
+function info(url){
+//    var id=$(this).attr('data-id');
+//    alert(id);
+    $.ajax({
+                async:false,    
+                url:url,
+                type: 'POST',
+                beforeSend:function(){
+                    $('#myModal').show();
+                    $(".modal-body").html('<center><img src="/images/ajax-loader.gif" alt="Loading..."></center>') 
+//                    $("#myModal").css('left:39%','width:65%')
+                     $("#myModal").css({
+                    "left": "39%",
+                    "width": "65%"
+                    });
+                    $("#myModal").modal()
+                    
+                },
+                success: function(data){
+                    $(".modal-body").html(data)  
+//                  $("#myModal").modal()  
+                }
+            });
+}
+
+$(document).ready(function(){
+    $('.close').click(function(){
+        $("#itemModal").css({"display": "none"});
+        $("#myModal").css({"display": "none"});
+    });
+});
+</script>
+<style>
+    .s_red{
+    background: none repeat scroll 0 0 red;
+    border-radius: 3px;
+    color: #fff;
+    padding: 2px 5px;
+    }
+    
+    .s_pink{
+    background: none repeat scroll 0 0 pink;
+    border-radius: 3px;
+    color: #fff;
+    padding: 2px 5px;
+    }
+    
+    
+    </style>

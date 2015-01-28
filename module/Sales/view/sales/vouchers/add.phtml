@@ -1,0 +1,187 @@
+<?php 
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url(
+		'vouchers-add'
+));
+$form->setAttribute('method', 'post');
+$form->setAttribute('enctype', 'multipart/form-data');
+
+
+
+?>
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-plus"></i>
+			</div>
+			<span>Add New Vouchers</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<?php echo $this->form()->openTag($form); ?>
+	<div class="grid-content">
+		<div class="formRow control-group">
+			<?php echo "Voucher Code"; ?>
+			<div class="formRight">
+				<?php echo $vc_num; ?>
+                                <input type="hidden" name="voucher_code" value="<?php echo $vc_num; ?>">    
+			</div>
+		</div>
+                
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('voucher_name')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('voucher_name')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('voucher_name'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('template_id')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('template_id')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('template_id'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>  
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('type')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('type')->setAttribute('class','chzn-select chosen_select width-100')); ?>
+	        	<?php echo $this->formElementErrors($form->get('type'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div id="general">
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('receipient_name')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('receipient_name')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('receipient_name'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('email')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('email')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('email'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                </div>    
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('link_to_type')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('link_to_type')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+	        	<?php echo $this->formElementErrors($form->get('link_to_type'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+            
+                
+		<div class="formRow control-group">
+			<div class="formRight" id="users">
+			
+			</div>
+		</div>		
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('discount')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('discount')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('discount'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('number_of_use')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('number_of_use')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('number_of_use'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo 'Is Unlimited'; ?>
+			<div class="formRight">
+                            <input type="checkbox" name="is_unlimited" style="display:block">
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('from_date')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('from_date')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('from_date'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('to_date')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('to_date')->setAttribute('class','span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('to_date'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+            
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('details')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('details')->setAttribute('class', 'span input same-height-1')->setAttribute('rows', '3')); ?>
+	        	<?php echo $this->formElementErrors($form->get('details'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+            <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('image')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('image')->setAttribute('class','span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('image'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                
+		<div class="formRow control-group">
+			<?php echo $this->formSubmit( $form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+                        <?php echo $this->formSubmit( $form->get('send')->setAttribute('class', 'btn btn-info')) ?>
+                        <input id="resetbutton" class="btn btn-info" type="reset" value="Reset" name="reset"></input>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<?php echo $this->form()->closeTag() ?>
+</div>
+
+
+<script>
+   
+  $('#myselect').change(function(){        
+        var id = $(this).val();   
+        if(id==0){
+           $('#resorts').remove(); 
+        }else{
+        var typeid=<?php $this->typeId; ?>
+           
+        $.post('/admin/report/ajax/commision/type/'+id+'/'+typeid+'/reseller', {id:id,typeid:typeid}, function(data){
+           
+            $('#users').html(data); 
+           
+        });
+        }
+        
+    });
+    
+    
+    $('#mystype').change(function(){        
+        var id = $(this).val();   
+      
+        if(id==2){
+            $('#general').hide();
+        }else{
+            $('#general').show();
+        }
+//        $.post('/admin/report/ajax/commision/type/'+id+'/'+typeid, {id:id,typeid:typeid}, function(data){
+//            
+////            alert(data);
+//            $('#users').html(data); 
+//        });        
+    });
+    
+   
+ </script>   
+ 
+<style>
+    select{
+        width:100%;
+    }
+</style>

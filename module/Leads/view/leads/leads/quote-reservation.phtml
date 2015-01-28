@@ -1,0 +1,152 @@
+<!doctype html>
+
+<?php
+$lead=$this->lead;
+$leadId=$this->leadId;
+$inventoryLead=$this->inventoryLead;
+$leadDate = ($inventoryLead->getCreatedAt() instanceof \DateTime) ? $inventoryLead->getCreatedAt()->format('d.m.Y') : $inventoryLead->getCreatedAt();
+$leadDateFrom = ($inventoryLead->getTravelFrom() instanceof \DateTime) ? $inventoryLead->getTravelFrom()->format('Y-m-d') : $inventoryLead->getTravelFrom();
+$leadDateTo = ($inventoryLead->getTravelTo() instanceof \DateTime) ? $inventoryLead->getTravelTo()->format('Y-m-d') : $inventoryLead->getTravelTo();
+
+
+?>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Quote-Reservation</title>
+	<link rel="stylesheet" href="/css/estilosreservation.css">
+</head>
+<body>
+	<div class="gral quote">
+		<br>
+		<div class="span6 block1">
+			Sunset Destinations and Adult Tours Inc. <br> 
+			1.800.458.2099<br> 
+			IATA# 965 342 33<br> 
+			TICO#: 50018479 
+		</div>
+		<div class="span6 derecha block1">
+			Quote#: <b><?php echo $leadId; ?></b><br> 
+			Processed on : <?php echo $leadDate; ?>
+		</div>
+		<div class="span6">
+			<h2>YOUR QUOTE</h2>
+			<span class="st1">For <?php echo $lead->getName(); ?><br>
+			
+			Phone:<?php echo $lead->getPhone(); ?> Email: <?php echo $lead->getEmail(); ?></span><br> <br> 
+		</div>
+		<div class="tHp">
+			HOTEL: HEDONISM II,NEGRIL JAMAICA
+		</div>
+		<div class="sHp">
+			Room rates Includes
+		</div> <br>
+		<div class="tP">
+			You will never forget surrounded by sexy open-minded individuals on the sun-kissed beaches of negril. of course wewill be paying homage to hedt	raditions and celebrate the nightly s going to be a week of absoluteThis will be a unique week of adult  themed games and activities that you will never forget surrounded by sexy open-minded individuals on the sun-kis.
+		</div>
+		<div class="travel">
+			<div class="cont">
+				<div class="cien">
+					<div class="lab">TRAVEL DATE</div>
+					<input type="date" placeholder="FROM..." value="<?php echo $leadDateFrom; ?>"><div class="cal"></div>
+					<input type="date" placeholder="TO..." value="<?php echo $leadDateTo; ?>"><div class="cal"></div>
+				</div>
+				<div class="cien">
+					<div class="lab">NO. OF GUEST</div>
+					<input type="number" placeholder="1">
+					<div class="lab">NO. OF ROOMS</div>
+					<input type="number" placeholder="1">
+				</div>
+			</div>
+		</div>
+		<div class="detailRoom">
+			<div class="dRooms">
+				<div class="rImg">
+					<img src="/img/demo1.png">
+				</div>
+				<div class="timg">GARDEN VIEW ROOM</div>
+				<input type="checkbox"> <br> select
+			</div>
+			<div class="pRooms">
+				This will be a unique week of adult  themed games and activities that you will never forget surrounded by sexy open-minded individuals on the sun-kissed beaches of negril. of course wewill be paying homage to hedtraditions and celebrate the nightly s going to be a week of absoluteThis will be a unique week of adult  themed games and activities that you will never forget surrounded by sexy open-minded individuals on the sun-kissed beaches of negril. of course wewill be paying homage to hedtraditions and celebrate the nightly s going to be a week of absolute 
+			</div>
+			<div class="bRooms">
+				<div class="cope"> Cost Per Person Nightly</div>
+				<div class="tGreen">$US150</div>
+				<div class="cope">  Total for 7 Nights Whit 2 guest</div>
+				<div class="tYell">$US2800</div>
+			</div>
+		</div>
+
+		<div class="detailRoom">
+			<div class="dRooms">
+				<div class="rImg">
+					<img src="/img/demo1.png">
+				</div>
+				<div class="timg">GARDEN VIEW ROOM</div>
+				<input type="checkbox"> <br> select
+			</div>
+			<div class="pRooms">
+				This will be a unique week of adult  themed games and activities that you will never forget surrounded by sexy open-minded individuals on the sun-kissed beaches of negril. of course wewill be paying homage to hedtraditions and celebrate the nightly s going to be a week of absoluteThis will be a unique week of adult  themed games and activities that you will never forget surrounded by sexy open-minded individuals on the sun-kissed beaches of negril. of course wewill be paying homage to hedtraditions and celebrate the nightly s going to be a week of absolute 
+			</div>
+			<div class="bRooms">
+				<div class="cope"> Cost Per Person Nightly</div>
+				<div class="tGreen">$US150</div>
+				<div class="cope">  Total for 7 Nights Whit 2 guest</div>
+				<div class="tYell">$US2800</div>
+			</div>
+		</div>
+		<div class="tLine">
+			WOULD YOU LIKE TO ADD
+		</div>
+
+		<div class="add">
+			<div class="detailAdd">
+				<div class="add1">
+					<img src="/img/demo3.png">
+				</div>
+				<div class="add2">
+					<div class="contP">
+						This will be a unique week of adult themed games and activities that you will never forget surrounded by sexy open-minded individuals on the sun-kissed beaches of negril. of course we will bepaying homage to hedo traditions and celebrate nightly s going to be a weeexy couples, single women for an entire week.
+					</div>
+				</div>
+				<div class="add3">
+					<div class="title1">
+						ROUNDTRIP TRANSFERS 
+					</div>	
+					<div class="price">
+						$50
+					</div>
+					<input type="checkbox"> <br> select
+
+				</div>
+			</div>
+
+			<div class="detailAdd">
+				<div class="add1">
+					<img src="/img/demo3.png">
+				</div>
+				<div class="add2">
+					<div class="contP">
+						This will be a unique week of adult themed games and activities that you will never forget surrounded by sexy open-minded individuals on the sun-kissed beaches of negril. of course we will bepaying homage to hedo traditions and celebrate nightly s going to be a weeexy couples, single women for an entire week.
+					</div>
+				</div>
+				<div class="add3">
+					<div class="title1">
+						ROUNDTRIP TRANSFERS 
+					</div>	
+					<div class="price">
+						$50
+					</div>
+					<input type="checkbox"> <br> select
+
+				</div>
+			</div>
+		</div>
+		<br><br><br><br><br>
+		<div class="continue">CONTINUE TO CHECKOUT</div>
+		<div class="foot">Toronto Office: 30 Eglinton Ave W, Suite C-12, Mississauga, ON || New ampshire Office: 636 Lower Ridge Rd. Loudon, NH, 03307</div>
+
+	</div>
+</body>
+</html>

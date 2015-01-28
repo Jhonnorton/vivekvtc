@@ -1,0 +1,102 @@
+
+<?php
+
+/*	echo "<pre>";
+	print_r($this->reservation);
+	//$type = $this->collection[0]['transactionIds'];
+	
+        die; 
+*/
+$invoiceid = $this->reservation[0]['inid'];
+$transactionIds = $this->reservation[0]['transactionIds'];
+$amountpaid= $this->reservation[0]['amountpaid'];
+$amountdue=$this->reservation[0]['amountDue'];
+
+$amounttotal=$this->reservation[0]['totalamount'];
+
+$paymentMode = $this->reservation[0]['paymentMode'];
+$dateAdded = $this->reservation[0]['dateAdded'];
+$currencyCode= $this->reservation[0]['currencyCode'];
+$traveller= $this->reservation[0]['clientName'];
+$travelleremail= $this->reservation[0]['clientemail'];
+?>
+
+<div class="grid">    
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered " id="">
+            <tbody>
+                 <tr>                    
+                    <th>Invoice No</th>
+                    <td><?php echo $invoiceid; ?></td>				
+                </tr>
+                
+                
+                 <tr>
+                    <th>Traveller</th>
+                    <td><?php 
+                       
+                            echo $traveller;
+                    ?></td>
+                </tr>
+                
+                 <tr>
+                    <th>Traveller Email</th>
+                    <td><?php 
+                       
+                            echo $travelleremail;
+                    ?></td>
+                </tr>
+                
+                
+                <tr>                    
+                    <th>Total Amount</th>
+                    <td><?php echo  $currencyCode .' '.$amounttotal; ?></td>				
+                </tr>
+
+
+                <tr>                    
+                    <th>Amount Paid</th>
+                    <td><?php echo  $currencyCode .' '.$amountpaid; ?></td>				
+                </tr>
+              
+                <tr>                    
+                    <th>Date Added</th>
+                    <td><?php echo ($dateAdded instanceof \DateTime)?$dateAdded->format('Y-m-d'): $dateAdded; ?></td>				
+                </tr>
+              
+                 <?php	if($amountdue>0){ ?>
+
+		<tr>                    
+                        <th>Balance After Deposit</th>
+                        <td> <?php echo $currencyCode .' '. $amountdue; ?></td>				
+                </tr>
+
+		<?php   } ?>
+               
+                <tr>                    
+                    <th>Transaction Id</th>
+                    <td><?php echo $transactionIds ; ?></td>				
+                </tr>
+                <tr>                    
+                    <th>Payment Mode</th>
+                    <td><?php echo $paymentMode ; ?></td>				
+                </tr>   
+               
+                <tr>                    
+
+                           <td>
+                               <a href="<?php echo $this->url('orders-cancel');?>">
+                                   <button class="btn btn-info">
+                                       Return
+                                   </button>
+                               </a>
+                           
+                           </td>
+                           <td></td>
+                       </tr>
+            </body>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>

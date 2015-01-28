@@ -1,0 +1,40 @@
+<div style="background-color: #FAFAD2; display: block;">
+	<br />
+	<p>Welcome to <b><?php echo $site ?></b>,</p>
+	<p>Dear <b><?php echo $user->getFirstName().' '.$user->getLastName() ?></b>, Your profile has been updated <?php echo date("m.d.y");?>.</p>
+	<p>Please visit <a href="<?php echo $url ?>">profile</a></p>
+	<p>---------Your profile-----------</p>
+	<table>
+		<?php if($flag):?>
+		<tr>
+			<td>Login:</td>
+			<td><?php echo $user->getLogin(); ?></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td><?php echo $user->getPassword();?></td>
+		</tr>
+		<?php endif;?>
+		<tr>
+			<td>Email:</td>
+			<td><?php echo $user->getEmail() ?></td>
+		</tr>
+		<tr>
+			<td>First Name:</td>
+			<td><?php echo $user->getFirstName() ?></td>
+		</tr>
+		<tr>
+			<td>Last Name:</td>
+			<td><?php echo $user->getLastName() ?></td>
+		</tr>
+		<tr>
+			<td>Phone:</td>
+			<td><?php echo $user->getPhone() ?></td>
+		</tr>
+		<tr>
+			<td>Address:</td>
+			<td><?php echo $user->getAddress() ?></td>
+		</tr>					
+	</table>
+	<br />
+</div>

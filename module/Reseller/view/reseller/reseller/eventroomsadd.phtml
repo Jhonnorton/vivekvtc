@@ -1,0 +1,105 @@
+<link rel="stylesheet" href="/css/jquery.ui.timepicker.css">
+<script type="text/javascript" src="/js/jquery.ui.timepicker.js"></script>
+
+<?php// d($this->form);//d($this->data);?>
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-edit"></i>
+            </div>
+            <span>Add Room</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="grid-content">
+        <?php
+            if(!empty($this->data)){
+            $i = 0;
+            foreach ($this->data as $item){
+            ?>  
+
+
+            <?php
+            $form = $this->form;
+
+            $form->prepare();
+            $form->setAttribute('action', $this->url(
+                            'affiliate-event-rooms-add', array('id' => $this->id)
+            ));
+
+            $form->setAttribute('method', 'post');
+            $form->setAttribute('enctype', 'multipart/form-data');
+
+           ?>   
+
+            <?php echo $this->form()->openTag($form); ?>
+            <div class="formRow control-group">
+                <?php echo $item->getTitle(); ?>
+                <?php //echo $newTime;  ?>
+                <div class="formRight">
+                </div>
+            </div>	
+
+        
+             <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('roomPrice')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('roomPrice')->setAttribute('id','usd'.$i)->setAttribute('placeholder','numeric value only')->setAttribute('required','required')->setAttribute('class', 'span input'));  ?>
+                    <?php echo $this->formElementErrors($form->get('roomPrice'), array('class' => 'help-inline'));  ?>
+                </div>
+            </div>
+        
+        
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('roomPriceCad')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('roomPriceCad')->setAttribute('id','cad'.$i)->setAttribute('placeholder','numeric value only')->setAttribute('required','required')->setAttribute('class', 'span input'));  ?>
+                    <?php echo $this->formElementErrors($form->get('roomPriceCad'), array('class' => 'help-inline'));  ?>
+                </div>
+            </div>
+       
+                   
+             <input type='hidden' name="roomid" value=<?php echo $item->getId(); ?> >
+             <input type='hidden' name="eventid" value=<?php echo $this->id; ?> >
+             <input type='hidden' name="roomcategory" value=<?php echo $item->getTitle(); ?> >
+            <div class="formRow control-group">
+                <?php echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+            </div>
+
+              <?php echo $this->form()->closeTag() ?>
+
+             
+            <?php
+            $i++;
+        }
+            }else{
+                echo "No more rooms available for this event";
+            }
+        ?>
+
+
+        <div class="clearfix"></div>
+
+    </div>
+  
+</div>
+
+<script>
+
+
+    $(function() {
+        $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+        $('.error input').keyup(function() {
+            $(this).parents('.formRow').removeClass('error');
+            $(this).next('ul.help-inline').remove();
+        });
+
+
+    });
+</script>
+
+

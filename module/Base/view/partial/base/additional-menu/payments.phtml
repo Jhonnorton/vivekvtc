@@ -1,0 +1,30 @@
+<ul class="additional-menu">
+	
+    <li class="menu-group">
+        <a href="<?php echo $this->url('payments'); ?>">
+            <i class="icon-home"></i>Payments
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('payments')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('payments'); ?>"><i class="icon-list"></i>All Payments</a>
+            </li>
+            
+             <li <?php if ($this->url() === $this->url('payments-resort')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('payments-resort'); ?>"><i class="icon-list"></i> Resort Payments</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('payments-cruise')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('payments-cruise'); ?>"><i class="icon-list"></i> Cruise Payments</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('payments-event')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('payments-event'); ?>"><i class="icon-list"></i> Event Payments</a>
+            </li>
+            
+         
+
+
+        </ul>
+    </li>
+
+</ul>

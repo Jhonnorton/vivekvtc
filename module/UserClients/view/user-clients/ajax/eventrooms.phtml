@@ -1,0 +1,9 @@
+<label for="roomCategory" class="required">Room Category</label>                    
+<div class="formRight">    
+    <select data-extra-type="<?php echo \Inventory\Model\Items::LINKED_TO_EVENT_NAME; ?>" data-type="<?php echo \Orders\Controller\AjaxController::EVENT_ROOMS; ?>"  id="event-rooms" data-url="/event/room/" name="roomCategory" required="required" class="chzn-select chosen_select width-100 load-item">                
+        <option value="">please select room category...</option>
+        <?php foreach ($this->collection as $item):?>                
+            <option value="<?php echo $item->getId();?>"><?php echo $item->getRoomCategory().' ($'.$item->getGrossPrice().')';?></option>
+        <?php endforeach;?>    
+    </select> 
+</div>

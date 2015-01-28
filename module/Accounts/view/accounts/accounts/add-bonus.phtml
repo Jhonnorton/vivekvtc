@@ -1,0 +1,55 @@
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-edit"></i>
+            </div>
+            <span>Add Bonus</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content">
+
+        <form method='post' action=''>
+         <div class="formRow control-group">
+             <label>Agent : </label>
+            <div class="formRight">
+                <select class="chzn-select span input" name='user' style="width:100%">
+                    <?php foreach($this->users as $user){?>
+                    <option value='<?php echo $user->getId(); ?>'><?php echo $user->getFirstName()." ".$user->getLastName(); ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>	
+         <div class="formRow control-group">
+             <label>Amount : </label>
+            <div class="formRight">
+                <input type="text" class='span input' name="amount" placeholder="$">
+            </div>
+        </div>	
+         <div class="formRow control-group">
+             <label>Type : </label>
+            <div class="formRight">
+                <!--<input type="text" class='span input' name="amount" placeholder="$">-->
+                <input type="radio" name="type" value="1" style="display:inline-block; margin: 1%; margin-left: 5%;"> Raise Monthly
+                <input type="radio" name="type" value="0" style="display:inline-block; margin: 1%; margin-left: 5%;"> One Time Bomus
+            </div>
+        </div>	
+        
+      
+
+        
+        <div class="formRow control-group">
+            <input type='submit' value='Submit' class='btn btn-info'>
+        </div>
+
+        <div class="clearfix"></div>
+        </form>
+    </div>
+
+
+</div>
+
+

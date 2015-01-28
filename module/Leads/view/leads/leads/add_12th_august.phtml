@@ -1,0 +1,226 @@
+<?php
+//echo "hello"; die;
+
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'leads-add'
+));
+$form->setAttribute('method', 'post');
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Add Leads</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+        <div class="formRow control-group">                        
+              <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('contactname')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('contactname')
+                                                   ->setAttribute('id', 'contactname')
+                                                   ->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('contactname'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>     
+            
+              <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('email')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('email')
+                                                   ->setAttribute('id', 'email')
+                                                   ->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('email'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>     
+            
+              <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('phone')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('phone')
+                                                   ->setAttribute('id', 'phone')
+                                                   ->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('phone'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>     
+            
+            <div class="formRow control-group">			
+    <label for="reservationType" class="required">Type</label>
+    <div class="formRight">
+        <div name="reservationType" class="distance distance-2">
+            <p>
+                <input type="radio" id="fit" class="load1-entity" name="type"  checked="checked" value="1" data-resource="resorts">
+                <label for="fit"><span></span>Resort (FIT)</label>
+            </p>
+            <p>
+                <input type="radio" id="event" class="load1-entity" name="type"  value="2" data-resource="events">
+                <label for="event"><span></span> Event (Group)</label>
+            </p>
+            <p>
+                <input type="radio" id="cruise" class="load1-entity" name="type" value="3" data-resource="cruises">
+                <label for="cruise"><span></span> Cruise</label>
+            </p>   
+        </div>
+    </div>
+</div>
+            <div id="entity-details">
+    <div id="ajax-where" class="formRow control-group">
+        <?php echo $this->formLabel($form->get('resortId')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('resortId')
+                            ->setAttribute('data-resource', 'resort/rooms/')
+                            ->setAttribute('class', 'chzn-select chosen_select width-100 entity-items')); ?>
+            <?php echo $this->formElementErrors($form->get('resortId'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div id="ajax-what" class="formRow control-group"></div>
+    <div id="entity-item-details" style="display:none">
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('travelFrom')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('travelFrom')
+                                                    ->setAttribute('id', 'dateFrom')
+                                                    ->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('travelFrom'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('travelTo')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('travelTo')
+                                                   ->setAttribute('id', 'dateTo')
+                                                   ->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('travelTo'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+      </div>
+</div>
+            
+            <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('subject')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('subject')
+                                                   ->setAttribute('id', 'subject')
+                                                   ->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('subject'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+ 
+         <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('message')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('message')
+                                                   ->setAttribute('id', 'message')
+                                                   ->setAttribute('class', 'ckeditor')); ?>
+                <?php echo $this->formElementErrors($form->get('message'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>           
+            
+
+<style>
+#inventory_room_available{color:green;}
+</style>
+
+            <?php //echo $this->partial('partial/orders_form/select_item'); ?>   
+            
+            <?php //echo $this->partial('partial/orders_form/reservation_type');?> 
+            
+            <?php //echo $this->partial('partial/orders_form/traveller_details');?> 
+                        		                
+            <?php echo $this->partial('partial/leads_form/reminder_details'); ?>
+                        
+            <div id="ajax-items" class="formRow control-group"></div>
+            <div id="ajax-excursion" class="formRow control-group"></div>
+            <div id="ajax-transfer" class="formRow control-group"></div>
+            <?php //echo $this->partial('partial/orders_form/cost_part'); ?>
+            
+            <?php //echo $this->partial('partial/orders_form/notes'); ?>
+            
+            <?php //echo $this->partial('partial/leads_form/payment', array('form' => $form)); ?>
+            <input type="hidden" id="today" value="<?php echo date('Y-m-d');?>">
+            
+            <input type="hidden" id="savesend">
+            <div class="formRow control-group">
+                <?php //echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+                <button id="creat" class="btn btn-success" type="submit"  name="submit" onclick=''>Save</button>
+                <button id="creat1" class="btn btn-success" type="submit"  name="submit" onclick="" value="1">Save & Send</button>
+                                                                        
+            </div>
+
+          
+            <div id="ajax-script"></div>
+            <div class="clearfix"></div>
+
+        </div>
+        <?php echo $this->form()->closeTag() ?>
+    </div>
+</div>
+
+<?php //echo $this->partial('orders/ajax/modal.phtml');?>
+<script src="/js/date-formater.js"></script>
+<script src="/js/leads.js"></script>
+<script>
+Leads.init();
+$(function() {
+    $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+    $('.error input').keyup(function() {
+        $(this).parents('.formRow').removeClass('error');
+        $(this).next('ul.help-inline').remove();
+    });
+    
+    
+    
+
+});
+
+
+
+</script>
+
+
+<script>
+    $(function() {
+        $('savesend').click(function() {
+            
+        alert('hello');
+         });
+        
+    });
+   
+
+</script>
+
+
+<script>
+// Make sure the DOM elements are loaded and accounted for
+
+
+    $(document).ready(function() {
+        $('a[data-toggle="modal-preview"]').click(function() {
+            var remote_content = $(this).attr('href');
+            //console.log(remote_content);            
+            var modal = $('.bs-example-modal-lg');            
+            var modalBody = $('.bs-example-modal-lg .modal-body');            
+            var data = $("#orders").serialize();
+            
+            $.post(remote_content, {data:data}, function(data) {
+                modalBody.html(data);
+                modal.modal();
+            });
+            
+            return false;
+        });
+    });
+
+</script>
+
+
+

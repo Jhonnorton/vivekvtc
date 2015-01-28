@@ -1,0 +1,120 @@
+<ul class="additional-menu">
+	
+    <li class="menu-group">
+        <a href="<?php echo $this->url('inventory-resort-rooms'); ?>">
+            <i class="icon-home"></i>Resort Rooms
+        </a>
+        <ul>            
+            <li <?php if ($this->url() === $this->url('inventory-resort-rooms')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-resort-rooms'); ?>"><i class="icon-list"></i> View Resort Rooms</a>
+            </li> 
+             <li <?php if ($this->url() === $this->url('inventory-resort-rooms-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-resort-rooms-add'); ?>"><i class="icon-plus"></i> Add Resort Room</a>
+            </li>
+        </ul>
+    </li>           
+    <li class="menu-group">
+        <a href="<?php echo $this->url('inventory-event-rooms'); ?>">
+            <i class="icon-eye-open"></i>Event Rooms
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('inventory-event-rooms')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-event-rooms'); ?>"><i class="icon-list"></i>View Event Rooms</a>
+            </li> 
+             <li <?php if ($this->url() === $this->url('inventory-event-rooms-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-event-rooms-add'); ?>"><i class="icon-plus"></i> Add Event Room</a>
+            </li>
+        </ul>        
+    </li>
+    <li class="menu-group">
+        <a href="<?php echo $this->url('inventory-cruise-cabins'); ?>"><i class="icon-globe"></i>Cruise Cabins</a>
+        <ul>
+            
+            <li <?php if ($this->url() === $this->url('inventory-cruise-cabins')) echo 'class="active"' ?> >
+                <a href="<?php echo $this->url('inventory-cruise-cabins'); ?>"><i class="icon-list"></i>View Cruise Cabins</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('inventory-cruise-cabins-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-cruise-cabins-add'); ?>"><i class="icon-plus"></i> Add Cruise Cabin</a>
+            </li>
+        </ul>
+    </li> 
+    <li class="menu-group">
+        <a href="<?php echo $this->url('inventory-transfers'); ?>">
+            <i class="icon-eye-open"></i>Transfers
+        </a>
+        <ul>            
+            <li <?php if ($this->url() === $this->url('inventory-transfers')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-transfers'); ?>"><i class="icon-list"></i> View Transfers</a>
+            </li> 
+            <li <?php if ($this->url() === $this->url('inventory-transfers-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-transfers-add'); ?>"><i class="icon-plus"></i> Add Transfer</a>
+            </li>
+        </ul>
+    </li>           
+    <li class="menu-group">
+        <a href="<?php echo $this->url('inventory-excursions'); ?>">
+            <i class="icon-eye-open"></i>Excursions
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('inventory-excursions')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-excursions'); ?>"><i class="icon-list"></i>View Excursions</a>
+            </li> 
+            <li <?php if ($this->url() === $this->url('inventory-excursions-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-excursions-add'); ?>"><i class="icon-plus"></i> Add Excursion</a>
+            </li>
+        </ul>
+    </li>
+    <li class="menu-group">
+        <a href="<?php echo $this->url('inventory-items'); ?>">
+            <i class="icon-eye-open"></i>Items
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('inventory-items')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-items'); ?>"><i class="icon-list"></i>View Items</a>
+            </li>        
+            <li <?php if ($this->url() === $this->url('inventory-items-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-items-add'); ?>"><i class="icon-plus"></i> Add Item</a>
+            </li>
+        </ul>
+    </li>
+   <!-- <li class="menu-group">
+        <a href="<?php echo $this->url('inventory-promos'); ?>">
+            <i class="icon-eye-open"></i>Promos
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('inventory-promos')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-promos'); ?>"><i class="icon-list"></i>View Promos</a>
+            </li>  
+            <li <?php if ($this->url() === $this->url('inventory-promos-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-promos-add'); ?>"><i class="icon-plus"></i> Add Promo</a>
+            </li>
+        </ul>
+    </li>-->
+    
+    <li class="menu-group">
+        <a href="<?php echo $this->url('inventory-tours'); ?>">
+            <i class="icon-eye-open"></i>Tours
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('inventory-tours')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-tours'); ?>"><i class="icon-list"></i>View Tours</a>
+            </li>  
+            
+        </ul>
+    </li>
+    <li class="menu-group">
+        <a href="<?php echo $this->url('inventory-deposits'); ?>">
+            <i class="icon-eye-open"></i>Deposits
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('inventory-deposits')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-deposits'); ?>"><i class="icon-list"></i>View Deposits</a>
+            </li>  
+            <li <?php if ($this->url() === $this->url('inventory-deposits-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('inventory-deposits-add'); ?>"><i class="icon-plus"></i>Add Deposit</a>
+            </li>  
+            
+        </ul>
+    </li>
+
+</ul>

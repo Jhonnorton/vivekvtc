@@ -1,0 +1,252 @@
+<?php
+//d($this->affiliatename);
+//d($this->inventorydetails->getBoard()->getValue());
+$reservation = $this->data['reservation'];
+$affiliate = $reservation->getAffiliateId();
+
+$type = $reservation->getType();
+
+$paymentDue = $this->data['paymentDues'];
+
+//d($reservation);
+$reservationdate = ($reservation->getCreatedAt() instanceof \DateTime) ? $reservation->getCreatedAt()->format('M jS/Y') : $reservation->getCreatedAt();
+$travelfromdate = ($reservation->getDateFrom() instanceof \DateTime) ? $reservation->getDateFrom()->format('M jS') : $reservation->getDateFrom();
+$traveltodate = ($reservation->getDateTo() instanceof \DateTime) ? $reservation->getDateTo()->format('M jS Y') : $reservation->getDateTo();
+$transfer = $reservation->getTransferCost();
+$excursion = $reservation->getExcursionCost();
+$item = $reservation->getItemCost();
+$totalcost = $reservation->getTotalCost();
+$finalcost = $reservation->getfinalCost();
+$discount = $reservation->getAppliDiscount();
+$merchantfee = $reservation->getMerchantFee();
+$notes = $reservation->getAdminNotes();
+
+$depositeamount = $reservation->getDepositAmoun();
+$balance = $reservation->getBalansAfterDeposit();
+
+$clientdetail = $this->clientdetail;
+$clientname = $clientdetail->getName();
+$clientaddress = $clientdetail->getAddress();
+$clientcity = $clientdetail->getCity();
+$clientstate = $clientdetail->getState();
+$clientcountry = $clientdetail->getCountry();
+$clientzip = $clientdetail->getZip();
+$clientphone = $clientdetail->getPhone();
+$clientemail = $clientdetail->getEmail();
+
+
+$invoice = $this->invoice;
+
+if ($reservation->getType() == 2) {
+   // d($itemname);
+    $itemname = $this->itemname;
+    $hotelName = $resorts->getTitle();
+    $roomcategory = $itemname->getRoomId()->getTitle();
+    $grossprice = $reservation->getRoomRate();
+    $country = $this->country;
+} elseif ($reservation->getType() == 1) {
+    $itemname = $this->itemname;
+    $hotelName = $resorts->getTitle();
+    $roomcategory = $itemname->getTitle();
+    $grossprice = $reservation->getRoomRate();
+    $country = $this->country;
+} else {
+
+    $itemname = $this->itemname;
+    $hotelName = $cruise->getTitle();
+    $roomcategory = $itemname->getDeckName();
+    $grossprice = $reservation->getRoomRate();
+    $country = $this->country;
+}
+?>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+</head>
+
+<body marginheight="0" topmargin="0" marginwidth="0" bgcolor="#fff" leftmargin="0">
+
+<table cellspacing="0" border="0" style="background-color:#fff;" cellpadding="0" width="100%">
+  <tr>
+		<td valign="top">
+    <table width="640" border="0" align="center" cellspacing="0" cellpadding="10">
+      <tr>
+        <td width="50%" style="background-color:#64c0b3; padding-left:20px">
+        	<table width="100%" border="0">
+              <tr>
+                <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold;">
+                	<p style="margin:5px 0;">Agent:  <?php if ($this->affliatename) {
+                    echo $this->affliatename;
+                } ?></p>
+            		<p style="margin:5px 0;">Order No.<?php echo $invoice->getId(); ?></p>
+            		<p style="margin:5px 0;;">Res No.<?php echo $reservation->getReferenceNumber(); ?></p>
+            		<p style="margin:5px 0;">Date:<?php echo $reservationdate; ?></p>
+            	</td>
+              </tr>
+              <tr>
+                <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#fff; font-weight:bold;">
+                	<p>Congratulations on succesfully completing your reservations for <?php if ($type == 2) { ?> <?php
+                    echo 'for ,' . $this->eventname;
+                }
+                ?> at <?php echo $hotelName; ?>, In <?php echo $country; ?>.This document as you invoice and reserv Below you will find all the information relevant your vacation. Please call the attached number if you have any questions</p>
+                </td>
+              </tr>
+              <tr>
+              	<td>
+                	<h3 style="font-family:Arial, Helvetica, sans-serif; font-size:24px; color:#fff; font-weight:bold; margin:20px 0px 10px 0px; text-shadow: 2px 2px 2px #000;">Guest Traveling: <?php echo count($this->data['travellers']); ?></h3>
+                   <?php
+                foreach ($this->data['travellers'] as $traveller) {?>
+                        <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;"><?php echo $traveller ?></p> 
+                <?php  }
+                ?> 
+                                </td>
+              </tr>
+              <tr>
+              	<td>
+                	<table width="100%" border="0">
+                      <tr>
+                        <td><h3 style="font-family:Arial, Helvetica, sans-serif; font-size:24px; color:#fff; font-weight:bold; margin:20px 0px 10px 0px; text-shadow: 2px 2px 2px #000;">Where you will be staying</h3>
+                        <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;"> <?php
+                if ($type == 3) {
+                    echo 'Cruise';
+                } else {
+                    echo 'Hotel';
+                }
+                ?>:<?php echo $hotelName; ?></p> 
+                <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;">Location:<?php echo $country; ?></p> 
+                 <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;">Board:<?php if($this->inventorydetails->getBoard()==1){?>All Inclusive <?php }elseif($this->inventorydetails->getBoard()==2){?> Breakfast Included<?php }else{?>Room Only<?php }?></p> 
+
+                        </td>
+                        <td rowspan="5" width="10%" style="vertical-align:top; ">
+                   	    
+                        <img src="http://192.155.246.146:9065/img/verticle_txt.jpg" width="28" height="618">
+                        
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>   
+                          <h3 style="font-family:Arial, Helvetica, sans-serif; font-size:24px; color:#fff; font-weight:bold; margin:20px 0px 10px 0px; text-shadow: 2px 2px 2px #000;">Flight</h3>
+                          <?php if ($reservation->getFlight() == 1) { ?>  
+                            
+                          <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;"><?php echo $reservation->getReturnFrom() ?> to <?php echo $reservation->getReturnTo() ?> </p> 
+                          <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;">Total: <?php echo $reservation->getFlightTotalCost(); ?></p> 
+                            <?php
+                          } else {
+
+                              echo "No flight Details Available";
+                          }
+                          ?>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>   
+                          <h3 style="font-family:Arial, Helvetica, sans-serif; font-size:24px; color:#fff; font-weight:bold; margin:20px 0px 10px 0px; text-shadow: 2px 2px 2px #000;">Extras</h3>
+                        <?php if($transfer){ ?>
+                          <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;">Transfers: $<?php echo $transfer; ?></p> 
+                        <?php } ?>
+                         <?php if($excursion){ ?> <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;">Excursion:$ <?php echo $excursion; ?></p> <?php } ?>
+                         <?php if($item){ ?> <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;">Total: $ <?php echo $item; ?></p> <?php } ?>
+                        <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;">Total: $ <?php  echo ($transfer + $excursion + $item); ?></p>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>   
+                          <h3 style="font-family:Arial, Helvetica, sans-serif; font-size:24px; color:#fff; font-weight:bold; margin:20px 0px 10px 0px; text-shadow: 2px 2px 2px #000;">Cost</h3>
+                          <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;">Total:$<?php echo $finalcost; ?></p> 
+                          <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;">Disscount: -$<?php echo $discount; ?></p> 
+                          <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;">Merchant Fee:$<?php echo $merchantfee; ?></p>
+                          <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;">New Total:$<?php echo ($finalcost - ($discount))+ $merchantfee ?></p>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>   
+                          <h3 style="font-family:Arial, Helvetica, sans-serif; font-size:24px; color:#fff; font-weight:bold; margin:20px 0px 10px 0px; text-shadow: 2px 2px 2px #000;">Notes</h3>
+                           <?php
+                          if ($notes) { ?>
+                              
+                          <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0;"><?php echo $notes; ?></p> 
+                          <?php   
+                          } else {
+                              ?>   
+                              No notes were recorded for this reservation</p></td>
+                        <?php } ?>
+                              </td>
+                      </tr>
+                      
+                      
+                      
+                	</table>
+                </td>
+              </tr>
+              
+            </table>
+
+        </td>
+        <td width="50%" valign="top" style="background-color:#6cccb9; background-image:url(http://192.155.246.146:9065/img/palma.png); background-repeat:no-repeat; background-position:bottom right; padding-left:20px;">
+        	<table width="100%" border="0">
+              <tr>
+                <td  style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold;">
+                	<p style="margin:5px 0;">Sunset Destinations and Adults Tours Inc.</p>
+            		<p style="margin:5px 0;">Tico Reg #:</p>
+            		<p style="margin:5px 0;;">30 Eglinton Ave.West, Suite C-12</p>
+            		<p style="margin:5px 0;">Mississauga ON</p>
+                    <p style="margin:5px 0;">Canada, L5R 3E7</p>
+            		<p style="margin:5px 0;">Phone: 1800 458 2099</p>
+            		<p style="margin:5px 0;;">Email:reservations@vacationparties.com</p>
+            		<p style="margin:1px 0; height:5px;">&nbsp;</p>
+                    
+                    <p style="margin:5px 0;">Client Name:<?php echo $clientname; ?></p>
+                    <p style="margin:5px 0;">Address:<?php echo $clientaddress; ?></p>
+                    <p style="margin:5px 0;">City State:<?php echo $clientcity; ?> , <?php echo $clientstate; ?></p>
+                    <p style="margin:5px 0;">Country/ZIP:<?php echo $clientcountry; ?> , <?php echo $clientzip; ?></p>
+                    <p style="margin:5px 0;">Phone:<?php echo $clientphone ?></p>
+                    <p style="margin:5px 0;">Email:<?php echo $clientemail ?></p>
+                    
+                    
+                </td>
+              </tr>
+              <tr>
+                <td> <h3 style="font-family:Arial, Helvetica, sans-serif; font-size:24px; color:#fff; font-weight:bold; margin:20px 0px 10px 0px; text-shadow: 2px 2px 2px #000;">Payment</h3>
+                          <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0 15px 0;">Deposit Received:$<?php echo $depositeamount; ?></p>
+                
+                 <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0 15px 0;">Balance after deposit:$<?php echo $balance; ?></p>  
+                   <?php
+                        $i = 1;
+                        if (count($paymentDue) > 0):
+                            foreach ($paymentDue as $rows):
+
+
+                                $duedate = ($rows['DueDate'] instanceof \DateTime) ? $rows['DueDate']->format('m.d.Y') : $rows['DueDate'];
+                                ?>	
+                 <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333333; font-weight:bold; margin:5px 0 15px 0;">Payment Due <?php echo $i . ': $' . $rows['nextDueAmount'] . '(Due' . $duedate . ')' ?>(Due 02.10.2014)</p>     
+               <?php  $i++;
+                            endforeach; endif; ?>
+                
+                </td>
+              </tr>
+              
+              <tr>
+              	<td>
+                	<h3 style="font-family:Arial, Helvetica, sans-serif; font-size:24px; color:#fff; font-weight:bold; margin:20px 0px 10px 0px; text-shadow: 2px 2px 2px #000;">Term of Booking</h3>
+                     <p style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#fff; font-weight:bold; margin:5px 0 15px 0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ultrices dictum malesuada. Suspendisse cursus eros vitae nisl convallis laoreet. Etiam nec sem pharetra, viverra mi ac, luctus turpis. Donec sagittis sem ac ornare dapibus. Sed sodales et tortor vel ultricies. Donec nisl quam, condimentum ac nunc laoreet, aliquam faucibus metus. Suspendisse non libero ac urna hendrerit suscipit.</p> 
+                    
+                </td>
+              </tr>
+              
+            </table>
+
+        </td>
+      </tr>
+    </table>
+	</td>
+  </tr>
+</table>
+
+
+
+</body>
+</html>

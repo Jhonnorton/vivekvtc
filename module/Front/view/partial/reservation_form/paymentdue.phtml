@@ -1,0 +1,140 @@
+<?php
+/*$form = $this->form;
+
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'credit-payment'
+));
+
+$form->setAttribute('method', 'post');
+//d($reservation);
+*/
+?>
+
+
+<div class="formbox01" id="billingdetail" style="display:none;">
+    <div class="box01"><h2>Billing Details Same as Reservation details</h2></div>
+    <div class="box01"><input name="" type="checkbox" value=""> Yes</div>
+    <div class="box01"><input name="" type="checkbox" value=""> No</div>
+</div>
+
+<div class="formbox01">
+
+
+
+    <div class="left" id="ccd" style="display:none;">
+        <div class="formrow">
+            <div class="l01"><?php echo $this->formLabel($form->get('typeOfCard')); ?></div>
+            <div class="l02">
+
+                <?php echo $this->formElement($form->get('typeOfCard')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('typeOfCard'), array('class' => 'help-inline')); ?>
+
+
+            </div>
+        </div>
+        <div class="formrow">
+            <div class="l01"><?php echo $this->formLabel($form->get('cardNumber')); ?></div>
+            <div class="l02">
+                <?php echo $this->formElement($form->get('cardNumber')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('cardNumber'), array('class' => 'help-inline')); ?>
+
+
+            </div>
+        </div>
+        <div class="formrow">
+            <div class="l01">Expiry</div>
+            <div class="l02">
+
+                <select name="cardMonth" class="">
+                    <option value="01">January</option>
+                    <option value="02">Febuary</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>    
+                </select>
+
+            </div>
+            <div class="l02">
+
+                <select name="cardYear">
+                    <?php foreach (range(date('Y'), date('Y') + 15) as $i): ?>
+                        <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        <div class="formrow">
+            <div class="l01"><?php echo $this->formLabel($form->get('cvvNumber')); ?></div>
+            <div class="l02">
+                <?php echo $this->formElement($form->get('cvvNumber')->setAttribute('class', 'span input')->setAttribute('required', 'required')); ?>
+                <?php echo $this->formElementErrors($form->get('cvvNumber'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div class="clr"></div>
+    </div>
+ <input type="hidden" name="payment-type" value="1">
+    <div class="right">
+     <!--   <a class="btn" href="#">Submit</a>-->
+      <?php echo $this->formSubmit($form->get('billProcess')->setAttribute('class', 'btn btn-info')) ?>
+     
+       <!--  <button id="creat_pay" class="btn btn-success" type="submit"  id="click3" name="submit" onclick=''>Proceed to payment</button><!--<a class="btn" href="#">Proceed</a>-->
+
+    </div>
+
+    <!-- chzn-select chosen_select width-100 -->
+    <!--     <div class="formRow control-group">
+    <?php /* echo "Card Expiry"?>
+      <div class="formRight">
+      <select name="cardMonth" class="">
+      <option value="01">January</option>
+      <option value="02">Febuary</option>
+      <option value="03">March</option>
+      <option value="04">April</option>
+      <option value="05">May</option>
+      <option value="06">June</option>
+      <option value="07">July</option>
+      <option value="08">August</option>
+      <option value="09">September</option>
+      <option value="10">October</option>
+      <option value="11">November</option>
+      <option value="12">December</option>
+      </select>
+
+      <select>
+      <?php foreach(range(date('Y'),date('Y')+15) as $i): ?>
+      <option value="<?php echo $i ;?>"><?php echo $i ;?></option>
+      <?php endforeach;?>
+      </select>
+      </div>
+      </div>
+
+      <div class="formRow control-group">
+      <?php echo $this->formLabel($form->get('cvvNumber')); ?>
+      <div class="formRight">
+      <?php echo $this->formElement($form->get('cvvNumber')->setAttribute('class', 'span input')->setAttribute('required', 'required')); ?>
+      <?php echo $this->formElementErrors($form->get('cvvNumber'), array('class' => 'help-inline')); ?>
+      </div>
+      </div>
+
+      <div><input type="hidden" name="sec" value="<?php //echo base64_encode($reservation->getId());?>"></div>
+
+      <div class="formRow control-group">
+      <?php //echo $this->formSubmit($form->get('billProcess')->setAttribute('class', 'btn btn-info')) */ ?>
+    </div>
+    <div class="clearfix"></div>
+    </div>-->
+
+
+
+
+
+
+</div>

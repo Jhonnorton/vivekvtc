@@ -1,0 +1,287 @@
+
+<?php
+if (!is_null($this->message)):
+
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+
+<?php
+$date = date('Y-m-d');
+?>
+<script>
+     $(function() {
+         
+         $( "#datatable_3_filter" ).keyup(function() {
+            //alert( "Handler for .keyup() called." );
+           // [aria-controls="name1"]
+            var searchkey=  $(' [aria-controls="name1"]').val();
+            
+            alert(searchkey);
+         });
+         
+         
+     });
+ </script>
+ 
+ <script>
+  $(function() {
+        var id = <?php echo $this->paymenttyp; ?>;
+        var typeid=<?php echo $this->typeId; ?>;
+      //  alert(id);
+        $.post('/admin/report/ajax/commision/type/'+id+'/'+typeid, {id:id,typeid:typeid}, function(data){
+            
+//            alert(data);
+            $('#users').html(data);                        
+        });      
+    });
+</script>
+ 
+ <script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->paymenttyp)) {
+    echo $this->paymenttyp;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+    });
+</script>    
+
+    
+
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Rooming Reports</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+        
+        
+        
+        <div class="formRight">
+            <form method="post" action="<?php echo $this->url('report-rooming'); ?>">
+                 <select name="myselect" id="myselect" class="chzn-select">
+                    <option value="">Select</option>
+                    <option value="1">Resort</option>
+                    <option value="2">Event</option>
+                    <option value="3">Cruise</option>
+
+                </select>
+                <span id="users"></span>
+                <input type="date" id="startDate" placeholder="Date From" name="mydate" class="" value="<?php
+                if (!empty($this->startdat)) {
+                    echo $this->startdat;
+                } else {
+                    echo '';
+                }
+                ?>">  
+                <input type="date" id="endDate" name="mydate1" placeholder="Date To" class="" value="<?php
+                if (!empty($this->enddat)) {
+                    echo $this->enddat;
+                } else {
+                    echo '';
+                }
+                ?>">
+
+                 <select name="country" id="">
+                     <option value="">Select</option>
+                     <?php foreach($this->countries as $country){?>
+                    <option value="<?php echo $country->getId();?>"
+                           <?php if(!empty($this->country)){ if($country->getId()==$this->country){ echo "selected"; } }?> >
+                                <?php echo $country->getName();?>
+                    </option>
+                     <?php } ?>
+
+                </select>
+               
+
+
+                <input type="submit" name="submit" class="btn btn-info" id="btnmargin" value="Search">
+            </form> 
+        </div>
+        
+
+        <table class="table table-bordered table-mod-2" id="datatable_7">
+            <thead>
+                <tr>                    
+
+
+                    <th class="hidden-mobile">Hotel Name</th> 
+
+                    <th class="hidden-mobile">Client Name</th>
+
+                    <th class="hidden-mobile">Travel Partner</th>
+
+
+                    <th class="hidden-mobile">PAX</th>
+
+
+                    <th class="hidden-mobile">Room Category</th>
+
+                    <th class="hidden-mobile">From Date</th>
+
+                    <th class="hidden-mobile">To Date</th>
+
+                    <th class="hidden-mobile">No of Nights</th>
+
+                    <th class="hidden-mobile">Net Total</th>
+
+                    <th class="hidden-mobile">Client Notes</th>
+
+                </tr>
+            </thead>
+
+            
+            <tbody>
+                <?php
+                $total = 0;
+                $i = 0;
+                $totalnights = 0;
+                $totalnet = 0;
+                foreach ($this->collection as $item):
+                    $hotelName = $item['hotelName'];
+                    $type = $item['type'];
+                    $roomName = $item['roomName'];
+                    $travellers = $item['travellers'];
+                    $reservation = $item['reservation'];
+
+                    $order = $reservation->getreferenceNumber();
+
+                    $reservationdate = ($reservation->getcreatedAt() instanceof \DateTime) ? $reservation->getcreatedAt()->format('Y-m-d') : $reservation->getcreatedAt();
+                    $datefrom = ($reservation->getdateFrom() instanceof \DateTime) ? $reservation->getdateFrom()->format('Y-m-d') : $reservation->getdateFrom();
+                    $dateto = ($reservation->getdateTo() instanceof \DateTime) ? $reservation->getdateTo()->format('Y-m-d') : $reservation->getdateTo();
+
+                    $noofdays = $reservation->getnoOfDays();
+
+                    $status = $item['status'];
+                    $paymentDue = $item['paymentDues'];
+                    $invoice = $item['invoice'];
+                    $total = ($total + $reservation->getfinalCost());
+
+                    $discount = $reservation->getappliDiscount();
+
+                    $merchantfee = $reservation->getmerchantFee();
+
+                    $nettotal = $reservation->getfinalCost();
+
+                    $grosstotal = $nettotal - ($discount + $merchantfee);
+
+                    $totalnights = ($totalnights + $noofdays);
+
+                    $totalnet = ($totalnet + $nettotal);
+                    if ($reservation->getbalansAfterDeposit() == 0) {
+                        $status = 'Completed';
+                    } else {
+                        $status = 'Due';
+                    }
+                    
+                     if($reservation->getClientNotes()) {
+                      $clientnote=$reservation->getClientNotes();
+                    } else {
+                        $clientnote = '-';
+                    }
+                    $i++;
+                    ?>
+
+                    <tr>
+
+
+                        <td class="hidden-mobile"><?php echo $hotelName; ?></td>
+
+                        <td class="hidden-mobile"> <?php echo $travellers[0] ?></td>
+
+                        <td class="hidden-mobile"><?php
+                        
+                         if(count($travellers)>1){
+                            foreach ($travellers as $traveller) {
+                                echo $traveller . ',';
+                            }
+                         }else{
+                             echo '-';
+                         }  
+                            ?></td>
+
+
+                        <td class="hidden-mobile"><?php echo count($travellers); ?></td>
+
+                        <td class="hidden-mobile"> <?php echo $roomName ?></td>
+
+                        <td class="hidden-mobile"><?php echo $datefrom; ?></td>
+
+                        <td class="hidden-mobile"><?php echo $dateto; ?></td>
+                        <td class="hidden-mobile"><?php echo $noofdays; ?></td>
+                        <td class="hidden-mobile"><?php echo '$'.$nettotal ?></td>
+
+                        <td class="hidden-mobile"><?php echo $clientnote; ?></td>
+
+
+                    </tr>
+                <?php endforeach; ?>
+                    
+                    
+                    
+            </tbody>
+        </table>
+
+       <br><br>
+       <p>
+            Net Total :	
+            <?php echo '$' . $totalnet; ?>
+           
+       </p>    
+       
+        <form method="post" action="<?php echo $this->url('csv-rooming'); ?>">
+
+            
+            <input type="hidden" name="strdate" value=<?php echo $this->startdat; ?>>   
+            <input type="hidden" name="enddate" value=<?php echo $this->enddat; ?>>    
+       
+            <input type="hidden" name="resulttype" value="<?php echo $this->paymenttyp; ?>"> 
+            <input type="hidden" name="resortId" value="<?php echo $this->typeId; ?>"> 
+    
+            <input type="hidden" name="filename" value="rooming_report">   
+
+            <input type="submit" name="submit" class="btn btn-info" id="btnmargin" value="Download Csv">
+        </form> 
+
+        <div class="clearfix"></div>
+    </div>
+</div>
+<?php //echo $this->partial('payments/ajax/modal.phtml');     ?>
+
+<script>
+   
+  $('#myselect').change(function(){        
+        var id = $(this).val();   
+        var typeid=<?php $this->typeId; ?>
+      //  alert(id);
+        $.post('/admin/report/ajax/commision/type/'+id+'/'+typeid, {id:id,typeid:typeid}, function(data){
+            
+//            alert(data);
+            $('#users').html(data); 
+        });        
+    });
+    
+   
+ </script>   
+

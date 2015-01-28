@@ -1,0 +1,65 @@
+ <div addid="<?php echo $this->count; ?>" id="person<?php echo $this->count; ?>" class="fbox03">
+               <div class="b4 tnum">
+                   <strong>Traveller Info <?php echo $this->count; ?></strong></div><br>
+
+                <div class="b01">  <label for="travellerName">Full Name</label>    </div>
+                <div class="b02">
+                    <input type="text" class="span input name" id="tname_<?php echo $this->count; ?>" name="tname[]">
+                </div>
+                <div class="b01"><label for="travellerEmail">Email</label>    </div>
+                <div class="b02">
+                    <input type="text" class="span input email" id="temail_<?php echo $this->count; ?>" name="tEmail[]">
+                </div>
+                <div class="b01"> <label for="travellerDOB">D.O.B</label></div>
+                <div class="b02"><input type="date" id="date<?php echo $this->count; ?>" class="span input dob" name="tDob[]"> 
+                </div>
+
+
+                    <div class="b01">Sex</div>
+                        <div class="b02" name="sex">
+                            <p>
+                                <input type="radio" value="1" onclick="ajaxPriceCal(this,<?php echo $this->count ;?>);" name="tsex_<?php echo $this->count; ?>" required="required" class="sex" id="male_<?php $this->count; ?>">
+                                <label for="male_2" id="male_<?php $this->count; ?>"><span></span>Male</label>
+                                <input type="radio" value="2" onclick="ajaxPriceCal(this,<?php echo $this->count ;?>);" name="tsex_<?php echo $this->count; ?>" required="required" class="sex" id="female_<?php $this->count; ?>">
+                                <label for="female_2" id="female_<?php $this->count; ?>"><span></span>Female</label>
+                            </p>
+
+                    </div>
+                    <!--<input type="button" value="Remove" onclick="removeTraveller(<?php echo $this->count; ?>)" class="btn btn-danger btn-small" id="removeButtonNew">-->
+                </div>
+
+
+
+<script>
+    $(function(){
+        $('#date<?php echo $this->count; ?>').Zebra_DatePicker({
+            direction:-6570
+//            format: 'M d, Y'
+        });
+        
+     var count=<?php echo $this->count; ?>;
+      $('#tname_'+count).blur(function(){
+          var val=$(this).val();
+          if(val!=''){
+              $('#err'+count).html('');
+            }
+              
+      });
+      $('#temail_'+count).blur(function(){
+          var val=$(this).val();
+          if(val!=''){
+              $('#erremail'+count).html('');
+            }
+              
+      });
+      $('#date'+count).blur(function(){
+          var val=$(this).val();
+          if(val!=''){
+              $('#errdate'+count).html('');
+            }
+              
+      });
+      
+    });
+    
+    </script>

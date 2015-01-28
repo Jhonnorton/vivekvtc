@@ -1,0 +1,67 @@
+<?php
+
+if (count($results) > 0) {
+    $fh = @fopen('php://output', 'w');
+//d($fh);
+
+    $header_row = array();
+    $str = "Hotel/Cruise Name,";
+    $str.= "Client Name,";
+    $str.= "PAX,";
+    $str.= "Room Category,";
+    $str.= "Net Total,";
+    $str.= "Gross Total,";
+    $str.= "Status,";
+    $str.= "Reservation Date";
+    $strt = preg_replace("/([,])(\\1+)/i", '\\1', rtrim($str, ','));
+    $header_row = explode(',', rtrim($strt, ','));
+
+    fputcsv($fh, $header_row, ',', '"');
+
+
+    foreach ($results['collection'] as $item) {
+
+
+        $hotelName = $item['hotelName'];
+        $travellers = $item['travellers'];
+        $travellerinfo = $travellers[0];
+        $reservation = $item['reservation'];
+        $pax = count($travellers);
+        $roomName = $item['roomName'];
+
+
+        $discount = $reservation->getappliDiscount();
+
+        $merchantfee = $reservation->getmerchantFee();
+
+        $nettotal = $reservation->getfinalCost();
+
+        $grosstotal = $nettotal - ($discount + $merchantfee);
+
+        if ($reservation->getbalansAfterDeposit() == 0) {
+             $status = 'Completed';
+        } else {
+             $status = 'Due';
+        }
+
+
+        $reservationdate = ($reservation->getcreatedAt() instanceof \DateTime) ? $reservation->getcreatedAt()->format('Y-m-d') : $reservation->getcreatedAt();
+
+
+
+        $str1 = $hotelName . ",";
+        $str1.= $travellerinfo . ",";
+        $str1.=$pax . ",";
+        $str1.=$roomName . ",";
+        $str1.='$'.$nettotal . ",";
+        $str1.='$'.$grosstotal . ",";
+        $str1.=$status . ",";
+        $str1.=$reservationdate . ",";
+        $strt1 = preg_replace("/([,])(\\1+)/i", '\\1', rtrim($str1, ','));
+
+        $row = explode(',', $strt1);
+
+        fputcsv($fh, $row, ',', '"');
+    }
+    fclose($fh);
+}

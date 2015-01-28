@@ -1,0 +1,17 @@
+<ul class="additional-menu">
+	
+    <li class="menu-group">
+        <a href="<?php echo $this->url('settings'); ?>">
+            <i class="icon-home"></i>Disclaimer
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('settings')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('settings'); ?>"><i class="icon-list"></i>View Disclaimers</a>
+            </li>
+            <li <?php  if ($this->url() === $this->url('settings-disclaimer-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('settings-disclaimer-add'); ?>"><i class="icon-plus"></i>Add Disclaimer</a>
+            </li>
+       
+        </ul>
+    </li>
+</ul>

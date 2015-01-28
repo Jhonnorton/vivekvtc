@@ -1,0 +1,45 @@
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Reseller Cruise Gallery</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a href="<?php echo $this->url('affiliate-cruise-gallery-add',array('id' => $this->id)); ?>"><i class="icon-plus-sign"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+<div class='grid'>
+    <div class="grid-content overflow">
+            <table class="table table-bordered table-mod-2" id='datatable_3'>
+            <thead>
+                <tr>                    
+                    <th class="hidden-mobile">Image</th> 
+                    <th class="hidden-mobile">Title</th>
+                    <th class="hidden-mobile">Date Added</th>
+                    <th class="hidden-mobile">Action</th>
+                    <!--<th class="hidden-mobile">Don't Miss</th>-->
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php if(!empty($this->collection)){ ?>
+              <?php foreach ($this->collection as $image){ ?>
+                <tr>
+                    <td><img src="/img/user_uploads/cruise/thumbnails_150x150/<?php echo $image->getImage(); ?>" title="<?php echo $image->getTitle(); ?>"></td>
+                    <td><?php echo $image->getTitle(); ?></td>
+                    <td><?php echo $image->getAddedOn()->format('Y-m-d'); ?></td>
+                    <td><a data-confirm="Are you Sure.?" href="<?php echo $this->url('affiliate-cruise-gallery-delete', array('id'=>$image->getId())); ?>" title="Delete Image"><img alt="" src="/images/icon/table_del.png" height="18" width="18"></a></td>
+                </tr>
+                 <?php } } ?>
+                </tbody>
+            </table>
+                </body>
+        <div class="clearfix"></div>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php 
+    endif;
+endif;
+
+
+?>
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-plus"></i>
+			</div>
+			<span>PDF</span>
+			<div class="clearfix"></div>
+		</div>
+        
+		<div class="clearfix"></div>
+	</div>
+	<div class="grid-content overflow">
+                <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+                    
+                    <th class="hidden-mobile">Name</th>
+                    <th class="hidden-mobile">Category</th>
+                    <th class="hidden-mobile">Date</th>
+                    <th class="hidden-mobile">Actions</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($video as $vid){?>
+                <tr>
+                    <td><?php echo $vid->getFile();?></td>
+                    <td><?php echo $vid->getCategory();?></td>
+                    <td><?php echo $vid->getCreated()->format('M d, Y');?></td>
+                    <td class="action-table">
+                        <a title="Download" href="/img/user_uploads/userdocvideos/<?php echo $vid->getFile();?>" download>
+                                <img src="/images/icon/download-icon.png" alt="">
+                       </a>
+                        <a data-toggle="modal" title="View" href="<?php echo $this->url('marketing-video-play', array('vid' => $vid->getId())); ?>" data-target=".bs-example-modal-lg">
+                                <img src="/images/icon/table_view.png" alt="">
+                        </a>
+                    </td>
+                    
+                </tr>
+                <?php } ?>
+                
+            </tbody>
+        </table>
+		<div class="clearfix"></div>
+	</div>
+	
+</div>
+<?php echo $this->partial('users/ajax/modal.phtml');?>
+
+
+

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title><?php echo isset($this->title)? $this->title:'';?></title>
+ </head> 
+ <body>
+  <div style="background: #CDC9C9;text-align: center;font-size: 24px; color: white;padding: 6px;">
+    <?php echo isset($this->header)? $this->header:'';?>
+  </div>
+  <div style="padding: 12px;">  
+    <?php echo isset($this->message)? $this->message:'';?> 
+      <?php //if(isset($this->link)):?>
+      <p>
+          <a href="<?php //echo isset($this->link)? $this->link:'#';?>"><?php //echo isset($this->linkName)? $this->linkName:'link';?></a>
+      </p>        
+      <?php //endif;?>
+    <?php //echo $this->partial('partial/orders_form/reservation_view'); ?>     
+  </div>
+  <div style="background: #CDC9C9; text-align: center; font-size: 14px; color: white;padding: 4px;">
+    <?php echo isset($this->footer)? $this->footer:'';?>
+  </div>
+ </body> 
+</html>

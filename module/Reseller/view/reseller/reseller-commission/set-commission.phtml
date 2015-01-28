@@ -1,0 +1,178 @@
+<?php
+
+//d($this->collection[0]->getPaySchedule());
+if (!is_null($this->message)):
+    
+   // d($this->message);
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-edit"></i>
+            </div>
+            <span style="width:300px;">Set Commission For <?php echo $this->userdata['0']->getName(); ?></span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content">
+        <?php if(!empty($this->collection)){?>
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                    <th class="hidden-mobile">For</th> 
+                    <th class="hidden-mobile">Name</th> 
+
+                    <th class="hidden-mobile">Type</th>
+                    <th class="hidden-mobile">Amount</th>
+                
+                    <th class="hidden-mobile">Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->collection as $item){?>
+                <tr>
+                    <td>
+                        <?php switch($item['commission']->getCommissionFor()){
+                            case 1:
+                                echo "Resort";
+                                break;
+                            case 2:
+                                echo "Event";
+                                break;
+                            case 3:
+                                echo "Cruise";
+                                break;
+                        } ?>
+                    </td>
+                    <td><?php echo $item['data']->getTitle(); ?></td>
+                    <td><?php echo $item['commission']->getType(); ?></td>
+                    <td><?php echo $item['commission']->getAmount(); ?></td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="edit(<?php echo $item['commission']->getId(); ?>,<?php echo $this->userdata['0']->getId(); ?>)" title="Update">
+                            <img src="/images/icon/table_edit.png" alt="Update" height="18" width="18">
+                        </a> 
+                        <a data-confirm="Are You Sure.?" href="<?php echo $this->url('affiliate-commission-delete',array('id'=>$item['commission']->getId(),'affiliateid'=>$this->userdata['0']->getId())); ?>" title="Delete">
+                            <img src="/images/icon/table_del.png" alt="Delete" height="18" width="18">
+                        </a> 
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <br><br>
+        <?php } ?>
+        <hr>
+        <form method='post' action=''>
+            <input type="hidden" name="user" value="<?php echo $this->userdata['0']->getId(); ?>">
+         <div class="formRow control-group">
+             <label>Commission For : </label>
+            <div class="formRight">
+                <select class="span input" name='type' id="myselect" style="width:100%">
+                    <option value=''>Select</option>
+                    <option value='1'>Resort</option>
+                    <option value='2'>Event</option>
+                    <option value='3'>Cruise</option>
+                    
+                    
+                </select>
+            </div>
+        </div>	
+            <div class="formRow control-group">
+            <div class="formRight">
+            <span id="users" style="width:100%">
+                </span>
+                </div>
+        </div>	
+                <div class="formRow control-group">
+                    <label>Commission</label>
+                   <div class="formRight">
+                       <select class="" name='commissiontype'>
+                           <option value=''>Select Type</option>
+                           <option value='fixed'>$</option>
+                           <option value='percent'>%</option>
+
+                       </select>
+                       <input type="text" name="amount" placeholder="Amount">
+                   </div>
+               </div>	
+                
+
+        
+        <div class="formRow control-group">
+            <input type='submit' value='Submit' class='btn btn-info'>
+        </div>
+
+        <div class="clearfix"></div>
+        </form>
+    </div>
+
+
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close">×</button>
+    <h3 id="myModalLabel"></h3>
+  </div>
+  <div class="modal-body">
+    <p></p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn close">Close</button>
+  </div>
+</div>
+
+
+<script>
+function edit(id,aid){
+    
+    $.ajax({
+                async:false,    
+                url: '/admin/affiliate/commission/edit/'+id+'/'+aid,
+                beforeSend:function(){
+                   $(".modal-body").html('<center><img src="/images/ajax-loader.gif" alt="Loading..."></center>');  
+                    $("#myModalLabel").html('Edit Reseller Commission');
+                    $("#myModal").css({"display": "block"});
+                    $("#myModal").modal();
+                },
+                success: function(data){
+                    $(".modal-body").html(data)  
+//                  $("#myModal").modal()  
+                }
+            });
+}
+
+$(function(){
+    
+    $('.close').click(function(){
+        $("#itemModal").css({"display": "none"});
+        $("#myModal").css({"display": "none"});
+    });
+    
+    $('#myselect').change(function(){        
+        var id = $(this).val();   
+        var typeid=<?php $this->typeId; ?>
+      //  alert(id);
+        $.post('/admin/report/ajax/commision/type/'+id+'/'+typeid+'/reseller', {id:id,typeid:typeid}, function(data){
+            
+//            alert(data);
+            $('#users').html(data); 
+        });        
+    });
+});
+</script>
+

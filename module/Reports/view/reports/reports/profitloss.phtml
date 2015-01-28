@@ -1,0 +1,149 @@
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Profit-Loss Report</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<script>
+  $(function() {
+        var id = <?php echo $this->paymenttyp; ?>;
+        var typeid=<?php echo $this->typeId; ?>;
+      //  alert(id);
+        $.post('/admin/report/ajax/commision/type/'+id+'/'+typeid, {id:id,typeid:typeid}, function(data){
+            
+//            alert(data);
+            $('#users').html(data);                        
+        });      
+    });
+</script>
+
+<script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->paymenttyp)) {
+    echo $this->paymenttyp;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+      
+    });
+</script>    
+
+<div class="grid">  
+    
+
+    <div class="grid-content overflow">
+        
+            
+        <div class="formRight">
+            <form method="post" action="<?php echo $this->url('report-profitloss'); ?>">
+            
+                <select name="myselect" id="myselect" class="chzn-select">
+                    <option value="">-Select Type-</option>
+                    <option value='1'>Resort</option>
+                    <option value='2'>Event</option>
+                    <option value='3'>Cruise</option>
+                </select>
+                <span id="users">
+                </span>
+                <input type="date" id="startDate" name="mydate" class="" placeholder="Date From" value="<?php
+                if (!empty($this->startdat)) {
+                    echo $this->startdat;
+                } else {
+                    echo '';
+                }
+                ?>">  
+                <input type="date" id="endDate" name="mydate1" placeholder="Date To" class="" value="<?php
+                if (!empty($this->enddat)) {
+                    echo $this->enddat;
+                } else {
+                    echo '';
+                }
+                ?>">
+                
+                <input type="submit" name="submit" class="btn btn-info" id="btnmargin" value="Search">
+            </form>
+              </div>
+        
+        <br><br>
+        
+        <table class="table table-bordered table-mod-2" id="datatable_7">
+            <thead>
+                <tr>   
+                    <th class="hidden-mobile">Reservation For</th> 
+                    <th class="hidden-mobile">Type</th> 
+                    <th class="hidden-mobile">Reservation Date</th> 
+                    <th class="hidden-mobile">Gross Amount</th> 
+                    <th class="hidden-mobile">Net Amount</th> 
+                    <th class="hidden-mobile">Discount</th> 
+                    <th class="hidden-mobile">Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                 <?php foreach ($this->collection as $item): 
+                $reservation=$item['reservation'];
+                $hotelName=$item['hotelName'];
+                 $date = ($reservation->getCreatedAt() instanceof \DateTime) ? $reservation->getCreatedAt()->format('Y-m-d') : $reservation->getCreatedAt();  
+                
+                $grossroom=$reservation->getRoomRequired()*$reservation->getRoomRate()*$reservation->getNoOfDays();
+                $totalgross=$grossroom+$reservation->getExcursionCost()+$reservation->getTransferCost()+$reservation->getItemCost()+$reservation->getMerchantFee();
+                
+                $totalnet=$reservation->getRoomNetCost()+$reservation->getAddonsNetCost();
+                
+                $discount=($reservation->getAppliDiscount()/100)*$totalgross;
+                
+                $profit=$totalgross-($totalnet+$discount);
+                
+                ?>
+                <tr>
+                    <td><?php echo $hotelName; ?></td>
+                    <td><?php echo $item['type']; ?></td>
+                    <td><?php echo $date;?></td> 
+                    <td>$<?php echo $totalgross; ?></td> 
+                    <td>$<?php echo $totalnet; ?></td> 
+                    <td>$<?php echo $discount;?></td> 
+                    <td>$<?php echo $profit; ?></td> 
+                    
+                
+                 </tr>
+               <?php endforeach; ?> 
+                 </tbody>
+        </table>
+        <br><br>
+        <form method="post" action="<?php echo $this->url('csv-profitloss'); ?>">
+
+
+            <input type="hidden" name="strdate" value=<?php echo $this->startdat; ?>>   
+            <input type="hidden" name="enddate" value=<?php echo $this->enddat; ?>>    
+            <input type="hidden" name="filename" value="profit_loss">   
+            <input type="hidden" name="resulttype" value="<?php echo $this->paymenttyp; ?>"> 
+            <input type="hidden" name="resortId" value="<?php echo $this->typeId; ?>"> 
+            <input type="submit" name="submit" class="btn btn-info" id="btnmargin" value="Download Csv">
+        </form> 
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<script>
+   
+  $('#myselect').change(function(){        
+        var id = $(this).val();   
+        var typeid=<?php $this->typeId; ?>
+      //  alert(id);
+        $.post('/admin/report/ajax/commision/type/'+id+'/'+typeid, {id:id,typeid:typeid}, function(data){
+            
+//            alert(data);
+            $('#users').html(data); 
+        });        
+    });
+    
+   
+ </script>   

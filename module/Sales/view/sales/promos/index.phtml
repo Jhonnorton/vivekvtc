@@ -1,0 +1,103 @@
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div>
+            <span>Promos</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a href="<?php echo $this->url('promos-add'); ?>"><i class="icon-plus-sign"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content overflow">
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+                    <th class="t_center">
+                        <input type="checkbox" id="c0" name="cc" />
+                        <label for="c0"><span></span></label>
+                    </th>                    
+                    <th class="hidden-mobile">Code Name</th>
+                     <th class="hidden-mobile">Created On</th>   
+                    <th class="hidden-mobile">For</th>
+                    <th class="hidden-mobile">Status</th>
+                   
+                    <th class="hidden-mobile">Discount Total</th>                                        
+                    <th class="hidden-mobile">Usage</th>
+                   
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $i = 1;
+                foreach ($this->collection as $item): ?>
+                    <tr>
+                        <td class="t_center">
+                            <input type="checkbox" id="c<?php echo $i; ?>" name="cc" />
+                            <label for="c<?php echo $i; ?>"><span></span></label>
+                        </td>                        
+                        <td class="hidden-mobile"><?php echo $item->getPromoCode(); //$item->getPromoNames(); ?></td>  
+                        <td class="hidden-mobile"><?php echo $item->getCreated()->format('M d, Y'); ?></td>
+                        <td class="hidden-mobile"><?php echo $item->getLinkedTo(); ?></td>
+                        
+                        
+                        <td class="hidden-mobile">
+                             <?php 
+                                $today = date("Y-m-d");
+                                $expire = $item->getDateTo()->format('Y-m-d') ;//from db
+
+                                $today_time = new DateTime($today);
+                                $expire_time = new DateTime($expire);
+                                ?>
+                            
+                            <span class="s_<?php echo $expire_time > $today_time ? 'green' : 'gray'; ?>">
+                                <?php 
+                               
+                                if ($expire_time > $today_time) { 
+                                    echo 'Open'; 
+                                    }else{
+                                    echo 'Expired'; 
+                                    }?>
+                            </span>
+                        </td>
+                      
+                       
+                        <td class="hidden-mobile"><?php echo $item->getDiscountType() ? '' : '$'; echo $item->getDiscount(); echo $item->getDiscountType() ? '%' : ''; ?></td>
+                        <td class="hidden-mobile"><?php echo $item->getNumberAvailable(); ?></td>                        
+                      
+                        <td class="action-table">                            
+                            <a href="<?php echo $this->url('promos-edit', array('id' => $item->getId())); ?>">
+                                <img src="/images/icon/table_edit.png" alt="">
+                            </a>
+                            <a href="<?php echo $this->url('promos-delete', array('id' => $item->getId())); ?>"
+                               data-confirm="Are you sure?">
+                                <img src="/images/icon/table_del.png" alt="">
+                            </a>
+                        </td>
+                    </tr>
+                    <?php $i++; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>

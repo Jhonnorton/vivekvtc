@@ -1,0 +1,40 @@
+<ul class="additional-menu">
+	
+    <li class="menu-group">
+        <a href="<?php echo $this->url('orders'); ?>">
+            <i class="icon-home"></i>Reservation Manager
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('orders')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('orders'); ?>"><i class="icon-list"></i> View Reservations</a>
+            </li>
+  
+
+	     <li <?php if ($this->url() === $this->url('event')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('event'); ?>"><i class="icon-list"></i> Event Reservation</a>
+            </li>
+
+
+
+            <li <?php if ($this->url() === $this->url('orders-event')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('orders-event'); ?>"><i class="icon-plus"></i> Create Reservation</a>
+            </li>
+
+	    
+
+        </ul>
+    </li>
+
+    <li class="menu-group">
+        <a href="<?php echo $this->url('invoice'); ?>"><i class="icon-globe"></i>Invoce</a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('invoice')) echo 'class="active"' ?> >
+                <a href="<?php echo $this->url('invoice'); ?>"><i class="icon-list"></i>View Invoces</a>
+            </li>	
+            <li <?php if ($this->url() === $this->url('invoice-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('invoice-add'); ?>"><i class="icon-plus"></i> Add Invoce</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+

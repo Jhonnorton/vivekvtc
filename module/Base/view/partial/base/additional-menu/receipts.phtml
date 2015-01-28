@@ -1,0 +1,29 @@
+<ul class="additional-menu">
+	
+    <li class="menu-group">
+        <a href="<?php echo $this->url('promos'); ?>">
+            <i class="icon-home"></i>Sales
+        </a>
+        
+    </li>
+    
+    <li class="menu-group">
+        <a href="<?php echo $this->url('receipts-list'); ?>">
+            <i class="icon-home"></i>Receipt
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('receipts-list')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('receipts-list'); ?>"><i class="icon-list"></i> View Receipt</a>
+            </li>
+
+	   <li <?php if ($this->url() === $this->url('receipts-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('receipts-add'); ?>"><i class="icon-plus"></i> Add Receipt</a>
+            </li>
+	  	
+
+
+        </ul>
+    </li>
+
+   
+</ul>

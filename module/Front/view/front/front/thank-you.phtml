@@ -1,0 +1,37 @@
+<?php if(!empty($affiliateId)){ ?>
+
+<div class="grid">    
+    <div class="grid-content overflow">
+        <?php if($data): ?>
+        <div class="status-msg"><?php echo $data['message']; ?></div>
+       <div class="return_home"> <a href="http://vacationparties.com/<?php echo $resellerData->getUrlExtension(); ?>">Click here</a> to go to Reseller Homepage</div>
+        
+        <?php
+        else:?>
+        <div class="status-msg">The page is expired</div>
+        
+        <?php endif; ?>
+        
+        <div class="clearfix"></div>
+    </div>
+</div>
+<style>
+    .status-msg{
+        color:lightseagreen;
+        font-size: 30px;
+        margin-bottom: 23%;
+        margin-left: 20%;
+        margin-top: 16%;
+    }
+    </style>
+
+
+<?php }else{ ?>
+<META http-equiv="refresh" content="0;URL=http://vacationparties.com/pages/thank_you/<?php echo $data['ACK']['ACK'] ?>/<?php echo $email; ?>">
+<?php } ?>
+    <?php 
+//d('View');
+
+//header('Location: http://192.155.246.146:9121/pages/thank_you/'.$data['ACK']['ACK'].'/'.$email);
+$response = $this->data;
+?>

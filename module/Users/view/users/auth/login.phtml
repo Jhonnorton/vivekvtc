@@ -1,0 +1,32 @@
+<div id="login" class="animate form position">
+                <form action="<?php echo $this->url('login')?>" class="form-login" method="post"> 
+                    <div class="content-login">
+                    <div class="header">Account Login</div>
+                    
+                    <div class="inputs">
+                        <input name="login" type="text" placeholder="Login" />
+                        <input name="password" type="password"  placeholder="Password" />                        
+                    </div>
+                    
+<!--                     <div class="link-1"><a href="#">Create New Account</a></div> -->
+<!--                     <div class="link-2"><a href="#">Forgot Password?</a></div> -->
+                    <div class="link-2"><a href="<?php echo $this->url('restore')?>">Forgot Password?</a></div>
+                    <div class="clear"></div>
+                    <div class="button-login"><input type="submit" class="" value="Sign In"></div>
+                    </div>
+                    
+                    <div class="footer-login">
+                    <?php if (!empty($this->message)):?>
+                      <div class="pull-left" style="color:#f00;"><?php echo $this->message; ?></div>
+                    <?php endif; ?>
+<!--                      <div class="pull-right"> -->
+<!--                        <ul class="social-links"> -->
+<!--                           <li class="facebook"><a href="#"><span>facebook</span></a></li> -->
+<!--                           <li class="twitter"><a href="#"><span>twitter</span></a></li> -->
+<!--                           <li class="google-plus"><a href="#"><span>google</span></a></li> -->
+<!--                        </ul> -->
+<!--                      </div> -->
+                     <div class="clear"></div>
+                    </div>
+                </form>
+            </div>

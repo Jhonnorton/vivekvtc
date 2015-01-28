@@ -1,0 +1,360 @@
+<?php
+$form = $this->form;
+$paymentDues = $this->collection['reservation']['paymentDues'];
+
+if($collection['reservation']['reservation']->getIsBooked() == 0){
+    $amountRemaining = $collection['reservation']['reservation']->getFinalCost();
+}else{
+    $amountRemaining = $collection['reservation']['reservation']->getFinalCost()-$collection['reservation']['reservation']->getDepositAmoun() ;
+    
+}
+?>
+
+ <?php
+            if ($collection['reservation']['reservation']->getIsBooked() == 1) {
+                $paidAmt = $collection['reservation']['reservation']->getDepositAmoun();
+            } else {
+                $paidAmt = 0;
+            }
+            ?>
+<div class="formRow control-group">
+    <h4>Payment</h4>
+    <hr />
+</div>
+
+<?php 
+
+$amtTopay=$collection['reservation']['reservation']->getFinalCost()-$collection['reservation']['reservation']->getDepositAmoun();
+
+?>
+
+<div class="formRow control-group ums">
+       <label for="remainingAmount">Total Paid</label>
+    <div class="formRight input-prepend">
+        <span class="add-on">$</span>
+<input type="number" value="<?php echo $paidAmt; ?>" class="span input" readonly="readonly" min="0" id="remainingAmount" name="remainingAmount">
+    </div>
+</div>
+
+<div class="formRow control-group ums" id="toPay" style="display:none">
+       <label for="remainingAmount">Amount to pay</label>
+    <div class="formRight input-prepend">
+        <span class="add-on">$</span>
+<input type="number" value="<?php echo $amtTopay; ?>" class="span input" readonly="readonly" min="0" name="toPay">
+    </div>
+</div>
+
+
+<div class="formRow control-group ums" id="refund" style="display:none">
+       <label for="remainingAmount">Refund Amount</label>
+    <div class="formRight input-prepend">
+        <span class="add-on">$</span>
+<input type="number" value="" class="span input" readonly="readonly" min="0" name="refund">
+    </div>
+</div>
+
+
+<div class="formRow control-group" id="paymentType">
+    <div class="formRight">
+        <div class="distance distance-2">
+            <p>
+                <input type="radio" name="paymentTypes" id="full-payments" value="1"  <?php if ($collection['reservation']['reservation']->getPaymentType() == 1) {
+    echo 'checked="checked"';
+} ?>>
+                <label for="full-payments"><span></span> Full Payment</label>
+            </p>
+            <p id="deposit-hide">
+                <input type="radio" name="paymentTypes" id="deposits" value="0"  <?php if ($collection['reservation']['reservation']->getPaymentType() == 0) {
+    echo 'checked="checked"';
+} ?>>
+                <label for="deposits"><span></span> Deposit</label>
+            </p>
+        </div>
+    </div>
+</div>
+<div id="depositsDiv">
+<div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('depositAmount')); ?>
+    <div class="formRight input-prepend">
+        <span class="add-on">$</span>
+<?php
+echo $this->formElement($form->get('depositAmount')
+                //->setAttribute('readonly', 'readonly')
+                ->setAttribute('class', 'span8 input'));
+?>
+<?php echo $this->formElementErrors($form->get('depositAmount'), array('class' => 'help-inline')); ?>
+    </div>
+</div>
+<?php if ($collection['reservation']['reservation']->getPaymentType() == FALSE) : ?>
+    <div id="deposit-due-fields">
+        <div class="formRow control-group">
+
+            <div class="formRight">
+                <div class="distance distance-2 payment-type">
+                    <p>
+                        <input type="radio" name="depositMethod" id="deposit-due" value="0"  <?php if ($collection['reservation']['reservation']->getDepositMethod() == FALSE) echo 'checked="checked"'; ?>>
+                        <label for="deposit-due"><span></span> Deposit Due</label>
+                    </p>
+                    <p>
+                        <input type="radio" name="depositMethod" id="rcvd" value="1"  <?php if ($collection['reservation']['reservation']->getDepositMethod() == TRUE) echo 'checked="checked"'; ?>>
+                        <label for="rcvd"><span></span> RCVD</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="formRow control-group">
+    <?php echo $this->formLabel($form->get('balansAfterDeposit')); ?>
+            <div class="formRight input-prepend">
+                <span class="add-on">$</span>
+            <?php echo $this->formElement($form->get('balansAfterDeposit')->setAttribute('class', 'span8 input')->setAttribute('readonly', 'readonly')); ?>
+            <?php echo $this->formElementErrors($form->get('balansAfterDeposit'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        
+           
+            <input type="hidden" name="paid" value="<?php echo $paidAmt; ?>">
+        
+        <div id="due-date">
+            <?php
+            $i = 1;
+            $count = count($paymentDues);
+
+            $lastKey = $count;
+            foreach ($paymentDues as $dues) :
+                if ($i == 1) {
+                    ?>
+
+                    <?php
+                    if ($count == 1) {
+                        $due1 = "";
+                        $styleHide = "display:none;";
+                    } else {
+                        $due1 = $dues->getPaymentDue();
+                        $styleHide = "display:block;";
+                    }
+                    ?>
+
+                    <div id="pay_first" style="<?php echo $styleHide; ?>">
+                        <div class="formRow control-group">
+                                <?php echo $this->formLabel($form->get('nextPaymentDue[]')); ?>
+                            <div class="formRight input-prepend">
+                                <span class="add-on">$</span>
+
+                            <?php
+                            echo $this->formElement($form->get('nextPaymentDue[]')->setAttribute('class', 'span8 input cnt')
+                                            ->setAttribute('id', 'dueAmount1')
+                                            ->setValue($dues->getPaymentDue()));
+                            ?>
+                                <?php echo $this->formElementErrors($form->get('nextPaymentDue[]'), array('class' => 'help-inline')); ?>
+                            </div>
+                        </div>
+                        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('dueDate1[]')); ?>
+                            <div class="formRight">
+                    <?php
+                    echo $this->formElement($form->get('dueDate1[]')
+                                    ->setAttribute('min', date('Y-m-d'))
+                                    ->setAttribute('id', 'dueDate')
+                                    ->setAttribute('class', 'span input')
+                                    ->setValue($dues->getDueDate()->format('Y-m-d')));
+                    ?>
+                            <?php echo $this->formElementErrors($form->get('dueDate1[]'), array('class' => 'help-inline')); ?>
+                            </div>
+                        </div>
+                    </div>
+                            <?php if ($count == 1): ?>
+                        <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('finalPaymentDue')); ?>
+                            <div class="formRight input-prepend">
+                                <span class="add-on">$</span>
+                                <?php
+                                echo $this->formElement($form->get('nextPaymentDue[]')->setAttribute('class', 'span8 input cnt')
+                                                ->setAttribute('id', 'dueAmount2')
+                                                ->setValue($dues->getPaymentDue()));
+                                ?>
+                                <?php echo $this->formElementErrors($form->get('nextPaymentDue[]'), array('class' => 'help-inline')); ?>
+                            </div>
+                        </div>
+                        <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('dueDate2')); ?>
+                            <div class="formRight">
+                        <?php
+                        echo $this->formElement($form->get('dueDate1[]')
+                                        ->setAttribute('min', date('Y-m-d'))
+                                        ->setAttribute('id', 'dueDate2')
+                                        ->setAttribute('class', 'span input')
+                                        ->setValue($dues->getDueDate()->format('Y-m-d')));
+                        ?>
+                        <?php echo $this->formElementErrors($form->get('dueDate1[]'), array('class' => 'help-inline')); ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                </div>
+
+                    <?php } else if ($i == (int) $lastKey && $i >= 1) { ?>
+
+                <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('finalPaymentDue')); ?>
+                    <div class="formRight input-prepend">
+                        <span class="add-on">$</span>
+                        <?php
+                        echo $this->formElement($form->get('nextPaymentDue[]')->setAttribute('class', 'span8 input cnt')
+                                        ->setAttribute('id', 'dueAmount2')
+                                        ->setValue($dues->getPaymentDue()));
+                        ?>
+                        <?php echo $this->formElementErrors($form->get('nextPaymentDue[]'), array('class' => 'help-inline')); ?>
+                    </div>
+                </div>
+                <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('dueDate2')); ?>
+                    <div class="formRight">
+                <?php
+                echo $this->formElement($form->get('dueDate1[]')
+                                ->setAttribute('min', date('Y-m-d'))
+                                ->setAttribute('id', 'dueDate2')
+                                ->setAttribute('class', 'span input')
+                                ->setValue($dues->getDueDate()->format('Y-m-d')));
+                ?>
+            <?php echo $this->formElementErrors($form->get('dueDate1[]'), array('class' => 'help-inline')); ?>
+                    </div>
+                </div>
+
+        <?php } else {
+            ?>
+
+                <div class="added-duedates">
+                    <div class="formRow control-group">
+
+                        <hr/>
+                        <div class="formRight">
+
+
+                        </div>
+                    </div>
+                    <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('nextPaymentDue[]')); ?>
+                        <div class="formRight input-prepend">
+                            <span class="add-on">$</span>
+                            <input type="text" name="nextPaymentDue[]" class="span8 input cnt" value ="<?php echo $dues->getPaymentDue(); ?>" >
+                        </div>
+                    </div>
+
+                    <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('dueDate1[]')); ?>
+                        <div class="formRight">
+                            <input type="date" name="dueDate1[]" class="duedate  span input" required="required" value="<?php echo $dues->getDueDate()->format('Y-m-d'); ?>">
+                        </div>
+                    </div>           
+
+                    <div class="formRow control-group">
+
+                        <div class="formRight">
+                            <span style="float: right">
+                                <button type="button" class="remove-due btn btn-danger btn-small metro">Remove</button>
+                                <span>
+                                    <div class="clearfix"></div>
+                                    </div>
+                                    </div>
+                                    </div> 
+
+        <?php } $i++;
+    endforeach; ?>
+
+                            <!-- <div class="formRow control-group">
+    <?php echo $this->formLabel($form->get('finalPaymentDue')); ?>
+                                    <div class="formRight input-prepend">
+                                        <span class="add-on">$</span>
+    <?php
+    echo $this->formElement($form->get('nextPaymentDue[]')->setAttribute('class', 'span8 input cnt')
+                    ->setAttribute('id', 'dueAmount2')
+                    ->setAttribute('required', true)
+    );
+    ?>
+    <?php echo $this->formElementErrors($form->get('nextPaymentDue[]'), array('class' => 'help-inline')); ?>
+                                    </div>
+                                </div>-->
+
+                            <div class="formRow control-group">			
+                                <div class="formRight">
+                                    <input type="button" value="Add" class="btn btn-info" id="addduebutton" name="dueButton">     	
+                                </div>
+                            </div>
+                            </div>
+
+<?php endif; ?>
+
+</div>
+</div>
+                        <script>
+                            $(function() {
+
+                                if ($('#deposit').is(':checked')) {
+                                    $('#deposit-due-fields').show();
+									$('#remainingAmount').val(<?php echo $paidAmt;?>);
+                                }
+
+                                $('input[name="paymentType"]').click(function() {
+                                    console.log('change');
+                                      
+                                    if ($('#deposit').is(':checked')) {
+                                        $('#deposit-due-fields').show();
+										$('#remainingAmount').val(<?php echo $paidAmt;?>);
+                                    } else {
+                                        $('#deposit-due-fields').hide();
+										$("#remainingAmount").val(<?php echo $collection['reservation']['reservation']->getFinalCost()?>);
+                                    }
+
+                                });
+                                $("#pay_first:hidden").find($("#dueAmount1")).val("");
+								
+								if($('#full-payment').is(':checked')){
+									$("#remainingAmount").val(<?php echo $collection['reservation']['reservation']->getFinalCost()?>);
+								}
+                                                                
+                                                                var amttopay=<?php echo $amtTopay; ?>;
+                                                                if(amttopay>0){
+                                                                    $('#toPay').show();
+                                                                }else{
+                                                                    $('#toPay').hide();
+                                                                }
+                                                                    
+                            });
+                        </script>
+
+                        <script type="text" id="add-duedate">
+                            <div class="added-duedates">
+                            <div class="formRow control-group">
+
+                            <hr/>
+                            <div class="formRight">
+
+
+                            </div>
+                            </div>
+                            <div class="formRow control-group">
+<?php echo $this->formLabel($form->get('nextPaymentDue[]')); ?>
+                            <div class="formRight input-prepend">
+                            <span class="add-on">$</span>
+                            <input type="text" name="nextPaymentDue[]" class="span8 input cnt" >
+                            </div>
+                            </div>
+
+                            <div class="formRow control-group">
+<?php echo $this->formLabel($form->get('dueDate1[]')); ?>
+                            <div class="formRight">
+                            <input type="date" name="dueDate1[]" class="duedate  span input" required="required">
+                            </div>
+                            </div>           
+
+                            <div class="formRow control-group">
+
+                            <div class="formRight">
+                            <span style="float: right">
+                            <button type="button" class="remove-due btn btn-danger btn-small metro">Remove</button>
+                            <span>
+                            <div class="clearfix"></div>
+                            </div>
+                            </div>
+                            </div>
+                        </script>

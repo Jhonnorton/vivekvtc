@@ -1,0 +1,146 @@
+<div class="grid user-profile">
+<form>
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-eye-open"></i>
+			</div>
+			<span>Profile Information</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="pull-right">
+			<div class="icon-title">
+				<a href="javascript:editProfile();" class="profile-edit"><i class="icon-edit"></i></a>
+			</div>
+			<div class="icon-title">
+				<a href="#"><i class="icon-cog"></i></a>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+
+	<div class="grid-content">
+            <div id="status-msg" style="display:none;font-weight:bold;background-color:greenyellow;"></div>
+		<table class="table ajax-profile">
+			<thead>
+				<tr>
+					<th colspan="2">My Profile Information <sup><a href="javascript:editProfile();" class="profile-edit">edit</a><sup></th>
+				</tr>
+			</thead>
+			<tbody>
+				<input type="hidden" name="id" value="<?php echo $this->user->getId(); ?>"/>
+				<tr>
+					<td>Login</td>
+					<td id="login"><span><?php echo $this->user->getLogin(); ?></span></td>
+				</tr>
+				<tr>
+					<td>Email Address</td>
+					<td id="email"><span><?php echo $this->user->getEmail(); ?></span></td>
+				</tr>
+				<tr>
+					<td>First Name</td>
+					<td id="firstName"><span><?php echo $this->user->getFirstName(); ?></span></td>
+				</tr>
+				<tr>
+					<td>Last Name</td>
+					<td id="lastName"><span><?php echo $this->user->getLastName(); ?></span></td>
+				</tr>
+				<tr>
+					<td>Phone</td>
+					<td id="phone"><span><?php echo $this->user->getPhone(); ?></span></td>
+				</tr>
+				<tr>
+					<td>Address</td>
+					<td id="address"><span><?php echo $this->user->getAddress(); ?></span></td>
+				</tr>
+				<tr>
+					<td>Group</td>
+					<td id="role"><?php echo $this->user->getRole()->getName(); ?></td>
+					<input type="hidden" name="role" value="<?php echo $this->user->getRole()->getId();?>">
+				</tr>
+				<tr>
+					<td style="display:none;"></td>
+					<td></td>
+					<td>
+						<button id="savebutton" onclick="saveProfile()" style="display:none;" type="button" class ="btn btn-success">Save</button>
+						<img id="loader" alt="loading" src="/images/ajax-loader.gif" class="hide">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+              <!-- Hidden -->
+              <input type="hidden" name="country" value="<?php echo $this->user->getCountry()->getId();?>">
+               <input type="hidden" name="accountType" value="<?php echo $this->user->getAccountType()?>">
+               <input type="hidden" name="paySchedule" value="<?php echo $this->user->getPaySchedule()?>">
+                <input type="hidden" name="payroll" value="<?php echo $this->user->getPayroll()?>">
+                 <input type="hidden" name="isActive" value="<?php echo $this->user->getIsActive()?>">
+</form>
+		<div class="clearfix"></div>
+	</div>
+
+</div>
+
+<script>
+	function editProfile(){
+
+		$('.ajax-profile span').each(function(){ 
+			var value = $(this).text();
+			var name  = $(this).parent().attr('id');
+
+			$(this).replaceWith('<input type="text" name="' + name + '" value="' + value +'"/>'); 
+		});
+
+		$('#savebutton').show();
+		
+	}
+
+	function replaceBack(){
+		$('.ajax-profile input[type!="hidden"]').each(function(){ 
+			var value = $(this).val();
+			var name  = $(this).attr('name');
+
+			$(this).replaceWith('<span>'+ value +'</span>'); 
+		});
+
+		
+		
+	}
+
+	function saveProfile(){
+
+		var data = $('form').serializeArray();
+
+		$('.ajax-profile  ul.help-inline').remove();
+		$('.ajax-profile input').removeClass('ajax-error-input');
+
+		$('#loader').removeClass('hide');
+		$('#savebutton').hide();
+		
+		$.post('<?php echo $this->url('profile-save'); ?>', data, function(data){
+
+			
+				
+			if(data.result){
+                                $("#status-msg").show().html("Profile Updated successfully.")    
+                                $('#status-msg').delay(500).fadeOut('slow');
+				replaceBack();
+			} else {				
+				for(var fieldname in data){
+					for(var message in data[fieldname]){
+						$('.ajax-profile input[name="'+ fieldname +'"]').after('<ul class="help-inline ajax-error"><li>'+ data[fieldname][message] +'</li></ul>').addClass('ajax-error-input');
+					}
+				}
+				$('#savebutton').show();
+			}
+
+			$('#loader').addClass('hide'); 
+
+		}, 'json');
+		
+	}
+
+	$(function(){
+		$('.profile-edit').tooltip({title:'Click here to edit your profile.', container:'body', trigger: 'hover'});
+		
+	});
+</script>

@@ -1,0 +1,170 @@
+<?php
+//d($this->data->getTourId()->getStartDate()->Format('Y-m-d'));
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+<?php
+$form = $this->form;
+//d($this->data);
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'tour-location-edit',array('id' =>$this->id)
+));
+$form->setAttribute('id','locationadd');
+$form->setAttribute('method', 'post');
+$form->setAttribute('enctype', 'multipart/form-data');
+
+if($form->get('fromDate')->getValue() instanceof DateTime)
+	$form->get('fromDate')->setValue($form->get('fromDate')->getValue()->format('Y-m-d')); // DateTime to str fix;
+if($form->get('toDate')->getValue() instanceof DateTime)
+	$form->get('toDate')->setValue($form->get('toDate')->getValue()->format('Y-m-d')); 
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Add New Location</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+
+        <input type="hidden" id="dateFrom" value="<?php echo $this->data->getTourId()->getStartDate()->Format('Y-m-d');?>">
+        <input type="hidden" id="dateTo" value="<?php echo $this->data->getTourId()->getEndDate()->Format('Y-m-d');?>">
+        <input type="hidden" name="id" value="<?php echo $this->id;?>">
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('countryId')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('countryId')->setAttribute('class', 'chzn-select chosen_select width-100')->setAttribute('required','required')); ?>
+                <?php echo $this->formElementErrors($form->get('countryId'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('city')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('city')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('city'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('fromDate')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('fromDate')->setAttribute('class', 'span input')->setAttribute('id','fromDate')); ?>
+                <?php echo $this->formElementErrors($form->get('fromDate'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('toDate')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('toDate')->setAttribute('class', 'span input')->setAttribute('id','toDate')); ?>
+                <?php echo $this->formElementErrors($form->get('toDate'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+    <?php echo $this->form()->closeTag() ?>
+</div>
+
+<script>
+
+
+
+    $(function() {
+        $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+        $('.error input').keyup(function() {
+            $(this).parents('.formRow').removeClass('error');
+            $(this).next('ul.help-inline').remove();
+        });
+
+       
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+    
+    $('#fromDate').Zebra_DatePicker({
+         direction: ['<?php echo $this->data->getTourId()->getStartDate()->Format('Y-m-d');?>', '<?php echo $this->data->getTourId()->getEndDate()->Format('Y-m-d');?>']
+        });
+   
+    
+    $('#toDate').Zebra_DatePicker({
+         direction: ['<?php echo $this->data->getTourId()->getStartDate()->Format('Y-m-d');?>', '<?php echo $this->data->getTourId()->getEndDate()->Format('Y-m-d');?>']
+        });
+    });
+ </script>   
+<script src="/js/tours.js"></script>
+
+<script>
+    Tours.init();
+</script>
+<script>
+
+    $(document).ready(function() {
+        
+
+        //  $( "#li2" ).off();
+        $("#locationadd").validate({
+            // errorElement: "span",
+            rules: {
+                countryId: {
+                    required: true
+                },
+                city: {
+                    required: true
+                },
+                fromDate: {
+                    required: true
+                },
+                toDate: {
+                    required: true
+                },
+                
+            },
+            messages: {
+                countryId:  "Select Country",
+                fromDate: "Select From Date",
+                toDate: "Select To Date",
+                city: "Enter City",
+                
+
+
+            },
+            // the errorPlacement has to take the table layout into account
+            errorPlacement: function(error, element) {
+                error.appendTo(element.parent());
+            },
+            highlight: function(element) {
+                $(element).parent().removeClass("error");
+            }
+        });
+
+    });
+
+
+</script>   

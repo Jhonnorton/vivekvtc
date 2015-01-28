@@ -1,0 +1,60 @@
+
+
+<!--<div class="grid">
+    <div class="grid-content overflow">-->
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <tbody>                
+                <tr>
+                    <th class="hidden-mobile">Image</th>
+                    <td>
+                        <img src="<?php echo $this->imagePath . $this->item->getImage(); ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Title</th>
+                    <td class="hidden-mobile"><?php echo $this->item->getTitle(); ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Category</th>
+                    <td class="hidden-mobile"><?php echo ($this->category)? $this->category->getName():'none'; ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Country</th>
+                    <td class="hidden-mobile"><?php echo ($this->country)?$this->country->getLongName(): 'none'; ?></td>
+                </tr>   
+                <tr>
+                    <th class="hidden-mobile">Tour Start Date</th>
+                    <td><?php echo $item->getTourStartDate()->format('M d, Y'); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Tour End Date</th>
+                    <td><?php echo $item->getTourEndDate()->format('M d, Y'); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Status</th>
+                    <td>
+                        <span class="s_<?php echo $item->getStatus() ? 'green' : 'gray'; ?>">
+                            <?php echo $item->getStatus() ? 'Active' : 'Blocked'; ?>
+                        </span>
+                    </td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Overview</th>
+                    <td><?php echo $this->item->getOverview(); ?></td> 
+                </tr>                
+                <tr>
+                    <th class="hidden-mobile">Action</th>
+                    <td>
+                        <a style="color: #fff" href="<?php echo $this->url('cruises-edit', array( 'id' => $this->item->getId()))?>">
+                            <button class="btn btn-primary ajax-action" >
+                                Edit
+                            </button>
+                        </a>
+                    </td> 
+                </tr>
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
+<!--    </div>
+
+</div>-->

@@ -1,0 +1,311 @@
+<?php //d($this->data);
+    $money = '$ ';    
+?>
+<h4>Preview Reservation</h4>
+<hr />
+<table class="table table-bordered table-mod-2" id="datatable_3">
+    <tbody>                        
+        <?php if(isset($this->data['type'])):?>
+        <tr>        
+            <td class="hidden-mobile" width="200px;"><b>Reservation Type</b></td>
+            <td class="hidden-mobile">
+                <?php 
+                    switch ($this->data['type']){
+                        case 1: 
+                            echo 'Resort (FIT)';
+                            break;
+                        case 2:
+                            echo 'Event (Group)';
+                            break;
+                        case 3:
+                            echo 'Cruise';
+                            break;
+                    }                
+                ?>
+            </td>            
+        </tr>   
+        <?php endif;?>          
+        <?php if(isset($this->data['resortId'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Hotel Name</b></td>
+            <td class="hidden-mobile"><?php echo isset($this->data['hotel']) ? $this->data['hotel']:''; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['eventId'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Event Name</b></td>
+            <td class="hidden-mobile"><?php echo isset($this->data['event'])?$this->data['event']:''; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['cruiseId'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Cruise Name</b></td>
+            <td class="hidden-mobile"><?php echo isset($this->data['cruise'])? $this->data['cruise']:''; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['roomCategory'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Room Category</b></td>
+            <td class="hidden-mobile"><?php echo isset($this->data['room'])? $this->data['room']:''; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['suiteName'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Suite Name</b></td>
+            <td class="hidden-mobile"><?php echo isset($this->data['suite'])? $this->data['suite']:''; ?></td>
+        </tr>                               
+        <?php endif;?>
+        
+        <?php if(isset($this->data['travelFrom'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Date From</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['travelFrom']; ?></td>
+        </tr>                               
+        <?php endif;?>                
+        <?php if(isset($this->data['travelTo'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Date To</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['travelTo']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['noOfDays'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>No Of Days</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['noOfDays']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['roomRate'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Room Rate (Per Night)</b></td>
+            <td class="hidden-mobile"><?php echo $money.$this->data['roomRate']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['roomRequired'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Room Required</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['roomRequired']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['travellerName'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Name</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['travellerName']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['travellerEmail'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Email</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['travellerEmail']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['travellerPhone'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Phone</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['travellerPhone']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['travellerDOB'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>DOB</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['travellerDOB']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['travellerAddress'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Address</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['travellerAddress']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['travellerCity'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>City</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['travellerCity']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['travellerState'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>State/Province</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['travellerState']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['travellerCountry'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Country</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['travellerCountry']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['travellerZip'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Zip</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['travellerZip']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['tname'])):?>
+        <td class="hidden-mobile"><b>Other Travellers</b></td>
+            <td class="hidden-mobile">
+                <table class="table table-bordered table-mod-2" >
+                <tr>
+                    <th class="hidden-mobile">Name</th>
+                    <th class="hidden-mobile">Email</th>
+                    <th class="hidden-mobile">Phone</th>
+                    <th class="hidden-mobile">DOB</th>
+                    <th class="hidden-mobile">Address</th>
+                </tr>
+                <?php $i = 0; foreach ($this->data['tname'] as $traveller):?>
+                <tr>            
+                    <td class="hidden-mobile"><?php echo $traveller; ?></td>
+                    <td class="hidden-mobile"><?php echo $this->data['tEmail'][$i]; ?></td>
+                    <td class="hidden-mobile"><?php echo $this->data['tPhone'][$i]; ?></td>
+                    <td class="hidden-mobile"><?php echo $this->data['tDob'][$i]; ?></td>
+                    <td class="hidden-mobile"><?php echo $this->data['tAddress'][$i]; ?></td>                    
+                </tr>                               
+            <?php $i++; endforeach;?>
+            </table></td>
+        <?php endif;?>
+        
+        <?php if(isset($this->data['noOfPersons'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>No Of Persons</b></td>
+            <td class="hidden-mobile"><?php echo $this->data['noOfPersons']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['flight'])):?>
+            <?php if(isset($this->data['flightGoingAway'])):?>
+            <tr>
+                <td class="hidden-mobile"><b>Flight Going Away</b></td>
+                <td class="hidden-mobile"><?php echo $this->data['flightGoingAway']; ?></td>
+            </tr>                               
+            <?php endif;?>
+            <?php if(isset($this->data['flightReturnHome'])):?>
+            <tr>
+                <td class="hidden-mobile"><b>Flight Return Home</b></td>
+                <td class="hidden-mobile"><?php echo $this->data['flightReturnHome']; ?></td>
+            </tr>                               
+            <?php endif;?>
+            <?php if(isset($this->data['returnFrom'])):?>
+            <tr>
+                <td class="hidden-mobile"><b>Return From</b></td>
+                <td class="hidden-mobile"><?php echo $this->data['returnFrom']; ?></td>
+            </tr>                               
+            <?php endif;?>
+            <?php if(isset($this->data['returnTo'])):?>
+            <tr>
+                <td class="hidden-mobile"><b>Return To</b></td>
+                <td class="hidden-mobile"><?php echo $this->data['returnTo']; ?></td>
+            </tr>                               
+            <?php endif;?>
+            <?php if(isset($this->data['flightTotalCost'])):?>
+            <tr>
+                <td class="hidden-mobile"><b>Flight Total Cost</b></td>
+                <td class="hidden-mobile"><?php echo $money.$this->data['flightTotalCost']; ?></td>
+            </tr>                               
+            <?php endif;?>        
+        <?php else:?>
+              <tr>
+                <td class="hidden-mobile"><b>Flight</b></td>
+                <td class="hidden-mobile"><?php echo 'No'; ?></td>
+            </tr>                                 
+        <?php endif;?> 
+        <?php if(isset($this->data['items'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Items</b></td>
+            <td class="hidden-mobile">
+                <ul>
+                    <?php foreach ($this->data['items'] as $item):?>
+                        <li><?php echo $this->data['itemsArray'][$item];?></li>
+                    <?php endforeach;?>
+                </ul>
+            </td>
+        </tr>                               
+        <?php endif;?>        
+        <?php if(isset($this->data['itemsCost'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Items Cost</b></td>
+            <td class="hidden-mobile"><?php echo $money.$this->data['itemsCost']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['totalCost'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Total Cost</b></td>
+            <td class="hidden-mobile"><?php echo $money.$this->data['totalCost']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['discount'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Discount</b></td>
+            <td class="hidden-mobile"><?php echo $money.$this->data['discount']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['merchantFee'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Merchant Fee</b></td>
+            <td class="hidden-mobile"><?php echo $money.$this->data['merchantFee']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['finalCost'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Final Cost</b></td>
+            <td class="hidden-mobile"><?php echo $money.$this->data['finalCost']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['paymentType'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Payment Type</b></td>
+            <td class="hidden-mobile">
+                <?php 
+                    if($this->data['paymentType']){
+                        echo 'Full Payment';
+                    }else{
+                        echo 'Deposit';
+                    }                                  
+                ?>
+            </td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['depositAmount'])):?>
+        <tr>
+            <td class="hidden-mobile"><b>Deposit Amount</b></td>
+            <td class="hidden-mobile"><?php echo $money.$this->data['depositAmount']; ?></td>
+        </tr>                               
+        <?php endif;?>
+        <?php if(isset($this->data['paymentType'])? !$this->data['paymentType'] : false):?>
+            
+            <?php if(isset($this->data['depositMethod'])):?>
+            <tr>
+                <td class="hidden-mobile"><b>Deposit Method</b></td>
+                <td class="hidden-mobile">
+                    <?php
+                        if(!$this->data['depositMethod']){
+                            echo 'Deposit Due';
+                        }else{
+                            echo 'RCVD';
+                        }                        
+                    ?>
+                </td>
+            </tr>                               
+            <?php endif;?>
+            <?php if(isset($this->data['balansAfterDeposit'])):?>
+            <tr>
+                <td class="hidden-mobile"><b>Balans After Deposit</b></td>
+                <td class="hidden-mobile"><?php echo $money.$this->data['balansAfterDeposit']; ?></td>
+            </tr>                               
+            <?php endif;?>
+            <?php if(isset($this->data['nextPaymentDue'])):
+                $j=1;
+                for($i=0; $i < count($this->data['nextPaymentDue']); $i++):
+                ?>
+            <tr>
+                <td class="hidden-mobile"><b>Payment Due <?php echo $j;?></b></td>
+                <td class="hidden-mobile"><?php echo $money.$this->data['nextPaymentDue'][$i]; ?></td>
+            </tr>                               
+
+            <tr>
+                <td class="hidden-mobile"><b>Due Date <?php echo $j;?></b></td>
+                <td class="hidden-mobile"><?php echo $this->data['dueDate1'][$i]; ?></td>
+            </tr>                               
+            <?php $j++;endfor;endif; ?>
+                     
+        <?php endif;?>        
+    </tbody>
+</table>
+<div class="clearfix"></div>

@@ -1,0 +1,12 @@
+<label for="suiteId" class="required">Suite Name</label>                    
+<div class="formRight">    
+    <select name="suiteId" required="required" class="chzn-select chosen_select width-100">        
+        <option value="">please select suite...</option>
+        <?php foreach ($this->collection as $item):?>                
+            <option value="<?php echo $item['id'];?>"><?php echo $item['suiteName'];?></option>
+        <?php endforeach;?>    
+    </select> 
+</div>
+<script>
+    $('.chzn-select').chosen();
+</script>

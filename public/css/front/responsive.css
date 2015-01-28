@@ -1,0 +1,143 @@
+@media only screen and (max-width:960px) {
+img {max-width:100%; height:auto;}
+
+
+			#content-section{ border-top:1px solid #7f7f7f; width:96%; margin:40px auto; padding:40px 2% 0px 2%; }
+			
+			#step01 .roomdetails{ width:100%; float:none; margin:0px; padding:0px; display:table; }
+			#step01 .roomprice{ width:100%; float:none; margin:0px; padding:0px; display:table; }
+			
+			#step01 .roomdetails .textsection{ height:auto; margin:0px; padding:0px; }
+			
+			.btn{ color:#fff; background:#414141; border-radius:7px; -moz-border-radius:7px; -webkit-border-radius:7px; text-align:center; font-size:18px; width:170px; height:50px; text-decoration:none; float:none; line-height:50px; cursor:pointer; margin:0px 10px 10px 0px; display:block; }
+			
+			
+			
+			
+			#step02{ width:100%; margin:0px; padding:10px 0px; border-bottom:1px solid #7f7f7f; }
+	
+		#step02 .fbox01{ margin:0px; padding:0px 0px 35px 0px; display:table; width:100%; color:#959595; font-size:14px; }
+			#step02 .fbox01 .b01{ width:90; float:none; line-height:26px; }
+			#step02 .fbox01 .b02{ width:90%; float:none; padding:0px 2% 0px 0px; }
+			
+		
+		#step02 .fbox02{ margin:0px; padding:0px 0px 35px 0px; display:table; width:100%; color:#959595; font-size:14px; }
+			#step02 .fbox02 .b01{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox02 .b02{ width:90%; float:none; padding:0px 2% 0px 0px; }
+			#step02 .fbox02 .b03{ width:90%; float:none; }
+			#step02 .fbox02 .b04{ width:90%; float:none; line-height:26px; }
+			
+			#step02 .fbox02 .b05{ width:90%; float:none; padding:0px 2% 0px 0px;  }
+			
+		#step02 h2.travelinfo{ color:#240e24; font-size:17px; margin:0px 0px 20px 0px;}
+		
+		
+		#step02 .fbox03{ margin:0px; padding:0px 0px 15px 0px; display:table; width:100%; color:#959595; font-size:14px; }
+			#step02 .fbox03 .b01{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox03 .b02{ width:90%; float:none; padding:0px 2% 0px 0px; }
+			#step02 .fbox03 .b03{ width:90%; float:none; }
+			#step02 .fbox03 .b04{ width:90%; float:none; line-height:26px; }
+			
+			#step02 .fbox03 .b05{ width:18%; float:none; padding:0px 2% 0px 0px;  }
+			
+			
+			#step02 .fbox04{ margin:0px; padding:0px 0px 15px 0px; display:table; width:100%; color:#959595; font-size:14px; }
+			#step02 .fbox04 .b01{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox04 .b02{ width:90%; float:none; padding:0px 2% 0px 0px; }
+			#step02 .fbox04 .b03{ width:90%; float:none; }
+			#step02 .fbox04 .b04{ width:90%; float:none; line-height:26px; }
+			
+			#step02 .fbox04 .b05{ width:90%; float:none; padding:0px 2% 0px 0px;  }
+			#step02 .fbox04 .b06{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox04 span{ color:#000; font-style:italic; }
+			
+			
+			#step02 .fbox05{ margin:0px; padding:0px 0px 15px 0px; display:table; width:100%; color:#959595; font-size:14px; }
+			#step02 .fbox05 .b01{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox05 .b02{ width:90%; float:none; padding:0px 2% 0px 0px; }
+			#step02 .fbox05 .b03{ width:90%; float:none; }
+			#step02 .fbox05 .b04{ width:90%; float:none; line-height:26px; }
+			
+			#step02 .fbox05 .b05{ width:90%; float:none; padding:0px 0% 0px 2%;  }
+			#step02 .fbox05 .b06{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox05 span{ color:#000; font-style:italic; line-height:26px; }
+			
+			
+			#step02 .fbox06{ margin:0px; padding:0px 0px 15px 0px; display:table; width:100%; color:#959595; font-size:14px; line-height:26px; }
+			#step02 .fbox06 .b01{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox06 .b02{ width:90%; float:none; padding:0px 2% 0px 0px; }
+			#step02 .fbox06 .b03{ width:90%; float:none; }
+			#step02 .fbox06 .b04{ width:90%; float:none; line-height:26px; }
+			
+			#step02 .fbox06 .b05{ width:90%; float:none; padding:0px 0% 0px 2%;  }
+			#step02 .fbox06 .b06{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox06 span{ color:#000; font-style:italic; line-height:26px; }
+			
+			
+			#step02 .fbox07{ margin:0px; padding:30px 0px 15px 0px; display:table; width:100%; color:#959595; font-size:14px; line-height:26px; }
+			#step02 .fbox07 .b01{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox07 .b02{ width:90%; float:none; padding:0px 2% 0px 0px; }
+			#step02 .fbox07 .b03{ width:90%; float:none; }
+			#step02 .fbox07 .b04{  width:90%; float:none; padding:0px 2% 0px 0px; text-align:right; }
+			
+			#step02 .fbox07 .b05{ width:90%; float:none; padding:0px 0% 0px 2%;  }
+			#step02 .fbox07 .b06{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox07 span{ color:#000; font-style:italic; line-height:26px; }
+			
+			
+			#step02 .fbox08{ margin:0px; padding:0px 0px 25px 0px; display:table; width:100%; color:#959595; font-size:14px; line-height:26px; }
+			#step02 .fbox08 .b01{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox08 .b02{ width:90%; float:none; padding:0px 2% 0px 0px; }
+			#step02 .fbox08 .b03{ width:90%; float:none; }
+			#step02 .fbox08 .b04{  width:90%; float:none; padding:0px 2% 0px 0px; text-align:right; }
+			
+			#step02 .fbox08 .b05{ width:90%; float:none; padding:0px 0% 0px 2%;  }
+			#step02 .fbox08 .b06{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox08 span{ color:#000; font-style:italic; line-height:26px; }
+			
+			
+			#step02 .fbox09{ margin:0px; padding:0px 0px 25px 0px; display:table; width:100%; color:#959595; font-size:14px; line-height:26px; }
+			#step02 .fbox09 .b01{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox09 .b02{ width:90%; float:none; padding:0px 2% 0px 0px; }
+			#step02 .fbox09 .b03{ width:90%; float:none; }
+			#step02 .fbox09 .b04{  width:90%; float:none; padding:0px 2% 0px 0px; text-align:right; }
+			
+			#step02 .fbox09 .b05{ width:90%; float:none; padding:0px 0% 0px 2%;  }
+			#step02 .fbox09 .b06{ width:90%; float:none; line-height:26px; }
+			#step02 .fbox09 span{ color:#000; font-style:italic; line-height:26px; }
+			
+			#step02 .fbox09 a.btn{ margin:12px 0px 0px 0px; float:right; clear:both; }
+			
+			
+			
+			
+			#step03 .box01 .l01{ width:90%; margin:0px; padding:0px; float:none; }
+		#step03 .box01 .l03{ width:90%; margin:0px; padding:10px 5% 0px 0px; float:none; text-align:left; }
+		#step03 .box01 .l02{ width:90%; margin:0px; padding:10px 3% 0px 3%; float:none; text-align:center; color:#000; font-size:18px; font-style:italic; }
+		
+		
+		.cbp-ntaccordion h3 {	font-family:"Myriad Pro"; color:#240e24; font-size:32px; font-weight:normal;  height:60px; line-height:40px; text-align:left; border-bottom:none; padding:10px 0px;  }
+		
+		
+		#step05 .formbox01 .left{ width:100%; margin:0px; padding:0px; float:none; }
+		
+		#step05 .formbox01 .right{ width:100%; margin:0px; padding:10px 0 0 0; float:none; }
+
+			
+		
+}
+
+@media only screen and (min-width:480px) and (max-width:640px){
+	
+}
+
+@media only screen and (min-width:760px) and (max-width:1024px) {
+img {max-width:100%; height:auto;}
+
+
+		
+				
+
+		
+
+}

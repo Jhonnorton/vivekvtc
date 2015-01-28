@@ -1,0 +1,38 @@
+<div class="formRow control-group">
+    <?php echo $this->formLabel($form->get('totalCost')); ?>
+    <div class="formRight">
+        <?php echo $this->formElement($form->get('totalCost')->setAttribute('class', 'span input')); ?>                    
+    </div>
+</div>
+
+<?php echo $this->partial('partial/orders_form/promos_part_edit'); ?>
+
+<!--<div class="formRow control-group">
+    <?php echo $this->formLabel($form->get('merchantFee')); ?>
+    <div class="formRight">
+        <?php //echo $this->formElement($form->get('merchantFee')->setAttribute('class', 'span input')); ?> 
+        <input type="number" value="0.00" class="span input" step="any" min="0" id="merchantFee" name="merchantFee">
+    </div>
+</div>-->
+
+<div class="formRow control-group">
+    <?php echo $this->formLabel($form->get('finalCost')); ?>
+    <div class="formRight">
+        <?php echo $this->formElement($form->get('finalCost')->setAttribute('class', 'span input')); ?>                    
+    </div>
+</div>
+
+<script>
+$(function() {
+    
+});
+
+function calcFinalCost(){      
+    
+    var finalCost = 0;
+    var discount = 0;
+    var merchantFee = 0;
+    var finalCost = totalCost - discount + merchantFee;
+    $('input[name="finalCost"]').val(finalCost);
+}
+</script>

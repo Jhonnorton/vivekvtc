@@ -1,0 +1,188 @@
+
+<!--BEGIN SIDEBAR-->
+<div id="menu" role="navigation">
+	
+	<ul class="main-menu">
+		<li class="<?php echo ($this->modulename == 'Users')? 'active': '';?>">
+			<a href="<?php echo $this->url('users');?>"><i class="icon-user"></i> Users</a>
+		</li>
+		<li class="<?php echo ($this->modulename == 'Orders')? 'active': '';?>">
+			<a href="<?php echo $this->url('orders')?>"><i class="icon-shopping-cart"></i> Reservation</a>
+		</li>
+                
+                
+                 <li class="<?php echo ($this->modulename == 'Reseller')? 'active': '';?>">
+			<a href="<?php echo $this->url('affiliate');?>"><i class="icon-th-large"></i>Reseller</a>
+		</li>
+                
+                <li class="<?php echo ($this->modulename == 'Sales')? 'active': '';?>">
+			<a href="<?php echo $this->url('promos');?>"><i class="icon-th-large"></i>Sales</a>
+		</li>
+                
+                
+                <li class="<?php echo ($this->modulename == 'Leads')? 'active': '';?>">
+			<a href="<?php echo $this->url('leads');?>"><i class="icon-th-large"></i>Leads</a>
+		</li>
+
+
+		<li class="<?php echo ($this->modulename == 'Payments')? 'active': '';?>">
+			<a href="<?php echo $this->url('payments');?>"><i class="icon-th-large"></i>Payments</a>
+		</li>
+                
+                
+                
+		<li class="<?php echo ($this->modulename == 'Accounts')? 'active': '';?>">
+			<a href="<?php echo $this->url('accounts');?>"><i class="icon-envelope"></i> Accounts</a>
+		</li>
+                
+                
+                <li class="<?php echo ($this->modulename == 'Reports')? 'active': '';?>">
+			<a href="<?php echo $this->url('reports');?>"><i class="icon-th-large"></i>Reports</a>
+		</li>
+                
+		<li class="<?php echo ($this->modulename == 'SalesObjects')? 'active': '';?>">
+			<a href="<?php echo $this->url('hotels');?>"><i class="icon-sitemap"></i> CMS</a>
+		</li>
+                <li class="<?php echo ($this->modulename == 'Inventory')? 'active': '';?>">
+			<a href="<?php echo $this->url('inventory-resort-rooms');?>"><i class="icon-th-large"></i>Manage Inventory</a>
+		</li>
+             
+                
+                
+		<li class="<?php echo ($this->modulename == 'Sendmail')? 'active': '';?>">
+			<a href="<?php echo $this->url('sendmail');?>"><i class="icon-envelope"></i> Emails</a>
+		</li>
+                
+                <li class="<?php echo ($this->modulename == 'Manageclients')? 'active': '';?>">
+			<a href="<?php echo $this->url('manageclients');?>"><i class="icon-user"></i>Clients</a>
+		</li>
+                
+                <li class="<?php echo ($this->modulename == 'Marketing')? 'active': '';?>">
+			<a href="<?php echo $this->url('marketing-newsletter');?>"><i class="icon-user"></i>Marketing</a>
+		</li>
+                <li class="<?php echo ($this->modulename == 'Settings')? 'active': '';?>">
+			<a href="<?php echo $this->url('settings');?>"><i class="icon-wrench"></i>Settings</a>
+		</li>
+               
+	</ul>
+	
+	<?php if($this->url('base') !== $this->url()) echo $this->partial('partial/base/additional-menu/'.strtolower($this->modulename)) ?>
+	
+	
+	<!--New Files-->
+<!-- 	<div class="new-files"> -->
+<!-- 		<div class="title">New Files</div> -->
+
+<!-- 		<div class="files"> -->
+<!-- 			<div class="file"> -->
+<!-- 				<div class="file-format"> -->
+<!-- 					<img src="images/icon/file_pdf.png" alt=""> -->
+<!-- 				</div> -->
+<!-- 				<div class="file-info"> -->
+<!-- 					<div class="file-name"> -->
+<!-- 						Mani_CV.pdf <a href="#"><i class="icon-remove"></i></a> -->
+<!-- 					</div> -->
+<!-- 					<div class="file-date">January 30, 2013</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="file"> -->
+<!-- 				<div class="file-format"> -->
+<!-- 					<img src="images/icon/file_doc.png" alt=""> -->
+<!-- 				</div> -->
+<!-- 				<div class="file-info"> -->
+<!-- 					<div class="file-name"> -->
+<!-- 						Mani_CV.doc <a href="#"><i class="icon-remove"></i></a> -->
+<!-- 					</div> -->
+<!-- 					<div class="file-date">January 30, 2013</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="file"> -->
+<!-- 				<div class="file-format"> -->
+<!-- 					<img src="images/icon/file_jpg.png" alt=""> -->
+<!-- 				</div> -->
+<!-- 				<div class="file-info"> -->
+<!-- 					<div class="file-name"> -->
+<!-- 						Mani_CV.jpg <a href="#"><i class="icon-remove"></i></a> -->
+<!-- 					</div> -->
+<!-- 					<div class="file-date">January 30, 2013</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="file"> -->
+<!-- 				<div class="file-format"> -->
+<!-- 					<img src="images/icon/file_xls.png" alt=""> -->
+<!-- 				</div> -->
+<!-- 				<div class="file-info"> -->
+<!-- 					<div class="file-name"> -->
+<!-- 						Mani_CV.xls <a href="#"><i class="icon-remove"></i></a> -->
+<!-- 					</div> -->
+<!-- 					<div class="file-date">January 30, 2013</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="file"> -->
+<!-- 				<div class="file-format"> -->
+<!-- 					<img src="images/icon/file_zip.png" alt=""> -->
+<!-- 				</div> -->
+<!-- 				<div class="file-info"> -->
+<!-- 					<div class="file-name"> -->
+<!-- 						Mani_CV.zip <a href="#"><i class="icon-remove"></i></a> -->
+<!-- 					</div> -->
+<!-- 					<div class="file-date">January 30, 2013</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="file"> -->
+<!-- 				<div class="file-format"> -->
+<!-- 					<img src="/images/icon/file_txt.png" alt=""> -->
+<!-- 				</div> -->
+<!-- 				<div class="file-info"> -->
+<!-- 					<div class="file-name"> -->
+<!-- 						Mani_CV.txt <a href="#"><i class="icon-remove"></i></a> -->
+<!-- 					</div> -->
+<!-- 					<div class="file-date">January 30, 2013</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+
+<!-- 		</div> -->
+<!-- 	</div> -->
+	<!--New Files END-->
+
+	<!--Upload Box-->
+<!-- 	<div class="upload-box"> -->
+<!-- 		Drop files <br> here to upload -->
+<!-- 	</div> -->
+	<!--Upload Box END-->
+
+	<!--Media Files-->
+<!-- 	<div class="media-files"> -->
+<!-- 		<div class="title">Media Files</div> -->
+<!-- 		<p>This is Photoshop's version of Lorem Ipsum.</p> -->
+
+<!-- 		<div class="media-files-info-box"> -->
+<!-- 			<i class="icon-picture"></i> Photo <strong>35%</strong> -->
+<!-- 			<div class="process-progress">
+				<div class="advance red" style="width: 35%"></div>
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 		<div class="media-files-info-box"> -->
+<!-- 			<i class="icon-facetime-video"></i> Video <strong>43%</strong> -->
+<!-- 			<div class="process-progress"> 
+				<div class="advance blue" style="width: 43%"></div>
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 		<div class="media-files-info-box"> -->
+<!-- 			<i class="icon-music"></i> Audio <strong>23%</strong> -->
+<!-- 			<div class="process-progress"> 
+				<div class="advance green" style="width: 23%"></div>
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+	<!--Media Files END-->
+
+	<!--Add New Widget-->
+<!-- 	<a href="#" class="add-widget-link">Add New Widget</a> -->
+	<!--Add New Widget END-->
+
+	<div class="clearfix"></div>
+
+
+</div>
+<!--SIDEBAR END-->

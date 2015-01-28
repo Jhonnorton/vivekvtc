@@ -1,0 +1,223 @@
+<?php
+$form = $this->form;
+
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'promos-add'
+));
+
+$form->setAttribute('method', 'post');
+$form->setAttribute('enctype', 'multipart/form-data');
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Add New Promo</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('promoNames')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('promoNames')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('promoNames'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>  
+
+
+        <div class="formRow control-group">
+            <div class="formRight">
+                <div name="promotypes" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="general" class="load-client1" name="promotype" checked="checked" value="1">
+                        <label for="general"><span></span>General</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="individual" class="load-client1" name="promotype" value="2" >
+                        <label for="individual"><span></span>Individual</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="individualinfo" style="display:none">
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('Name')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('Name')->setAttribute('class', '')); ?>
+                    <?php echo $this->formElementErrors($form->get('Name'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+
+            <!-- Existing client email -->
+
+
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('Email')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('Email')->setAttribute('class', 'span input')); ?>
+                    <?php echo $this->formElementErrors($form->get('Email'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('linkedTo')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('linkedTo')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+                <?php echo $this->formElementErrors($form->get('linkedTo'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div id="ajax-data" class="formRow control-group"></div>
+      
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('dateFrom')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('dateFrom')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('dateFrom'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('dateTo')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('dateTo')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('dateTo'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('discountType')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('discountType')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+                <?php echo $this->formElementErrors($form->get('discountType'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        
+       
+        
+        
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('discount')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('discount')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('discount'), array('class' => 'help-inline')); ?>
+            </div>
+        </div> 
+
+        
+         <div class="formRow control-group">
+            <div class="formRight">
+                <div name="validitytype" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="limited" class="load-client1" name="validity" checked="checked" value="1">
+                        <label for="limited"><span></span>Limited</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="unlimited" class="load-client1" name="validity" value="2" >
+                        <label for="unlimited"><span></span>Unlimited</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="validityinfo" >
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('numberAvailable')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('numberAvailable')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('numberAvailable'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+            
+         <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('isActive')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('isActive')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+                <?php echo $this->formElementErrors($form->get('isActive'), array('class' => 'help-inline')); ?>
+            </div>
+        </div> 
+        </div>
+          <div class="formRow control-group">
+          <?php echo $this->formLabel($form->get('promoCode')); ?>
+          <div class="formRight">
+          <?php echo $this->formElement($form->get('promoCode')->setAttribute('class', 'span input')); ?>
+          <?php echo $this->formElementErrors($form->get('promoCode'), array('class' => 'help-inline')); ?>
+          </div>
+     
+        <div class="formRow control-group">
+            <?php echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+            <input id="resetbutton" class="btn btn-info" type="reset" value="Reset" name="reset"></input>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+    <?php echo $this->form()->closeTag() ?>
+</div>
+
+
+<script>
+    $(function(){ 
+    $('input[name=promotype]').click(function() {
+    
+       
+    if ($(this).val() === '1') {
+       $('.individualinfo').hide();
+      
+    } else if ($(this).val() === '2') {
+    
+             $('.individualinfo').show();
+    } 
+    });
+    
+    
+     $('input[name=validity]').click(function() {
+    
+       
+    if ($(this).val() === '1') {
+    
+       // alert(1);
+       $('.validityinfo').show();
+      
+    } else if ($(this).val() === '2') {
+             //alert(2);
+             $('.validityinfo').hide();
+    } 
+    });
+
+
+    });	 
+
+</script>  
+
+<script>
+    $(function(){
+    $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+    $('.error input').keyup(function(){
+    $(this).parents('.formRow').removeClass('error');
+    $(this).next('ul.help-inline').remove();
+    });
+
+    $('#linkedTo').change(function(){  
+    var typeCode = $(this).val(); 
+    $.post('/admin/inventory/ajax/promo/linkedto/'+typeCode,{id:typeCode}, function(data){            
+    $('#ajax-data').html(data);                        
+    });
+    });    
+    });				
+</script>
+
+

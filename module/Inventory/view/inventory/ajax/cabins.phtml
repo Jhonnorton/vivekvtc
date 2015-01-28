@@ -1,0 +1,25 @@
+<label for="suiteId" class="required">Suite Name</label>                    
+<div class="formRight">    
+    <select name="suiteId" required="required" class="chzn-select chosen_select width-100 cabinId">        
+        <option value="">please select suite...</option>
+        <?php foreach ($this->collection as $item):?>                
+            <option value="<?php echo $item['id'];?>"><?php echo $item['suiteName'];?></option>
+        <?php endforeach;?>    
+    </select> 
+</div>
+
+<input type="hidden" name="cruiseStart" id="hid-start" value="<?php echo $this->data->getTourStartDate()->format('Y-m-d'); ?>">
+<input type="hidden" name="cruiseEnd" id="hid-end" value="<?php echo $this->data->getTourEndDate()->format('Y-m-d'); ?>">
+<script>
+    $('.chzn-select').chosen();
+    
+      $('.cabinId').change(function() {
+        var id = $(this).val();
+        $.post('/admin/inventory/ajax/cruise/cabinbyid/' + id, {id: id}, function(data) {
+            d = jQuery.parseJSON(data);
+           // $("#noa").val(d.stock);
+            $("#deckNumber").val(d.deckNumber);
+            $("#netPrice").val(d.price);
+        });
+    });
+</script>

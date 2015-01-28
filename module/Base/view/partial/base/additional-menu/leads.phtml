@@ -1,0 +1,34 @@
+<ul class="additional-menu">
+	
+    <li class="menu-group">
+        <a href="<?php echo $this->url('leads'); ?>">
+            <i class="icon-home"></i>Leads
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('leads')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('leads'); ?>"><i class="icon-list"></i> View Leads</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('leads-resort')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('leads-resort'); ?>"><i class="icon-list"></i> Resort Leads</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('leads-cruise')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('leads-cruise'); ?>"><i class="icon-list"></i> Cruise Leads</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('leads-event')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('leads-event'); ?>"><i class="icon-list"></i> Event Leads</a>
+            </li>
+
+            <li <?php if ($this->url() === $this->url('leads-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('leads-add'); ?>"><i class="icon-plus"></i> Create Leads</a>
+            </li>
+
+
+
+
+        </ul>
+    </li>
+
+</ul>

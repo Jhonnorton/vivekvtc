@@ -1,0 +1,113 @@
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php 
+    endif;
+endif;
+
+
+?>
+<style>
+.grid-title .pull-left span {
+    width: 350px;
+}
+</style>
+<?php
+$id = $item->getId();
+
+?>
+
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-plus"></i>
+			</div>
+			<span><?php echo $item->getName();?> Note's</span>
+			<div class="clearfix"></div>
+		</div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a title="Add Note" href="<?php echo $this->url('manageclients-notes', array('id' => $item->getId())); ?>"><i class="icon-plus-sign"></i></a>
+            </div>
+        </div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="grid-content overflow">
+                <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+                    <th class="hidden-mobile">Subject</th>
+                    <th class="hidden-mobile">Message</th>
+                    <th class="hidden-mobile">Reminder Time</th>    
+                    <th class="hidden-mobile">Actions</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                <?php $i = 1;
+                foreach ($this->note as $notes): ?>
+                    <tr>
+                        
+                        <td><?php echo $notes->getSubject(); ?></td>
+                        <td><?php echo substr($notes->getMessage(), 0, 70); ?></td>
+                        <td><?php echo $date = ($notes->getReminderDate() instanceof \DateTime) ? $notes->getReminderDate()->format('Y-m-d') : $notes->getReminderDate(); ?></td>                        
+                        <td class="action-table">
+                            <a data-toggle="modal" title="View" href="<?php echo $this->url('manageclients-noteview', array('id' => $notes->getId())); ?>" data-target=".bs-example-modal-lg">
+                                <img src="/images/icon/table_view.png" alt="">
+                            </a>
+                            <a title="Edit Note" href="<?php echo $this->url('manageclients-editnotes', array('id' => $notes->getId())); ?>">
+                                <img src="/images/icon/noteicon.png" alt="">
+                            </a>
+                            
+                            <a title="Delete Note" href="<?php echo $this->url('manageclients-deletenotes', array('id' => $notes->getId())); ?>"data-confirm="Are you sure?">
+                                <img src="/images/icon/table_del.png" alt="">
+                            </a>
+                            
+                        </td>
+                    </tr>
+                    <?php $i++; ?>
+<?php endforeach; ?>
+            </tbody>
+        </table>
+		<div class="clearfix"></div>
+	</div>
+	
+</div>
+<?php echo $this->partial('users/ajax/modal.phtml');?>
+<script>
+
+	function checkPass(){
+
+		var pass = $('#pass1').val();
+		var repass = $('#pass2').val();
+
+		console.log(pass !== repass && pass == '');
+		
+		if(pass !== repass || pass == '' || repass == ''){
+			$('#pass1, #pass2').parents('.formRow').addClass('error');//.append('<ul class="help-inline"><li>Password does not match the confirm password</li></ul>')
+			$('#submitbutton').attr('disabled', 'disabled');
+		}else{
+			$('#pass1, #pass2').parents('.formRow').removeClass('error').addClass('success');
+			$('#submitbutton').removeAttr('disabled');
+		} 
+	};			
+				
+	$(function(){
+		$('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+		$('.error input').keyup(function(){
+					$(this).parents('.formRow').removeClass('error');
+					$(this).next('ul.help-inline').remove();
+		});
+
+		$('#pass1, #pass2').keyup(checkPass);
+	});				
+</script>
+
+

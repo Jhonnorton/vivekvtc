@@ -1,0 +1,283 @@
+<?php 
+
+$form = $this->form;
+//$strtdate=$form->get('startingFrom')->getValue()->format('Y-m-d');
+
+$form->prepare();
+$form->setAttribute('action', $this->url(
+		'users-edit', array('id' => $form->get('id')->getValue())
+));
+
+$form->setAttribute('method', 'post');
+$form->setAttribute('enctype', 'multipart/form-data');
+
+if($form->get('startingFrom')->getValue() instanceof DateTime)
+	$form->get('startingFrom')->setValue($form->get('startingFrom')->getValue()->format('Y-m-d')); // DateTime to str fix;
+
+
+?>
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-edit"></i>
+			</div>
+			<span>Edit User</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<?php echo $this->form()->openTag($form); ?>
+	<?php echo $this->formElement($form->get('id')); ?>
+	<div class="grid-content">
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('login')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('login')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('login'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+            
+            
+            
+            
+            
+             <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('firstName')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('firstName')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('firstName'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('lastName')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('lastName')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('lastName'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('email')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('email')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('email'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+            
+            <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('phone')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('phone')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('phone'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('address')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('address')->setAttribute('class', 'span input same-height-1')->setAttribute('rows', '3')); ?>
+                <?php echo $this->formElementErrors($form->get('address'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>  
+            
+                <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('suite')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('suite')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('suite'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('city')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('city')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('city'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('state')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('state')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('state'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+            
+            
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('country')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('country')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+                <?php echo $this->formElementErrors($form->get('country'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('role')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('role')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+                <?php echo $this->formElementErrors($form->get('role'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+            
+           <div class="formRow control-group">
+            <label for="accountType"> <?php echo $this->formLabel($form->get('payroll')); ?></label>
+            <div class="formRight">
+                <div class="distance distance-2">
+                    <p>
+                        <input type="radio" name="payroll" id="yes" value="1"  <?php if ($form->get('payroll')->getValue()==1) echo 'checked="checked"'; ?>>
+                        <label for="yes"><span></span>Yes</label>
+                    </p>
+                    <p id="deposit-hide">
+                        <input type="radio" name="payroll" id="no" value="0"  <?php if($form->get('payroll')->getValue()==0) echo 'checked="checked"';  ?>>
+                        <label for="no"><span></span> No</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+            
+            
+        <div class="formRow control-group">
+
+            <label for="accountType">Payment Type</label>
+            <div class="formRight">
+                <div name="accountType" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="salary" class="load-entity" name="accountType"  <?php if($form->get('accountType')->getValue() == 0){echo "checked='checked'";} ?> value="0" >
+                        <label for="salary"><span></span>Salary</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="commision" class="load-entity" <?php if($form->get('accountType')->getValue() == 1){echo "checked='checked'";} ?> name="accountType" value="1" >
+                        <label for="commision"><span></span>commission</label>
+                    </p>
+                    
+                    
+                    <p>
+                        <input type="radio" id="both" class="load-entity" <?php if($form->get('accountType')->getValue() == 2){echo "checked='checked'";} ?> name="accountType" value="1" >
+                        <label for="both"><span></span>Both</label>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+            
+             <div class="formRow control-group">
+
+            <label for="paySchedule">Payment Schedule</label>
+            <div class="formRight">
+                <div name="paySchedule" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="weekly" class="load-entity" name="paySchedule"<?php if($form->get('paySchedule')->getValue() == 0){echo "checked='checked'";} ?> value="0" >
+                        <label for="weekly"><span></span>Weekly</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="bi-weekly" class="load-entity" <?php if($form->get('paySchedule')->getValue() == 1){echo "checked='checked'";} ?> name="paySchedule" value="1" >
+                        <label for="bi-weekly"><span></span>Bi-Weekly</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="monthly" class="load-entity" name="paySchedule" <?php if($form->get('paySchedule')->getValue() == 2){echo "checked='checked'";} ?> value="2" >
+                        <label for="monthly"><span></span>Monthly</label>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+            
+              <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('startingFrom')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('startingFrom')->setAttribute('class', 'span input')); ?>
+                    <?php echo $this->formElementErrors($form->get('startingFrom'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div> 
+            
+            
+                 
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('rate')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('rate')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('rate'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>    
+		
+		<div class="formRow control-group password"  style="display:none">
+			<?php echo $this->formLabel($form->get('password')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('password')
+												   ->setAttribute('class', 'span input')
+												   ->setAttribute('id', 'pass1')
+												   ->setAttribute('require', 'require')
+				); 
+				?>
+	        	<?php echo $this->formElementErrors($form->get('password'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>		
+		<div class="formRow control-group password" style="display:none">
+			<?php echo $this->formLabel($form->get('repassword')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('repassword')
+												   ->setAttribute('class', 'span input')
+												   ->setAttribute('id', 'pass2')
+												   ->setAttribute('require', 'require')
+												   ->setValue($form->get('password')->getValue())
+				); 
+				?>
+	        	<?php echo $this->formElementErrors($form->get('repassword'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+		
+            
+             <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('image')); ?>
+			<div class="formRight">
+                                <img src="<?php echo $this->image; ?>" alt=""> OR Change Image 
+				<?php echo $this->formElement($form->get('image')); ?>
+                                <?php echo $this->formElementErrors($form->get('image'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>	
+		
+            <div class="formRow control-group">
+            <label for="isActive"> <?php echo $this->formLabel($form->get('isActive')); ?></label>
+            <div class="formRight">
+                <div class="distance distance-2">
+                    <p>
+                        <input type="radio" name="isActive" id="is-active-yes" value="1"  <?php if ($form->get('isActive')->getValue()==1) echo 'checked="checked"'; ?>>
+                        <label for="is-active-yes"><span></span>Yes</label>
+                    </p>
+                    <p id="deposit-hide">
+                        <input type="radio" name="isActive" id="is-active-no" value="0"  <?php if($form->get('isActive')->getValue()==0) echo 'checked="checked"';  ?>>
+                        <label for="is-active-no"><span></span> No</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+		
+		
+		
+		
+		
+		<div class="formRow control-group">
+			<?php echo $this->formSubmit( $form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+			<div class="formRight">
+				<button type="button" id="changePswd" class="btn btn-warning">Change Password</button>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+
+	</div>
+	<?php echo $this->form()->closeTag() ?>
+</div>
+<?php 
+echo $this->headScript()->appendFile('/js/users.js', 'text/javascript');
+?>

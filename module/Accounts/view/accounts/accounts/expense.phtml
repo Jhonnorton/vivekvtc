@@ -1,0 +1,108 @@
+<?php
+
+//d($this->collection[0]->getPaySchedule());
+if (!is_null($this->message)):
+    
+   // d($this->message);
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+
+<?php
+$date = date('Y-m-d');
+//d($this->collection); die; //echo $date; die;
+?>
+
+<script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->paymenttyp)) {
+    echo $this->paymenttyp;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+    });
+</script>    
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Expense</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+        <br>
+        <form method="post" action="">
+        <input name="from" type="date" placeholder="Date From" value="<?php if(!empty($this->from)){ echo $this->from; }?>">&nbsp;
+        <input name="to" type="date" placeholder="Date To" value="<?php if(!empty($this->to)){ echo $this->to; }?>">&nbsp;
+        <input type="submit" class="btn btn-info" value="Search" style="margin-bottom: 1%;">
+        </form>
+        <br>
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Name</th>
+                    <th class="hidden-mobile">Category</th> 
+                    <th class="hidden-mobile">Amount</th> 
+
+                    <th class="hidden-mobile">Added On</th>
+                    <th class="hidden-mobile">Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+      
+                $i = 0;
+              
+                foreach ($this->collection as $item):
+                ?>                  
+
+                    <tr>
+
+                        <td class="hidden-mobile"> <?php echo $item->getName();?></td>				
+
+
+                        <td class="hidden-mobile"><?php echo $item->getExpenseCategoryId()->getName();?></td>
+                        <td class="hidden-mobile">$<?php echo $item->getAmount();?></td>
+
+                        <td class="hidden-mobile"><?php echo ($item->getCreated() instanceof \DateTime) ? $item->getCreated()->format('Y-m-d') : $item->getCreated(); ; ?></td>
+     
+                        <td class="action-table">                            
+                       
+                                <a href="<?php echo $this->url('accounts-expense-edit',array('id'=>$item->getId()));?>" title="Edit">
+                                   <img src="/images/icon/table_edit.png" alt="Edit">
+                               </a>
+                            
+                             <a data-confirm="Are You Sure.?" href="<?php echo $this->url('accounts-expense-delete',array('id'=>$item->getId()));?>" title="Delete">
+                                   <img src="/images/icon/table_del.png" alt="Edit">
+                               </a>
+                            
+                        </td>
+
+                    </tr>                    
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+       
+        <div class="clearfix"></div>
+    </div>
+</div>

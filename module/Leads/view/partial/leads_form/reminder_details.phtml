@@ -1,0 +1,75 @@
+<div class="formRow control-group">
+                <h4>Reminder</h4>
+                <hr />
+</div>
+<div class="formRow control-group">
+    <div class="formRight">
+        <div class="distance distance-2">
+            <p>
+                <input type="checkbox" id="reminder" name="reminder">
+                <label for="reminder"><span></span> Reminder</label>
+            </p>
+        </div>
+    </div>
+
+</div>
+<div class="reminder" style="display:none">
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('reminderDate')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('reminderDate')->setAttribute('class', '')); ?>
+            <?php echo $this->formElementErrors($form->get('reminderDate'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+     
+     <!-- Existing client email -->
+    
+   		
+  
+    <div class="formRight">
+        <div name="reminderType" class="distance distance-2">
+            <p>
+                <input type="radio" id="rlead" class="load-client1" name="remindertype" checked="checked" value="1" data-resource="rlead">
+                <label for="rlead"><span></span>Reminder For Lead</label>
+            </p>
+            <p>
+                <input type="radio" id="rme" class="load-client1" name="remindertype" value="2" data-resource="rme">
+                <label for="rme"><span></span>Reminder For Me</label>
+            </p>
+        </div>
+    </div>
+    
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('subjectReminder')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('subjectReminder')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('subjectReminder'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('messageReminder')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('messageReminder')->setAttribute('class', 'ckeditor')); ?>
+            <?php echo $this->formElementErrors($form->get('messageReminder'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+</div>
+<script>
+$(function(){
+    $('#reminder').click(function(){
+        //console.log($(this).is(':checked'));
+        if($(this).is(':checked')){
+            $('.reminder').show();
+             $('input[name="female"]').show();
+              $('input[name="male"]').show();
+        } else {
+            $('.reminder').hide();
+            //$('input[name="reminderDate"]').val('');
+            $('input[name="reminderDate"]').val('');
+            $('input[name="subjectReminder"]').val('');
+            $('input[name="messageReminder"]').val('');
+        }
+    });
+});
+</script>

@@ -1,0 +1,59 @@
+<form id="ajaxform" action="<?php echo $this->url('inventory-resort-rooms-check',array('type'=>$this->type,'rid'=>$this->id))?>" method="post">
+<input type="hidden" name="type" value="<?php echo $this->type; ?>">
+<input type="hidden" name="roomId" value="<?php echo $this->id; ?>">
+<!--<input type="hidden" name="roomId" value="<?php echo $this->roomId; ?>">-->
+<input type="date" id="from" name="dateFrom" placeholder="Date From">
+<input type="date" id="to" name="dateTo" placeholder="Date To">
+<input type="submit" value="Search" class="btn btn-info">
+</form>
+
+<br>
+<hr>
+<span id="show"></span>
+<script>
+    $(function(){
+         $('#from').Zebra_DatePicker({
+                format: 'Y-m-d',
+                direction: 1,
+                onSelect: function(date, dateFormat, dateObj, ev) {
+                dateObj.setDate(dateObj.getDate());
+                var day = (dateObj.getDate().toString().length) < 2 ? ('0' + dateObj.getDate()+1) : dateObj.getDate()+1;
+                var month = ((dateObj.getMonth() + 1).toString().length) < 2 ? ('0' + (dateObj.getMonth() + 1)) : dateObj.getMonth() + 1;
+                var date = dateObj.getFullYear() + '-' + month + '-' + day;
+
+                $('#to').Zebra_DatePicker({
+                    format: 'Y-m-d',
+                    show_clear_date: false,
+                    direction: [date.toString(), false],
+                });
+                }
+            });
+            $('#to').Zebra_DatePicker({
+                    format: 'Y-m-d',
+                    show_clear_date: false,
+                });
+        
+        $("#ajaxform").submit(function(e)
+        {
+            var postData = $(this).serializeArray();
+            var formURL = $(this).attr("action");
+            $.ajax(
+            {
+                url : formURL,
+                type: "POST",
+                data : postData,
+                beforeSend:function(){
+                   $("#show").html('<center><img src="/images/ajax-loader.gif" alt="Loading..."></center>');  
+                },
+                success:function(data) 
+                {
+                   $('#show').html("Total Available : "+data.count);
+                },
+            });
+            e.preventDefault(); //STOP default action
+            e.unbind(); //unbind. to stop multiple form submit.
+        });
+
+        //$("#ajaxform").submit(); //Submit  the FORM
+    });
+    </script>

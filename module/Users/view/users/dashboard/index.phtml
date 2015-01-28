@@ -1,0 +1,41 @@
+<?php
+if ($this->message):
+    ?>		
+    <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <ul>
+            <li><?php echo $this->message[0]['message']; ?></li>        
+        </ul>
+    </div>
+    <?php
+endif;
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-eye-open"></i>
+            </div>
+            <span>Dashboard</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="grid-content overflow">
+        <div class="dash_updates">
+            <div class="notify_head">Updates</div>
+        </div>
+        <?php
+            $image = ($user->user->getImage()) ?\Base\Model\Plugins\Imagine::$imagesBaseUrl . "userimage/thumbnails_150x150/".$user->user->getImage():"/images/avatar.png";
+        ?>
+        <div class="logged_profile">
+            <img src="<?php echo $image; ?>"><br>
+            <b>Logged in as</b> : <?php echo $user->user->getRole()->getName(); ?><br>
+            <b>Agent Name</b> : <?php echo $user->user->getFirstName() . ' ' . $user->user->getLastName(); ?><br>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

@@ -1,0 +1,126 @@
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'orders-add'
+));
+$form->setAttribute('method', 'post');
+?>
+<style>
+    .over-lay{
+        /*background-color: rgba(0, 0, 0, 0.8);*/
+        z-index: 999;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display:none;
+    }
+    .over-lay img{margin-left: 50%;margin-top: 20%;max-width: 100%;}
+    .error_msg{color:red;}
+</style>
+<div class="over-lay"><img src="/images/loader.gif" alt="loader"></div>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Add Reservation</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+             <span><a href="<?php echo $this->url("orders-rooms-search"); ?>">Modify Your Search</a></span>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+        <div class="formRow control-group">                        
+            
+            <?php echo $this->partial('partial/orders_form/select_item'); ?>   
+            
+            <?php echo $this->partial('partial/orders_form/reservation_type');?> 
+            
+            <?php echo $this->partial('partial/orders_form/traveller_details');?> 
+                        		                
+            <?php echo $this->partial('partial/orders_form/flight_details'); ?>
+                        
+            <div id="ajax-items" class="formRow control-group"></div>
+            <div id="ajax-excursion" class="formRow control-group"></div>
+            <div id="ajax-transfer" class="formRow control-group"></div>
+            <?php echo $this->partial('partial/orders_form/cost_part'); ?>
+            
+            <?php echo $this->partial('partial/orders_form/notes'); ?>
+            
+            <?php echo $this->partial('partial/orders_form/payment', array('form' => $form)); ?>
+            <input type="hidden" id="today" value="<?php echo date('Y-m-d');?>">
+            
+            
+
+            <div class="formRow control-group">
+                <?php //echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+                 <a data-toggle="modal-preview" class="btn btn-info" href="<?php echo $this->url('orders-ajax-reservation');?>" data-target=".bs-example-modal-lg">
+                    Preview
+                </a> 
+<!--                <a data-toggle="modal-preview" class="btn btn-info" href="#<?php //echo $this->url('orders-ajax-reservation');?>" data-target=".bs-example-modal-lg">
+                    Email as Quote
+                </a>-->
+                <button id="creat_pay" class="btn btn-success" type="submit"  name="submit" onclick=''>Proceed To Billing</button>
+                <button id="creat_draft" class="btn btn-success" type="submit" value="draft" name="submit" onclick=''>Save As Draft</button>
+                <button id="resetbutton" class="btn btn-warning" type="reset"  name="reset" >Reset</button>                                
+                                                                                      
+            </div>
+            <div id="ajax-script"></div>
+            <div class="clearfix"></div>
+
+        </div>
+        <?php echo $this->form()->closeTag() ?>
+    </div>
+</div>
+<?php echo $this->partial('orders/ajax/modal.phtml');?>
+<script src="/js/date-formater.js"></script>
+<script src="/js/reservation.js"></script>
+<script>
+Reservation.init();
+$(function() {
+    $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+    $('.error input').keyup(function() {
+        $(this).parents('.formRow').removeClass('error');
+        $(this).next('ul.help-inline').remove();
+    });
+    
+    
+    
+
+});
+
+
+
+</script>
+<script>
+// Make sure the DOM elements are loaded and accounted for
+
+
+    $(document).ready(function() {
+        $('a[data-toggle="modal-preview"]').click(function() {
+            var remote_content = $(this).attr('href');
+            //console.log(remote_content);            
+            var modal = $('.bs-example-modal-lg');            
+            var modalBody = $('.bs-example-modal-lg .modal-body');            
+            var data = $("#orders").serialize();
+            
+            $.post(remote_content, {data:data}, function(data) {
+                modalBody.html(data);
+                modal.modal();
+            });
+            
+            return false;
+        });
+    });
+
+</script>
+
+
+

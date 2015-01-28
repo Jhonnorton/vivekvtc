@@ -1,0 +1,147 @@
+<?php
+$leads=$this->collection[0];
+$clientname = $leads['name'];
+$clientmail = $leads['email'];
+$clientphone = $leads['phone'];
+$type = $leads['type'];
+$roomName = $leads['roomName'];
+$hotelName = $leads['hotelName'];
+$id = $leads['id'];
+$dateFrom = $leads['dateFrom'];
+$dateTo = $leads['dateTo'];
+//  $id=$leads['id'];
+?>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title><?php echo isset($this->title)? $this->title:'';?></title>
+ </head> 
+ <body>
+
+    Hello <?php echo $this->clientName;?>,
+   
+    <br><br>
+   <?php echo $this->bodymessage; ?>
+    <br><br>
+    View details:<a href="<?php echo isset($this->link) ? $this->link : '#'; ?>"><?php echo isset($this->linkName) ? $this->linkName : 'link'; ?></a>
+
+    <br><br>
+   
+Regards,<br>
+
+Reservations Team<br>
+Vacationparties.com<br>
+reservations@vacationparties.com<br>
+
+
+
+
+
+
+
+
+<!--This is a reminder that your payment of $<?php /* echo $paymentDue->getPaymentDue(); ?>, on Reservation no.  <?php echo $reservation->getReferenceNumber();?>,  <?php //if($type==2){?>for <?php// echo $itemname->getEventName();}?> at <?php //echo $hotelName;?> <?php echo $travelfromdate.' - '. $traveltodate  ?> is <?php echo $due;?> .Please click on the link below to view your invoice and submit payment:
+  <br><br>
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+<?php /*?>     
+ <div class="grid">    
+    <div class="grid-content overflow">
+        Hello <?php echo $clientname;?>,
+        <table class="table table-bordered " id="">
+            <tbody>
+              
+                <tr>                    
+                    <th>Type</th>
+                    <td><?php echo $type; ?></td>				
+                </tr>
+                <tr>
+                    <?php if ($type === 'Resort'): ?>
+                        <th>Resort Name</th>
+                    <?php endif; ?>
+                    <?php if ($type == 'Event'): ?>
+                        <th>Event Name</th>
+                    <?php endif; ?>
+                    <?php if ($type == 'Cruise'): ?>
+                        <th>Cruise Name</th>
+                    <?php endif; ?>
+                    <td><?php echo $hotelName; ?></td>				
+                </tr>
+                <tr>
+                    <?php if ($type === 'Resort'): ?>
+                        <th>Room Category</th>
+                    <?php endif; ?>
+                    <?php if ($type == 'Event'): ?>
+                        <th>Room Category</th>
+                    <?php endif; ?>
+                    <?php if ($type == 'Cruise'): ?>
+                        <th>Sueit Name</th>
+                    <?php endif; ?>
+                    <td><?php echo $roomName; ?></td>				
+                </tr>
+                <tr>                    
+                    <th>Date From</th>
+                    <td><?php echo ($dateFrom instanceof \DateTime) ? $dateFrom->format('Y-m-d') : $dateFrom; ?></td>				
+                </tr>
+                <tr>                    
+                    <th>Date To</th>
+                    <td><?php echo ($dateTo instanceof \DateTime) ? $dateTo->format('Y-m-d') : $dateTo; ?></td>				
+                </tr>
+
+
+                <tr>                    
+
+                    <td>
+
+                        <?php if($type == 'Resort'){ 
+                            $url="leads-resort";
+                         ?>
+                        
+                        <?php }elseif($type == "Event"){ $url="leads-event";  ?>
+
+                        <?php }elseif($type=="Cruise"){ $url="leads-cruise"; } ?>
+                        
+                             
+                      
+
+                    </td>
+                    <td></td>
+                </tr>
+
+                </body>
+        </table>
+        <p>
+          <a href="<?php echo isset($this->link)? $this->link:'#';?>"><?php echo isset($this->linkName)? $this->linkName:'link';?></a>
+       </p>   
+        <div class="clearfix"></div>
+    </div>
+</div>
+      <div style="background: #CDC9C9; text-align: center; font-size: 14px; color: white;padding: 4px;">
+    <?php echo isset($this->footer)? $this->footer:'';?>
+  </div>
+     
+<?php */?>     
+ </body> 
+</html>

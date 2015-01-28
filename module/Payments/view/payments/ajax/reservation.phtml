@@ -1,0 +1,212 @@
+<?php
+$date = date('Y-m-d');
+//d($this->collection);
+$coll = $this->collection;
+$reservation = $coll[0];
+// d($reservation);
+$type = $reservation['type'];
+$roomName = $reservation['roomName'];
+$hotelName = $reservation['hotelName'];
+$travellers = $reservation['travellers'];
+$invoice = $reservation['invoice'];
+
+
+$paymentDue = $reservation['paymentDues'];
+$reservation = $reservation['reservation'];
+
+$travelfrom= ($reservation->getDateFrom() instanceof \DateTime) ? $reservation->getDateFrom()->format('Y-m-d') : $reservation->getDateFrom(); 		
+
+$travelto= ($reservation->getDateTo() instanceof \DateTime) ? $reservation->getDateTo()->format('Y-m-d') : $reservation->getDateTo(); 		
+
+
+foreach ($paymentDue as $item) {
+    $transfers[] = $item->getpaymentDue();
+    
+}
+//d($paymentDue);
+?>
+
+<div class="grid">    
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered " id="">
+            <tbody>
+
+                <tr>
+                    <th>Client Name</th>
+                    <td><?php  echo $travellers[0]->getTraveller()->getName();  ?></td>
+                </tr>
+
+                <tr>
+                    <th>Order Date</th>
+                    <td><?php
+                        foreach ($invoice as $item) {
+                            echo ($item->getdateAdded() instanceof \DateTime) ? $item->getdateAdded()->format('Y-m-d') : $item->getdateAdded();
+                            //  echo  $traveller->getTraveller()->getName(). '  ';
+                            $paymode=$item->getPaymentMode();
+                        }
+                        ?></td>
+                </tr>
+
+                
+                <tr>
+                    <th>Reservation No</th>
+                    <td><?php echo $reservation->getreferenceNumber();?></td>
+                </tr>
+
+                <tr>
+                    <th>Order Made For</th>
+                    <td><?php echo $hotelName; ?></td>
+                </tr>
+                
+                
+                <tr>
+                    <th>Order Total</th>
+                    <td><?php echo '$' . $reservation->getfinalCost();
+                        ?></td>
+                </tr>
+                
+                  <tr>
+                    <th>Amount Deposited</th>
+                    <td><?php echo '$' . $reservation->getdepositAmoun();
+                        ?></td>
+                </tr>
+
+             
+
+                <tr>                    
+                    <th>Travel Date</th>
+                    <td><?php echo $travelfrom .' - '.$travelto; ?></td>				
+                </tr>
+
+               <?php if ($reservation->getbalansAfterDeposit() == 0) {
+                        $status = 'Full';
+                    } else {
+                        $status = 'Installment';
+                    }
+                ?>
+                <tr>                    
+                    <th>Payment Type</th>
+                    <td><?php echo $status;?></td>  
+                </tr>
+                
+                <tr>                    
+                    <th>Paid With</th>
+                    <td><?php 
+                    if($paymode=="other"){
+                        echo "RCVD";
+                    }else{
+                        echo $paymode; 
+                    } ?></td> 
+                </tr>
+
+                <?php if ($reservation->getPaymentType() == 1) { ?>
+                    <tr>                    
+                        <th>Payment Type</th>
+                        <td> <span class="s_green"> Paid in full </span></td>				
+                    </tr>    
+                    <?php
+                } else  {
+                                ?>
+                                <?php
+                                if (count($paymentDue) > 0) {
+                                    foreach($paymentDue as $paymentDue): 
+                                    ?>
+                    
+                                       
+                                    <?php if($paymentDue->getStatus()==0){ ?>
+                                    <?php
+                                    if($paymentDue->getdueDate() instanceof \DateTime):
+                                    if ($paymentDue->getdueDate()->format("Y-m-d") < $date) {
+                                        $class = "s_orange";
+                                    } else {
+                                      //  $class = "s_blue";
+                                    }
+                                    endif;
+                                    ?> 
+                                
+                                    <span class="<?php echo $class; ?>">
+                                        
+                                        <tr>                    
+                                        <th>Payment Due <?php echo $i; ?></th> <?php //$item->getpaymentDue(); ?>
+                                        <td><?php echo '$' . $paymentDue->getpaymentDue(); ?></td>				
+                                        </tr> 
+                                        
+                                        <?php //echo'$' . $paymentDue->getpaymentDue(); ?>				
+
+                                        <tr>                    
+                                        <th>Status</th> <?php //$item->getpaymentDue(); ?>
+                                        <td><?php //echo '$' . $paymentDue->getpaymentDue(); ?>
+                                        
+                                        <?php
+                                                                                                                        
+                                        if($paymentDue->getdueDate() instanceof \DateTime): 
+                                        if ($paymentDue->getdueDate()->format("Y-m-d") < $date) {
+                                            echo "Pst.Due";
+                                        }
+                                        else {
+                                            echo "Due on";
+                                        }
+                                        
+                                        endif;
+                                        ?>
+                                        <?php 
+					if($paymentDue->getdueDate()instanceof \DateTime): 
+
+						echo $paymentDue->getdueDate()->format("Y-m-d"); 
+					endif;
+					?>			
+                                    </span>    
+                                    <?php
+                                }else{ $class="s_green";?> 
+                                
+                                    <span class="<?php echo $class; ?>">
+                                        <?php echo 'Due Paid on'; ?>				
+
+                                        <?php 
+					if($paymentDue->getdueDate() instanceof \DateTime): 
+
+						echo $paymentDue->getdueDate()->format("Y-m-d"); 
+					endif;
+					?>			
+                                    </span>    
+                                    <?php
+                               
+                                    
+                                } ?>
+            </td>				
+                                        </tr>
+                                <?php
+                                    $i++; endforeach;
+                                }
+                            }
+                            ?> 
+
+                <tr>                    
+
+                    <td>
+                        <a href="<?php echo $this->url('payments-applypayment', array('id' => $reservation->getId())); ?><?php //echo $this->url('orders');  ?>">
+                            <button class="btn btn-info">
+                                Apply Payment
+                            </button>
+                        </a>
+                        <a href="<?php echo $this->url('payment-sendreminder', array('id' => $reservation->getId())); ?><?php //echo $this->url('orders-canceled', array('id' => $reservation->getId()));;  ?>">
+                            <button class="btn btn-warning">
+                                Send Reminder
+                            </button>
+                        </a>
+                        
+                        <a href="<?php echo $this->url('payment-sendinvoice', array('id' => $reservation->getId())); ?><?php //echo $this->url('orders-canceled', array('id' => $reservation->getId()));;  ?>">
+                            <button class="btn btn-warning">
+                                Send Mail To Client
+                            </button>
+                        </a>
+                        
+                    </td>
+                    <td></td>
+                </tr>
+                </body>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>

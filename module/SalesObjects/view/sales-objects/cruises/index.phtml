@@ -1,0 +1,139 @@
+<?php
+if ($this->message):
+    ?>		
+    <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <ul>
+            <li><?php echo $this->message[0]['message']; ?></li>        
+        </ul>
+    </div>
+    <?php
+endif;
+?>
+
+<div class="grid">
+
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div>
+            <span>Cruises</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a href="<?php echo $this->url('cruises-add'); ?>"><i class="icon-plus-sign"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+<!--                    <th class="t_center">
+                        <input type="checkbox" id="c0" name="cc" />
+                        <label for="c0"><span></span></label>
+                    </th>					-->
+                    <th class="hidden-mobile">Image</th>
+                    <th class="hidden-mobile">Title</th>
+                    <th class="hidden-mobile">Overview</th>
+                    <th class="hidden-mobile">Tour Start Date</th>
+                    <th class="hidden-mobile">Tour End Date</th>					
+                    <th class="hidden-mobile">Status</th>					
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $i = 1;
+                foreach ($this->collection as $item): ?>
+                    <tr>
+<!--                        <td class="t_center">
+                            <input type="checkbox" id="c<?php echo $i; ?>" name="cc" />
+                            <label for="c<?php echo $i; ?>"><span></span></label>
+                        </td>-->
+
+                        <td><img src="<?php echo $this->imagePath . $item->getImage(); ?>" alt=""></td>
+
+                        <td class="hidden-mobile"><?php echo $item->getTitle(); ?></td>
+                        <td class="hidden-mobile"><?php echo substr(strip_tags($item->getOverview()), 0, 100) . '...'; ?></td>
+                        <td class="hidden-mobile"><?php echo $item->getTourStartDate()->format('M d, Y'); ?></td>
+                        <td class="hidden-mobile"><?php echo $item->getTourEndDate()->format('M d, Y'); ?></td>
+                        <td class="hidden-mobile">
+                            <span class="s_<?php echo $item->getStatus() ? 'green' : 'gray'; ?>">
+    <?php echo $item->getStatus() ? 'Active' : 'Blocked'; ?>
+                            </span>
+                        </td>
+
+                        <td class="action-table">
+                            <!-- 						<a href="javascript:void(0);"> -->
+                            <!-- 							<img src="/images/icon/table_view.png" alt=""> -->
+                            <!-- 						</a> -->
+                            <a href="<?php echo $this->url('cruises-edit', array('id' => $item->getId())); ?>">
+                                <img src="/images/icon/table_edit.png" alt="">
+                            </a>
+                            <a href="<?php echo $this->url('cruises-delete', array('id' => $item->getId())); ?>"
+                               data-confirm="Are you sure?">
+                                <img src="/images/icon/table_del.png" alt="">
+                            </a>
+                            
+                            <a href="javascript:void(0);" onclick="set(<?php echo $item->getId(); ?>)">
+                                Set Commission
+                            </a>
+                        </td>
+                    </tr>
+                    <?php $i++; ?>
+<?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close">×</button>
+    <h3 id="myModalLabel"></h3>
+  </div>
+  <div class="modal-body">
+    <p></p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn close">Close</button>
+  </div>
+</div>
+
+<script>
+
+function set(id){
+   
+    $.ajax({
+                async:false,    
+                url: '/admin/event/set-commission/'+3+'/'+id,
+                type: 'GET',
+                beforeSend:function(){
+                   $(".modal-body").html('<center><img src="/images/ajax-loader.gif" alt="Loading..."></center>');  
+                    $("#myModalLabel").html('Set Commission');
+                    $("#myModal").css({"display": "block"});
+                    $("#myModal").modal();
+                },
+                success: function(data){
+                    $(".modal-body").html(data)  
+//                  $("#myModal").modal()  
+                }
+            });
+}
+
+$(document).ready(function(){
+    $('.close').click(function(){
+        $("#itemModal").css({"display": "none"});
+        $("#myModal").css({"display": "none"});
+    });
+});
+</script>

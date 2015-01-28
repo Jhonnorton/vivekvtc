@@ -1,0 +1,60 @@
+<?php
+//d($this->collection);
+switch($this->type){
+    case 1:
+        $typeId=$this->collection['0']->getId();
+        $title=$this->collection['0']->getTitle();
+        break;
+    case 2:
+        $typeId=$this->collection['0']->getId();
+        $title=$this->collection['0']->getTitle();
+        break;
+    case 3:
+        $typeId=$this->collection['0']->getId();
+        $title=$this->collection['0']->getTitle();
+        break;
+}
+
+
+?>
+<h4><?php echo $title; ?></h4>
+
+<?php 
+if($this->typeCommission){  ?>
+<table class="table table-bordered">
+    <tr>
+        <th>
+            Type
+        </th>
+        <th>
+            Amount
+        </th>
+        
+    </tr>
+    
+    <tr>
+        <td>
+            <?php echo $this->typeCommission->getType(); ?>
+        </td>
+        <td>
+            <?php echo $this->typeCommission->getAmount(); ?>
+        </td>
+        
+    </tr>
+</table><br><br>
+<?php } ?>
+<form action="<?php echo $this->url('ajax-event-commission',array('type'=>$this->type,'id'=>$typeId)); ?>" method="post">
+
+    <input type="hidden" name="type" value="<?php echo $this->type; ?>">
+    <input type="hidden" name="typeId" value="<?php echo $typeId; ?>">
+
+    <select name="commissionType" required>
+        <option value="fixed">$</option>
+        <option value="percent">%</option>
+    </select>
+    
+    <input name="amount" type="number" placeholder="Amount" required>
+    
+    <input type="submit" value="Save" class="btn btn-info">
+    
+</form>

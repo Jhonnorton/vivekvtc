@@ -1,0 +1,138 @@
+<?php
+if ($this->message):
+    ?>		
+    <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <ul>
+            <li><?php echo $this->message[0]['message']; ?></li>        
+        </ul>
+    </div>
+    <?php
+endif;
+?>
+
+<div class="grid">
+
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div>
+            <span>Events</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a href="<?php echo $this->url('events-add'); ?>"><i class="icon-plus-sign"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="grid-content overflow">
+        <span id="ajax-msg" style="display:none;color:red"></span>
+        
+        <div id="showeventsroom">
+            <p>Event Rooms</p>
+            <div class="spacer30"></div>
+        </div>
+         <div class="spacer30"></div>
+        <?php 
+        if(count($this->eventRoom) > 0){
+        foreach($this->eventRoom as $rooms):
+        ?>
+        <div id="<?php echo $rooms['roomId'];?>_eventroom">
+        <form action="/admin/event/eventroomsadd" id="<?php echo $rooms['roomId'];?>_form" method="Post">
+             <input type="hidden" name="resortId" value="<?php echo $resortId ;?>">
+            <input type="hidden" name="roomId" value="<?php echo $rooms['roomId'] ?>">
+            <input type="hidden" name="eventId" value="<?php echo $eventId ; ?>">
+            <input type="hidden" name="roomCategory" value="<?php echo $rooms['roomTitle'] ?>">
+            <table width="100%">
+
+                <tr>
+                    <td width="30%">
+                        <?php echo $rooms['roomTitle']; ?>
+                    </td>
+                    <td width="30%"><input type="textbox" class="span input" name="price" value="" placeholder="Enter Price in USD"></td>
+                    <td width="30%"><input type="button" name="save" value="Add" rid="<?php echo $rooms['roomId']; ?>" class="eve btn btn-info"></td>
+                </tr>
+            </table>
+<!--        <div class="formRow control-group">
+                        <span><?php //echo $rooms['roomTitle']; ?></span>
+			<span>Price (USD)</span>
+			<div class="formRight">
+                            <input type="textbox" class="span input" name="price" value="">
+                            <span><input type="button" name="save" value="Add" rid="<?php echo $rooms['roomId']; ?>" class="eve btn btn-info"></span>
+                        </div>
+		</div>	-->
+        <div class="clearfix"></div>
+        </form>
+        </div>
+        <?php endforeach;
+        }else{?>
+        <div><b>No Rooms found in this Resort !</b></div>
+        <?php }
+        ?>
+         <a href="<?php echo $this->url('events'); ?>"><input type="button" value="Done" class="btn btn-info"></a>
+    </div>
+</div>
+<?php echo $this->partial('sales-objects/ajax/modal.phtml');?>
+
+<script>
+    $(document).ready(function(){
+        $(".eve").click(function(){
+            var formId = $(this).attr("rid")+'_form';
+            alert(formId)
+        var postData = $("#"+formId).serializeArray(); 
+        var formURL = $("#"+formId).attr("action");
+            $.ajax(
+            {
+                url : formURL,
+                type: "POST",
+                data: postData,
+                success:function(data, textStatus, jqXHR)
+                {
+                    if(data.msg == "Saved"){
+                    $("#"+data.roomId+"_eventroom").hide();
+                    $("#ajax-msg").show();
+                    $("#ajax-msg").html("Room Saved Successfully");
+                    $('#ajax-msg').delay(1000).fadeOut();
+                    $('#showeventsroom').show();
+                    $("#showeventsroom").append("<div><span id='rname'>"+data.item.name+"</span><span id='rprice'>USD  "+  data.item.price+"<span></div>");
+                    }else{
+                        $("#ajax-msg").show();
+                        $("#ajax-msg").html(data.msg);
+                        $('#ajax-msg').delay(1000).fadeOut();
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown)
+                {
+                    alert('fails');
+                    //if fails     
+                }
+            });
+//});
+ 
+//$("#"+formId).submit();
+    
+        });
+    })
+</script>
+<style>
+    #rname{
+        float:left;
+        font-weight: bold;
+        width:280px;
+    }
+    #rprice{
+        font-weight: bold;
+    }
+    #showeventsroom{
+        border:2px solid;
+        border-color: grey;
+        display:none;
+    }
+    .spacer30{
+        margin-top: 30px;
+    }
+    </style>

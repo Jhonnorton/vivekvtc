@@ -1,0 +1,67 @@
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-edit"></i>
+            </div>
+            <span>Edit Role Activity</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content">
+
+        <form action="" method="post">
+         <div class="formRow control-group">
+             <input type="hidden" name="id" value="<?php echo $this->collection['0']->getId(); ?>">
+             <label>
+                 Title : </label>
+            <div class="formRight">
+                <input type="text" name="name" class="span input" value="<?php echo $this->collection['0']->getname(); ?>" required>
+            </div>
+        </div>	
+         <div class="formRow control-group">
+             <label>
+                 Roles : </label>
+            <div class="formRight">
+                <select name="role" class="span input" required>
+                    <?php foreach($this->roles as $item){?>
+                    <option value="<?php echo $item->getId(); ?>" <?php if($item->getId()==$this->collection['0']->getResellerRoleId()->getId()){ echo "selected"; } ?>>
+                        <?php echo $item->getRoleName(); ?>
+                    </option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>	
+         <div class="formRow control-group">
+             <label>
+                 Status : </label>
+            <div class="formRight">
+                <select name="status" class="span input" required>
+                    <option value="1" <?php if($this->collection['0']->getStatus()=='1'){ echo "selected"; } ?>>
+                        Active
+                    </option>
+                    <option value="0" <?php if($this->collection['0']->getStatus()=='0'){ echo "selected"; } ?>>
+                        InActive
+                    </option>
+                    
+                </select>
+            </div>
+        </div>	
+     
+
+        
+        <div class="formRow control-group">
+            <input type="submit" value="Submit" class="btn btn-info">
+        </div>
+            </form>
+        <div class="clearfix"></div>
+
+    </div>
+
+</div>
+
+
+
+

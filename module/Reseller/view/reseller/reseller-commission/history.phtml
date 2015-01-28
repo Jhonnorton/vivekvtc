@@ -1,0 +1,28 @@
+<table class="table table-bordered table-striped" id="datatable_3">
+    <thead>
+    <th>
+        Amount
+    </th>
+    <th>
+        Status
+    </th>
+    <th>
+       Due Date
+    </th>
+    </thead>
+    <tbody>
+        <?php foreach($this->collection as $row){ ?>
+     <tr>   <td>
+            $<?php echo $row->getAmount(); ?>
+        </td>
+        <td>
+            <?php if($row->getStatus()==1){ echo "Paid"; }else{ echo "Pending"; } ?>
+        </td>
+        <td>
+            <?php echo ($row->getDueDate() instanceof \DateTime) ? $row->getDueDate()->format('Y-m-d') : $row->getDueDate(); ?>
+        </td>
+</tr>
+        <?php }
+?>
+    </tbody>
+</table>

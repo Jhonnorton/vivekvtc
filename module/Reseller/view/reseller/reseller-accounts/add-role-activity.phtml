@@ -1,0 +1,49 @@
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-edit"></i>
+            </div>
+            <span>Add Role Activity</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content">
+
+        <form action="" method="post">
+         <div class="formRow control-group">
+             <label>
+                 Title : </label>
+            <div class="formRight">
+                <input type="text" name="name" class="span input" required>
+            </div>
+        </div>	
+         <div class="formRow control-group">
+             <label>
+                 Roles : </label>
+            <div class="formRight">
+                <select name="role" class="span input" required>
+                    <?php foreach($this->roles as $item){?>
+                    <option value="<?php echo $item->getId(); ?>"><?php echo $item->getRoleName(); ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>	
+     
+
+        
+        <div class="formRow control-group">
+            <input type="submit" value="Submit" class="btn btn-info">
+        </div>
+            </form>
+        <div class="clearfix"></div>
+
+    </div>
+
+</div>
+
+
+
+

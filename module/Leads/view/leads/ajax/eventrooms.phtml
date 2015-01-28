@@ -1,0 +1,11 @@
+<?php //d($this->collection[0]->getRoomId()->getRoomId()->getTitle())?>
+<?php //d($this->collection);?>
+<label for="roomCategory" class="required">Room Category</label>                    
+<div class="formRight">    
+    <select data-type="<?php echo \Leads\Controller\AjaxController::EVENT_ROOMS; ?>"  id="event-rooms" data-url="/event/room/" name="roomCategory" required="required" class="chzn-select chosen_select width-100 load-item">                
+        <option value="">please select room category...</option>
+        <?php foreach ($this->collection as $item):?>                
+              <option value="<?php echo $item->getId();?>"><?php echo $item->getRoomCategory() ; ?></option>
+       <?php endforeach;?>    
+    </select> 
+</div>

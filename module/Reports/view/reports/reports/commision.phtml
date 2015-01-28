@@ -1,0 +1,240 @@
+<?php
+
+//echo "hello" ; die;
+if (!is_null($this->message)):
+
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+
+<?php
+$date = date('Y-m-d');
+?>
+
+<script>
+  $(function() {
+        var id = <?php echo $this->paymenttyp; ?>;
+        var typeid=<?php echo $this->typeId; ?>;
+      //  alert(id);
+        $.post('/admin/report/ajax/commision/type/'+id+'/'+typeid, {id:id,typeid:typeid}, function(data){
+            
+//            alert(data);
+            $('#users').html(data);                        
+        });      
+    });
+</script>
+ 
+ <script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->paymenttyp)) {
+    echo $this->paymenttyp;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+    });
+</script>    
+
+    
+
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Commission Reports</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+        
+            
+        <div class="formRight">
+            <form method="post" action="<?php echo $this->url('report-commision'); ?>">
+                
+                <select name="myselect" id="myselect" class="chzn-select">
+                    <option value="">Select</option>
+                    <option value="1">Resort</option>
+                    <option value="2">Event</option>
+                    <option value="3">Cruise</option>
+
+                </select>
+                <span id="users">
+                </span>
+                <input type="date" id="startDate" placeholder="Date From" name="mydate" class="" value="<?php
+                if (!empty($this->startdat)) {
+                    echo $this->startdat;
+                } else {
+                    echo '';
+                }
+                ?>">  
+                <input type="date" id="endDate" placeholder="Date To" name="mydate1" class="" value="<?php
+                if (!empty($this->enddat)) {
+                    echo $this->enddat;
+                } else {
+                    echo '';
+                }
+                ?>">
+
+                
+                
+               <div id="rooms" class="formRow control-group">                
+                <?php //echo $this->formElementErrors($form->get('roomId'), array('class' => 'help-inline')); ?>
+               </div>  
+
+
+                <input type="submit" name="submit" class="btn btn-info" id="btnmargin" value="Search">
+            </form> 
+        </div>
+        
+        
+        
+
+        <table class="table table-bordered table-mod-2" id="datatable_7">
+            <thead>
+                <tr>                    
+
+
+                    <th class="hidden-mobile">Order</th> 
+
+                    <th class="hidden-mobile">Item Sold</th>
+
+                    <th class="hidden-mobile">Order Date</th>
+
+                    <th class="hidden-mobile">Order Total</th>
+                    <th class="hidden-mobile">Gross Comm</th>
+
+
+                    <th class="hidden-mobile">Net Comm</th>
+
+                    <th class="hidden-mobile">Net Comm %</th>
+
+                  
+
+                </tr>
+            </thead>
+
+            
+            <tbody>
+                <?php
+                $total = 0;
+                $i = 0;
+                $totalnights = 0;
+
+                foreach ($this->collection as $item):
+                    $hotelName = $item['hotelName'];
+                    $type = $item['type'];
+                    $roomName = $item['roomName'];
+                    $travellers = $item['travellers'];
+                    $reservation = $item['reservation'];
+
+                    $order = $reservation->getReferenceNumber();
+
+                    $reservationdate = ($reservation->getcreatedAt() instanceof \DateTime) ? $reservation->getcreatedAt()->format('Y-m-d') : $reservation->getcreatedAt();
+                    $datefrom = ($reservation->getdateFrom() instanceof \DateTime) ? $reservation->getdateFrom()->format('Y-m-d') : $reservation->getdateFrom();
+                    $dateto = ($reservation->getdateTo() instanceof \DateTime) ? $reservation->getdateTo()->format('Y-m-d') : $reservation->getdateTo();
+
+                    $noofdays = $reservation->getnoOfDays();
+
+                    $status = $item['status'];
+                    $paymentDue = $item['paymentDues'];
+                    $invoice = $item['invoice'];
+                    $total = ($total + $reservation->getfinalCost());
+
+                    $discount = $reservation->getappliDiscount();
+
+                    $merchantfee = $reservation->getmerchantFee();
+
+                    $nettotal = $reservation->getfinalCost();
+
+                    $grosstotal = $nettotal - ($discount + $merchantfee);
+
+                    $totalnights = ($totalnights + $noofdays);
+
+                    $commtype=$item['commission']['0']['type'];
+                    $commamount=$item['commission']['0']['amount'];
+                    if($commtype==1){
+                        $amt=($commamount/100)*$nettotal;
+                    }else{
+                        $amt=$commamount;
+                    }
+                    
+                    if ($reservation->getbalansAfterDeposit() == 0) {
+                        $status = 'Completed';
+                    } else {
+                        $status = 'Due';
+                    }
+                    $i++;
+                    ?>
+
+                    <tr>
+
+
+                        <td class="hidden-mobile"><?php echo $order; ?></td>
+
+                        <td class="hidden-mobile"> <?php echo $hotelName ?></td>
+
+                        <td class="hidden-mobile"><?php echo $reservationdate; ?></td>
+
+                        <td class="hidden-mobile"> <?php echo '$'. $grosstotal ?></td>
+
+                        <td class="hidden-mobile"><?php echo '$'.$amt; ?></td>
+
+                        <td class="hidden-mobile"><?php echo '-'; ?></td>
+                        <td class="hidden-mobile"><?php echo '-'; ?></td>
+                     
+                    </tr>
+                <?php endforeach; ?>
+                    
+                    
+                    
+            </tbody>
+        </table>
+
+       <br><br>
+        <form method="post" action="<?php echo $this->url('csv-commission'); ?>">
+
+
+            <input type="hidden" name="strdate" value=<?php echo $this->startdat; ?>>   
+            <input type="hidden" name="enddate" value=<?php echo $this->enddat; ?>>    
+            <input type="hidden" name="filename" value="commission">   
+            <input type="hidden" name="resulttype" value="<?php echo $this->paymenttyp; ?>"> 
+            <input type="hidden" name="resortId" value="<?php echo $this->typeId; ?>"> 
+            <input type="submit" name="submit" class="btn btn-info" id="btnmargin" value="Download Csv">
+        </form> 
+       <br>
+       
+        <div class="clearfix"></div>
+    </div>
+</div>
+<?php //echo $this->partial('payments/ajax/modal.phtml');     ?>
+<script>
+   
+  $('#myselect').change(function(){        
+        var id = $(this).val();   
+        var typeid=<?php $this->typeId; ?>
+      //  alert(id);
+        $.post('/admin/report/ajax/commision/type/'+id+'/'+typeid, {id:id,typeid:typeid}, function(data){
+            
+//            alert(data);
+            $('#users').html(data); 
+        });        
+    });
+    
+   
+ </script>   

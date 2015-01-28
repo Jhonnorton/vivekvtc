@@ -1,0 +1,29 @@
+<?php //d($this->collection);?>
+<label for="roomCategory" class="required">Room Category</label>                    
+<div class="formRight">    
+    <select  data-type="<?php echo \Leads\Controller\AjaxController::RESORT_ROOMS; ?>" id="resort-rooms" name="roomCategory" required="required" class="chzn-select chosen_select width-100 load-item">                
+        <option value="">please select room category...</option>
+        <?php foreach ($this->collection as $item):?>                
+           <option value="<?php echo $item->getId();?>" resortid="<?php echo $item->getResortId()->getId();?>"><?php  echo $item->getTitle();?></option>
+            <?php endforeach;?>    
+    </select> 
+</div>
+<script>
+    $('.chzn-select').chosen();  
+//    $('#resort-rooms').change(function() {
+//        var id = $(this).val();         
+//        var resortId = $("#resort-rooms option:selected").attr("resortid");
+//        console.log(resortId);
+//        if(id){
+//            $.post('<?php //echo $this->url('orders-ajax')?>',{id:id, type:<?php //echo Orders\Controller\AjaxController::RESORT_ROOMS; ?>}, function(data){            
+//                    
+//                    console.log(data);
+//                    
+//                    $('#ajax-script').html(data);              
+//            });
+//            loadItems(4, resortId);
+//        }else{         
+//            clearAll();        
+//        }
+//    });
+</script>

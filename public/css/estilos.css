@@ -1,0 +1,115 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,600,700);
+@font-face {
+  font-family: avenir;
+  src: url(Avenir.ttc);
+}
+@font-face {
+  font-family: bebas;
+  src: url(BebasNeueBook.otf);
+}
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: #fff9e1;
+  font-family: open sans;
+}
+.gral {
+  max-width: 1150px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 0px 55px;
+}
+.gral .block1 {
+  width: 50%;
+}
+.gral .span6 {
+  width: 49%;
+  display: inline-block;
+  vertical-align: top;
+}
+.gral .span6 h2 {
+  font-family: bebas;
+  font-size: 66pt;
+  margin: 0px;
+}
+.gral .derecha {
+  text-align: right;
+}
+.gral .span12 {
+  width: 100%;
+}
+.gral table.tpay {
+  width: 100%;
+}
+.gral table.tpay td {
+  background-image: url(../img/tdGray1.jpg);
+  background-size: 100%;
+  width: 50%;
+  padding: 5px;
+  margin: 0px;
+  border: solid;
+  border: solid 1px #d5cccc;
+}
+.gral table.tpay td.yell {
+  background-image: url(../img/tdYell.jpg);
+  background-size: 100%;
+  color: transparent;
+}
+.gral table.tpay td.gray2 {
+  background-image: url(../img/tdGray2.jpg);
+  background-size: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+.gral .btsPay {
+  margin-top: 150px;
+}
+.gral .btPay {
+  font-family: bebas;
+  font-size: 20pt;
+  width: 290px;
+  margin: 0 auto;
+}
+.gral .btPay .bt-visa {
+  background-image: url(../img/visa.jpg);
+  width: 99px;
+  height: 106px;
+}
+.gral .btPay .bt-paypal {
+  background-image: url(../img/paypal.jpg);
+  width: 99px;
+  height: 106px;
+}
+.gral .btPay p {
+  float: right;
+  margin-top: 15px;
+}
+.gral .parr {
+  text-align: center;
+}
+.gral .parr .small {
+  font-size: 10pt;
+}
+.gral .small2 {
+  font-size: 9pt;
+  position: absolute;
+  color: #666666;
+  font-style: italic;
+}
+.gral .ipay {
+  font-family: bebas;
+  font-size: 16pt;
+  padding-left: 9px;
+  border-radius: 14px;
+  background-color: #eeeeee;
+  color: #635e5e;
+  font-weight: bold;
+  border: solid 2px #bbbaba;
+  background: -moz-linear-gradient(top, white 0%, #efefef 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #efefef));
+  background: -webkit-linear-gradient(top, white 0%, #efefef 100%);
+  background: -o-linear-gradient(top, white 0%, #efefef 100%);
+  background: -ms-linear-gradient(top, white 0%, #efefef 100%);
+  background: linear-gradient(to bottom, white 0%, #efefef 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#efefef', GradientType=0);
+}

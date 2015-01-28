@@ -1,0 +1,144 @@
+<?php
+    $type = $this->data['type'];
+    $roomName = $this->data['roomName'];
+    $hotelName = $this->data['hotelName'];
+    $travellers = $this->data['travellers'];
+    $reservation = $this->data['reservation'];
+?>
+
+<div class="grid">    
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered " id="">
+            <tbody>
+                 <tr>                    
+                    <td><b>Reservation No</b></td>
+                    <td><?php echo $reservation->getId(); ?></td>				
+                </tr>
+                <tr>                    
+                    <td><b>Type</b></td>
+                    <td><?php echo $type; ?></td>				
+                </tr>
+                <tr>
+                    <?php if($type === 'FIT'): ?>
+                        <td><b>Resort Name</b></td>
+                    <?php endif; ?>
+                        <?php if($type == 'Group'): ?>
+                        <td><b>Event Name</b></td>
+                    <?php endif; ?>
+                    <?php if($type == 'Cruise'): ?>
+                        <td><b>Cruise Name</b></td>
+                    <?php endif; ?>
+                    <td><?php echo $hotelName; ?></td>				
+                </tr>
+                <tr>
+                    <?php if($type === 'FIT'): ?>
+                        <td><b>Room Category</b></td>
+                    <?php endif; ?>
+                        <?php if($type == 'Group'): ?>
+                        <td><b>Room Category</b></td>
+                    <?php endif; ?>
+                    <?php if($type == 'Cruise'): ?>
+                        <td><b>Sueit Name</b></td>
+                    <?php endif; ?>
+                    <td><?php echo $roomName; ?></td>				
+                </tr>
+                <tr>                    
+                    <td><b>Date From</b></td>
+                    <td><?php echo ($reservation->getDateFrom() instanceof \DateTime)?$reservation->getDateFrom()->format('Y-m-d'): $reservation->getDateFrom(); ?></td>				
+                </tr>
+                <tr>                    
+                    <td><b>Date To</b></td>
+                    <td><?php echo ($reservation->getDateTo() instanceof \DateTime)?$reservation->getDateTo()->format('Y-m-d'): $reservation->getDateTo();  ?></td>				
+                </tr>
+                
+                <tr>                    
+                    <td><b>Flight</b></td>
+                    <td><?php echo $reservation->getFlight()?'Yes':'No'; ?></td>				
+                </tr>
+                
+                <tr>
+                    <td><b>Travellers</b></td>
+                    <td><?php 
+                        foreach($travellers as $traveller){
+                            echo $traveller.', ';
+                        }
+                    ?></td>
+                </tr>
+                
+                <?php if($reservation->getFlight()):?>
+                    <tr>
+                        <td><b>Flight Goin Away</b></td>
+                        <td><?php echo $reservation->getDepartureFrom(); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>Flight Return Home</b></td>
+                        <td><?php echo $reservation->getDepartureTo(); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>Returne From</b></td>
+                        <td><?php echo $reservation->getReturnFrom(); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>Returne To</b></td>
+                        <td><?php echo $reservation->getReturnTo(); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>Flight Total Cost</b></td>
+                        <td><?php echo $reservation->getFlightTotalCost(); ?></td>
+                    </tr>
+                <?php endif;?>
+                
+                <tr>                    
+                    <td><b>Total Cost</b></td>
+                    <td><?php echo $reservation->getTotalCost(); ?></td>				
+                </tr>
+                <tr>                    
+                    <td><b>Discount</b></td>
+                    <td><?php echo $reservation->getAppliDiscount(); ?></td>				
+                </tr>
+                <tr>                    
+                    <td><b>Merchant Fee</b></td>
+                    <td><?php echo 0; ?></td>				
+                </tr>
+                <tr>                    
+                    <td><b>Final Cost</b></td>
+                    <td><?php echo $reservation->getFinalCost(); ?></td>				
+                </tr>
+                <tr>                    
+                    <td><b>Payment Type</b></td>
+                    <td><?php echo $reservation->getPaymentType()?'Full':'Deposit'; ?></td>				
+                </tr>
+                <tr>                    
+                    <td><b>Deposit Amount</b></td>
+                    <td><?php echo $reservation->getDepositAmoun(); ?></td>				
+                </tr>
+                <?php if(!$reservation->getPaymentType()): ?>
+                <tr>                    
+                    <td><b>Balance After Deposit</b></td>
+                    <td><?php echo $reservation->getBalansAfterDeposit(); ?></td>				
+                </tr>
+                   <!-- <?php //if($reservation->getNextPaymentDue()): ?>
+                       <tr>                    
+                           <td><b>Next Payment Due</b></td>
+                           <td><?php //echo $reservation->getNextPaymentDue(); ?></td>				
+                       </tr>
+                       <tr>                    
+                           <td><b>Due Date</b></td>
+                           <td><?php //echo $reservation->getDueDate1()->format('Y-m-d'); ?></td>				
+                       </tr>
+                    <?php //endif; ?>
+                        <tr>                    
+                           <td><b>Final Payment Due</b></td>
+                           <td><?php //echo $reservation->getFinalPaymentDue(); ?></td>				
+                       </tr>
+                       <tr>                    
+                           <td><b>Due Date</b></td>
+                           <td><?php //echo $reservation->getDueDate2()->format('Y-m-d'); ?></td>				
+                       </tr>-->
+                <?php endif?>                
+            </body>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>

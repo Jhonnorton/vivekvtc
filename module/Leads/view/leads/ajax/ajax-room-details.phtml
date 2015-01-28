@@ -1,0 +1,196 @@
+<?php $type = $this->type; //d($this->count);  ?> 
+<div id="append_<?php echo $this->count; ?>">
+
+<div class="formRow control-group">
+<?php //d($this->collection ); ?>
+    <?php if ($type == 1) { ?>
+
+        <label for="roomCategory_<?php echo $this->count; ?>" class="required">Room Category</label>                    
+        <div class="formRight">    
+            <select  data-type="<?php echo \Leads\Controller\AjaxController::RESORT_ROOMS; ?>" id="resort-rooms_<?php echo $this->count; ?>" name="roomCategory[]" required="required" class="chzn-select chosen_select width-100 load-item">                
+                <option value="">please select room category...</option>
+                <?php foreach ($this->collection as $item): ?>                
+                    <option value="<?php echo $item->getId(); ?>"  resortid="<?php echo $item->getResortId()->getId(); ?>"><?php echo $item->getTitle(); ?></option>
+                <?php endforeach; ?>    
+            </select> 
+        </div>
+    <?php }elseif ($type == 2) { ?>
+
+        <label for="roomCategory_<?php echo $this->count; ?>" class="required">Room Category</label>                    
+        <div class="formRight">    
+            <select data-type="<?php echo \Leads\Controller\AjaxController::EVENT_ROOMS; ?>"  id="event-rooms_<?php echo $this->count; ?>" data-url="/event/room/" name="roomCategory[]" required="required" class="chzn-select chosen_select width-100 load-item">                
+                <option value="">please select room category...</option>
+                <?php foreach ($this->collection as $item): ?>                
+                    <option  value="<?php echo $item->getId(); ?>"><?php echo $item->getRoomCategory(); ?></option>
+                  
+                <?php endforeach; ?>    
+            </select> 
+        </div>
+
+
+    <?php }else { ?>
+        <label for="suiteName_<?php echo $this->count; ?>" class="required">Suite Name</label>                    
+        <div class="formRight">    
+            <select data-type="<?php echo \Leads\Controller\AjaxController::CRUISE_CABINS; ?>" id="cruise-cabins_<?php echo $this->count; ?>" name="suiteName[]" required="required" class="chzn-select chosen_select width-100 load-item">                
+                <option value="">please select room category...</option>
+                <?php foreach ($this->collection as $item): ?>                
+                    <option value="<?php echo $item->getId(); ?>"><?php echo $item->getDeckName(); ?></option>
+                                    <?php endforeach; ?>    
+            </select> 
+        </div>
+
+    <?php } ?>
+
+</div>
+
+<div class="formRow control-group">Description
+    <?php //echo $this->formLabel($form->get('description[]')); ?>
+    <div class="formRight">
+
+
+        <textarea rows="10" cols="50" style="width:98% !important" name="description[]" count="<?php echo $this->count; ?>" id="description-rooms_<?php echo $this->count; ?>" class=""></textarea>                 
+      
+    </div>
+</div>
+
+    
+    <div class="formRow control-group">Image
+   
+    <div class="formRight">
+
+        <span id="img<?php echo $this->count; ?>">
+        </span>
+         <input type="file" id="image_<?php echo $this->count; ?>" name="image[]" class="span input">                 
+      
+    </div>
+</div>
+
+
+<div class="formRow control-group">Gross Cost
+    <?php //echo $this->formLabel($form->get('description[]')); ?>
+    <div class="formRight">
+
+
+        <input type="number" id="cost-rooms_<?php echo $this->count; ?>" name="cost[]" class="span input"></textarea>                 
+       
+    </div>
+</div>
+    
+    <div class="formRow control-group">
+                <label>Net Cost</label>
+                <div class="formRight">
+                   <input type="number" id="net-cost-rooms_<?php echo $this->count; ?>" class="span input" name="netcost[]">
+                </div>
+            </div>
+    
+
+<div class="formRight">
+    <div class="distance distance-2_<?php echo $this->count; ?>">
+        <p>
+            <input type="radio" name="paymentType_<?php echo $this->count; ?>" id="per-person_<?php echo $this->count; ?>" value="1" checked="checked">
+            <label for="per-person_<?php echo $this->count; ?>"><span></span>Per Person</label>
+        </p>
+        <p id="deposit-hide_<?php echo $this->count; ?>">
+            <input type="radio" name="paymentType_<?php echo $this->count; ?>" id="per-room_<?php echo $this->count; ?>" value="0"  <?php //if(!$form->get('paymentType')->getValue()) echo 'checked="checked"';    ?>>
+            <label for="per-room_<?php echo $this->count; ?>"><span></span>Per Room</label>
+        </p>
+    </div>
+</div>
+
+
+<div class="formRow control-group">
+    <div class="formLeft">
+        <a href="javascript:void(0)" id="remove-rooms_<?php echo $this->count; ?>" data-count="<?php echo $this->count;?>">Remove Room</a>
+    </div>
+</div>
+
+</div>
+<script>
+    $(function() {
+
+        $("#resort-rooms_<?php echo $this->count; ?>").on('change', function() {
+            var id = $(this).val();
+            var resource = $(this).attr('data-resource');
+            var type = $(this).attr('data-type');
+            var selected = $(this).find('option:selected');
+            var description = selected.data('description');
+            $("textarea#description-rooms_<?php echo $this->count; ?>").val(description);
+           
+        });
+        
+        
+          $("#cruise-cabins_<?php echo $this->count; ?>").on('change', function() {
+            var id = $(this).val();
+            var resource = $(this).attr('data-resource');
+            var type = $(this).attr('data-type');
+            var selected = $(this).find('option:selected');
+            var description = selected.data('description');
+            $("textarea#description-rooms_<?php echo $this->count; ?>").val(description);
+        });
+        
+        
+         $("#event-rooms_<?php echo $this->count; ?>").on('change', function() {
+            var id = $(this).val();
+            var resource = $(this).attr('data-resource');
+            var type = $(this).attr('data-type');
+            var selected = $(this).find('option:selected');
+            var description = selected.data('description');
+            $("textarea#description-rooms_<?php echo $this->count; ?>").val(description);
+        });
+
+          $('#remove-rooms_<?php echo $this->count; ?>').click(function() {
+               var count = $(this).attr('data-count');
+               
+              // alert(count);
+        
+                $("#append_<?php echo $this->count; ?>").remove();
+              
+              
+          });  
+          
+          
+          $('.load-item').change(function(){
+              var type=$(this).attr('data-type');
+              var value=$(this).val();
+              
+              $.post('/admin/leads/ajaxgetdescription/', {id: value, type: type}, function(data) {
+//                  var count=$('textarea[name="description[]"]').attr('count');
+//                  alert(count);
+                $('#description-rooms_'+<?php echo $this->count; ?>).val(data.result);
+                $('#img'+<?php echo $this->count; ?>).html('<img src="'+data.img+'"> OR <input type="hidden" value="/img/user_uploads/resortroom/thumbnails_80x80/'+data.img+'" name="path[]">');
+              });
+          });
+
+
+    });
+
+
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+    $('.chzn-select').chosen();
+//    $('#resort-rooms').change(function() {
+//        var id = $(this).val();         
+//        var resortId = $("#resort-rooms option:selected").attr("resortid");
+//        console.log(resortId);
+//        if(id){
+//            $.post('<?php //echo $this->url('orders-ajax')    ?>',{id:id, type:<?php //echo Orders\Controller\AjaxController::RESORT_ROOMS;     ?>}, function(data){            
+//                    
+//                    console.log(data);
+//                    
+//                    $('#ajax-script').html(data);              
+//            });
+//            loadItems(4, resortId);
+//        }else{         
+//            clearAll();        
+//        }
+//    });
+</script>

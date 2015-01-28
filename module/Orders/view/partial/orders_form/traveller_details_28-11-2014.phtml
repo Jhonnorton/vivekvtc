@@ -1,0 +1,271 @@
+<div class="formRow control-group">
+    <h4>Guest Details</h4>
+    <hr />
+</div>
+<?php
+//d($this->dataSearch);
+$males = $this->dataSearch->males;
+$females  = $this->dataSearch->females;
+$m = array();
+$f = array();
+        for($j=0;$j<$males;$j++){
+            $m[] = 1;
+        }
+        for($k=0;$k<$males;$k++){
+            $f[] = 0;
+        }
+        $sexArray = array_merge($m,$f);
+?>
+
+<input type="hidden" id="inv_data" name="inv_data" value="" search_m="<?php echo $this->dataSearch->males; ?>" search_f="<?php echo $this->dataSearch->females; ?>" m="<?php echo $males; ?>" f="<?php echo $females; ?>" tOcp="" tOcpM="" tOcpF="" qOcp="" qOcpM="" qOcpF="" sOcp="" sOcpG="" mc="0" fc="0" dOp="0" pPer="0">
+<input type="hidden" id="check-date-change" name="check-date-change" value="0"> 
+<!-- Existing client email -->
+    
+    <div class="formRow control-group">			
+    <label for="clientType" class="required">Existing client</label>
+    <div class="formRight">
+        <div name="existingClientDiv" class="distance distance-2">
+            <p>
+                <input type="radio" id="new_client" class="load-client" name="clientType" checked="checked" value="1" data-resource="new">
+                <label for="new_client"><span></span>New</label>
+            </p>
+            <p>
+                <input type="radio" id="exist_client" class="load-client" name="clientType" value="2" data-resource="exist">
+                <label for="exist_client"><span></span>Existing</label>
+            </p>
+        </div>
+    </div>
+</div>
+    
+        <input type="hidden" name="male-count" value="">
+        <input type="hidden" name="female-count" value="">
+    <div class="formRow control-group" id="ex-client">
+        <div class="formRight">
+            <div name="existingClient" class="">
+                    <input type="textbox"  maxlength="9" class="span input" id="cust-id" name="customerId" placeholder="Enter your Customer ID if you are an existing client">
+            </div>
+            <span id="not-found"></span>
+        </div>
+    </div>
+  <div id="loading" class="formRow control-group" style="display: none;">
+            <div class="formRight">
+                <img src="/images/ajax-loader.gif">
+            </div>
+        </div>
+    <div class="formRow control-group">
+             <span class="guest-add">Guest # 1</span>
+        <div class="formRight">
+           
+        </div>
+    </div> 
+<div id="traveller-info">
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerName')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerName')->setAttribute('class', 'span input req')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerName'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <!-- add gender field -->
+    
+    <div class="formRow control-group">			
+        <label for="sex" class="required">Sex</label>
+        <div class="formRight">
+            <div name="sex" class="distance distance-2">
+                <p>
+                    <input type="radio" id="male_1" class="sex" name="sex"  <?php if($sexArray[0] == 1){?>checked="checked"<?php }?>required="required" value="1">
+                    <label for="male_1"><span></span>Male</label>
+                </p>
+                <p>
+                    <input type="radio" id="female_1" class="sex" name="sex" <?php if($sexArray[0] == 0){?>checked="checked"<?php }?> required="required" value="0">
+                    <label for="female_1"><span></span>Female</label>
+                </p>
+                  
+            </div>
+        </div>
+    </div>
+    
+    <!-- end -->
+    
+    
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerEmail')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerEmail')->setAttribute('class', 'span input req')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerEmail'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerPhone')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerPhone')->setAttribute('class', 'span input req')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerPhone'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerDOB')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerDOB')->setAttribute('class', 'span input req')->setAttribute('type','text')->setAttribute('id','dob')->setAttribute("readonly","readonly")); ?>
+            <?php echo $this->formElementErrors($form->get('travellerDOB'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerAddress')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerAddress')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerAddress'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+     <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerCity')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerCity')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerCity'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerState')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerState')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerState'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerCountry')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerCountry')->setAttribute('class', 'chzn-select chosen_select width-100 load-items trc')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerCountry'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerZip')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerZip')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerZip'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="formRow control-group">
+    <div id="travellers">
+        <?php
+
+        if(($males+$females) > 1){
+        $count = 2;
+        for($i= 0;$i<($males+$females)-1;$i++) {?>
+        <div class="added-traveller">
+                <div class="formRow control-group">
+                    <hr/>
+                    <span class="guest-add">Guest # <?php echo $count; ?></span>
+                    <div class="formRight">
+
+                    </div>
+                </div> 
+                <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('travellerName')); ?>
+                    <div class="formRight">
+                        <input type="text" name="tname[]" class="span input req" required="required">
+                    </div>
+                </div>
+
+                <div class="formRow control-group">			
+                    <label for="sex" class="required">Sex</label>
+                    <div class="formRight">
+                        <div name="sex" class="distance distance-2">
+                            <p>
+                                <input type="radio" id="male_<?php echo $count; ?>" class="sex" required="required" name="tsex_<?php echo $count; ?>"  <?php if($sexArray[$i+1] == 1){?>checked="checked" <?php } ?> value="1">
+                                <label id="labm_<?php echo $count; ?>" for="male_<?php echo $count; ?>"><span></span>Male</label>
+                            </p>
+                            <p>
+                                <input type="radio" id="female_<?php echo $count; ?>" required="required" class="sex" <?php if($sexArray[$i+1] == 0){?>checked="checked" <?php } ?>name="tsex_<?php echo $count; ?>" value="0">
+                                <label id="labf_<?php echo $count; ?>" for="female_<?php echo $count; ?>"><span></span>Female</label>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('travellerEmail')); ?>
+                    <div class="formRight">
+                        <input type="email" name="tEmail[]" class="span input" >
+                    </div>
+                </div>
+                <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('travellerPhone')); ?>
+                    <div class="formRight">
+                        <input type="text" name="tPhone[]" class="span input" >
+                    </div>
+                </div>
+                <div class="formRow control-group">
+                    <label for="sex" class="required">DOB</label>
+                    <div class="formRight">
+                        <input type="date" name="tDob[]" readonly="readonly" class="span input req" id="dob_<?php echo $count; ?>" required="required"> 
+                    </div>
+                </div>
+                <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('travellerAddress')); ?>
+                    <div class="formRight">
+                        <input type="text" name="tAddress[]" class="span input" /> 
+                    </div>
+                </div>
+
+                <div class="formRow control-group">
+
+                    <div class="formRight">
+                        <span style="float: right">
+                            <button type="button" class="remove-traveller btn btn-danger btn-small metro">Remove Guest</button>
+                            <span>
+                                <div class="clearfix"></div>
+                                </div>
+                                </div>
+                                </div> 
+        <?php $count++; }}
+        
+        ?>
+        <div id="traveller-more"></div>
+        <div class="formRow control-group">			
+    <div class="formRight">
+        <?php echo $this->formElement($form->get('travellerButtom')->setAttribute('class', 'btn btn-info btntrv')); ?>	        	
+
+<!--       <button type="button" class="remove-traveller btn btn-danger btn-small metro" id="rem_1" addId="1">Remove</button>-->
+    </div>
+</div>
+    </div>
+</div>
+<div class="formRow control-group">
+    <?php echo $this->formLabel($form->get('noOfPersons')); ?>
+    <div class="formRight">
+        <?php
+        echo $this->formElement($form->get('noOfPersons')
+                        ->setAttribute('value', $males+$females)
+                        ->setAttribute('class', 'span input'));
+        ?>
+        <?php echo $this->formElementErrors($form->get('noOfPersons'), array('class' => 'help-inline')); ?>
+    </div>
+    <input type="hidden" name="client" id="client-data" value="">
+</div>
+     <script>
+$(document).ready(function () {
+    $("#cust-id").autocomplete({
+        source: function (request, callback) {
+            $("#loading").show();
+            $.ajax({
+                type: "POST",
+                url: "/admin/orders/ajax/all-clients",
+                data: {pattern:request.term},
+                success: function (data) {
+                     $("#loading").hide();
+                    callback($.map(data, function(obj){
+                        return obj;
+                    }))
+                }
+            })
+        }
+    })
+});
+
+
+</script>

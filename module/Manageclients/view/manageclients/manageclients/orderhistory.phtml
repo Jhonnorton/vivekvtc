@@ -1,0 +1,100 @@
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php 
+    endif;
+endif;
+
+
+?>
+<style>
+.grid-title .pull-left span {
+    width: 350px;
+}
+</style>
+<?php
+$id = $item->getId();
+
+?>
+
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-plus"></i>
+			</div>
+			<span><?php echo $item->getName();?> Order's</span>
+			<div class="clearfix"></div>
+		</div>
+        
+		<div class="clearfix"></div>
+	</div>
+	<div class="grid-content overflow">
+                <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+                    <th class="hidden-mobile">Type</th>
+                    <th class="hidden-mobile">Order Number</th>
+                    <th class="hidden-mobile">Order Date</th>    
+                    <th class="hidden-mobile">Action</th>                    
+                </tr>
+            </thead>
+            <tbody>
+               
+                <?php if(!empty($this->order)){
+                    
+                foreach($this->order as $orders){?>
+                <tr>
+                    <td><?php if($orders->getType()== 1){echo "Resort";}else if($orders->getType()== 2){echo "Event";}else if($orders->getType()== 3){echo "Cruise";} ?></td>
+                    <td><?php echo $orders->getReferenceNumber();?></td>
+                    <td><?php echo $orders->getCreatedAt()->format('M-d-Y');?></td>
+                    <td class="action-table"><a data-toggle="modal" title="View Invoice" href="<?php echo $this->url('manageclients-viewinvoice', array('id' => $orders->getId(),'uId'=>$item->getId())); ?>" data-target=".bs-example-modal-lg">
+                                <img src="/images/icon/table_view.png" alt="">
+                            </a>
+                    </td>
+                </tr>
+                <?php } } ?>
+            </tbody>
+        </table>
+		<div class="clearfix"></div>
+	</div>
+	
+</div>
+<?php echo $this->partial('users/ajax/modal.phtml');?>
+<script>
+
+	function checkPass(){
+
+		var pass = $('#pass1').val();
+		var repass = $('#pass2').val();
+
+		console.log(pass !== repass && pass == '');
+		
+		if(pass !== repass || pass == '' || repass == ''){
+			$('#pass1, #pass2').parents('.formRow').addClass('error');//.append('<ul class="help-inline"><li>Password does not match the confirm password</li></ul>')
+			$('#submitbutton').attr('disabled', 'disabled');
+		}else{
+			$('#pass1, #pass2').parents('.formRow').removeClass('error').addClass('success');
+			$('#submitbutton').removeAttr('disabled');
+		} 
+	};			
+				
+	$(function(){
+		$('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+		$('.error input').keyup(function(){
+					$(this).parents('.formRow').removeClass('error');
+					$(this).next('ul.help-inline').remove();
+		});
+
+		$('#pass1, #pass2').keyup(checkPass);
+	});				
+</script>
+
+

@@ -1,0 +1,39 @@
+<form method='post' action=''>
+            <input type="hidden" name="id" value="<?php echo $this->data['0']->getId(); ?>">
+         <div class="formRow control-group">
+             <label>Role : </label>
+            <div class="formRight">
+                <input type="text" class="span input" name='role' value="<?php echo $this->data['0']->getRoleId()->getName(); ?>" disabled>
+<!--                <select class="span input" name='role' id="role" style="width:100%">
+                    <option value=''>Select Role</option>
+                    <?php foreach($this->collection as $role){ ?>
+                    <option value='<?php echo $role->getId(); ?>'
+                    <?php if($role->getId()==$this->data['0']->getRoleId()->getId()){echo "selected"; }?>>
+                        <?php echo $role->getName(); ?></option>
+                    <option value='7'>Reservation Manager</option>
+                    <?php } ?>
+                    
+                </select>-->
+            </div>
+        </div>	
+                <div class="formRow control-group">
+                    <label><?php echo $this->data['0']->getResourceId()->getOriginalname(); ?></label>
+                   <div class="formRight">
+                       <select class="" name='type'>
+                           <option value=''>Select Type</option>
+                           <option value='0' <?php if($this->data['0']->getCommissionType()=='0'){echo "selected"; }?>>$</option>
+                           <option value='1' <?php if($this->data['0']->getCommissionType()=='1'){echo "selected"; }?>>%</option>
+
+                       </select>
+                       <input type="text" name="amount" value="<?php echo $this->data['0']->getAmount(); ?>">
+                   </div>
+               </div>	
+       
+
+        
+        <div class="formRow control-group">
+            <input type='submit' value='Submit' class='btn btn-info'>
+        </div>
+
+        <div class="clearfix"></div>
+        </form>

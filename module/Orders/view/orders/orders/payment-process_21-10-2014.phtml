@@ -1,0 +1,191 @@
+<?php 
+
+$form = $this->form;
+
+$form->prepare();
+$form->setAttribute('action', $this->url(
+		'credit-payment'
+));
+
+$form->setAttribute('method', 'post');
+?>
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-plus"></i>
+			</div>
+			<span>Billing Details</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<?php echo $this->form()->openTag($form); ?>
+	<div class="grid-content">
+           <div class="formRow control-group">			
+            <label for="pay-option" class="required">Select Payment Option:</label>
+            <div class="formRight">
+                <div name="pay-option" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="ex" class="click-pay" name="type" checked="checked" value="1" >
+                        <label for="ex"><span></span>Express Checkout </label>
+                    </p>
+                    <p>
+                        <input type="radio" id="cc" class="click-pay" name="type" value="2" >
+                        <label for="cc"><span></span> Credit Card</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+            <div id="ccd" style="display:none;">
+                
+                <div class="formRow control-group">			
+            <label for="pay-option" class="required">Billing Details Same as Reservation</label>
+            <div class="formRight">
+                <div name="pay-option" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="yes" class="bill-click" name="billing_det" checked="checked" value="1" >
+                        <label for="yes"><span></span>Yes</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="no" class="bill-click" name="billing_det" value="2" >
+                        <label for="no"><span></span> No </label>
+                    </p>
+                </div>
+            </div>
+        </div>
+                <div id="billing_details" style="display:none;">
+                <div class="formRow control-group">
+                    <label for="billName">Name</label>                    
+                    <div class="formRight">
+                        <input type="text" value="" class="span input"  name="billName">                                        
+                    </div>
+                </div>
+                
+                 <div class="formRow control-group">
+                    <label for=" billCity">City</label>                    
+                    <div class="formRight">
+                        <input type="text" value="" class="span input"  name="billCity">                                        
+                    </div>
+                </div>
+                
+                 <div class="formRow control-group">
+                    <label for="billState">State</label>                    
+                    <div class="formRight">
+                        <input type="text" value="" class="span input"  name="billState">                                        
+                    </div>
+                </div>
+                
+                <div class="formRow control-group">
+                    <label for="billCountry">Country</label>                    
+                    <div class="formRight">
+                        <select name="billCountry" class="chzn-select chosen_select width-100 chzn-done">
+                            <option value="a">A</option>
+                            <option value="b">B</option>
+                        </select>                                       
+                    </div>
+                </div>
+                </div>
+                
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('typeOfCard')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('typeOfCard')->setAttribute('class', 'chzn-select chosen_select width-100 chzn-done')); ?>
+                    <?php echo $this->formElementErrors($form->get('typeOfCard'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>
+                        
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('cardNumber')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('cardNumber')->setAttribute('class', 'span input')); ?>
+                    <?php echo $this->formElementErrors($form->get('cardNumber'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>
+            
+            <!-- chzn-select chosen_select width-100 -->
+             <div class="formRow control-group">
+                    <?php echo "Card Expiry"?>
+                    <div class="formRight">
+                        <select name="cardMonth" class="">
+                            <option value="01">January</option>
+                            <option value="02">Febuary</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>    
+                        </select>
+                        
+                        <select name="cardYear" class="">
+                            <?php foreach(range(date('Y'),date('Y')+15) as $i): ?>
+                            <option value="<?php echo $i ;?>"><?php echo $i ;?></option>
+                            <?php endforeach;?>
+                        </select>
+                    </div>
+             </div>
+            
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('cvvNumber')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('cvvNumber')->setAttribute('class', 'span input')); ?>
+                    <?php echo $this->formElementErrors($form->get('cvvNumber'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>
+            </div>
+            
+            
+           <input type="hidden" name="payment-type" value="1">
+             <div class="formRow control-group">
+            <?php echo $this->formSubmit($form->get('billProcess')->setAttribute('class', 'btn btn-info')) ?>
+        </div>
+        <div class="clearfix"></div>
+            
+	<?php echo $this->form()->closeTag() ; ?>
+</div>
+
+<script>
+    
+$(document).ready(function(){
+   
+    $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+    $('.error input').keyup(function(){
+                            $(this).parents('.formRow').removeClass('error');
+                            $(this).next('ul.help-inline').remove();
+    });
+    
+    $('.chzn-select').chosen();
+    $('#submitbutton').val("Pay");
+    $('#submitbutton').css("float","right");
+});
+ $('.click-pay').click(function(){
+     var type = $(this).val();
+
+     if(type == 2){
+         $("#ccd").show();
+          $('input[name="payment-type"]').val(2);
+          $("#orders").attr("action",'/admin/reservation/credit-payment');
+
+     }else{
+         $("#ccd").hide();
+         $('input[name="payment-type"]').val(1);
+         $("#orders").attr("action",'/admin/reservation/credit-payment');
+
+     }
+ });
+ 
+ $('.bill-click').click(function(){
+     var type = $(this).val();
+
+     if(type == 2){
+         $("#billing_details").show();
+     }else{
+         $("#billing_details").hide();
+     }
+ });
+</script>

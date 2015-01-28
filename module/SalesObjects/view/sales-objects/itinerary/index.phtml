@@ -1,0 +1,95 @@
+<?php 		
+	if($this->message):
+?>		
+<div class="alert alert-dismissable alert-<?php echo $this->message[0]['type'];?>">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <ul>
+        <li><?php echo $this->message[0]['message'];?></li>        
+    </ul>
+</div>
+<?php 
+endif; 
+?>
+
+<div class="pagetitle">
+	<h1>Itinerary</h1>
+</div>
+
+<div class="grid">
+
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-eye-open"></i>
+			</div>
+			<span>Itinerary</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="pull-right">
+			<div class="icon-title">
+				<a href="javascript:void(0);"><i class="icon-refresh"></i></a>
+			</div>
+			<div class="icon-title">
+				<a href="javascript:void(0);"><i class="icon-cog"></i></a>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+
+	<div class="grid-content overflow">
+
+		<table class="table table-bordered table-mod-2" id="datatable_3">
+			<thead>
+				<tr>
+					<th class="t_center">
+						<input type="checkbox" id="c0" name="cc" />
+							<label for="c0"><span></span></label>
+					</th>
+					<th class="hidden-mobile">Day</th>
+					<th class="hidden-mobile">Port Location</th>
+					<th class="hidden-mobile">Arrival Time</th>								
+					<th class="hidden-mobile">Departure Time</th>
+					<th class="hidden-mobile">Activity</th>
+					<th class="hidden-mobile">Cruise</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i = 1; foreach($this->collection as $item): ?>
+				<tr>
+					<td class="t_center">
+						<input type="checkbox" id="c<?php echo $i;?>" name="cc" />
+						<label for="c<?php echo $i;?>"><span></span></label>
+					</td>
+					<td class="hidden-mobile"><?php echo $item->getDay(); ?></td>
+					<td class="hidden-mobile"><?php echo $item->getPortLocation(); ?></td>
+					<td class="hidden-mobile"><?php echo $item->getArrivalTime()->format('H:i'); ?></td>
+					<td class="hidden-mobile"><?php echo $item->getDepartureTime()->format('H:i');; ?></td>
+					<td class="hidden-mobile"><?php echo $item->getActivity(); ?></td>										
+					<td>
+						<a href="<?php echo $this->url('cruises-edit', array('id' => $item->getCruise()->getId()));?>" target="_blank">
+							<?php echo $item->getCruise()->getName(); ?>
+						</a>
+					</td>
+															
+					<td class="action-table">
+<!-- 						<a href="javascript:void(0);"> -->
+<!-- 							<img src="/images/icon/table_view.png" alt=""> -->
+<!-- 						</a> -->
+						<a href="<?php echo $this->url('itineraries-edit', array('id' => $item->getId()));?>">
+							<img src="/images/icon/table_edit.png" alt="">
+						</a>
+						<a href="<?php echo $this->url('itineraries-delete', array('id' => $item->getId()));?>"
+							data-confirm="Are you sure?">
+							<img src="/images/icon/table_del.png" alt="">
+						</a>
+					</td>
+				</tr>
+				<?php $i++; ?>
+				<?php endforeach;?>
+			</tbody>
+		</table>
+		<div class="clearfix"></div>
+	</div>
+
+</div>

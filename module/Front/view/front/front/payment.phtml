@@ -1,0 +1,658 @@
+
+<script src="/js/jquery.min.js" type="text/javascript"></script>
+<script src="/js/jquery.validate.min.js" type="text/javascript"></script>
+<?php
+//$datedec=base64_decode(strtr($this->date, '-_,', '+/='));
+//$dateexp=date('Y-m-d H:i:s',strtotime("+1 day", strtotime($datedec)));
+//if($dateexp>date('Y-m-d H:i:s')){
+//    echo "Link Expired... "; 
+//    
+//echo '<script>';
+//echo '$(document).ready(function () {';
+//    // Handler for .ready() called.
+//echo 'window.setTimeout(function () {';
+//echo 'location.href = "https://www.google.co.in"';
+//echo "}, 600)";
+//echo "})";
+//echo "</script>";
+//    
+//     die;
+//}
+$id = $this->id;
+foreach($this->collection['collection'] as $coll){
+    $amount1+=$coll->getpaymentDue();
+}
+$amount = $this->collection['collection'][0]->getpaymentDue();
+$reservation=$this->collection['collection'][0]->getReservation();
+// d($reservation);
+$date = ($this->collection['collection'][0]->getDueDate() instanceof \DateTime) ? $this->collection['collection'][0]->getDueDate()->format('M dS,Y') : $this->collection['collection'][0]->getDueDate(); 
+$orderdate = ($reservation->getCreatedAt() instanceof \DateTime) ? $reservation->getCreatedAt()->format('d.m.Y') : $reservation->getCreatedAt(); 
+$dueid = $this->collection['collection'][0]->getId();
+$refernum=$reservation->getReferenceNumber();
+$amountpaid=$reservation->getDepositAmoun();
+// d($dueid);
+
+$travellername=$this->traveller[0]->getTraveller()->getName();
+//d($travellername);
+?>
+
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Payment Reminder</title>
+	<link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+	<div class="gral">
+		<br>
+		<div class="span6 block1">
+			Sunset Destinations and Adult Tours Inc. <br> 
+			1.800.458.2099<br> 
+			IATA# 965 342 33<br> 
+			TICO#: 50018479 
+		</div>
+		<div class="span6 derecha block1">
+			Res#: <b><?php echo $refernum; ?></b><br> 
+			Processed on : <?php echo $orderdate; ?><br> 
+			Booked by: <?php echo $travellername; ?>
+		</div>
+		<div class="span6">
+			<h2>PAYMENT REMINDER</h2>
+			<span class="st1">For <?php echo $this->orderfor; ?></span><br> <br> 
+			<table class="tpay" cellspacing="0">
+				<tr>
+					<td class="yell">.</td>
+					<td class="yell">.</td>
+				</tr>
+				<tr>
+					<td>Total Cost Trip </td>
+					<td class="gray2">$<?php echo $reservation->getFinalCost(); ?></td>
+				</tr>
+				<tr>
+					<td>Amount Already Paid</td>
+					<td class="gray2">$<?php echo $amountpaid; ?></td>
+				</tr>
+				<tr>
+					<td>Balanced Owed</td>
+					<td class="gray2">$<?php echo $amount1; ?></td>
+				</tr>
+                                <?php foreach($this->collection['collection'] as $coll){ 
+                                    $date = ($coll->getDueDate() instanceof \DateTime) ? $coll->getDueDate()->format('M dS,Y') : $coll->getDueDate(); 
+                                    ?>
+				<tr>
+					<td>Due On <?php echo $date; ?></td>
+					<td class="gray2">$<?php echo $coll->getpaymentDue(); ?></td>
+				</tr>
+                                <?php } ?>
+<!--				<tr>
+					<td>Due On Oct 1st</td>
+					<td class="gray2">$1500</td>
+				</tr>-->
+			</table> <br> 
+			<div class="span6">
+				<input id="checkit" type="checkbox" name="pay" value="payment"> Pay The Next Due Payment or 
+			</div>
+			<div class="span6">
+				<input class="ipay" id="amountbox" type="text" placeholder="ENTER AMOUNT"><br>
+				<span class="small2">The amount entered can be no less than the next due payment</span>
+			</div>
+<!--			<div style="margin-top: 6%; font-size: 20px; width: 100%;" class="">
+				<span class="labelNew">Merchant fees (2.5%) :</span>
+                                <span class="displayNew" id="merchantFee">-</span><br>
+                                <span class="labelNew">Final Amount :</span>
+                                <span class="displayNew" id="finalCost">-</span>
+			</div>-->
+		</div>
+		<div class="span6 btsPay">
+                    <div class="btPay">
+				<p style="width:175px;"><input name="patype" type=radio class="click-pay" value="2"> pay by credit card</p>
+				<div class="bt-visa"></div>	
+				
+			</div>
+                    <div class="btPay">
+				<p style="width:175px;"><input name="patype" type=radio class="click-pay" value="1" checked>  paypal checkout</p>
+				<div class="bt-paypal"></div>	
+				
+			</div>
+		</div><br><br>
+                
+                <div id="dodirect" style="display:none;">
+                    <br><br>
+                        <?php echo $this->form()->openTag($form->setAttribute('id', 'ccform')); ?>  
+                    
+                        <div class="formrow">
+                            <div class="l01"><?php echo $this->formLabel($form->get('totalCost')); ?></div>
+                            <div class="l02">
+
+                                <?php
+                                echo $this->formElement($form->get('totalCost')
+                                                ->setAttribute('readonly', 'readonly')
+                                                ->setAttribute('value', '0')
+                                                ->setAttribute('class', 'span input textbox')
+                                                ->setAttribute('id', 'amount'));
+                                ?>
+                                <?php echo $this->formElementErrors($form->get('totalCost'), array('class' => 'help-inline')); ?>
+
+
+                            </div>
+                        </div>
+
+
+                            <div class="formrow">
+                                <div class="l01"> <label for="billName">Name</label>          </div>
+                                <div class="l02">
+
+                                  <input type="text" value="" class="span input textbox"  name="billName">   
+
+                                </div>
+                            </div>
+
+
+                            <div class="formrow">
+                                <div class="l01"> <label for=" billCity">City</label>  </div>
+                                <div class="l02">
+
+                                  <input type="text" value="" class="span input textbox"  name="billCity">   
+
+                                </div>
+                            </div>
+
+                           
+                            <div class="formrow">
+                                <div class="l01"> <label for="billState">State</label>       </div>
+                                <div class="l02">
+
+                                  <input type="text" value="" class="span input textbox"  name="billState">   
+
+                                </div>
+                            </div>
+
+                     
+
+                           <div class="formrow">
+                                <div class="l01"><?php echo $this->formLabel($form->get('billCountry')); ?></div>                   
+                                <div class="l02">
+                                    <?php echo $this->formElement($form->get('billCountry')->setAttribute('class', 'span input textbox')); ?>
+                                    <?php echo $this->formElementErrors($form->get('billCountry'), array('class' => 'help-inline')); ?>
+                                     
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="formrow">
+                                <div class="l01"><?php echo $this->formLabel($form->get('typeOfCard')); ?></div>
+                                <div class="l02">
+
+                                    <?php echo $this->formElement($form->get('typeOfCard')->setAttribute('class', 'span input textbox')); ?>
+                                    <?php echo $this->formElementErrors($form->get('typeOfCard'), array('class' => 'help-inline')); ?>
+
+
+                                </div>
+                            </div>
+                            <div class="formrow">
+                                <div class="l01"><?php echo $this->formLabel($form->get('cardNumber')); ?></div>
+                                <div class="l02">
+                                    <?php echo $this->formElement($form->get('cardNumber')->setAttribute('class', 'span input textbox')); ?>
+                                    <?php echo $this->formElementErrors($form->get('cardNumber'), array('class' => 'help-inline')); ?>
+
+
+                                </div>
+                            </div>
+                            <div class="formrow">
+                                <div class="l01">Expiry</div>
+                                <div class="l02">
+
+                                    <select name="cardMonth" class="mintext">
+                                        <option value="01">January</option>
+                                        <option value="02">Febuary</option>
+                                        <option value="03">March</option>
+                                        <option value="04">April</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>    
+                                    </select>
+
+
+                                    <select name="cardYear" class="mintext">
+                                        <?php foreach (range(date('Y'), date('Y') + 15) as $i): ?>
+                                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="formrow">
+                                <div class="l01"><?php echo $this->formLabel($form->get('cvvNumber')); ?></div>
+                                <div class="l02">
+                                    <?php echo $this->formElement($form->get('cvvNumber')->setAttribute('class', 'span input mintext')/*->setAttribute('required', 'required')*/); ?>
+                                    <?php echo $this->formElementErrors($form->get('cvvNumber'), array('class' => 'help-inline')); ?>
+                                </div>
+                            </div>
+                            <div class="clr"></div>
+                        
+                      <!--  <input type="hidden" name="payment-type" value="1"> -->
+                        <input type="hidden" name="dueid" value="<?php echo $dueid; ?>">
+                        <div class="formrow">
+                                <div class="l01"></div>
+                                <div class="l02"></div>
+                                <input type="hidden" name="ptype" value="2" style="display:none">
+                            <?php echo $this->formSubmit($form->get('billProcess')->setAttribute('class', 'btn')->setAttribute('value', 'Pay')->setAttribute('id', 'paybttn')->setAttribute('style', 'color:white !important;')) ?>
+                                </div>
+                        <?php echo $this->form()->closeTag(); ?>
+                    </div> 
+               
+                <div id="paypal" style="display:block;" class="floatright">
+                    
+                     <?php echo $this->form()->openTag($form); ?> 
+                    <input type="hidden" id="paypalamount" name="amount" value="">
+                    <input type="hidden" name="ptype" value="1" >
+                    <?php echo $this->formSubmit($form->get('billProcess')->setAttribute('class', 'btn')->setAttribute('value', 'Pay')->setAttribute('id', 'paybtn')) ?>
+                    <?php echo $this->form()->closeTag(); ?>
+                </div>
+                <br><br><br>
+		<div class="span12 parr">
+			<p><b>Please contact us at 1 800 458 2099 if you would like to make other payment arrangements</b></p><br>
+			<p class="small"><i>Toronto Office: 30 Eglinton Ave W, Suite C-12, Mississauga, ON || New Hampshire Office: 636 Lower Ridge Rd. Loudon, NH, 03307</i></p>
+		</div> <br><br> 
+	</div>
+    
+    
+    <script>
+        $(document).ready(function(){
+           $('#checkit').click(function(){
+//               alert('hi');
+           
+               var value=$(this).attr('checked');
+//               alert(value);
+               if(value=='checked'){
+                   $('#amountbox').val(<?php echo $amount; ?>);
+                   $('#paypalamount').val(<?php echo $amount; ?>);
+                   $('#amount').val(<?php echo $amount; ?>);
+                   $('#amountbox').attr('disabled','true');
+                  // var merchantFee=parseFloat(<?php echo $amount; ?>)*0.025;
+                  // merchantFee=merchantFee.toFixed(2);
+                  // var finalCost=parseFloat(<?php echo $amount; ?>)+parseFloat(merchantFee);
+                  // $('#merchantFee').html('$ '+merchantFee);
+                  // $('#finalCost').html('$ '+finalCost);
+                   $('#amount').val(<?php echo $amount; ?>);
+               }else{
+                  $('#amountbox').val('');
+                  $('#paypalamount').val('');
+                  $('#amountbox').removeAttr('disabled'); 
+                //  $('#merchantFee').html('-');
+                 //  $('#finalCost').html('-');
+                   $('#amount').val(0);
+               }
+           }); 
+           $('#amountbox').blur(function(){
+                var amount=$(this).val();
+                $('#paypalamount').val(amount);
+                $('#amount').val(amount);
+                var amt=<?php echo $amount; ?>;
+                var balamt=<?php echo $amount1; ?>;
+                if(amount<amt){
+                    alert('Amount cannot be less than Amount due.');
+                    $(this).val('');
+                }else if(amount>balamt){
+                    alert('Amount cannot be greater than Balance Due Amount.');
+                    $(this).val('');
+                }else{
+                   // var merchantFee=parseFloat(amount)*0.025;
+                   // merchantFee=merchantFee.toFixed(2);
+                   // var finalCost=parseFloat(amount)+parseFloat(merchantFee);
+                   // $('#merchantFee').html('$ '+merchantFee);
+                   // $('#finalCost').html('$ '+finalCost);
+                    $('#amount').val(0);
+                }
+           });
+           
+           $("#ccform").validate({
+            rules: {
+                billName: {
+                    required: true,
+                },
+                billCity: {
+                    required: true,
+                },
+                billState: {
+                    required: true
+                },
+                billCountry: {
+                    required: true
+                },
+                typeOfCard: {
+                    required: true
+                },
+                
+                cardNumber: {
+                    required: true
+                },
+                cvvNumber: {
+                    required: true
+                },
+            },
+            messages: {
+                billName: {required:"Please Enter Name"},
+                billCity:{ required:"Please Enter City"},
+                billState:{ required:"Please Enter State"},
+                billCountry:{ required:"Please Select Country"},
+                typeOfCard: { required:"Please Select Card Type"},
+                cardNumber: { required:"Please Enter Card Number"},
+                cvvNumber:{ required: "Please Enter CVV Number"},
+
+
+            }
+           });
+        });
+        
+//        function paymentmode(mode){
+//            if(mode=='paypal'){
+//                document.location='#';
+//            }else{
+//                $('.dodirectForm').show();
+//            }
+//        }
+        
+        $('.click-pay').click(function() {
+        var type = $(this).val();
+
+        // alert(type);
+
+        if (type == 2) {
+            $("#dodirect").css("display", "block");
+            $("#paypal").css("display", "none");
+            $('input[name="payment-type"]').val(2);
+
+            //$("#front").attr("action", '/applypayment/' +<?php echo $id ?>);
+		$("#front").attr("action", '');
+        } else {
+            $("#dodirect").css("display", "none");
+//            $("#ccd:input").attr("disabled", true);
+            //alert('#');
+            $('input[name="payment-type"]').val(1);
+            $("#front").attr("action", '');
+	    $("#paypal").css("display", "block");
+        }
+    });
+    
+     $('#paybtn').click(function() {
+        var amount=$('#paypalamount').val();
+        if(amount==0){
+            alert('Please enter valid amount to pay');
+            return false;
+        }
+            
+     });
+     $('#paybttn').click(function() {
+        var amount=$('#amount').val();
+        if(amount==0){
+            alert('Please enter valid amount to pay');
+            return false;
+        }
+            
+     });
+        </script>
+        
+        <style>
+            .btn{
+                padding: 15px;
+                font-size: 20px;
+                background: #1c1c1c;
+                color:white;
+                border-radius: 10px;
+            }
+            #dodirect{
+                margin: 0 auto;
+                width: 75%;
+                padding: 20px;
+                border: 1px solid gray;
+                border-radius: 50px;
+
+            }
+            .formrow{
+                margin: 0 auto;
+                width: 80%;
+            }
+            .l01{
+              float: left;
+              width: 30%;  
+            }
+            .l02{
+              float: left;
+              width: 70%;  
+            }
+            .textbox{
+                width:99%;
+                height: 30px;
+                background: #fff;
+                margin-bottom: 10px;
+            }
+            .mintext{
+                width: 100px;
+                height: 30px;
+                background: #fff;
+                margin-bottom: 10px;
+            }
+
+	    .floatright{
+	      float:right;
+	    }
+            .labelNew{
+                float: left;
+                width: 51%;
+            }
+            .displayNew{
+                float: left;
+                width: 20%;
+            }
+            .error{
+                color:red;
+            }
+            input, select{
+                color:black !important;
+            }
+        </style>
+</body>
+</html>
+
+
+
+
+
+<!--
+
+
+<div class="top-secure"> <a href="#"><img src="/images/top-secure.jpg" alt="Top Secure"></a> </div>
+<h1 class="topheading">Welcome to this secured online Reservation Portal, hosted by Sunset Destinations and Adult Tours Inc</h1>
+<h2 class="topsubheading">This page is fully encrypted and your private information will be delivered securely to our inbox</h2>
+
+<div id="content-section">
+    <?php echo $this->form()->openTag($form); ?>
+    <ul>    
+
+        <li id="li5">
+            <h3 class="cbp-nttrigger">
+                <div class="arrow01"><span>How would you like to pay</span></div>
+            </h3>
+            <div class="cbp-ntcontent">
+                <div id="step05">
+                    <div class="formbox" >
+
+                        <div class="box01">
+                            <input type="radio" id="ex" class="click-pay" name="ptype" checked="checked" value="1" >
+                            Paypal
+                        </div>
+                        <div class="box01">
+                            <input type="radio" id="cc" class="click-pay" name="ptype" value="2" >
+                            Secure credit checkout
+                        </div>
+
+                    </div>
+
+                    <div class="formbox01">
+
+
+                 
+
+                        <div class="left" id="ccd" style="display:none;">
+                            
+                        <div class="formrow">
+                            <div class="l01"><?php echo $this->formLabel($form->get('totalCost')); ?></div>
+                            <div class="l02">
+
+                                <?php
+                                echo $this->formElement($form->get('totalCost')
+                                                ->setAttribute('readonly', 'readonly')
+                                                ->setAttribute('value', $amount)
+                                                ->setAttribute('class', 'span input'));
+                                ?>
+                                <?php echo $this->formElementErrors($form->get('totalCost'), array('class' => 'help-inline')); ?>
+
+
+                            </div>
+                        </div>
+
+
+                            <div class="formrow">
+                                <div class="l01"> <label for="billName">Name</label>          </div>
+                                <div class="l02">
+
+                                  <input type="text" value="" class="span input"  name="billName">   
+
+                                </div>
+                            </div>
+
+
+                            <div class="formrow">
+                                <div class="l01"> <label for=" billCity">City</label>  </div>
+                                <div class="l02">
+
+                                  <input type="text" value="" class="span input"  name="billCity">   
+
+                                </div>
+                            </div>
+
+                           
+                            <div class="formrow">
+                                <div class="l01"> <label for="billState">State</label>       </div>
+                                <div class="l02">
+
+                                  <input type="text" value="" class="span input"  name="billState">   
+
+                                </div>
+                            </div>
+
+                     
+
+                           <div class="formrow">
+                                <div class="l01"><?php echo $this->formLabel($form->get('billCountry')); ?></div>                   
+                                <div class="l02">
+                                    <?php echo $this->formElement($form->get('billCountry')->setAttribute('class', 'span input')); ?>
+                                    <?php echo $this->formElementErrors($form->get('billCountry'), array('class' => 'help-inline')); ?>
+                                     
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="formrow">
+                                <div class="l01"><?php echo $this->formLabel($form->get('typeOfCard')); ?></div>
+                                <div class="l02">
+
+                                    <?php echo $this->formElement($form->get('typeOfCard')->setAttribute('class', 'span input')); ?>
+                                    <?php echo $this->formElementErrors($form->get('typeOfCard'), array('class' => 'help-inline')); ?>
+
+
+                                </div>
+                            </div>
+                            <div class="formrow">
+                                <div class="l01"><?php echo $this->formLabel($form->get('cardNumber')); ?></div>
+                                <div class="l02">
+                                    <?php echo $this->formElement($form->get('cardNumber')->setAttribute('class', 'span input')); ?>
+                                    <?php echo $this->formElementErrors($form->get('cardNumber'), array('class' => 'help-inline')); ?>
+
+
+                                </div>
+                            </div>
+                            <div class="formrow">
+                                <div class="l01">Expiry</div>
+                                <div class="l02">
+
+                                    <select name="cardMonth" class="">
+                                        <option value="01">January</option>
+                                        <option value="02">Febuary</option>
+                                        <option value="03">March</option>
+                                        <option value="04">April</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>    
+                                    </select>
+
+                                </div>
+                                <div class="l02">
+
+                                    <select name="cardYear">
+                                        <?php foreach (range(date('Y'), date('Y') + 15) as $i): ?>
+                                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="formrow">
+                                <div class="l01"><?php echo $this->formLabel($form->get('cvvNumber')); ?></div>
+                                <div class="l02">
+                                    <?php echo $this->formElement($form->get('cvvNumber')->setAttribute('class', 'span input')/*->setAttribute('required', 'required')*/); ?>
+                                    <?php echo $this->formElementErrors($form->get('cvvNumber'), array('class' => 'help-inline')); ?>
+                                </div>
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                      <!--  <input type="hidden" name="payment-type" value="1"> -->
+   <!--                     <input type="hidden" name="dueid" value="<?php echo $dueid; ?>">
+                        <div class="right">
+                            <?php echo $this->formSubmit($form->get('billProcess')->setAttribute('class', 'btn btn-info')) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <?php echo $this->form()->closeTag(); ?>
+
+</div>
+<script>
+    $('.click-pay').click(function() {
+        var type = $(this).val();
+
+        // alert(type);
+
+        if (type == 2) {
+            $("#ccd").show();
+            $("#billingdetail").show();
+            $('input[name="payment-type"]').val(2);
+
+            $("#front").attr("action", '/applypayment/' +<?php echo $id ?>);
+        } else {
+            $("#ccd").hide();
+            $("#billingdetail").hide();
+            $("#ccd:input").attr("disabled", true);
+            //alert('#');
+            $('input[name="payment-type"]').val(1);
+            $("#front").attr("action", '#');
+        }
+    });
+
+</script>

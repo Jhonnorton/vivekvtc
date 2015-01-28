@@ -1,0 +1,232 @@
+<?php
+//echo "<pre>";
+
+//print_r($this->collection);
+//die;
+
+//echo $hotelName = $reservation['hotelName'];
+?>
+
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+
+<script>
+    function printPage(id) 
+    {
+        var mywindow = window.open('<?php echo $this->url('print-reservation')?>'+id, 'Advanced Communication Skills', 'left=10,top=10,height=700,width=700,scrollbars=1,resizable=1');
+    }
+</script>
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+                            <i class="icon-list"></i>
+                        </div> 
+			<span>Cancelled Reservations</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	
+	
+	
+	
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+        
+   <!--      <div class="formRight">
+        <form method="post" action="<?php //echo $this->url('orders-cancel') ;?>">
+            
+           
+        Date From : <input type="date" id="startDate" name="mydate" class="">  
+       Date To : <input type="date" id="endDate" name="mydate1" class="">       
+        <input type="submit" name="submit" class="btn btn-info" id="btnmargin" value="Search">
+        </form> </div> -->
+          <form method="post" id="formview" action="<?php
+            echo $this->url(
+                    'orders-delete'
+            );
+            ?>">
+              <div class="formRight">
+           <input type="button" name="removechecked"  onclick="return removeChecked();"class="btn btn-info rem-checked" id="btnmargin" value="Remove">
+        </div>
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+                     <th class="t_center">
+                        <input type="checkbox" id="c0" name="cc" />
+                        <label for="c0"><span></span></label>
+                    </th>
+                    <th class="hidden-mobile">Sr No.</th>
+		     <th class="hidden-mobile">Name</th>
+                   <!-- <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Event Name</th>
+                    <th class="hidden-mobile">Booking From</th>
+                    <th class = "hidden-mobile">Booking Date</th>
+                    <th class="hidden-mobile">Order Total</th>
+                <!--     <th class="hidden-mobile">Total</th>
+                      <th class="hidden-mobile">Status</th>  -->
+                    <th class="hidden-mobile">Actions</th>
+                    					
+                </tr>
+            </thead>
+            <tbody>
+                <?php      $total=0;   
+			   $i=0;
+                    foreach ($this->collection as $item): 
+                     
+		    $hotelName = $item['hotelName'];
+                    $type = $item['type'];
+                    $roomName = $item['roomName'];
+                    $travellers = $item['travellers'];
+                    $reservation = $item['reservation'];
+                    $status = $item['status'];
+
+		  //  $total=($total + $reservation->getTotalCost());
+		    
+
+		//    echo $type;
+
+                if ($reservation->getAffiliateId()) {
+                    $affiliateinfo = $reservation->getAffiliateId()->getName();
+                } else {
+                    $affiliateinfo = 'vacationparties.com';
+                }
+                if($status=="Canceled"){
+
+
+		    $total=($total + $reservation->getTotalCost());
+		    $i++;
+
+?>                  
+                
+                    <tr>
+                        <td class="t_center">
+                            <input type="checkbox" id="c<?php echo $i; ?>" class="checkb" name="cc[]" value="<?php echo $reservation->getId(); ?>"/>
+                            <label for="c<?php echo $i; ?>"><span></span></label>
+                        </td>
+                        <td class="hidden-mobile"><?php echo $i;  ?></td> 
+			<td class="hidden-mobile"><?php  
+                                foreach ($travellers as $traveller){
+                                    echo $traveller;
+                                    break;
+                                }
+                        
+                        ?></td>
+                         <td class="hidden-mobile"><?php echo $hotelName;//echo $reservation->getId(); ?></td>   
+                        <td class="hidden-mobile"><?php echo $affiliateinfo ?></td>
+                         <td class="hidden-mobile"><?php echo $reservation->getCreatedAt()->format("Y-m-d"); ?></td>
+                        
+                        <td class="hidden-mobile"><?php echo  $reservation->getCurrencyCode() . '  '.$reservation->getTotalCost(); ?></td> 
+                    <!--     <td class="hidden-mobile"><?php //echo $total; ?></td>
+                         <td class="hidden-mobile"><?php //echo $status; ?></td>  -->
+                        <td class="action-table">                            
+                            <a href="<?php echo $this->url('orders-cancel-view', array('id' => $reservation->getId())); ?>" title="View">
+                                <img src="/images/icon/table_view.png" alt="View">
+                            </a>
+                            <a href="/admin/cancel/reinstate/<?php echo  $reservation->getId() ; ?>" title="Reinstate"  data-confirm="Are you sure?">
+                                Reinstate
+                            </a>
+                         <!--   <a href="javascript:alert('In Progress...')" title="Update">
+                                <img src="/images/icon/table_edit.png" alt="Update">
+                            </a>
+                            <a href="/admin/cruise/cancel/<?php //echo $item['id'] ; ?>" title="Cancel">
+                                <img src="/images/icon/table_del.png" alt="Cancel">
+                            </a>
+                            <a title="Print" href="javascript:printPage(<?php //echo $item['id'] ; ?>)">
+                                <i class="icon-print"></i>
+                            </a> -->
+                              <a href="javascript:void"  onclick="return removeSingle(<?php echo $reservation->getId();?>)"title="Delete">
+                                <img src="/images/icon/delete-icon.gif" alt="Delete">
+                            </a>
+                        </td>
+                         
+                    </tr>                    
+                <?php } endforeach; ?>
+
+	   </tbody>
+
+	    
+        </table>
+ </form>
+	      <br><br>
+	      <p> Total Orders :	
+	      <?php echo $i.' , ';?>
+	         Order Total :	
+	      <?php echo '$ '.$total;?>
+	      </p>	  
+	 
+
+        <div class="clearfix"></div>
+        
+    </div>
+</div>
+
+<style>
+    .rem-checked{
+        margin-left: 350px;
+    }
+    </style>
+
+<script>
+        function removeChecked(){
+            if (confirm("Are you sure!") == true) {
+                $("#formview").submit();
+        } else {
+            return false;
+        }
+            
+        }
+        
+         function removeSingle(id){
+            if (confirm("Are you sure!") == true) {
+                location.href='<?php echo $this->serverUrl();?>/admin/reservation/delete/'+id;
+        } else {
+            return false;
+        }
+            
+        }
+        
+        $(document).ready(function(){
+            $('#c0').click(function(){
+                if($('#c0').is(":checked") == true){
+                    $('.checkb').prop('checked', true);
+                    $(".rem-checked").show();
+                    
+                }else{
+                    $('.checkb').prop('checked', false);
+                    $(".rem-checked").hide();
+                }
+            })
+            
+            
+            $('.checkb').click(function(){
+               var flag;
+                $('.checkb').each(function(){
+                   var checked=$(this).is(':checked');
+                    if(checked==true){
+                        flag=true;
+                    }
+                });
+                if(flag){
+                    $(".rem-checked").show();
+                }else{
+                    $(".rem-checked").hide();
+                }
+            });
+            $(".rem-checked").hide();
+        })
+        </script>

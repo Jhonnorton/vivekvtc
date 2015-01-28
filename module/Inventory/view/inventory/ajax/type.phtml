@@ -1,0 +1,18 @@
+ 
+<?php $typeIds=  explode(",", $this->typeid)?> 
+
+  
+    <select id="resorts" name="resortId[]" required="required" class="span input chzn-select width-100" multiple>                
+        <?php foreach ($this->collection as $item):?>                
+        <option value="<?php echo $item->getId();?>">
+                <?php echo $item->getTitle();?>
+            </option>
+        <?php endforeach;?>    
+    </select> 
+
+<script>
+    $(document).ready(function(){
+        $('.chzn-select').chosen();
+    });
+</script>
+

@@ -1,0 +1,39 @@
+
+<div class="formRow control-group">			
+    <label for="discountType" class="">Discount Type</label>
+    <div class="formRight">
+        <div name="discountType" class="distance distance-2">
+            <p>
+                <input type="radio" id="fixed" class="load-disc" name="discountType"  value=1 >
+                <label for="fixed"><span></span>Fixed</label>
+            </p>
+            <p>
+                <input type="radio" id="percentage" class="load-disc" name="discountType" value=0 >
+                <label for="percentage"><span></span>%</label>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="formRow control-group" id="disc-field" style="display:none;">
+    <?php echo $this->formLabel($form->get('discount')); ?>
+    <div class="formRight">
+        <?php echo $this->formElement($form->get('discount')->setAttribute('class', 'span input')->setAttribute("id","discount")); ?>                    
+    </div>
+</div>
+
+ <script>
+        $(function() {
+			if($('#fixed').is(':checked')){
+                                $("#disc-field").show();				
+//                                $('#fixed').trigger('click');
+			}
+                        
+                        if($('#percentage').is(':checked')){
+                                $("#disc-field").show();				
+//                                $('#percentage').trigger('click');
+                        }
+                        
+                        
+		});
+</script>

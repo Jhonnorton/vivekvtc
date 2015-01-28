@@ -1,0 +1,244 @@
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+<?php
+//d($this->id);
+$form = $this->form;
+//d($this->data);
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'tour-location-resorts-add', array('id' => $this->id)
+));
+$form->setAttribute('id', 'locationadd');
+$form->setAttribute('method', 'post');
+$form->setAttribute('enctype', 'multipart/form-data');
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Add New Location</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+
+        <div class="formRow control-group">			
+            <label for="resort-option" class="required"></label>
+            <div class="formRight">
+                <div name="resort-option" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="ex" class="click-resort" name="type" checked="checked" value="1" >
+                        <label for="ex"><span></span>Existing</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="new" class="click-resort" name="type" value="2" >
+                        <label for="new"><span></span>New</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <input type="hidden" value="<?php echo $this->data->getTourId()->getId(); ?>" name="tourId">
+        <input type="hidden" value="<?php echo $this->data->getId(); ?>" name="locationId">
+        <div class="formRow control-group">
+            Location
+            <div class="formRight">
+                <label><?php echo $this->data->getCountryId()->getCountryName() . ' , ' . $this->data->getCity(); ?></label>
+            </div>
+        </div>
+        <div id="exsisting_detail">
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('resortId')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('resortId')->setAttribute('class', 'chzn-select chosen_select width-100')->setAttribute('required', 'required')); ?>
+                    <?php echo $this->formElementErrors($form->get('resortId'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+
+        </div>   
+
+        <div id="new_detail" style="display:none;">
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('title')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('title')->setAttribute('class', 'span input')); ?>
+                    <?php echo $this->formElementErrors($form->get('title'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('rating')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('rating')->setAttribute('min',0)->setAttribute('max',5)->setAttribute('class', 'span input')); ?>
+                    <?php echo $this->formElementErrors($form->get('rating'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('overview')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('overview')->setAttribute('class', 'ckeditor')); ?>
+                    <?php echo $this->formElementErrors($form->get('overview'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('image')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('image')); //->setAttribute('required', 'required')); ?>
+                    <?php echo $this->formElementErrors($form->get('image'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+
+
+            <div class="formRow control-group">
+                <?php //echo $this->formLabel($form->get('addedToVp')); ?>
+                <div class="formRight">     
+                    <div class="distance distance-2">
+                        <p>
+                            <input type="checkbox" id="addedToVp" name="addedToVp" value="1">
+
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="formRow control-group">
+                 <?php echo $this->formLabel($form->get('addedToVp')); ?>
+                <div class="formRight">
+                    <div class="distance distance-2">
+                        <p>
+                            <input type="checkbox" id="vp" name="vp" value="1">
+                            <label for="vp"><span></span> </label>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('fromDate')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('fromDate')->setAttribute('class', 'span input')->setAttribute('id', 'dateFrom')->setAttribute('value', $this->data->getFromDate()->Format('Y-m-d'))); ?>
+                <?php echo $this->formElementErrors($form->get('fromDate'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('toDate')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('toDate')->setAttribute('class', 'span input')->setAttribute('id', 'dateTo')->setAttribute('value', $this->data->getToDate()->Format('Y-m-d'))); ?>
+                <?php echo $this->formElementErrors($form->get('toDate'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+    <?php echo $this->form()->closeTag() ?>
+</div>
+
+<script>
+
+
+
+    $(function() {
+        $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+        $('.error input').keyup(function() {
+            $(this).parents('.formRow').removeClass('error');
+            $(this).next('ul.help-inline').remove();
+        });
+
+        $('.click-resort').click(function() {
+            var type = $(this).val();
+
+            if (type == 2) {
+                $("#new_detail").show();
+                $("#exsisting_detail").hide();
+            } else {
+                $("#new_detail").hide();
+                $("#exsisting_detail").show();
+            }
+        });
+
+    });
+</script>
+
+
+<script src="/js/tours.js"></script>
+
+<script>
+    Tours.init();
+</script>
+<script>
+
+    $(document).ready(function() {
+
+        //  $( "#li2" ).off();
+        $("#locationadd").validate({
+            // errorElement: "span",
+            rules: {
+                resortId: {
+                    required: true
+                },
+                fromDate: {
+                    required: true
+                },
+                toDate: {
+                    required: true
+                },
+                title: {
+                    required: true
+                },
+                //   image: {
+                //        required: true
+                //    },
+            },
+            messages: {
+                countryId: "Select Resort",
+                fromDate: "Select From Date",
+                toDate: "Select To Date",
+                title: "Please provide title",
+                //  image: "upload a image"
+
+            },
+            // the errorPlacement has to take the table layout into account
+            errorPlacement: function(error, element) {
+                error.appendTo(element.parent());
+            },
+            highlight: function(element) {
+                $(element).parent().removeClass("error");
+            }
+        });
+
+    });
+
+
+</script>   

@@ -1,0 +1,112 @@
+<?php
+$date = date('Y-m-d');
+//d($this->collection);
+?>
+
+<script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->paymenttyp)) {
+    echo $this->paymenttyp;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+    });
+</script> 
+<?php if (!is_null($this->message)):
+    
+   // d($this->message);
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Event Feature</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a href="<?php echo $this->url('affiliate-event-itinerary-add',array('id' => $this->id)); ?>"><i class="icon-plus-sign"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+
+
+
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+
+     
+
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Event Date</th>
+                    <th class="hidden-mobile">Time</th>
+                    <th class="hidden-mobile">Event</th>
+                    <th class="hidden-mobile">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $total = 0;
+                $i = 0;
+                $totalreceived = 0;
+                $totaldue = 0;
+                foreach ($this->collection as $item):
+                    
+                    // $time = new DateTime($item->getTime());
+                     //echo h($time->format("h:i A"));
+
+                    ?>                  
+
+                    <tr>
+
+                        <td class="hidden-mobile"><?php echo $item->getEventItineraryId()->getEventDate()->format('Y-m-d'); ?></td>    
+                        <td class="hidden-mobile"><?php echo $item->getTime()->format("h:i A")   ?></td>
+                        <td class="hidden-mobile"><?php echo $item->getTitle() ? substr(strip_tags($item->getTitle()), 0, 50) . '...' : '-' ?></td>
+                                               
+                        <td class="action-table">  
+                            
+                            
+                            <a href="<?php  echo $this->url('affiliate-event-itinerary-edit', array('id' => $item->getId())); ?>" >
+                                <img src="/images/icon/table_edit.png" alt="">
+                            </a>
+                        
+                            <a href="<?php  echo $this->url('affiliate-event-itinerary-delete', array('id' => $item->getId())); ?>"  data-confirm="Are you sure?">
+                                <img src="/images/icon/table_del.png" alt="">
+                            </a>
+                        
+                        </td>
+
+
+
+                    </tr>                    
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+
+        <div class="clearfix"></div>
+    </div>
+</div>

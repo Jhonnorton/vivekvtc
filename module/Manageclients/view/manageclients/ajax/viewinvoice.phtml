@@ -1,0 +1,104 @@
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title"></div>
+            <span>Invoice</span>
+            <div class="clearfix"></div>
+        </div>        
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content overflow">
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <tbody>                               
+                <tr>
+                    <th class="hidden-mobile">Invoice Number</th>
+                    <td class="hidden-mobile"><?php echo $this->invoice->getOrderId(); ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Name</th>
+                    <td><?php echo $this->user->getName(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">E-mail</th>
+                    <td><?php echo $this->user->getEmail(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile"><?php $type=$this->reservation->getType(); if($type==1){echo "Resort";}if($type==2){echo "Event";}if($type==3){echo "Cruise";}?></th>
+                    <td><?php echo $details['event'] ?></td> 
+                </tr>
+                <?php if($type==2){?>
+                <tr>
+                    <th class="hidden-mobile">Resort</th>
+                    <td><?php echo $details['resort'] ?></td> 
+                </tr>
+                <?php } ?>
+                <tr>
+                    <th class="hidden-mobile">Room Category</th>
+                    <td><?php echo $details['room_category'] ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Travel date</th>
+                    <td><?php echo $this->reservation->getDateFrom()->format('M d,Y'); ?>&nbsp; To &nbsp;<?php echo $this->reservation->getDateTo()->format('M d,Y'); ?></td> 
+                </tr>
+                <?php
+                if(!empty($items)){
+                $i=1;
+                foreach($items as $item){?>
+                <tr>
+                    <th class="hidden-mobile">Item <?php echo $i;?></th>
+                    <td><?php echo $item->getName(); ?></td> 
+                </tr>
+                <?php $i++; }
+                }?>
+                <?php
+                if(!empty($excursion)){
+                $j=1;
+                foreach($excursion as $excursions){?>
+                <tr>
+                    <th class="hidden-mobile">Excursion <?php echo $j;?></th>
+                    <td><?php echo $excursions->getExcursionName();?></td> 
+                </tr>
+                <?php $j++; }
+                }?>
+                <?php
+                if(!empty($transfer)){
+                $k=1;
+                foreach($transfer as $transfers){?>
+                <tr>
+                    <th class="hidden-mobile">Transfer <?php echo $k;?></th>
+                    <td><?php echo $transfers->getTransferName(); ?></td> 
+                </tr>
+                <?php $k++; }
+                }?>
+                <tr>
+                    <th class="hidden-mobile">Total Amount</th>
+                    <td class="hidden-mobile"><?php echo $this->reservation->getTotalCost()+$this->reservation->getMerchantFee(); ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Amount Paid</th>
+                    <td><?php echo $this->reservation->getDepositAmoun(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Amount Remaining</th>
+                    <td><?php echo $this->reservation->getBalansAfterDeposit(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Reservation Date</th>
+                    <td><?php echo $this->reservation->getCreatedAt()->format('M d, Y'); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Transaction Id</th>
+                    <td class="hidden-mobile"><?php echo $this->invoice->getTransactionId(); ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Payment Mode</th>
+                    <td><?php echo $this->invoice->getPaymentMode(); ?></td> 
+                </tr>
+                
+                 
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
+   </div>
+</div>
+

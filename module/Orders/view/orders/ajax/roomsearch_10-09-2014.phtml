@@ -1,0 +1,203 @@
+
+<div class="search-data">
+    <?php // d($this->data);?>
+    <?php if($this->data) : ?>
+      <?php foreach($this->data as $rows=>$key):
+          $key = array_values($key);
+     // d($key);
+          $hotelName = $key[0][0]->getHotelName();
+          ?>
+    <div class="type_title"><?php echo $hotelName; ?></div>
+    <table class="table table-bordered" width=100%>
+        <tr>
+            <th>Room Name</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+        <?php foreach($key as $row) :
+            
+//            $data_url = array("type"=>1 ,"typeId"=>$row[0]->getResortId(),"id"=>$row[0]->getRoomId()->getId(),"start"=>$this->searchData['from'],"end"=>$this->searchData['to'],"price"=>(int)100,"males"=>(int)$this->searchData['numMales'],"females"=>(int)$this->searchData['numFemales']);
+//            $data_url = urlencode(json_encode($data_url));
+            ?>
+        <tr>
+            <td><?php echo $row[0]->getRoomId()->getTitle();?></td>
+            <td><img src="<?php echo $this->imgPath.$row[0]->getRoomId()->getImage();?>"></td>
+             <td> <?php
+                                $m = [];
+                                $f = [];
+                                $price = 0;
+                                $tOcp = [];
+                                $tOcpF = 0;
+                                $tOcpM = 0;
+                                $qOcp = [];
+                                $qOcpF = 0;
+                                $qOcpM = 0;
+                                $sOcp = [];
+                                $sOcpS = [];
+                                $sOcpG = 0;
+                                $pPer = [];
+                                $i = 0;
+                                foreach ($row as $r):
+                                    if(is_object($r)):
+                                    $price += $r->getGrossPrice();
+                                    $m[]=$r->getMalesCount();
+                                    $f[] = $r->getFemalesCount();
+                                    
+                                    $tocp[]= $r->getTripleOccupancyAllowed();
+                                    $tOcpF += $r->getTriplePriceFemaleGross();
+                                    $tOcpM += $r->getTriplePriceMaleGross();
+                                    
+                                    $qocp[]= $r->getQuadOccupancy();
+                                    $qOcpF += $r->getQuadPriceFemaleGross();
+                                    $qOcpM += $r->getQuadPriceMaleGross();
+                                    
+                                    $sOcp[] = $r->getSinglePremiumOccupancy();
+                                    $sOcpG += $r->getSinglePriceGross();
+                                    $sOcpS[] = $r->getSingleShare();
+                                    //echo $r->getPricePer();die;
+                                    $pPer[] = $r->getPricePer();
+                                   // echo "Date : " . $r->getDateFrom()->format('d-m-Y') . ' to ' . $r->getDateTo()->format("d-m-Y") . 'Price :' . "  $  " . $r->getGrossPrice() . ' per Night';
+                                    //echo "<br>";
+                                    $i++;
+                                    else:
+                                        $available = $r['count'];
+                                    if($available <= 0){
+                                        $available = 0;
+                                    }
+                                    endif;
+                                endforeach;?>
+                             <?php    
+                                $male = max($m); 
+                                $female = max($f);
+                                $tripleOcpAlw = max($tocp);
+                                $tripleOcpF = $tOcpF/$i;
+                                $tripleOcpM = $tOcpM/$i;
+                                
+                                $quadOcpAlw = max($qocp);
+                                $quadOcpF = $qOcpF/$i;
+                                $quadOcpM = $qOcpM/$i;
+                                
+                                $singleOcpAlw = max($sOcp);
+                                $singleShareAlw = min($sOcpS);
+                                $singleOcpG = $sOcpG/$i;
+                                $doubleOcp = $price/$i;
+                                $finalPrice = 0;
+                                
+                                $pricePer = max($pPer);
+                                
+                                $totaPerson  = (int)$this->searchData['numMales']+(int)$this->searchData['numFemales'];
+
+                                if($pricePer == 1):
+                                switch($totaPerson) {
+                                
+                                     //$finalPrice = (int)$doubleOcp * $totaPerson ;
+                                     case 1:
+                                        if ((int) $this->searchData['singleShare'] == 1):
+                                            $finalPrice = (int) $doubleOcp;
+                                        else:
+                                            $finalPrice = $totaPerson * (int) $singleOcpG;
+                                        endif;
+                                        break;
+                                    case 2: 
+                                             $finalPrice = (int)$doubleOcp*2;
+
+                                        break;
+                                    case 3:
+                                         if((int)$tripleOcpAlw == 1):
+                                              $finalPrice = (int)$doubleOcp*2;
+                                             if ((int)$this->searchData['numMales'] > 1) {
+                                                    $finalPrice+=$tripleOcpM;
+                                                } else {
+                                                    $finalPrice+=$tripleOcpF;
+                                                }
+                                             else: 
+                                                    $finalPrice = 0;
+                                        endif;
+                                        break;
+                                    case 4:
+                                        if((int)$quadOcpAlw == 1){
+                                            $finalPrice = (int)$doubleOcp*2;
+                                              if(((int)$this->searchData['numMales'] == 2 && (int)$this->searchData['numFemales']== 2 )){
+                                                $finalPrice=$doubleOcp+$quadOcpM + $quadOcpF;
+                                            }elseif($post['male']>2){
+                                                $finalPrice = $doubleOcp+($quadOcpM * 2);
+                                            }elseif($post['female']>2){
+                                                $finalPrice = $doubleOcp+($quadOcpF * 2);
+                                            }
+                                        }else{
+                                                $finalPrice=0;
+                                        }
+                                        break;
+                                }
+                                    else:
+                                switch($totaPerson) {
+                                    case 1:
+                                        if((int)$this->searchData['singleShare'] == 1):
+                                            $finalPrice = (int)$doubleOcp;
+                                        else:
+                                            $finalPrice = $totaPerson*(int)$singleOcpG;
+                                        endif;
+
+                                        break;
+                                    case 2: 
+                                             $finalPrice = (int)$doubleOcp;
+
+                                        break;
+                                    case 3:
+                                         if((int)$tripleOcpAlw == 1):
+                                              $finalPrice = (int)$doubleOcp;
+                                             if ((int)$this->searchData['numMales'] > 1) {
+                                                    $finalPrice+=$tripleOcpM;
+                                                } else {
+                                                    $finalPrice+=$tripleOcpF;
+                                                }
+                                             else: 
+                                                    $finalPrice = 0;
+                                        endif;
+                                        break;
+                                    case 4:
+                                        if((int)$quadOcpAlw == 1){
+                                            $finalPrice = (int)$doubleOcp;
+                                              if(((int)$this->searchData['numMales'] == 2 && (int)$this->searchData['numFemales']== 2 )){
+                                                $finalPrice=$doubleOcp+$quadOcpM + $quadOcpF;
+                                            }elseif($post['male']>2){
+                                                $finalPrice = $doubleOcp+($quadOcpM * 2);
+                                            }elseif($post['female']>2){
+                                                $finalPrice = $doubleOcp+($quadOcpF * 2);
+                                            }
+                                        }else{
+                                                $finalPrice=0;
+                                        }
+                                        break;
+                                    
+                                }
+                            endif;
+                             ?>
+                        <?php echo  "$" . $finalPrice; ?>
+                    </td>
+                    <td><?php echo $available . " Rooms Available" ?></td>
+                    
+            <td> 
+                 <?php 
+           $data_url = array("type"=>1 ,"typeId"=>$row[0]->getResortId(),"id"=>$row[0]->getRoomId()->getId(),"start"=>$this->searchData['from'],"end"=>$this->searchData['to'],"price"=>(int)$finalPrice,"males"=>(int)$this->searchData['numMales'],"females"=>(int)$this->searchData['numFemales']);
+           $data_url = urlencode(json_encode($data_url));
+                        ?>
+                <?php if($available != 0):?>
+                <a href="<?php echo $this->url("orders-add",array('dataUrl'=> $data_url)); ?>"><input type="button" value="Book" class="btn btn-info" id="search" name="book"> </a>
+                <?php endif; ?>
+            </td>
+        </tr>
+            <?php endforeach; ?>
+    </table>
+    <?php endforeach; 
+    else: ?>
+    <div id="nores">No rooms Found.</div>
+<?php endif;
+?>
+</div>
+
+<style>
+    .type_title{font-weight: bold;font-size: 20px;}
+    #nores{font-weight: bold;color:grey;font-size: 19px;}
+    </style>

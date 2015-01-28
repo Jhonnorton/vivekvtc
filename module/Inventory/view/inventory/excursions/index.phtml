@@ -1,0 +1,198 @@
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div>
+            <span>Excursions</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a href="<?php echo $this->url('inventory-excursions-add'); ?>"><i class="icon-plus-sign"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content overflow">
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+                    <th class="t_center">
+                        <input type="checkbox" id="c0" name="cc" />
+                        <label for="c0"><span></span></label>
+                    </th>                    
+                    <th class="hidden-mobile">Excursion Name</th>
+                    <th class="hidden-mobile">Supplier</th>
+                    <th class="hidden-mobile">Linked To</th>
+                    <!--<th class="hidden-mobile">Available</th>-->                                                      
+                    <th class="hidden-mobile">Net Price</th>
+                    <th class="hidden-mobile">Gross Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $i = 1;
+                foreach ($this->collection as $item): ?>
+                    <tr>
+                        <td class="t_center">
+                            <input type="checkbox" id="c<?php echo $i; ?>" name="cc" />
+                            <label for="c<?php echo $i; ?>"><span></span></label>
+                        </td>
+                        <td class="hidden-mobile"><?php echo $item->getExcursionName(); ?></td>
+                        <td class="hidden-mobile"><?php echo $item->getSupplierName(); ?></td>
+                       <!-- <td class="hidden-mobile">
+                            <a  data-toggle="modal" href="<?php //echo $this->url('ajax-resorts-item', array('id' => $item->getResortId()));?>" data-target=".bs-example-modal-lg">
+                                <?php //echo $item->getHotelName(); ?>
+                            </a>
+                        </td>  --> 
+                        
+                         <td class="hidden-mobile">
+                            <?php if($item->getResortId()): ?>
+<!--                            <a  data-toggle="modal" href="<?php echo $this->url('ajax-resorts-item', array('id' => $item->getResortId()?$item->getResortId():0));?>" data-target=".bs-example-modal-lg">
+                                <?php echo $item->getLinkedTo(); ?>
+                            </a>-->
+                            <a onclick="info('<?php echo $this->url('ajax-resorts-item', array('id' => $item->getResortId()?$item->getResortId():0));?>')" href="javascript:void(0);">
+                                <?php echo $item->getLinkedTo(); ?>
+                            </a>
+                             
+                             
+                            <?php elseif($item->getEventId()): ?>
+<!--                            <a  data-toggle="modal" href="<?php echo $this->url('ajax-events-item', array('id' => $item->getEventId()?$item->getEventId():0));?>" data-target=".bs-example-modal-lg">
+                                <?php echo $item->getLinkedTo(); ?>
+                            </a>-->
+                              <a onclick="info('<?php echo $this->url('ajax-events-item', array('id' => $item->getEventId()?$item->getEventId():0));?>')" href="javascript:void(0);">
+                                <?php echo $item->getLinkedTo(); ?>
+                            </a>
+<!--                             <span class='mod' value='<?php //echo $this->url('ajax-events-item', array('id' => $item->getEventId()?$item->getEventId():0));?>' style="cursor:pointer">eee</span>-->
+                             <?php elseif($item->getCruiseId()): ?>
+<!--                                <a  data-toggle="modal" href="<?php echo $this->url('ajax-cruises-item', array('id' => $item->getCruiseId()?$item->getCruiseId():0));?>" data-target=".bs-example-modal-lg">
+                                    <?php echo $item->getLinkedTo(); ?>
+                                </a>-->
+                             <a onclick="info('<?php echo $this->url('ajax-cruises-item', array('id' => $item->getCruiseId()?$item->getCruiseId():0));?>')" href="javascript:void(0);">
+                                <?php echo $item->getLinkedTo(); ?>
+                            </a>
+                            <?php else: ?>
+                                <?php echo $item->getLinkedTo(); ?>
+                            <?php endif; ?>
+                        </td>
+                        
+                        <!--<td class="hidden-mobile"><?php echo $item->getNumberAvailable(); ?></td>-->                             
+                        <td class="hidden-mobile">$<?php echo $item->getNetPrice(); ?></td>
+                        <td class="hidden-mobile">$<?php echo $item->getGrossPrice(); ?></td>                        
+                        <td class="action-table">
+                            <a href="<?php echo $this->url('inventory-excursions-edit', array('id' => $item->getId())); ?>">
+                                <img src="/images/icon/table_edit.png" alt="">
+                            </a>
+                            <a href="<?php echo $this->url('inventory-excursions-delete', array('id' => $item->getId())); ?>"
+                               data-confirm="Are you sure?">
+                                <img src="/images/icon/table_del.png" alt="">
+                            </a>
+                            <a onclick="view(<?php echo $item->getId(); ?>)" href="javascript:void(0);" title="View Reservation Details">
+                                <img src="/images/icon/table_view.png" alt="View">
+                            </a>
+                            
+                        </td>
+                    </tr>
+                    <?php $i++; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<?php echo $this->partial('sales-objects/ajax/modal.phtml');?>
+
+<script>
+//    $('.mod').on('click', function(){
+//      var url =   $(this).attr('value');
+//    $.fancybox({
+//        autoSize: true,
+//        href: url,
+//        type: 'ajax'
+//    });
+//});
+    </script>
+    
+      <!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close">×</button>
+    <h3 id="myModalLabel"></h3>
+  </div>
+  <div class="modal-body">
+    <p></p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn close">Close</button>
+  </div>
+</div>
+
+<script>
+function view(id){
+    var typeId=3;
+//    alert(id);
+    $.ajax({
+                async:false,    
+                url: '/admin/inventory/resort/rooms/ajax/view/'+id,
+                type: 'POST',
+                data: {typeId:typeId},
+                beforeSend:function(){
+                    $(".modal-body").html('<center><img src="/images/ajax-loader.gif" alt="Loading..."></center>');  
+                    $("#myModalLabel").html('Reservation Details');
+                    $("#myModal").css({"display": "block"});
+                    $("#myModal").modal();
+                },
+                success: function(data){
+                    $(".modal-body").html(data)  
+//                  $("#myModal").modal()  
+                }
+            });
+}
+
+function info(url){
+//    var id=$(this).attr('data-id');
+//    alert(id);
+    $.ajax({
+                async:false,    
+                url: url,
+                type: 'POST',
+                beforeSend:function(){
+                    $('#myModal').show();
+                    $(".modal-body").html('<center><img src="/images/ajax-loader.gif" alt="Loading..."></center>') 
+//                    $("#myModal").css('left:39%','width:65%')
+                     $("#myModal").css({
+                    "left": "39%",
+                    "width": "65%"
+                    });
+                    $("#myModal").modal()
+                    
+                },
+                success: function(data){
+                    $(".modal-body").html(data)  
+//                  $("#myModal").modal()  
+                }
+            });
+}
+
+$(document).ready(function(){
+    $('.close').click(function(){
+        $("#itemModal").css({"display": "none"});
+        $("#myModal").css({"display": "none"});
+    });
+});
+</script>

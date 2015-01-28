@@ -1,0 +1,68 @@
+<ul class="additional-menu">
+	
+    <li class="menu-group">
+        <a href="<?php echo $this->url('marketing-newsletter'); ?>">
+            <i class="icon-eye-open"></i>Newsletter
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('marketing-newsletter')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('marketing-newsletter'); ?>"><i class="icon-list"></i>View Newsletters</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('marketing-newsletter-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('marketing-newsletter-add'); ?>"><i class="icon-plus-sign"></i>Add Newsletter</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    <li class="menu-group">
+        <a href="<?php echo $this->url('marketing-pdf'); ?>">
+            <i class="icon-eye-open"></i>PDF
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('marketing-pdf')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('marketing-pdf'); ?>"><i class="icon-list"></i>View PDF</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('marketing-pdf-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('marketing-pdf-add'); ?>"><i class="icon-plus-sign"></i>Add PDF</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    <li class="menu-group">
+        <a href="<?php echo $this->url('marketing-video'); ?>">
+            <i class="icon-eye-open"></i>Video
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('marketing-video')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('marketing-video'); ?>"><i class="icon-list"></i>View Videos</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('marketing-video-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('marketing-video-add'); ?>"><i class="icon-plus-sign"></i>Add Video</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    <li class="menu-group">
+        <a href="<?php echo $this->url('marketing-image'); ?>">
+            <i class="icon-eye-open"></i>Image
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('marketing-image')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('marketing-image'); ?>"><i class="icon-list"></i>View Images</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('marketing-image-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('marketing-image-add'); ?>"><i class="icon-plus-sign"></i>Add Image</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+
+</ul>

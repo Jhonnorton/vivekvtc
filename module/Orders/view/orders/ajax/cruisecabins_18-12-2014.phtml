@@ -1,0 +1,27 @@
+<?php //d($this->collection); ?>
+<label for="suiteName" class="required">Suite Name</label>                    
+<div class="formRight">    
+    <select cruiseStartDate="<?php echo $this->data->getTourStartDate()->format('Y-m-d'); ?>" cruiseEndDate="<?php echo $this->data->getTourEndDate()->format('Y-m-d'); ?>" data-extra-type="<?php echo \Inventory\Model\Items::LINKED_TO_CRUISE_NAME; ?>" data-type="<?php echo \Orders\Controller\AjaxController::CRUISE_CABINS; ?>" id="cruise-cabins" name="suiteName" required="required" class="chzn-select chosen_select width-100 load-item">                
+        <option value="">please select room category...</option>
+        <?php foreach ($this->collection as $item):?>                
+         <option value="<?php echo $item['id'];?>"><?php echo $item['suiteName'];?></option>
+        <?php endforeach;?>    
+    </select> 
+</div>
+
+<input type="hidden" name="cruiseStart" id="hid-start" value="<?php echo $this->data->getTourStartDate()->format('Y-m-d'); ?>">
+<input type="hidden" name="cruiseEnd" id="hid-end" value="<?php echo $this->data->getTourEndDate()->format('Y-m-d'); ?>">
+<script>
+//    $('.chzn-select').chosen();   
+//    $('#cruise-cabins').change(function() {
+//        var id = $(this).val();         
+//        if(id){
+//            $.post('/admin/orders/ajax/cruise/cabin/'+id,{id:id}, function(data){            
+//                $('#ajax-script').html(data);              
+//            });  
+//            loadItems(7, id);
+//        }else{
+//            clearAll();
+//        }
+//    });
+</script>

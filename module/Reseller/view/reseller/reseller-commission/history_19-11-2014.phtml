@@ -1,0 +1,22 @@
+<table class="table table-bordered table-striped" id="datatable_3">
+    <thead>
+    <th>
+        Amount
+    </th>
+    <th>
+        Date
+    </th>
+    </thead>
+    <tbody>
+        <?php foreach($this->collection as $row){ ?>
+     <tr>   <td>
+            $<?php echo $row->getAmount(); ?>
+        </td>
+        <td>
+            <?php echo ($row->getDueDate() instanceof \DateTime) ? $row->getDueDate()->format('Y-m-d') : $row->getDueDate(); ?>
+        </td>
+</tr>
+        <?php }
+?>
+    </tbody>
+</table>

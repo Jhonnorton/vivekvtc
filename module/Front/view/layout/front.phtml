@@ -1,0 +1,29 @@
+<?php echo $this->doctype(); ?>
+<html lang="en"  >
+    <?php echo $this->partial('layout/components/front/head.phtml');?>
+    <body>
+    	<?php //echo $this->partial('layout/components/front/header.phtml');?>
+      <!--  <div id="wrap"> -->
+        	<?php //echo $this->partial('partial/base/sidebar.phtml');?>
+        	<div id="main" role="main">
+      <!--  		<div class="block"> -->
+        			<div class="clearfix"></div>
+            			<?php echo $this->content;?>
+            			<?php echo $this->partial('layout/components/front/footer.phtml');?>
+            		<div class="clearfix"></div>
+          <!--  	</div> -->
+          <!--  </div> -->
+        </div>
+        <?php echo $this->partial('layout/components/front/js.phtml');?>
+      <script>
+//          if (! ('console' in window) || !('firebug' in console)) {
+//            var names = ['log', 'debug', 'info', 'warn', 'error', 'assert', 'dir', 'dirxml', 'group', 'groupEnd', 'time', 'timeEnd', 'count', 'trace', 'profile', 'profileEnd'];
+//            window.console = {};
+//            for (var i = 0; i < names.length; ++i) window.console[names[i]] = function() {};
+//        }
+          </script>
+    </body>
+</html>
+
+
+

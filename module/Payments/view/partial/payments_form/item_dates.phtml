@@ -1,0 +1,11 @@
+<?php
+$from = explode("-", $this->item->getDateFrom()->format('Y-m-d'));
+$to = explode("-", $this->item->getDateTo()->format('Y-m-d'));
+?>
+<script>    
+    $('input[name="travelTo"]').attr('min', '<?php echo $from[0];?>-<?php echo $from[1];?>-<?php echo $from[2];?>');
+    $('input[name="travelTo"]').attr('max', '<?php echo $to[0];?>-<?php echo $to[1];?>-<?php echo $to[2];?>');
+    $('input[name="travelFrom"]').attr('min', '<?php echo $from[0];?>-<?php echo $from[1];?>-<?php echo $from[2];?>');
+    $('input[name="travelFrom"]').attr('max', '<?php echo $to[0];?>-<?php echo $to[1];?>-<?php echo $to[2];?>');
+    $('input[name="roomRate"]').val(<?php echo $this->item->getGrossPrice();?>);
+</script>

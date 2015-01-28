@@ -1,0 +1,21 @@
+<ul class="additional-menu">
+	
+    <li class="menu-group">
+        <a href="<?php echo $this->url('manageclients'); ?>">
+            <i class="icon-home"></i>Clients
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('manageclients')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('manageclients'); ?>"><i class="icon-list"></i> View Clients</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('manageclients-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('manageclients-add'); ?>"><i class="icon-plus"></i> Add Client</a>
+            </li>
+            
+           
+
+
+        </ul>
+    </li>
+
+</ul>

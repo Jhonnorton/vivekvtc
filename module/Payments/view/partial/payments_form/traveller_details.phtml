@@ -1,0 +1,169 @@
+<div class="formRow control-group">
+    <h4>Guest Details</h4>
+    <hr />
+</div>
+
+ <!-- Existing client email -->
+    
+    <div class="formRow control-group">			
+    <label for="clientType" class="required">Existing client</label>
+    <div class="formRight">
+        <div name="existingClientDiv" class="distance distance-2">
+            <p>
+                <input type="radio" id="new_client" class="load-client" name="clientType" checked="checked" value="1" data-resource="new">
+                <label for="new_client"><span></span>New</label>
+            </p>
+            <p>
+                <input type="radio" id="exist_client" class="load-client" name="clientType" value="2" data-resource="exist">
+                <label for="exist_client"><span></span>Existing</label>
+            </p>
+        </div>
+    </div>
+</div>
+    
+    
+    <div class="formRow control-group" id="ex-client">
+        <div class="formRight">
+            <div name="existingClient" class="">
+                    <input type="textbox"  maxlength="9" class="span input" id="cust-id" name="customerId" placeholder="Enter your Customer ID if you are an existing client">
+            </div>
+            <span id="not-found"></span>
+        </div>
+    </div>
+
+<div id="traveller-info">
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerName')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerName')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerName'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>           
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerEmail')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerEmail')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerEmail'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerPhone')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerPhone')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerPhone'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerDOB')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerDOB')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerDOB'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerAddress')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerAddress')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerAddress'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+     <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerCity')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerCity')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerCity'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerState')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerState')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerState'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerCountry')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerCountry')->setAttribute('class', 'chzn-select chosen_select width-100 load-item trc')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerCountry'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerZip')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('travellerZip')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('travellerZip'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+</div>
+<div class="formRow control-group">			
+    <div class="formRight">
+        <?php echo $this->formElement($form->get('travellerButtom')->setAttribute('class', 'btn btn-info')); ?>	        	
+    </div>
+</div>
+
+<div class="formRow control-group">
+    <div id="travellers"></div>
+</div>
+<div class="formRow control-group">
+    <?php echo $this->formLabel($form->get('noOfPersons')); ?>
+    <div class="formRight">
+        <?php
+        echo $this->formElement($form->get('noOfPersons')
+                        ->setAttribute('value', '1')
+                        ->setAttribute('class', 'span input'));
+        ?>
+        <?php echo $this->formElementErrors($form->get('noOfPersons'), array('class' => 'help-inline')); ?>
+    </div>
+</div>
+<script type="text" id="add-traveller">
+<div class="added-traveller">
+    <div class="formRow control-group">
+       
+            <hr/>
+        <div class="formRight">
+            
+            
+        </div>
+    </div> 
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerName')); ?>
+        <div class="formRight">
+            <input type="text" name="tname[]" class="span input" required="required">
+        </div>
+    </div>           
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerEmail')); ?>
+        <div class="formRight">
+            <input type="email" name="tEmail[]" class="span input" >
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerPhone')); ?>
+        <div class="formRight">
+            <input type="text" name="tPhone[]" class="span input" >
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerDOB')); ?>
+        <div class="formRight">
+           <input type="date" name="tDob[]" class="span input" required="required"> 
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerAddress')); ?>
+        <div class="formRight">
+            <input type="text" name="tAddress[]" class="span input" /> 
+        </div>
+    </div>
+     <div class="formRow control-group">
+        
+        <div class="formRight">
+            <span style="float: right">
+                <button type="button" class="remove-traveller btn btn-danger btn-small metro">Remove Guest</button>
+            <span>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>          
+</script>

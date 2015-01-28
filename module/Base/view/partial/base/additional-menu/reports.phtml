@@ -1,0 +1,58 @@
+<ul class="additional-menu">
+
+    <li class="menu-group">
+        <a href="<?php echo $this->url('reports'); ?>">
+            <i class="icon-home"></i>Reports
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('reports')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('reports'); ?>"><i class="icon-list"></i>Sales Report</a>
+            </li>
+
+        </ul>
+
+        <ul>
+            <li <?php if ($this->url() === $this->url('report-commision')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('report-commision'); ?>"><i class="icon-list"></i>Commission Report</a>
+            </li>
+
+        </ul>
+
+
+
+        <ul>
+            <li <?php if ($this->url() === $this->url('report-room-night')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('report-room-night'); ?>"><i class="icon-list"></i>Room Nights Report</a>
+            </li>
+
+        </ul>
+
+        <ul>
+            <li <?php if ($this->url() === $this->url('report-reservation')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('report-reservation'); ?>"><i class="icon-list"></i>Reservation Report</a>
+            </li>
+
+        </ul>
+
+        <ul>
+            <li <?php if ($this->url() === $this->url('report-rooming')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('report-rooming'); ?>"><i class="icon-list"></i>Rooming Report</a>
+            </li>
+
+        </ul>
+        <ul>
+            <li <?php if ($this->url() === $this->url('report-agent')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('report-agent'); ?>"><i class="icon-list"></i>Agent Report</a>
+            </li>
+
+        </ul>
+        <ul>
+            <li <?php if ($this->url() === $this->url('report-profitloss')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('report-profitloss'); ?>"><i class="icon-list"></i>Profit-Loss Report</a>
+            </li>
+
+        </ul>
+    </li>
+
+
+</ul>

@@ -1,0 +1,507 @@
+<?php
+$form = $this->form;
+
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'affiliate-add'
+));
+
+$form->setAttribute('method', 'post');
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->setAttribute('class', 'form-inline');
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Add New Reseller</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+        
+        <div class="formRow control-group">
+            
+            <div class="formRight">
+                <?php foreach($this->accounts as $account){ ?>
+                    <input type="hidden" name="setup" class="setup<?php echo $account->getId(); ?>" value="<?php echo $account->getSetupFee(); ?>">
+                    <input type="hidden" name="monthlyAmount" class="monthly<?php echo $account->getId(); ?>" value="<?php echo $account->getmonthlyAmount(); ?>">
+                    <input name="type" class="chk" value="<?php echo $account->getId(); ?>" type="radio" style="display:inline-block; margin: 1%; margin-left: 1%;"> <?php echo $account->getName(); ?>
+                    <!--<input name="type" value="2" type="radio" style="display:inline-block; margin: 1%; margin-left: 1%;"> Reseller Pro-->
+                    <!--<input name="type" value="3" type="radio" style="display:inline-block; margin: 1%; margin-left: 1%;"> Travel Pro-->
+                <?php } ?>
+            </div>
+        </div>
+        
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('firstName')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('firstName')->setAttribute('class', 'span input')->setAttribute('required', 'required')->setAttribute('id', 'fname')); ?>
+                <?php echo $this->formElementErrors($form->get('firstName'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php //echo $this->formLabel($form->get('lastName')); ?>
+            <div class="formRight">
+                <?php //echo $this->formElement($form->get('lastName')->setAttribute('class', 'span input')); ?>
+                <?php //echo $this->formElementErrors($form->get('lastName'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('email')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('email')->setAttribute('class', 'span input')->setAttribute('required', 'required')); ?>
+                <?php echo $this->formElementErrors($form->get('email'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+        
+         <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('companyName')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('companyName')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('companyName'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        
+        
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('phone')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('phone')->setAttribute('class', 'span input')->setAttribute('required', 'required')); ?>
+                <?php echo $this->formElementErrors($form->get('phone'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('address')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('address')->setAttribute('class', 'span input same-height-1')->setAttribute('rows', '3')); ?>
+                <?php echo $this->formElementErrors($form->get('address'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('suite')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('suite')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('suite'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('city')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('city')->setAttribute('class', 'span input')->setAttribute('required', 'required')); ?>
+                <?php echo $this->formElementErrors($form->get('city'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('state')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('state')->setAttribute('class', 'span input')->setAttribute('required', 'required')); ?>
+                <?php echo $this->formElementErrors($form->get('state'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('country')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('country')->setAttribute('class', 'chzn-select chosen_select width-100')->setAttribute('required', 'required')); ?>
+                <?php echo $this->formElementErrors($form->get('country'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <label>Travel Agent</label>
+            <div class="formRight">
+                <input name="travelagent" value="1" type="radio" style="display:inline-block; margin: 1%; margin-left: 1%;" checked> Yes
+                <input name="travelagent" value="0" type="radio" style="display:inline-block; margin: 1%; margin-left: 1%;"> No
+                
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <label>Agency Name</label>
+            <div class="formRight">
+                <input name="agencyName" type="text" class="span input">
+                
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <label>Agency Reg#</label>
+            <div class="formRight">
+                <input name="agencyRegNo" type="text" class="span input">
+                
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <label>Current Website Url</label>
+            <div class="formRight">
+                <input name="websiteUrl" type="text" class="span input">
+                
+            </div>
+        </div>
+        <br>
+        <hr>
+        <span style="font-size: 20px;">Give Your Travel Center A Name</span>
+        <br><br>
+        <div class="formRow control-group">
+            <label>My Travel Center</label>
+            <div class="formRight">
+                <input name="travelCenterName" type="text" class="span input">
+                
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <label>Url Extension</label>
+            <div class="formRight">
+                <span>http://vp.mytravelcenter.net/</span><input name="urlExtension" id="urlExtension" type="text" pattern="[a-zA-Z0-9]+" class="" readonly>
+         
+            </div>
+        </div>
+        
+
+    
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('password')); ?>
+            <div class="formRight">
+                <?php
+                echo $this->formElement($form->get('password')
+                                ->setAttribute('class', 'span input')
+                                ->setAttribute('id', 'pass1')
+                                ->setAttribute('require', 'require')
+                );
+                ?>
+                <?php echo $this->formElementErrors($form->get('password'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>		
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('repassword')); ?>
+            <div class="formRight">
+                <?php
+                echo $this->formElement($form->get('repassword')
+                                ->setAttribute('class', 'span input')
+                                ->setAttribute('id', 'pass2')
+                                ->setAttribute('require', 'require')
+                );
+                ?>
+                <?php echo $this->formElementErrors($form->get('repassword'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <span id="costing">
+        <span style="font-size: 20px;">COST</span>
+        <br><br>
+        <div class="formRow control-group">
+            <label>Setup</label>
+            <div class="formRight">
+                <input name="setupFee" type="number" value="0" placeholder="$" class="span input" required>
+                
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <label>Monthly Recurring Amount</label>
+            <div class="formRight">
+                <input name="monthlyRecurringAmount" value="0" type="number" placeholder="$" class=""> As of: 
+                <input name="monthlyRecurringDate" type="date" class="" required>
+                
+            </div>
+        </div>
+        
+        <div class="formRow control-group">
+            <label>Discount</label>
+            <div class="formRight">
+                <select name="discountType">
+                    <option value="0">$</option>
+                    <option value="1">%</option>
+                </select>
+                <input name="discountAmount" value="0" type="number" class="">
+                
+            </div>
+        </div>
+    </span>
+        
+        <?php         
+            $api = strtoupper(substr(md5(mt_rand()), 0, 30));
+            $uniqueId=strtoupper(substr(md5(mt_rand()), 0, 9));
+            ?>
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('apiKey')); ?>
+            <div class="formRight">
+                <?php
+                echo $this->formElement($form->get('apiKey')
+                                ->setAttribute('class', 'span input')
+                                ->setAttribute('value',$api)
+                                ->setAttribute('require', 'require')
+                );
+                ?>
+                <?php echo $this->formElementErrors($form->get('apiKey'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        
+         <div class="formRow control-group">
+            <?php //echo $this->formLabel($form->get('uniqueId')); ?>
+            <div class="formRight">
+                <?php
+                echo $this->formElement($form->get('uniqueId')
+                                  ->setAttribute('value',$uniqueId)
+                               
+                );
+                ?>
+                <?php //echo $this->formElementErrors($form->get('apiKey'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <a href="#preview" id="apre" class="btn btn-info">Preview and Pay</a>
+        </div>
+        
+        
+        <div id="preview" style="display: none;">
+            <table class="table-bordered table table-striped">
+                <tr>
+                    <td>Name : </td>
+                    <td id="tdname">-</td>
+                </tr>
+                <tr>
+                    <td>Email : </td>
+                    <td id="tdemail">-</td>
+                </tr>
+                <tr>
+                    <td>Address : </td>
+                    <td id="tdaddress">-</td>
+                </tr>
+                <tr>
+                    <td>City : </td>
+                    <td id="tdcity">-</td>
+                </tr>
+                <tr>
+                    <td>State : </td>
+                    <td id="tdstate">-</td>
+                </tr>
+                <tr>
+                    <td>Country : </td>
+                    <td id="tdcountry">-</td>
+                </tr>
+                <tr>
+                    <td>Travel Center Name : </td>
+                    <td id="tdtcname">-</td>
+                </tr>
+                <tr>
+                    <td>Travel Center Url : </td>
+                    <td id="tdtcUrl">-</td>
+                </tr>
+                <tr>
+                    <td>Setup Fees : </td>
+                    <td id="tdsetup">-</td>
+                </tr>
+                <tr>
+                    <td>Discount : </td>
+                    <td id="tddiscount">-</td>
+                </tr>
+                <tr>
+                    <td>Final Amount : </td>
+                    <td id="tdfinal">-</td>
+                </tr>
+            </table>
+<!--            <br><br>
+        <div class="formRow control-group">
+            <label>Payment Option : </label>
+            <div class="formRight">
+                
+                <input name="paytype" value="1" type="radio" style="display:inline-block; margin: 1%; margin-left: 1%;" checked> Paypal
+                <input name="paytype" value="0" type="radio" style="display:inline-block; margin: 1%; margin-left: 5%;"> Secure Credit Card
+                <input type="hidden" name="finalamt">
+            </div>
+        </div>-->
+
+        <hr>
+        <div id="payment">
+        <span style="font-size: 20px;">Pay</span>
+        <br><br>
+            <div id="cardPay">
+                <div class="formRow control-group">
+                    <label>Card Type</label>
+                    <div class="formRight">
+                        <select name="typeOfCard" class="span input">
+                            <option value="Visa">Visa</option>
+                            <option value="MasterCard">MasterCard</option>
+                        </select>
+
+                    </div>
+                </div>
+                 <div class="formRow control-group">
+                    <label>Name on Card</label>
+                    <div class="formRight">
+                        <input name="" class="span input">
+
+                    </div>
+                </div>
+                <div class="formRow control-group">
+                    <label>Card Number</label>
+                    <div class="formRight">
+                       <input name="cardNumber" class="span input">
+
+                    </div>
+                </div>
+                <div class="formRow control-group">
+                    <label>Card Expiry</label>
+                    <div class="formRight">
+                       <input name="cardMonth" class="" placeholder="mm">
+                       <input name="cardYear" class="" placeholder="yyyy">
+
+                    </div>
+                </div>
+                <div class="formRow control-group">
+                    <label>Card CVV</label>
+                    <div class="formRight">
+                       <input name="cvvNumber" class="">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <?php echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info')->setAttribute('value', 'Pay')) ?>
+        </div>
+            </div>
+        <div class="clearfix"></div>
+
+    </div>
+    <?php echo $this->form()->closeTag() ?>
+</div>
+
+<script>
+
+    function checkPass() {
+
+        var pass = $('#pass1').val();
+        var repass = $('#pass2').val();
+
+        console.log(pass !== repass && pass == '');
+
+        if (pass !== repass || pass == '' || repass == '') {
+            $('#pass1, #pass2').parents('.formRow').addClass('error');//.append('<ul class="help-inline"><li>Password does not match the confirm password</li></ul>')
+            $('#submitbutton').attr('disabled', 'disabled');
+        } else {
+            $('#pass1, #pass2').parents('.formRow').removeClass('error').addClass('success');
+            $('#submitbutton').removeAttr('disabled');
+        }
+    }
+    ;
+
+    $(function() {
+        $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+        $('.error input').keyup(function() {
+            $(this).parents('.formRow').removeClass('error');
+            $(this).next('ul.help-inline').remove();
+        });
+
+        $('#pass1, #pass2').keyup(checkPass);
+        
+        $('#apre').click(function(){
+            $('#preview').show();
+        });
+    });
+</script>
+
+<script>
+$(function(){
+    $('input[name="firstName"]').blur(function(){
+        var value=$(this).val();
+        $('#tdname').html(value);
+    });
+    $('input[name="email"]').blur(function(){
+        var value=$(this).val();
+        $('#tdemail').html(value);
+    });
+    $('textarea[name="address"]').blur(function(){
+        var value=$(this).val();
+        $('#tdaddress').html(value);
+    });
+    $('input[name="city"]').blur(function(){
+        var value=$(this).val();
+        $('#tdcity').html(value);
+    });
+    $('input[name="state"]').blur(function(){
+        var value=$(this).val();
+        $('#tdstate').html(value);
+    });
+    $('select[name="country"]').change(function(){
+        var value=$(this).val();
+//        alert($('option[value="'+value+'"]').html());
+        $('#tdcountry').html($('option[value="'+value+'"]').html());
+    });
+    $('input[name="travelCenterName"]').blur(function(){
+        var value=$(this).val();
+        $('#tdtcname').html(value);
+    });
+    $('input[name="urlExtension"]').blur(function(){
+        var value=$(this).val();
+        $('#tdtcUrl').html(value);
+    });
+    $('input[name="setupFee"]').blur(function(){
+        var value=$(this).val();
+        $('#tdsetup').html("$"+value);
+    });
+    $('#fname').blur(function(){
+        var value=$(this).val();
+        $('#urlExtension').val(value);
+    });
+    $('input[name="discountAmount"]').keyup(function(){
+        var value=$(this).val();
+        var setup=$('input[name="setupFee"]').val();
+        var type=$('select[name="discountType"]').val();
+        if(type==0){
+            $('#tddiscount').html('$'+value);
+            $('#tdfinal').html(setup-value);
+            $('input[name="finalamt"]').val(setup-value);
+        }else{
+            $('#tddiscount').html(value+'%');
+            var finalamt=(value/100)*setup;
+            $('#tdfinal').html(setup-finalamt);
+            $('input[name="finalamt"]').val(setup-finalamt);
+        }
+        
+    });
+    
+     $('input[name="paytype"]').click(function(){
+        var value=$(this).val();
+        if(value=='0'){
+            $('#cardPay').show();
+        }else{
+            $('#cardPay').hide();
+        }
+    });
+    
+    $('.chk').click(function(){
+        var value=$(this).val();
+        if(value==4){
+            $('#costing').hide();
+            $('#payment').hide();
+        }else{
+            $('#costing').show();
+            $('#payment').show();
+            var setupFee=$('.setup'+value).val();
+            var monthly=$('.monthly'+value).val();
+
+            $('input[name="setupFee"]').val(setupFee);
+            $('#tdsetup').html("$"+setupFee);
+            $('input[name="monthlyRecurringAmount"]').val(monthly);
+        }
+    });
+    
+});
+</script>
+
+

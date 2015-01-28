@@ -1,0 +1,31 @@
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title"></div>
+            <span>Note</span>
+            <div class="clearfix"></div>
+        </div>        
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content overflow">
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <tbody>                               
+                <tr>
+                    <th class="hidden-mobile">Subject</th>
+                    <td class="hidden-mobile"><?php echo $this->note->getSubject(); ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Message</th>
+                    <td><?php echo $this->note->getMessage(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Reminder Date</th>
+                    <td><?php echo $this->note->getReminderDate()->format('M d, Y'); ?></td> 
+                </tr>
+                 
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
+   </div>
+</div>
+

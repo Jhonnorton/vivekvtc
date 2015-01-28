@@ -1,0 +1,22 @@
+ <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('time[]')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('time[]')->setAttribute('class', 'time_picker')->setAttribute('required','required')); ?>
+                <?php echo $this->formElementErrors($form->get('time[]'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>	
+
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('description')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('description')->setAttribute('class', 'ckeditor')); ?>
+                <?php echo $this->formElementErrors($form->get('description'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        
+         <div class="formRow control-group">
+            <?php echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+        </div>

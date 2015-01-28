@@ -1,0 +1,66 @@
+
+
+<ul class="additional-menu">
+	
+    <li class="menu-group">
+        <a href="<?php echo $this->url('hotels'); ?>">
+            <i class="icon-home"></i>Resorts
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('hotels')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('hotels'); ?>"><i class="icon-list"></i>View Hotels</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('hotels-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('hotels-add'); ?>"><i class="icon-plus"></i> Add Hotel</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('rooms')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('rooms'); ?>"><i class="icon-list"></i> View Rooms</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('rooms-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('rooms-add'); ?>"><i class="icon-plus"></i> Add Room</a>
+            </li>
+        </ul>
+    </li>
+
+    <li class="menu-group">
+        <a href="<?php echo $this->url('cruises'); ?>"><i class="icon-globe"></i>Cruises</a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('cruises')) echo 'class="active"' ?> >
+                <a href="<?php echo $this->url('cruises'); ?>"><i class="icon-list"></i>View Cruises</a>
+            </li>	
+            <li <?php if ($this->url() === $this->url('cruises-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('cruises-add'); ?>"><i class="icon-plus"></i> Add Cruise</a>
+            </li>
+
+            <li <?php if ($this->url() === $this->url('cabins')) echo 'class="active"' ?> >
+                <a href="<?php echo $this->url('cabins'); ?>"><i class="icon-list"></i>View Cabins</a>
+            </li>	
+            <li <?php if ($this->url() === $this->url('cabins-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('cabins-add'); ?>"><i class="icon-plus"></i> Add Cabin</a>
+            </li>
+
+            <li <?php if ($this->url() === $this->url('ports')) echo 'class="active"' ?> >
+                <a href="<?php echo $this->url('ports'); ?>"><i class="icon-list"></i>View Ports</a>
+            </li>	
+            <li <?php if ($this->url() === $this->url('ports-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('ports-add'); ?>"><i class="icon-plus"></i> Add Port</a>
+            </li>
+        </ul>
+    </li>
+    
+    
+    <li class="menu-group">
+        <a href="<?php echo $this->url('events'); ?>">
+            <i class="icon-eye-open"></i>Events
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('events')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('events'); ?>"><i class="icon-list"></i>View Events</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('events-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('events-add'); ?>"><i class="icon-plus"></i> Add Event</a>
+            </li>            
+        </ul>
+    </li>
+    
+</ul>

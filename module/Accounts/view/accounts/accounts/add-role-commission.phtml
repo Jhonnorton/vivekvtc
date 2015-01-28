@@ -1,0 +1,93 @@
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-edit"></i>
+            </div>
+            <span>Add Role Commission</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content">
+
+        <form method='post' action=''>
+         <div class="formRow control-group">
+             <label>Role : </label>
+            <div class="formRight">
+                <select class="span input" name='role' id="role" style="width:100%">
+                    <option value=''>Select Role</option>
+                    <?php foreach($this->collection as $role){ ?>
+                    <option value='<?php echo $role->getId(); ?>'><?php echo $role->getName(); ?></option>
+                    <!--<option value='7'>Reservation Manager</option>-->
+                    <?php } ?>
+                    
+                </select>
+            </div>
+        </div>	
+            <div id="reservation" style="display:none">
+                <?php foreach($this->reservation as $acti){?>
+                <?php if($acti->getOriginalname()=="Add"){ ?>
+                <input type="hidden" name="activity[]" value="<?php echo $acti->getId(); ?>">
+                <div class="formRow control-group">
+                    <label><?php echo $acti->getOriginalname(); ?> Reservation</label>
+                   <div class="formRight">
+                       <select class="" name='type[]'>
+                           <option value=''>Select Type</option>
+                           <option value='0'>$</option>
+                           <option value='1'>%</option>
+
+                       </select>
+                       <input type="text" name="amount[]">
+                   </div>
+               </div>	
+                <?php } } ?>
+            </div>
+        
+            <div id="reseller" style="display:none">
+                <?php foreach($this->reseller as $actir){?>
+                <?php if($actir->getOriginalname()=="Add"){ ?>
+                <input type="hidden" name="activity[]" value="<?php echo $actir->getId(); ?>">
+                <div class="formRow control-group">
+                    <label><?php echo $actir->getOriginalname(); ?> Reseller</label>
+                   <div class="formRight">
+                       <select class="" name='type[]'>
+                           <option value=''>Select Type</option>
+                           <option value='0'>$</option>
+                           <option value='1'>%</option>
+
+                       </select>
+                       <input type="text" name="amount[]">
+                   </div>
+               </div>	
+                <?php } } ?>
+            </div>
+      
+
+        
+        <div class="formRow control-group">
+            <input type='submit' value='Submit' class='btn btn-info'>
+        </div>
+
+        <div class="clearfix"></div>
+        </form>
+    </div>
+
+
+</div>
+<script>
+$(function(){
+    $('#role').change(function(){
+        var value=$(this).val();
+        if(value==6){
+            $('#reseller').show();
+            $('#reservation').hide();
+        }else if(value==7){
+            $('#reseller').hide();
+            $('#reservation').show()
+        }
+    });
+});
+</script>
+

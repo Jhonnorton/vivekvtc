@@ -1,0 +1,66 @@
+<ul class="additional-menu">
+	
+    <li class="menu-group">
+        <a href="<?php echo $this->url('affiliate'); ?>">
+            <i class="icon-home"></i>Resellers
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('affiliate')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate'); ?>"><i class="icon-list"></i>All Reseller</a>
+            </li>
+            
+             <li <?php if ($this->url() === $this->url('affiliate-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate-add'); ?>"><i class="icon-list"></i>Add Reseller</a>
+            </li>
+          
+            <li <?php if ($this->url() === $this->url('affiliate-order')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate-order'); ?>"><i class="icon-list"></i>Reseller Orders</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('affiliate-event')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate-event'); ?>"><i class="icon-list"></i>Reseller Events</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('affiliate-resort')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate-resort'); ?>"><i class="icon-list"></i>Reseller Resorts</a>
+            </li>
+
+	<li <?php if ($this->url() === $this->url('affiliate-cruise-view') || $this->url() === $this->url('affiliate-cruise-view-all') || $this->url() === $this->url('affiliate-cruise-gallery') || $this->url() === $this->url('affiliate-cruise-gallery-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate-cruise-view'); ?>"><i class="icon-list"></i>Reseller Cruises</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('affiliate-template') || $this->url() === $this->url('affiliate-template-add') || $this->url() === $this->url('affiliate-template-edit') || $this->url() === $this->url('affiliate-template-view')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate-template'); ?>"><i class="icon-list"></i>Reseller Templates</a>
+            </li>
+          <li <?php if ($this->url() === $this->url('affiliate-accounts') || $this->url() === $this->url('affiliate-accounts-update')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate-accounts'); ?>"><i class="icon-list"></i>Reseller Accounts</a>
+            </li>
+            
+          <li <?php if ($this->url() === $this->url('affiliate-commission')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate-commission'); ?>"><i class="icon-list"></i>Reseller Commissions</a>
+            </li>
+            
+             
+          
+        </ul>
+    </li>
+
+    
+     <li class="menu-group">
+        <a href="<?php echo $this->url('affiliate-roles'); ?>">
+            <i class="icon-home"></i>Resellers Roles
+        </a>
+         <ul>
+             <li <?php if ($this->url() === $this->url('affiliate-roles')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate-roles'); ?>"><i class="icon-list"></i>View Reseller Roles</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('affiliate-roles-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate-roles'); ?>"><i class="icon-plus"></i>Add Reseller Role</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('affiliate-roles-activity') || $this->url() === $this->url('affiliate-roles-add-activity')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('affiliate-roles-activity'); ?>"><i class="icon-list"></i>View Roles Activity</a>
+            </li>
+         </ul>
+     </li>
+</ul>

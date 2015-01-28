@@ -1,0 +1,51 @@
+
+<?php $data=$this->collection['0'];?>
+<table class="table table-bordered table-mod-2" id="datatable_3">
+    
+    <tbody>
+        <?php if(!empty($data)){ ?>
+        <?php
+//    d($item);
+    $date = ($data->getCreated() instanceof \DateTime) ? $data->getCreated()->format('M d, Y') : $data->getCreated();   
+    ?>
+
+    <tr>
+        <td>Agent Name : </td>
+        <td><?php echo $data->getUserId()->getFirstName()." ".$data->getUserId()->getLastName(); ?></td>
+    </tr>
+    <tr>
+        <td>Agent Role : </td>
+        <td><?php echo $data->getUserId()->getRole()->getName(); ?></td>
+    </tr>
+    <tr>
+        <td>Type : </td>
+        <td><?php echo ($data->getType())?'Raise Monthly':'One Time Bonus';?></td>
+    </tr>
+    <tr>
+        <td>Amount : </td>
+        <td>$<?php echo $data->getAmount(); ?></td>
+    </tr>
+    <tr>
+        <td>Status : </td>
+        <td><?php echo ($data->getStatus())?'Applied':'Pending'?></td>
+    </tr>
+    <tr>
+        <td>Date Added : </td>
+        <td><?php echo $date; ?></td>
+    </tr>
+    <tr>
+        <td colspan="2"><a href="<?php echo $this->url('accounts-bonus-edit',array('id'=>$data->getId())); ?>" class="btn btn-info" style="color:white;">Edit</a></td>
+        
+    </tr>
+
+<?php
+        }else{
+?>
+    <tr><td colspan="2">NO DETAILS FOUND</td></tr>
+    
+        <?php } ?>
+    </tbody>
+    </table>
+
+
+

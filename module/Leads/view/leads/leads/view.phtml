@@ -1,0 +1,108 @@
+<?php
+//$leads = $this->leads;
+// echo "<pre>";
+// print_r($this->url());
+// die; 
+//d($leads['id']);
+$clientname = $leads['name'];
+$clientmail = $leads['email'];
+$clientphone = $leads['phone'];
+$type = $leads['type'];
+$roomName = $leads['roomName'];
+$hotelName = $leads['hotelName'];
+$id = $leads['id'];
+$dateFrom = $leads['dateFrom'];
+$dateTo = $leads['dateTo'];
+//  $id=$leads['id'];
+?>
+
+<div class="grid">    
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered " id="">
+            <tbody>
+                <tr>                    
+                    <th>Name</th>
+                    <td><?php echo $clientname; ?></td>				
+                </tr>
+                <tr>                    
+                    <th>Email</th>
+                    <td><?php echo $clientmail; ?></td>				
+                </tr>
+                <tr>                    
+                    <th>Phone</th>
+                    <td><?php echo $clientphone; ?></td>				
+                </tr>
+                <tr>                    
+                    <th>Type</th>
+                    <td><?php echo $type; ?></td>				
+                </tr>
+                <tr>
+                    <?php if ($type === 'Resort'): ?>
+                        <th>Resort Name</th>
+                    <?php endif; ?>
+                    <?php if ($type == 'Event'): ?>
+                        <th>Event Name</th>
+                    <?php endif; ?>
+                    <?php if ($type == 'Cruise'): ?>
+                        <th>Cruise Name</th>
+                    <?php endif; ?>
+                    <td><?php echo $hotelName; ?></td>				
+                </tr>
+                <tr>
+                    <?php if ($type === 'Resort'): ?>
+                        <th>Room Category</th>
+                    <?php endif; ?>
+                    <?php if ($type == 'Event'): ?>
+                        <th>Room Category</th>
+                    <?php endif; ?>
+                    <?php if ($type == 'Cruise'): ?>
+                        <th>Sueit Name</th>
+                    <?php endif; ?>
+                    <td><?php echo $roomName; ?></td>				
+                </tr>
+                <tr>                    
+                    <th>Date From</th>
+                    <td><?php echo ($dateFrom instanceof \DateTime) ? $dateFrom->format('Y-m-d') : $dateFrom; ?></td>				
+                </tr>
+                <tr>                    
+                    <th>Date To</th>
+                    <td><?php echo ($dateTo instanceof \DateTime) ? $dateTo->format('Y-m-d') : $dateTo; ?></td>				
+                </tr>
+
+
+                <tr>                    
+
+                    <td>
+
+                        <?php if($type == 'Resort'){ 
+                            $url="leads-resort";
+                         ?>
+                        
+                        <?php }elseif($type == "Event"){ $url="leads-event";  ?>
+
+                        <?php }elseif($type=="Cruise"){ $url="leads-cruise"; } ?>
+                        
+                        <a href="<?php echo $this->url($url); ?>">
+                            <button class="btn btn-info">
+                                Return
+                            </button>
+                        </a>
+                        
+                        <a href="<?php echo $this->url('lead-generate-quote',array('id' =>$leads['id'])); ?><?php //echo $this->url('orders-canceled', array('id' => $reservation->getId()));;  ?>">
+                            <button class="btn btn-warning">
+                               Generate Quote
+                            </button>
+                        </a>
+                        
+                      
+
+                    </td>
+                    <td></td>
+                </tr>
+
+                </body>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+
+<div class="search-data">
+      <?php foreach($this->data as $rows=>$key): 
+           $key = array_values($key);
+          ?>
+    <div class="type_title"><?php echo $key[0][0]->getCruiseName(); ?></div>
+    <table class="table table-bordered" width=100%>
+        <tr>
+            <th>Suite Name</th>
+            <th>Image</th>
+            <th>Deck Number</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+        <?php foreach($key as $row) :
+            $data_url = array("type"=>3 ,"typeId"=>$row[0]->getCruiseId(),"id"=>$row[0]->getId(),"start"=>$this->searchData['from'],"end"=>$this->searchData['to']);
+            $data_url = urlencode(json_encode($data_url));
+            ?>
+        <tr>
+            <td><?php echo $row[0]->getSuiteName();?></td>
+            <td><img src="<?php echo $this->imgPath.$row[0]->getSuiteId()->getDeckImageUrl();?>"></td>
+             <td><?php echo $row[0]->getDeckNumber();?></td>
+            <td><?php
+                                foreach ($row as $r):
+                                    echo "Date : " . $r->getDateFrom()->format('d-m-Y') . ' to ' . $r->getDateTo()->format("d-m-Y") . 'Price :' . "  $  " . $r->getGrossPrice() . ' per Night';
+                                    echo "<br>";
+                                endforeach;?></td>
+            <td><a href="<?php echo $this->url("orders-add",array('dataUrl'=> $data_url)); ?>"><input type="button" value="Book" class="btn btn-info" id="search" name="book"> </a></td>
+        </tr>
+            <?php endforeach;?>
+    </table>
+    <?php endforeach; ?>
+</div>
+
+<style>
+    .type_title{font-weight: bold;font-size: 20px;}
+    </style>

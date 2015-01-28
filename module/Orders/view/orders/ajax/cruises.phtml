@@ -1,0 +1,9 @@
+<label for="cruiseId" class="required">Cruise Name</label>                    
+<div class="formRight">    
+    <select data-extra-type="<?php echo \Inventory\Model\Items::LINKED_TO_CRUISE_NAME; ?>" data-resource="cruise/cabins/" data-type="3" id="cruises" name="cruiseId" required="required" class="chzn-select chosen_select width-100 entity-items">                
+        <option value="">please select cruise...</option>
+        <?php foreach ($this->collection as $item):?>                
+            <option value="<?php echo $item->getId();?>"><?php echo $item->getTitle();?></option>
+        <?php endforeach;?>    
+    </select> 
+</div>

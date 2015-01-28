@@ -1,0 +1,201 @@
+<?php 
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url(
+		'invoice-add'
+));
+$form->setAttribute('method', 'post');
+?>
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-plus"></i>
+			</div>
+			<span>Create/Edit Invoice</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<?php echo $this->form()->openTag($form); ?>
+	<div class="grid-content">
+		
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('reservationId')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('reservationId')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+	        	<?php echo $this->formElementErrors($form->get('reservationId'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>	
+		<div class="formRow control-group">
+			<h4>Extra Items</h4>
+			<hr />
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('itemCategoryId')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('itemCategoryId')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+	        	<?php echo $this->formElementErrors($form->get('itemCategoryId'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>	
+                 <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('itemId')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('itemId')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+	        	<?php echo $this->formElementErrors($form->get('itemId'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>	
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('rate')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('rate')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('rate'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('quantity')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('quantity')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('quantity'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>                        
+                <div class="formRow control-group">			
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('itemsButtom')->setAttribute('class', 'btn btn-info')); ?>	        	
+			</div>
+		</div>
+            
+                <div class="formRow control-group">	
+                    <?php if($this->collection):?>
+<div class="grid">    
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                    <th class="hidden-mobile">Item Category</th>
+                    <th class="hidden-mobile">Item</th>
+                    <th class="hidden-mobile">Quantity</th>					
+                    <th class="hidden-mobile">Rate</th>					
+                    <th class="hidden-mobile">Amount</th>
+                    <th class="hidden-mobile">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php                
+                foreach ($this->collection as $item): ?>
+                    <tr>
+                        <td class="hidden-mobile"><?php echo ''; ?></td>                        
+                        <td class="hidden-mobile"><?php echo ''; ?></td>                        
+                        <td class="hidden-mobile"><?php echo ''; ?></td>  
+                        <td class="hidden-mobile"><?php echo ''; ?></td>  
+                        <td class="hidden-mobile"><?php echo ''; ?></td>  
+                        <td class="action-table">                            
+                            <a href="#">
+                                <img src="/images/icon/table_edit.png" alt="">
+                            </a>  
+                            <a href="#"
+                               data-confirm="Are you sure?">
+                                <img src="/images/icon/table_del.png" alt="">
+                            </a>
+                        </td>                         
+                    </tr>                    
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<?php endif;?>		</div>            
+            
+                <div class="formRow control-group">
+			<h4>Billing Details</h4>
+			<hr />
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('accomodationCost')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('accomodationCost')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('accomodationCost'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+            
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('transferCost')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('transferCost')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('transferCost'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('flightCost')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('flightCost')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('flightCost'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('tripInsuranceCost')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('tripInsuranceCost')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('tripInsuranceCost'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('extraItemCost')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('extraItemCost')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('extraItemCost'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('discountAmount')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('discountAmount')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('discountAmount'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('merchantFee')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('merchantFee')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('merchantFee'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('amountDue')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('amountDue')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('amountDue'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('totalAmount')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('totalAmount')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('totalAmount'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                                            
+		<div class="formRow control-group">
+                        <button id="ok" class="btn btn-info" type="button" onclick="javascript:alert('In Progress')"  name="reset">Ok</button>
+			<?php //echo $this->formSubmit( $form->get('submit')->setAttribute('class', 'btn btn-info')) ?>			
+                        <button type="button" id="resetbutton" class="btn btn-warning" onclick="javascript:alert('In Progress')" type="reset"  name="reset">Reset</button>
+		</div>
+		<div class="clearfix"></div>
+
+	</div>
+	<?php echo $this->form()->closeTag() ?>
+</div>
+
+<script>
+	$(function(){
+		$('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+		$('.error input').keyup(function(){
+					$(this).parents('.formRow').removeClass('error');
+					$(this).next('ul.help-inline').remove();
+		});
+	});				
+</script>
+
+

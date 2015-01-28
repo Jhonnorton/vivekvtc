@@ -1,0 +1,47 @@
+
+<div class="formRow control-group">
+    <label for="olddiscount">Old Discount</label>
+    <div class="formRight">
+        <span><?php echo $this->data->getAppliDiscount(); ?></span>
+        <input name="olddiscount" class="span input" value="<?php echo $this->data->getAppliDiscount(); ?>" id="olddiscount" type="hidden" readonly="readonly">
+    </div>
+</div>
+
+<div class="formRow control-group">			
+    <label for="discountType" class="">New Discount Type</label>
+    <div class="formRight">
+        <div name="discountType" class="distance distance-2">
+            <p>
+                <input type="radio" id="fixed" class="load-disc" name="discountType"  value=1 >
+                <label for="fixed"><span></span>Fixed</label>
+            </p>
+            <p>
+                <input type="radio" id="percentage" class="load-disc" name="discountType" value=0 >
+                <label for="percentage"><span></span>%</label>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="formRow control-group" id="disc-field" style="display:none;">
+    <label for="discount">New Discount</label>
+    <div class="formRight">
+        <input name="discount" value="0" id="discount" type="number" class="span input">
+    </div>
+</div>
+
+ <script>
+        $(function() {
+			if($('#fixed').is(':checked')){
+                                $("#disc-field").show();				
+//                                $('#fixed').trigger('click');
+			}
+                        
+                        if($('#percentage').is(':checked')){
+                                $("#disc-field").show();				
+//                                $('#percentage').trigger('click');
+                        }
+                        
+                        
+		});
+</script>

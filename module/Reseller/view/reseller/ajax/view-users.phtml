@@ -1,0 +1,23 @@
+
+<table class="table-bordered table table-striped">
+    <tr><th>
+            Name
+        </th>
+        <th>
+            Email
+        </th>
+    </tr>
+    <?php if($this->collection){ ?>
+    <?php foreach($this->collection as $item){ ?>
+    <tr>
+        <td>
+            <?php echo $item->getAffiliateId()->getFirstName()?>
+        </td>
+        <td>
+            <?php echo $item->getAffiliateId()->getEmail()?>
+        </td>
+    </tr>
+    <?php } }else{ ?>
+    <tr><td colspan="2">No Users</td></tr>
+    <?php }?>
+</table>

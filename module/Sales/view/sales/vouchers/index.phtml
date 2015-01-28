@@ -1,0 +1,75 @@
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php 
+    endif;
+endif;
+
+
+?>
+
+
+
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-plus"></i>
+			</div>
+			<span>Voucher's</span>
+			<div class="clearfix"></div>
+		</div>
+        
+		
+	</div>
+	<div class="grid-content overflow">
+                <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+                    <th class="hidden-mobile">Voucher Name</th>
+                    <th class="hidden-mobile">Created On</th>
+                    <th class="hidden-mobile">No Of Use</th>    
+                    <th class="hidden-mobile">Voucher Number</th>
+                    <th class="hidden-mobile">Action</th>    
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->voucher as $voc){?>
+            <tr>    
+                <td><?php echo $voc->getVoucherName(); ?></td>
+                <td><?php echo $voc->getCreated()->format('M d, Y');?></td>
+                <td><?php $no_of_use=$voc->getNumberOfUse(); if(!empty($no_of_use)){echo $no_of_use;}else{echo "NA";}?></td>
+                <td><?php echo $voc->getVoucherCode();?></td>
+                <td class="action-table">
+                           
+                            <a title="share" href="#">
+                                <img src="/images/icon/envelope.png" alt="">
+                            </a>
+                            <a title="Edit" href="<?php echo $this->url('vouchers-edit', array('vid' => $voc->getId())); ?>">
+                                <img src="/images/icon/table_edit.png" alt="">
+                            </a>
+                            <a title="Delete" href="<?php echo $this->url('vouchers-delete', array('vid' => $voc->getId())); ?>"data-confirm="Are you sure?">
+                                <img src="/images/icon/table_del.png" alt="">
+                            </a>
+                            
+                </td>
+           </tr>     
+           <?php } ?>
+           
+            </tbody>
+        </table>
+		<div class="clearfix"></div>
+	</div>
+	
+</div>
+<?php echo $this->partial('users/ajax/modal.phtml');?>
+
+
+

@@ -1,0 +1,41 @@
+<?php
+if ($this->collection):
+    ?>
+    <div class="formRow control-group">
+        <h4>Items</h4>
+        <hr />
+    </div>
+    <label for="items">Select Items</label>    
+    <div class="formRight multicheckbox">
+        <div class="distance distance-2">
+            <?php $i = 0; ?>
+            <?php foreach ($this->collection as $item): ?>
+<!--                <p>
+                    <input type="checkbox" id="c<?php echo $i++ ?>" name="items[]"  value="<?php echo $item->getId(); ?>" netprice="<?php echo $item->getNetPrice(); ?>" grossprice="<?php echo $item->getGrossPrice(); ?>">
+                    <label for="c<?php echo $i; ?>"><span></span> <?php echo $item->getName()// . '(' . $item->getGrossPrice() . ')'; ?></label>
+                </p>-->
+                    <label>
+                        <input type="checkbox" name="items[]" class="span input" value="<?php echo $item->getId(); ?>" netprice="<?php echo $item->getNetPrice(); ?>" grossprice="<?php echo $item->getGrossPrice(); ?>"><?php echo $item->getName() . ' ($' . $item->getGrossPrice() . ')'; ?>
+                    </label>                
+            <?php endforeach; ?>
+        </div>
+    </div>
+    </div>
+    <div class="formRow control-group">
+        <label for="itemsCost">Items Cost</label>                
+        <div class="formRight">    
+            <input name="itemsCost" type="number" min="0" netCost="0" readonly="readonly" class="span input" value="0">                                    
+        </div>
+    </div>
+    <script>
+//        $('.chzn-select').chosen();
+//        $('input[name="items[]"]').change(function() {
+//            var itemsCost = 0;
+//            $.each($('input[name="items[]"]:checked'), function() {
+//                itemsCost = itemsCost + parseFloat($(this).attr('grossPrice'));
+//            });
+//            $('input[name="itemsCost"]').val(itemsCost);
+//            calcTotalCost();
+//        });
+    </script>
+<?php endif; ?>

@@ -1,0 +1,16 @@
+<?php 
+	if($this->message):
+?>		
+<div class="alert alert-dismissable alert-<?php echo $this->message[0]['type'];?>">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <ul>
+        <li><?php echo $this->message[0]['message'];?></li>        
+    </ul>
+</div>
+<?php 
+endif;
+?>
+<div style="padding: 30px;"><form action="resources" method="post">	
+	<button type="submit" value="Update" onclick="return confirm('Are you sure?')">Update resources</button>	
+</form>
+</div>

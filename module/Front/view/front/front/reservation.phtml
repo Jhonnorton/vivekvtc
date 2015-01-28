@@ -1,0 +1,2716 @@
+<style>
+    #inventory_room_available{color:green;}
+    .over-lay{
+   background-color: rgba(0, 0, 0, 0.8);
+    z-index: 999;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display:none;
+    }
+    .over-lay img{margin-left: 50%;margin-top: 20%;max-width: 100%;}
+    
+    .textsection p {
+        font-size: 14px!important;
+        font-weight: normal!important;
+    }
+    
+/*    .b03,.b04{
+        width:11%!important;
+    }*/
+
+</style>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<?php
+//echo $this->posturl;
+//$origin = $this->request()->getHeader('referer');
+$_SERVER['HTTP_HOST'] = 'http://vacationparties.com/';
+//$this->redirect()->toUrl($redirectUrl);
+$var=urlencode(json_encode($this->dataSearch));
+$curr=$this->dataSearch->currency;
+$addedTraveller=$this->dataSearch->males+$this->dataSearch->females;
+$males=$this->dataSearch->males;
+$females=$this->dataSearch->females;
+//$form = $this->form;
+//$form->prepare();
+//$form->setAttribute('action', $this->url(
+//                'reservation',array($var)
+//));
+//$form->setAttribute('method', 'post');
+?>
+
+<?php
+//$date1 = new DateTime("2010-07-06");
+//$date2 = new DateTime("2015-07-09");
+//$diff = $date2->diff($date1)->format("%a");
+//d($diff);
+?>
+<?php
+//d($this->collection[0]);
+//$coll = $this->collection;
+$reservation = $this->collection[0];
+//d($reservation);
+$type = $reservation['type'];
+
+
+
+$currencyexchange = $reservation['currencyexchange'];
+$currencytype = $reservation['currencytype'];
+if ($currencytype == 'CAD' || $currencytype == 'USD') {
+
+    $symbol = '$';
+} elseif ($currencytype == 'GBP') {
+    $symbol = '£';
+} elseif ($currencytype == 'EUR') {
+    $symbol = '€';
+}
+
+$redirect=explode('/',$_SERVER['HTTP_REFERER']);
+$redirectURL=$redirect[0]."//".$redirect[2];
+$redirectUri=$redirect[0]."//".$redirect[2];
+
+if(empty($reservation['inventory'])){
+   // header('Location: http://vp.mytravelcenter.net');
+}
+
+if ($type == 1) {
+//    d($reservation);
+    $redirectURL.="/resort/all/".$reservation['event']->getMetaTitle();
+//    $dataExtraType = \Inventory\Model\Items::LINKED_TO_RESORT_NAME;
+    $dataExtraType=4;
+//d($reservation);    
+    $minimum_stay_days = 0;
+    $event = $reservation['event'];
+//d($event->getTitle());
+//$eventName=$event->getTitle();
+//$eventroom = $reservation['eventroom'];
+//d($event->getName());
+    $room = $reservation['room'];
+    $roomName = $room->getTitle();
+
+
+
+//d($room->getDescription());
+    $hotelName = $reservation['hotel'];
+//$travellers = $reservation['travellers'];
+
+    $description = $room->getDescription();
+    $inventory = $reservation['inventory'];
+//d($inventory->getNetPrice());
+    
+    $roomOptions=array();
+    foreach($reservation['rooms'] as $roomdata){
+        $roomOptions[]=array('id'=>$roomdata->getId(),'name'=>$roomdata->getTitle());
+    }
+
+    $leftcount = $inventory->getNumberAvailable() - $inventory->getBookedCount();
+    $startdate = ($inventory->getDateFrom() instanceof \DateTime) ? $inventory->getDateFrom()->format('M jS') : $inventory->getDateFrom();
+    $enddate = ($inventory->getDateTo() instanceof \DateTime) ? $inventory->getDateTo()->format('M jS Y') : $inventory->getDateTo();
+    $image=$room->getImage();
+    $travelfromdate = $this->dataSearch->start;
+    $traveltodate = $this->dataSearch->end;
+    $orgEventStartDate = $this->dataSearch->start;
+    $orgEventEndDate = $this->dataSearch->end;
+    
+    // $travelfromdate = ($inventory->getDateFrom() instanceof \DateTime) ? $inventory->getDateFrom()->format('Y-m-d') : $inventory->getDateFrom();
+    // $traveltodate = ($inventory->getDateTo() instanceof \DateTime) ? $inventory->getDateTo()->format('Y-m-d') : $inventory->getDateTo();
+} else if ($type == 2) {
+    $dataExtraType=6;
+//d($reservation);    
+    $redirectURL.="/events-details/".$reservation['event']->getMetaTitle();
+    $event = $reservation['event'];
+//d($event->getTitle());
+    $eventName = $event->getTitle();
+    $eventroom = $reservation['eventroom'];
+//d($event->getName());
+    $room = $reservation['room'];
+    $minimum_stay_days = $event->getMinimumStayDays();
+    //d($room);
+    $roomName = $room->getRoomCategory();
+    
+    $orgEventStartDate = $event->getStartDate()->format("Y-m-d");
+    $orgEventEndDate = $event->getEndDate()->format("Y-m-d");
+
+    $roomOptions=array();
+    foreach($reservation['rooms'] as $roomdata){
+        $roomOptions[]=array('id'=>$roomdata->getId(),'name'=>$roomdata->getRoomCategory());
+    }
+
+//d($room->getDescription());
+    $hotelName = $reservation['hotel'];
+//$travellers = $reservation['travellers'];
+
+    $description = $room->getRoomId()->getDescription();
+    $inventory = $reservation['inventory'];
+//d($inventory->getNetPrice());
+
+    $leftcount = $inventory->getTotalAvailable() - $inventory->getBookedCount();
+    $startdate = ($event->getStartDate() instanceof \DateTime) ? $event->getStartDate()->format('M jS') : $event->getStartDate();
+    $enddate = ($event->getEndDate() instanceof \DateTime) ? $event->getEndDate()->format('M jS Y') : $event->getEndDate();
+
+//    $travelfromdate = ($event->getStartDate() instanceof \DateTime) ? $event->getStartDate()->format('Y-m-d') : $event->getStartDate();
+//    $traveltodate = ($event->getEndDate() instanceof \DateTime) ? $event->getEndDate()->format('Y-m-d') : $event->getEndDate();
+
+    $travelfromdate = $this->dataSearch->start;
+    $traveltodate = $this->dataSearch->end;
+    
+    //$date1 = new DateTime("2010-07-06");
+    //$date2 = new DateTime("2015-07-09");
+    $image=$room->getRoomId()->getImage();
+} else if ($type == 3) {
+//d('sdasda');
+    $dataExtraType=7;
+    $event = $reservation['event'];
+     $redirectURL.="/cruises/";
+    $hotelName = $event->getTitle();
+
+    $eventroom = $reservation['eventroom'];
+    $roomName = $eventroom->getDeckName();
+
+    $description = $eventroom->getDescription();
+    
+    $minimum_stay_days = 0;
+
+    $room = $reservation['room'];
+    
+    $roomOptions=array();
+    foreach($reservation['rooms'] as $roomdata){
+        $roomOptions[]=array('id'=>$roomdata->getId(),'name'=>$roomdata->getDeckName());
+    }
+    
+    $inventory = $reservation['inventory'];
+
+    $startdate = ($event->getTourStartDate() instanceof \DateTime) ? $event->getTourStartDate()->format('M jS') : $event->getTourStartDate();
+
+    $enddate = ($event->getTourEndDate() instanceof \DateTime) ? $event->getTourEndDate()->format('M jS Y') : $event->getTourEndDate();
+    
+    $orgEventStartDate = $event->getTourStartDate()->format("Y-m-d");
+    $orgEventEndDate = $event->getTourEndDate()->format("Y-m-d");
+
+//    $travelfromdate = ($event->getTourStartDate() instanceof \DateTime) ? $event->getTourStartDate()->format('Y-m-d') : $event->getTourStartDate();
+//
+//    $traveltodate = ($event->getTourEndDate() instanceof \DateTime) ? $event->getTourEndDate()->format('Y-m-d') : $event->getTourEndDate();
+
+    $travelfromdate = $this->dataSearch->start;
+    $traveltodate = $this->dataSearch->end;
+
+    $leftcount = $inventory->getTotalAvailable() - $inventory->getBookedCount();
+    
+    $image="/images/front/homepic01.jpg";
+}
+
+?>
+
+<script>
+$(document).ready(function(){
+    if(<?php echo $leftcount; ?><1){
+        alert('No Rooms Available in this category.. Please select another room...');
+       // document.location=<?php echo $redirectURL; ?>;
+    }
+});
+</script>
+<div class="over-lay"><img src="/images/loader.gif" alt="loader"></div>
+<div class="top-secure"> <!--<a href="#"><img src="images/top-secure.jpg" alt="Top Secure"></a>-->
+<span id="siteseal"><script type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=s6zXRJ28BV2mIZm3AGhwqBHQ6oxx6YFwUiXZJ2DKO9QADVmjBL5J45"></script></span>
+</div>
+<h1 class="topheading">Welcome to this secured online Reservation Portal, hosted by Sunset Destinations and Adult Tours Inc</h1>
+<h2 class="topsubheading">This page is fully encrypted and your private information will be delivered securely to our inbox</h2>
+<div id="content-section">
+    <?php // echo $this->form()->openTag($form); ?>
+    <form action="/reservation/<?php echo $var; ?>" method="post" id="front">
+    <input type="hidden" name="type"  value="<?php echo $type; ?>" >
+    <input type="hidden" name="roomavail"  value="<?php echo $this->dataSearch->available; ?>" >
+    <input type="hidden" name="currencytype"  id="currency-type" value="<?php echo $currencytype; ?>" >
+    <input type="hidden" id="inv_data" name="inv_data" value="" m="<?php echo $this->dataSearch->males; ?>" f="<?php echo $this->dataSearch->females; ?>" search_m="<?php echo $this->dataSearch->males; ?>" search_f="<?php echo $this->dataSearch->females; ?>" tOcp="" tOcpM="" tOcpF="" tOcpMN="" tOcpFN="" qOcp="" qOcpM="" qOcpF="" qOcpMN="" qOcpFN=""  sOcp="" sOcpG="" sOcpN="" mc="0" fc="0" dOp="0" dOpN="0" pPer="0" mOcpR="0"fOcpR="0"lock_guest="0">
+    <input type="hidden" name="roomNetPrice" id="rnp" value="<?php echo $this->dataSearch->netPrice; ?>">
+     <input type="hidden" name="addonsNetPrice" id="anp" value="0">
+     <input type="hidden" value="<?php echo $this->dataSearch->price;//echo round(($this->dataSearch->price) * $currencyexchange, 2)?>">
+     <input type="hidden" class="span8 input" name="roomRate" id="grossPrice" fixPrice="<?php echo $this->dataSearch->price;//echo round(($this->dataSearch->price) * $currencyexchange, 2)?>" value="<?php echo $this->dataSearch->price; //echo round(($this->dataSearch->price) * $currencyexchange, 2)?>">
+     <input type="hidden" id="check-date-change" name="check-date-change" value="0"> 
+     <input type="hidden" id="currency-exchange" name="currencyExchange" value="<?php echo $currencyexchange ?>">
+     <input type="hidden" id="minimum-stay-days" name="minimum-stay-days" value="<?php echo $minimum_stay_days; ?>"> 
+      <input type="hidden" id="org_event_start" name="org_event_start" value="<?php echo $orgEventStartDate; ?>"> 
+       <input type="hidden" id="org_event_end" name="org_event_end" value="<?php echo $orgEventEndDate; ?>"> 
+               <input type="hidden" id="reservationId" name="reservationId" value=""> 
+        <input type="hidden" id="step" name="step" value=""> 
+  <?php
+//    echo $this->formElement($form->get('roomRate')
+//                    ->setAttribute('id', 'grossPrice')
+//                    ->setAttribute('type', 'hidden')
+//                    ->setAttribute('value', round(($inventory->getGrossPrice()) * $currencyexchange, 2))
+//                    //  round(($inventory->getGrossPrice())*$currencyexchange,2)
+//                    ->setAttribute('class', 'span8 input'));
+    ?>
+
+    <input type="hidden" name="eventStart" id="hid-start" value="<?php echo $travelfromdate; //$this->data->getStartDate()->format('Y-m-d');          ?>">
+    <input type="hidden" name="eventEnd" id="hid-end" value="<?php echo $traveltodate; //$this->data->getEndDate()->format('Y-m-d');          ?>">
+
+    <?php
+    $eventStartModified = date('Y-m-d', strtotime($orgEventStartDate) - (24 * 3600 * 5));
+    $eventEndTwoModified = date('Y-m-d', strtotime($orgEventEndDate) + (24 * 3600 * $minimum_stay_days));
+    $eventEndModified = date('Y-m-d', strtotime($orgEventEndDate) + (24 * 3600 * 5));
+    ?>
+
+    <input type="hidden" name="eventStart_modified" id="hid-mod-start" value="<?php echo $eventStartModified; ?>">
+    <input type="hidden" name="eventend_two" id="hid-mod-end-two" value="<?php echo $eventEndTwoModified; ?>">
+    <input type="hidden" name="eventEnd_modified" id="hid-mod-end" value="<?php echo $eventEndModified; ?>">
+
+    <input type="hidden" name="roomCategory" id="resort-rooms" value="<?php echo $reservation['roomid']; ?>">
+    <input type="hidden" name="dataExtraType" id="data-extra-type" value="<?php echo $dataExtraType; ?>">
+    <input type="hidden" name="dataTypeId" id="data-type-id" value="<?php echo $event->getId(); ?>">
+    <ul id="cbp-ntaccordion" class="cbp-ntaccordion">
+        <li>
+            <h3 class="cbp-nttrigger">
+                <div class="arrow01"><span>You selected</span></div>
+            </h3>
+            <div class="cbp-ntcontent">
+                <div id="step01">
+                    <?php ?>
+                    <h2 class="heading"><?php
+                        if (!empty($eventName)) {
+                            echo $eventName . ',';
+                        }
+                        ?><?php echo $hotelName; ?><?php if($type != 1){echo "," .$startdate . ' - ' . $enddate;} ?> </h2>
+                    <p class="subheading"><?php echo $roomName; //$room->getTitle();                    ?><!--Ocean front Jacuzzi room--></p>
+                    <div class="roomdetails">
+                        <img src="http://img.mytravelcenter.net/user_uploads/resortroom/<?php echo $image; ?>" alt="Vip Form" class="imgleft" style="height:150px; width:150px;">
+                        <div class="textsection">
+                            <p>
+                                <!--This room is the best room at the resort and feature a spectacular view of the ocean. There is Jacuzzi tub on the patio and the room is very spacious.-->
+
+                                <?php echo substr(strip_tags($description),0,300)."..."; //$room->getDescription();     ?>
+                            </p>
+                        </div>
+                        <a class="btn" href="javascript:void(0)" id="click1">Continue</a>
+                        <a class="btn" href="<?php echo $redirectURL; ?>">Go Back</a>
+                    </div>
+                    <div class="roomprice">
+                        <!--<p class="price"><?php echo $symbol ?><?php echo round(($inventory->getGrossPrice()) * $currencyexchange, 2); ?><span id="num_left"><?php echo '(only ' . $leftcount . ' left)' ?></span></p>-->
+                        <?php //echo $this->dataSearch->price;die;?>
+                        <p class="price j-price" style="font-size:40px;"><?php echo $this->dataSearch->currency." "; ?><?php echo $this->dataSearch->price;//echo round(($this->dataSearch->price) * $currencyexchange, 2); ?><span id="num_left">per Night<?php //echo '(only ' . $leftcount . ' left)' ?></span></p>
+                     <!--   <p class="pricesub">Per person nightly</p>
+                        <p class="selecttext"><label><input name="" type="checkbox" value=""> Select</label></p>-->
+                    </div>
+                    <div class="clr"></div>
+                </div>
+            </div>
+        </li>
+        <li id="li2"> 
+
+            <h3 class="cbp-nttrigger">
+                <div class="arrow01"><span>Complete the form below</span></div>
+            </h3>
+            <?php //echo $this->form()->openTag($form);   ?>
+            <div class="cbp-ntcontent">
+
+                <div id="step02">
+
+                    <span class="guest-add"><strong>Traveller Info #1</strong></span>
+                    <div class="fbox01">
+                        <div class="b01"> <?php echo $this->formLabel($form->get('travellerName')); ?></div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('travellerName')->setAttribute('class', 'span required input')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerName'), array('class' => 'help-inline')); ?>
+                        </div>
+                        
+                         <!-- add gender field -->
+			
+                <div class="b01">Sex</div> 
+                 <div class="b02">
+                    <div name="sex" class="distance distance-2">
+                        <?php if($males>0){ ?>
+                            <input type="radio" id="male_1" class="sex required" name="sex" onClick="ajaxPriceCal(this,0);"  value="1" checked>
+                            <label for="male_1"><span></span>Male</label>
+
+                            <input type="radio" id="female_1" class="sex required" name="sex" onClick="ajaxPriceCal(this,0);" value="0">
+                            <label for="female_1"><span></span>Female</label>
+                            <?php $males=$males-1; ?>
+                        <?php }else{ ?>
+                            <input type="radio" id="male_1" class="sex required" name="sex" onClick="ajaxPriceCal(this,0);"  value="1" >
+                            <label for="male_1"><span></span>Male</label>
+
+                            <input type="radio" id="female_1" class="sex required" name="sex" onClick="ajaxPriceCal(this,0);" value="0" checked>
+                            <label for="female_1"><span></span>Female</label>
+                            <?php $females=$females-1; ?>
+                        <?php } ?>
+                            <label for="sex" class="error help-inline" style="display:none;">Select Gender</label>
+                    </div>
+                </div>
+
+            <!-- end -->
+
+                        <div class="b01">
+                            <?php echo $this->formLabel($form->get('travellerEmail')); ?>
+                        </div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('travellerEmail')->setAttribute('class', 'span input required')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerEmail'), array('class' => 'help-inline')); ?>
+                        </div>
+                    </div>
+                    <div class="fbox02" id="traveller-info">
+                        <div class="b01">
+                            <?php echo $this->formLabel($form->get('travellerPhone')); ?>
+                        </div>
+                        <div class="b02"> 
+                            <?php echo $this->formElement($form->get('travellerPhone')->setAttribute('class', 'span input required')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerPhone'), array('class' => 'help-inline')); ?>
+                        </div>
+                        <div class="b01">
+                            <?php echo $this->formLabel($form->get('travellerDOB')); ?>
+                        </div>
+                        <div class="b02">   
+                            <?php echo $this->formElement($form->get('travellerDOB')->setAttribute('class', 'span input required')->setAttribute('id', 'dob')->setAttribute('type', 'text')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerDOB'), array('class' => 'help-inline')); ?>
+                        </div>
+                    <!--    <div class="b03"><img src="images/front/calender.jpg" alt=""></div>-->
+                        <div class="b03"> <?php echo $this->formLabel($form->get('noOfPersons')); ?></div>
+                        <div class="b02">         
+                            <?php
+                            echo $this->formElement($form->get('noOfPersons')
+                                            ->setAttribute('value', $addedTraveller)
+                                            ->setAttribute('class', 'span input required'));
+                                            
+                            ?>
+                            <?php echo $this->formElementErrors($form->get('noOfPersons'), array('class' => 'help-inline')); ?>
+                        </div>      
+                               <div class="b0"><!--<select name=""></select>-->
+
+                            <?php // echo $this->formElement($form->get('travellerButtom')->setAttribute('class', 'btn')); ?>	   
+
+                           <!-- <input type="button" value="Add More Travellers" class="btn btn-danger btn-small metro" id="addbutton" addid = "1" name="travellerButtom">
+                            
+    <span style="float: right">
+    <button type="button" class="remove-traveller btn btn-danger btn-small metro" id="rem_1" addId="1">Remove Travellers</button>
+    </span>-->
+    
+       <!-- New Code Added 7th Nov 2014 -start- -->                   
+       <br><br><br><br><br>
+       <div id="travellers">
+       <?php
+       
+       $count=2;
+       for($i=0;$i<$addedTraveller-1;$i++){
+       ?>   
+       <div addid="<?php echo $count; ?>" id="person<?php echo $count; ?>" class="fbox03 added-traveller">
+<!--               <div class="b4 tnum">
+                   <strong>Traveller Info <?php echo $count; ?></strong></div><br>-->
+                   <div class="b4 tnum">
+                    <span class="guest-add"><strong>Traveller Info #<?php echo $count;?></strong></span></div><br>
+
+                <div class="b01">  <label for="travellerName">Full Name</label>    </div>
+                <div class="b02">
+                    <input type="text" class="span input require" id="tname_1" name="tname[]">
+                </div>
+                <div class="b01"><label for="travellerEmail">Email</label>    </div>
+                <div class="b02">
+                    <input type="email" class="span input require" name="tEmail[]">
+                </div>
+                <div class="b01"> <label for="dob">D.O.B</label></div>
+                <div class="b02"><input type="text" id="date<?php echo $count; ?>" class="span input require" name="tDOB[]" placeholder="yyyy-mm-dd" readonly> </div>
+
+
+                    <div class="b01">Sex</div>
+                        <div class="b02" name="sex">
+                            <?php if($males>0){ ?>
+                            <p>
+                                <input type="radio" value="1" onclick="ajaxPriceCal(this,<?php echo $count ;?>);" name="tsex_<?php echo $count; ?>" class="sex require" id="male_<?php $count; ?>" checked>
+                                <label for="male_2" id="male_<?php $count; ?>"><span></span>Male</label>
+                                <input type="radio" value="2" onclick="ajaxPriceCal(this,<?php echo $count ;?>);" name="tsex_<?php echo $count; ?>" class="sex require" id="female_<?php $count; ?>">
+                                <label for="female_2" id="female_<?php $count; ?>"><span></span>Female</label>
+                            </p>
+                            <?php $males=$males-1; ?>
+                        <?php }else{ ?>
+                            <p>
+                                <input type="radio" value="1" onclick="ajaxPriceCal(this,<?php echo $count ;?>);" name="tsex_<?php echo $count; ?>" class="sex require" id="male_<?php $count; ?>">
+                                <label for="male_2" id="male_<?php $count; ?>"><span></span>Male</label>
+                                <input type="radio" value="2" onclick="ajaxPriceCal(this,<?php echo $count ;?>);" name="tsex_<?php echo $count; ?>" class="sex require" id="female_<?php $count; ?>" checked>
+                                <label for="female_2" id="female_<?php $count; ?>"><span></span>Female</label>
+                            </p>
+                            <?php $females=$females-1; ?>
+                        <?php } ?>
+                            
+
+                    </div>
+                    <input type="button" value="Remove" onclick="openShare(this)" class="btn-danger btn-small metro rmtrv" id="removeButtonNew">
+                </div>
+      
+           <script>
+                $('#date<?php echo $count; ?>').datepicker({
+					yearRange: '1950:1996',
+					defaultDate: '1996-01-01',
+                    //maxDate:'-18Y',
+                    dateFormat:'yy-mm-dd',
+                    changeMonth: true,
+                    changeYear: true,
+                });
+           </script>
+            <?php $count++; ?>
+       <?php } ?>
+           </div>
+<!--       <input type="button" value="Remove Traveller" onclick="removeTraveller()" count="<?php echo $count; ?>" class="btn btn-danger btn-small" id="removeButtonNew">-->
+           <input type="button" value="Add Traveller" count="<?php echo $count; ?>" class="btn-success btn-small" id="addButtonNew" style="float:right">
+           
+           
+       <!-- New Code Added 7th Nov 2014 -start- -->                   
+                        
+                        </div>
+                    </div>
+
+                    <div class="fbox04">
+                        <?php if ($type == 2) { ?>
+                            <div class="b01">Event Name</div>
+                            <div class="b02">
+                                <b><?php echo $eventName; ?></b>
+                                <input type="hidden" name="ename" class="span input" value="<?php echo $eventName; ?>" ></div>
+
+
+                        <?php } ?>
+                        <div class="b06"><?php
+                            if ($type == 3) {
+                                echo 'Cruise';
+                            } else {
+                                ?>Hotel<?php } ?></div>
+                            <div class="b02"><b><?php echo $hotelName; ?></b><input type="hidden" name="hname" class="span input" value="<?php echo $hotelName; ?>" readonly="readonly"></div>
+                        
+
+                        <?php
+                        //        echo $this->formElement($form->get('roomRate')
+                        //->setAttribute('id', 'grossPrice')
+                        //->setAttribute('type', 'text')
+                        //->setAttribute('value', $inventory->getGrossPrice())
+                        //->setAttribute('class', 'span8 input'));
+                        ?>
+
+                    </div>
+
+
+
+                    <div class="fbox05">
+                        <div class="b01">Date From</div>
+                        <div class="b02">
+                            <?php
+                            echo $this->formElement($form->get('travelFrom')
+                                            ->setAttribute('class', 'travelDates')
+                                            ->setAttribute('id', 'dateFroms')
+                                            ->setAttribute('type', 'text')
+                                            ->setAttribute('readonly', 'readonly')
+                                            ->setAttribute('value', $travelfromdate));
+//                            echo "<b>".$travelfromdate."</b>";
+                            ?>
+                             <!--<input type ="hidden" id="dateFrom" name="travelFrom" value="<?php echo $travelfromdate;?>">-->
+                            <?php echo $this->formElementErrors($form->get('travelFrom'), array('class' => 'help-inline')); ?>
+                        <!--    <img src="images/front/calender.jpg" alt="">--></div>
+                        <div class="b01">Date To</div>
+                        <div class="b02">
+                            <?php
+                            echo $this->formElement($form->get('travelTo')
+                                            ->setAttribute('class', 'travelDates')
+                                            ->setAttribute('id', 'dateTos')
+                                            ->setAttribute('type', 'text')
+                                            ->setAttribute('readonly', 'readonly')
+                                            ->setAttribute('value', $traveltodate));
+//                            echo "<b>".$traveltodate."</b>";
+                            ?>
+                             <!--<input type ="hidden" id="dateTo" name="travelTo" value="<?php echo $traveltodate;?>">-->
+                            <?php echo $this->formElementErrors($form->get('travelTo'), array('class' => 'help-inline')); ?>
+
+                         <!--<img src="images/front/calender.jpg" alt="">-->
+                        </div>
+                        <!--<div class="b03"><span>(Auto populate but allow user to edit)</span></div>-->
+                        <div class="b04">Total Nights</div>
+                        <div class="b04"> 
+
+                            <?php echo $this->formElement($form->get('noOfDays')->setAttribute('class', 'required')); ?>
+                            <?php echo $this->formElementErrors($form->get('noOfDays'), array('class' => 'help-inline')); ?>
+                        </div>
+                        <div class="b05"><!--<span>(Auto populate but allow user to edit)</span>--></div>
+
+
+                        <div class="b04">  <?php echo $this->formLabel($form->get('roomRequired')); ?></div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('roomRequired')->setAttribute('class', 'span input required')); ?>
+                            <?php echo $this->formElementErrors($form->get('roomRequired'), array('class' => 'help-inline')); ?>
+                        </div>
+
+                        <div class="b04">  <label for="inv_room_avail">Rooms Available</label></div>
+                        <div class="b02">
+                            <span id="inventory_room_available"> Rooms Available</span>
+                        </div>
+
+                    </div>
+
+                    <!--   <div class="formRow control-group">
+                           <label for="inv_room_avail">Rooms Available</label>
+                           <div class="formRight">
+                               <span id="inventory_room_available">  Rooms Available</span>
+                           </div>
+                       </div>
+                    -->
+
+                    <div class="fbox06">
+
+
+
+                        <div class="b03">Rooms Category</div>
+                        <div class="b02">
+                            <!--<input type="text" name="romname" class="span input required" value="<?php echo $roomName; ?>" readonly="readonly">-->
+                            <select name="romname" required>
+                                <option value="">-Select Room Category-</option>
+                                <?php foreach($roomOptions as $opt){ ?>
+                                <option value="<?php echo $opt['id']; ?>" <?php if($reservation['roomid']==$opt['id']){ echo "selected"; }?>>
+                                    <?php echo $opt['name']; ?>
+                                </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                      <!--  <div class="b05"><span>(Dropdown selection of applicable rooms)</span></div> -->
+                        <!--<div class="b03" style="margin-left:7%"><input name="" type="checkbox" value=""> Trip Insurance</div>-->
+                    </div>
+                        <div class="fbox06">
+                        <div class="b03">
+                           <!-- <input name="" type="checkbox" value=""> Flight -->
+                            <input type="checkbox" id="flight" name="flight"> Would you like a quote for airfare?
+
+
+                        </div>
+
+                    </div>
+                     
+                    <?php echo $this->partial('partial/reservation_form/flight_details'); ?>
+                     
+                    <div class="fbox07">
+                        <div class="b03">Street Name</div>
+                        <div class="b02"><input name="streetname" type="text"></div>
+                        <div class="b04">Suite#</div>
+                        <div class="b02"><input name="suitename" type="text"></div>
+
+                    </div>
+
+
+                    <div class="fbox08">
+                        <div class="b03"><?php echo $this->formLabel($form->get('travellerCity')); ?></div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('travellerCity')->setAttribute('class', 'span input required')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerCity'), array('class' => 'help-inline')); ?>
+
+                        </div>
+                        <div class="b04">ZIP/Postal</div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('travellerZip')->setAttribute('class', 'span input required')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerZip'), array('class' => 'help-inline')); ?>
+                        </div>
+
+                    </div>
+
+                    <div class="fbox08">
+                        <div class="b03"><?php echo $this->formLabel($form->get('travellerState')); ?></div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('travellerState')->setAttribute('class', 'span input required')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerState'), array('class' => 'help-inline')); ?>
+                        </div>
+                        <div class="b04"><?php echo $this->formLabel($form->get('travellerCountry')); ?></div>
+                        <div class="b02">
+
+                            <?php echo $this->formElement($form->get('travellerCountry')->setAttribute('class', 'required')->setAttribute('id', 'myselect')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerCountry'), array('class' => 'help-inline')); ?>
+
+                        </div>
+
+                    </div>
+                    
+                     <div class="fbox08">
+                           <div class="b03">Promo Code</div>
+                        <div class="b02">
+
+                            <input type="text" name="promo_code" value="" id="promo_code"/>
+                             <input type="hidden" name="discount" data-discount-type="" value="0" id="disc_apply"/>  
+                        </div>
+                        <div class="b04"><span id="promo-msg"></span></div>
+                        <div class="b02">
+                           <p class="splbtn"><a class="promo-btn" href="javascript:void(0)" id="promo_click">Apply</a></p>
+                        </div>
+                      
+
+                    </div>
+                    
+                    <div class="fbox08">
+                           <div class="b03"></div>
+                        <div class="b02">
+
+                        </div>
+                        <div class="b04"><?php echo $this->formLabel($form->get('clientNotes')); ?></div>
+                        <div class="b02">
+                           <?php echo $this->formElement($form->get('clientNotes')->setAttribute('class', 'span input same-height-1')); ?>
+                            <?php echo $this->formElementErrors($form->get('clientNotes'), array('class' => 'help-inline')); ?>
+                        </div>
+                      
+
+                    </div>
+                    
+
+                    <div class="fbox09">
+                        <!--   <div class="b03">State/Province</div>
+                           <div class="b02"><input name="" type="text"></div>
+                        --> <div class="b05">
+
+                            <p class="splbtn"><a class="btn" href="javascript:void(0)" id="click2">Proceed</a></p>
+                        </div>
+
+
+                    </div>
+                    <?php // echo $this->form()->closeTag()        ?>
+                </div>
+            </div>
+
+            <?php //echo $this->form()->closeTag()    ?>
+        </li>
+         <input type="hidden" id="today" value="<?php echo date('Y-m-d'); ?>">
+         <?php
+                $items = $reservation['item'];
+                $excursion = $reservation['excursion'];
+                $transfer = $reservation['transfers'];
+                if(sizeof($items) > 0 || sizeof($excursion) >0 || sizeof($transfer) > 0):
+                ?>
+        
+        <li id="li3">
+            <h3 class="cbp-nttrigger">
+                <div class="arrow01"><span id="add-span">Add</span></div>
+            </h3>
+            <div class="cbp-ntcontent">
+                <div id="step03">
+                   
+
+                   
+
+                    <?php
+                    $i = 0;
+                    foreach ($items as $item):
+                        ?>
+                        <div class="box01">
+                            <p class="greytext"><?php echo $item->getName(); ?></p>
+                            <div class="l01"><img src="/images/front/homepic01.jpg" alt=""></div>
+                            <div class="l02"><?php echo $item->getNotes(); ?></div>
+                            <div class="l03">
+                                <p class="price" style="font-size:25px;"><?php echo $this->dataSearch->currency." "; ?><?php
+                                    //echo $item->getGrossPrice();
+
+
+                                    echo round(($item->getGrossPrice()) * $currencyexchange, 2)
+                                    ?></p>
+                                <!--<p class="pricesub">Per person</p>-->
+                                <p class="selecttext"><label>
+                                        <input type="checkbox" onclick="item()" id="items_<?php echo $i; ?>" name="items[]" class="span input" value="<?php echo $item->getId(); ?>" netprice="<?php echo round(($item->getNetPrice()) * $currencyexchange, 2) //$item->getNetPrice();          ?>" grossprice="<?php echo round(($item->getGrossPrice()) * $currencyexchange, 2)//echo $item->getGrossPrice();          ?>" itemname="<?php echo $item->getName(); ?>">Select
+                                    </label></p>
+                            </div>
+                        </div>
+
+                        <?php
+                        $i++;
+                    endforeach;
+                    ?>   
+                    <input name="itemsCost" type="hidden" min="0" readonly="readonly" class="span input" value="0" netcost="0">     
+
+                    <?php $i = 0;
+                    foreach ($excursion as $item): ?>         
+                        <div class="box01">
+                            <p class="greytext"><?php echo $item->getExcursionName(); ?></p>
+                            <div class="l01"><img src="/images/front/homepic01.jpg" alt=""></div>
+                            <div class="l02"><?php echo $item->getNotes() ?></div>
+                            <div class="l03">
+                                <p class="price" style="font-size:25px;"><?php echo $this->dataSearch->currency." "; ?><?php
+                                    //echo $item->getGrossPrice(); 
+                                    echo round(($item->getGrossPrice()) * $currencyexchange, 2)
+                                    ?></p>
+                                <!--<p class="pricesub">Per person</p>-->
+                                <p class="selecttext"><label>
+
+                                        <input type="checkbox" onclick="item()" name="excursions[]" id="excursions_<?php echo $i; ?>" class="span input" value="<?php echo $item->getId(); ?>" netprice="<?php echo round(($item->getNetPrice()) * $currencyexchange, 2)//$item->getNetPrice();          ?>" grossprice="<?php echo round(($item->getGrossPrice()) * $currencyexchange, 2); //$item->getGrossPrice();          ?>" excursionname="<?php echo $item->getExcursionName(); ?>">
+                                        Select</label></p>
+                            </div>
+                        </div>
+    <?php $i++;
+endforeach; ?>   
+                    <!--   <label for="excursionsCost">Excursions Cost</label>     -->           
+                    <input name="excursionsCost" type="hidden" min="0" readonly="readonly" class="span input" value="0" netcost="0">                                    
+
+<?php $i = 0;
+foreach ($transfer as $item): ?>
+
+                        <div class="box01">
+                            <p class="greytext"><?php echo $item->getTransferName(); ?></p>
+                            <div class="l01"><img src="/images/front/homepic01.jpg" alt=""></div>
+                            <div class="l02"><?php echo $item->getNotes(); ?></div>
+                            <div class="l03">
+                                <p class="price" style="font-size:25px;"><?php echo $this->dataSearch->currency." "; ?>
+                                <span id="transfers_<?php echo $i; ?>_guestCost" style="font-size: 25px;">
+                                <?php
+                                    echo round(($item->getGrossPrice()) * $currencyexchange, 2)
+                                    ?></span></p>
+                                <!--<p class="pricesub">Per person</p>-->
+                                <p class="selecttext"><label>   <input type="checkbox" onclick="item()" id="transfers_<?php echo $i; ?>" name="transfers[]" class="span input" value="<?php echo $item->getId(); ?>" netprice="<?php echo round(($item->getNetPrice()) * $currencyexchange, 2); /* echo $item->getNetPrice(); */ ?>" guestprice="<?php /* echo $item->getGrossPrice(); */echo round(($item->getGrossPrice()) * $currencyexchange, 2) ?>"  grossprice="<?php /* echo $item->getGrossPrice(); */echo round(($item->getGrossPrice()) * $currencyexchange, 2) ?>" transfername="<?php echo $item->getTransferName(); ?>">
+                                        Select</label></p>
+                            </div>
+                        </div>
+
+    <?php $i++;
+endforeach; ?>         
+                    <!--<label for="transfersCost">Transfers Cost</label>     -->           
+
+                    <input name="transfersCost" type="hidden" min="0" readonly="readonly" class="span input" value="0" netcost="0">                                    
+
+
+
+
+                    <input type="hidden" name="inventortyid" value="<?php echo $inventory->getId(); ?>">
+
+                    <!--  <button id="creat_pay" class="btn btn-success" type="submit"  id="click3" name="submit" onclick=''>Continue</button><!--<a class="btn" href="#">Proceed</a>-->
+                    <a class="btn" href="javascript:void(0)" id="click3">Continue</a>
+
+                    <div class="clr"></div>
+                </div>
+            </div>
+<?php //echo $this->form()->closeTag()       ?>
+        </li>
+        <?php endif; ?>
+        <li id="li4">
+            <h3 class="cbp-nttrigger">
+                <div class="arrow01"><span id="order-summary-span">Order Summary</span></div>
+            </h3>
+            <div class="cbp-ntcontent">
+                <div id="step04">
+                    <div class="orderbox" id="ftraveller">
+                        <div class="left">1st Traveler</div>
+                        <div class="right" id="testtraveller1"></div>
+                    </div>
+                    <div class="testtravlr">
+                    </div>
+                    <?php if ($type == 2) { ?>
+                    <div class="orderbox">
+                        <div class="left">Event name</div>
+                        <div class="right"><?php echo $eventName; ?></div>
+                    </div>
+                    <?php } ?>
+                    <div class="orderbox">
+                        <div class="left">Hotel</div>
+                        <div class="right"><?php echo $hotelName; ?></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Room Cat</div>
+                        <div class="right"><?php echo $roomName; ?></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Departure date</div>
+                        <div class="right" id="testdatefrom"><?php echo $travelfromdate; ?></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Return date</div>
+                        <div class="right" id="testdateto"><?php echo $traveltodate; ?></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Phone</div>
+                        <div class="right" id="testphone">-</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Email</div>
+                        <div class="right" id="testemail">-</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Address</div>
+                        <div class="right" id="testaddress">-</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">City</div>
+                        <div class="right" id="testcity">-</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">State</div>
+                        <div class="right" id="teststate">-</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Country</div>
+                        <div class="right" id="testcountry">United States</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">ZIP</div>
+                        <div class="right" id="testzip">-</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Flight</div>
+                        <div class="right" id="testflight">-</div>
+                    </div>
+<!--                    <div class="orderbox" id="insurance">
+                      <div class="left">Trip insurance</div>
+                        <div class="right">$80</div>
+                    </div>-->
+                    <!--   <div class="orderbox">
+                           <div class="left">Item1</div>
+                           <div class="right">$20</div>
+                       </div>
+                       <div class="orderbox">
+                           <div class="left">item2</div>
+                           <div class="right">$30</div>
+                       </div> -->
+                     <div class="orderbox">
+                        <div class="left">Total Addons Cost</div>
+                        <div class="right" id="total_addons"></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Total Nights</div>
+                        <div class="right" id="total_nights">-</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Room cost per night</div>
+                        <div class="right" id ="room_p"><?php echo $this->dataSearch->currency." "; ?><?php
+                            //echo $inventory->getGrossPrice(); 
+                             echo round(($this->dataSearch->price) , 2);
+                            //echo round(($this->dataSearch->price) * $currencyexchange, 2);
+?>&nbsp;</div>
+                    </div>
+                     
+                    <div class="orderbox botb">
+                        <div class="left">Total cost</div> <?php //echo $symbol        ?>
+                        <div class="right" id="finalCost">&nbsp;</div>
+
+                        <input type="hidden" name="finalCost" value="0">
+                        <input type="hidden" value="0"  name="merchantFee">
+                        <input type="hidden" value="0"  name="totalCost">
+
+                    </div>
+<!--                    <div class="orderbox">
+                        <div class="left">Merchant Fee (2.5% of total cost)</div>
+                        <div class="right" id="merchant_fees">-</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Final Cost</div>
+                        <div class="right" id="final_cost">-</div>
+                    </div>-->
+                    <div class="block01">
+                        <div class="box01"><input name="checkdetail" type="checkbox"> I confirm all the above details are correct <span><!--(Dropdown selection of applicable rooms)--></span></div>
+                        <div class="box01"><input name="checkagree" type="checkbox"> I agree to the terms of this reservation <span>( <a href="javascript:void(0);" id="aterms">View Terms</a>)</span></div>
+                    </div>
+
+
+                    <div class="block03">
+                        <div class="box01">
+                            <input type="radio" name="paymentType" class="req payment" id="full-payments" value="1">
+                            Full Payment
+                        </div>
+                        <div class="box01" id="deposit-hide">
+                            <input type="radio" name="paymentType" class="req payment" id="deposits" value="0"  <?php //if(!$form->get('paymentType')->getValue()) echo 'checked="checked"';    ?>>
+                            Deposit
+                        </div>
+                    </div> 
+                    <div id="depositDiv" style="margin-top:5%;">
+                        
+                    </div>
+
+<?php //echo $this->partial('partial/reservation_form/payment', array('form' => $form)); ?>
+
+
+
+
+
+
+
+
+                    <div class="block05">
+                    </div>
+
+                    <div class="block02">
+                        <a class="btn" href="#li5" id="click4">Proceed</a>
+                        <!--       <button id="creat_pay" class="btn btn-success" type="submit"  id="click3" name="submit" onclick=''>Proceed to payment</button><!--<a class="btn" href="#">Proceed</a>-->
+
+                    </div>
+
+                </div>
+            </div>
+
+<?php //echo $this->form()->closeTag()      ?>
+        </li>
+        <li id="li5">
+            <h3 class="cbp-nttrigger">
+                <div class="arrow01"><span id="how-pay-span">How would you like to pay</span></div>
+            </h3>
+            <div class="cbp-ntcontent">
+<!--                <p style="font-size:15px">Please note that a 2.5% processing fee will be charged by our merchant provider for credit card or paypal checkout. Fees can only be avoided if payment is made via direct deposit or mailed check. Call 1800 458 2099 for more details.</p>
+                <br><br><br>-->
+<!--                <p style="font-size:20px">Merchant Fee : <span id="merchant_fees">-</span></p>-->
+                <p style="font-size:20px">Pay Amount : <span id="final_cost">-</span></p>
+                <div id="step05">
+                    <div class="formbox" >
+                 <!--     <div class="box01"><input name="" type="checkbox" value=""> Secure credit checkout</div>
+                        <div class="box01"><input name="" type="checkbox" value=""> Paypal</div>
+                        <div class="box01"><input name="" type="checkbox" value=""> Mailed check</div>
+                        -->      
+
+                        <div class="box01">
+                          
+                           <img width="150" height="150" src="/img/paypal1.jpg" style="margin: 5%;"><br>
+                            <input type="radio" id="ex" class="click-pay" name="ptype" checked="checked" value="1" >
+                            Paypal
+                            
+                        </div>
+                        <div class="box01">
+                            
+                            <img width="100" height="100" src="/img/visa1.jpg"><img width="100" height="100" src="/img/mastercard.jpg"><br>
+                            <input type="radio" id="cc" class="click-pay" name="ptype" value="2" >
+                            Secure Credit Card checkout
+                                 
+                        </div>
+                        <!-- <div class="box01">
+                             <input type="radio" name="paymentType" id="deposit" value="0" >
+                             Mailed check
+                         </div>-->
+
+
+
+                    </div>
+
+                    <p class="greytext"></p><br>
+
+
+
+
+<?php echo $this->partial('partial/reservation_form/billing', array('form' => $form)); ?>
+
+                    <!--<input type="submit" value="Submit">-->
+                </div>
+            </div>
+
+
+        </li>
+    </ul>
+</form>
+<?php // echo $this->form()->closeTag() ?>
+</div>
+
+<script>
+
+    $(document).ready(function() {
+
+        jQuery.validator.addMethod("lettersonly", function(value, element) {
+            return this.optional(element) || /^[a-z ]+$/i.test(value);
+        }, "Enter only letters.");
+        //  $( "#li2" ).off();
+        $("#front").validate({
+            // errorElement: "span",
+            rules: {
+                travellerName: {
+                    required: true,
+                    lettersonly:true
+                },
+                travellerEmail: {
+                    required: true,
+                    email:true
+                },
+                streetname: {
+                    required: true
+                },
+                travellerPhone: {
+                    required: true
+                },
+                travellerDOB: {
+                    required: true
+                },
+                
+                travellerCity: {
+                    required: true
+                },
+                travellerZip: {
+                    required: true
+                },
+                travellerState: {
+                    required: true
+                },
+                travellerCountry: {
+                    required: true
+                },
+                sex: {
+                    required: true
+                },
+                romname: {
+                    required: true
+                },
+            },
+            messages: {
+                travellerName: {lettersonly:"Enter only Letters",required:"Enter Name"},
+                travellerEmail:{ required:"Enter Email Id",email:"Enter valid email"},
+                travellerPhone:{ required:"Enter Phone No."},
+                travellerDOB:{ required:"Select Date of Birth"},
+                streetname: "Enter Street Name",
+                travellerCity: "Enter City",
+                travellerZip: "Enter Zip",
+                travellerState: "Enter State",
+                travellerCountry: "Select Country",
+                sex: "Select Gender",
+                romname: "Select Room Category"
+
+
+            },
+            // the errorPlacement has to take the table layout into account
+            errorPlacement: function(error, element) {
+                error.appendTo(element.parent());
+            },
+            highlight: function(element) {
+                $(element).parent().removeClass("error");
+            },
+
+	    focusInvalid: false,
+	    invalidHandler: function(form, validator) {
+		if (!validator.numberOfInvalids())
+		    return;
+
+		$('html, body').animate({
+		    scrollTop: $(validator.errorList[0].element).offset().top
+		}, 2000);
+
+	    },
+        });
+        
+//        $('#click2').click(function(){
+//            alert("outside");
+//            $("[name^=tname]").each(function () {
+//                alert("inside");
+//                $(this).rules("add", {
+//                    required: true,
+//                });
+//            });
+//            
+//            $("#front").validate();
+       // });
+
+    });
+
+
+</script>   
+
+<script>
+    $(function() {
+        /*
+         - how to call the plugin:
+         $( selector ).cbpNTAccordion( [options] );
+         - destroy:
+         $( selector ).cbpNTAccordion( 'destroy' );
+         */
+
+        $('#cbp-ntaccordion').cbpNTAccordion();
+
+        $('#cbp-ntaccordion').children("li").first().addClass("cbp-ntopen");
+
+	
+        $('#dob').datepicker({
+					yearRange: '1950:1996',
+					defaultDate: '1996-01-01',
+					//minDate:'-20Y',
+                    //maxDate:'1Y',
+                    dateFormat:'yy-mm-dd',
+                    changeMonth: true,
+                    changeYear: true,
+                });
+
+
+
+        /*   $( '#cbp-ntaccordion #li2' ).hide();
+         $( '#cbp-ntaccordion #li3' ).hide();
+         $( '#cbp-ntaccordion #li4' ).hide();
+         $( '#cbp-ntaccordion #li5' ).hide();
+         */ /*      $("#click1").click(function(e){
+          // alert('here');
+          if (jQuery(this).parent().has("ul")) {
+          //  alert('here inside ul');
+          //$('#cbp-ntaccordion').closest('li').addClass("cbp-ntopen");
+          $(this).children('li').slideToggle();
+          e.preventDefault();
+          }
+          $(this).children('li').addClass("cbp-ntopen");
+          });
+          */
+
+
+    });
+
+    $('.click-pay').click(function() {
+        var type = $(this).val();
+
+        // alert(type);
+
+        if (type == 2) {
+            $("#ccd").show();
+            $("#billingdetail").show();
+            $('input[name="payment-type"]').val(2);
+
+            $("#front").attr("action", '#');
+        } else {
+            $("#ccd").hide();
+            $("#billingdetail").hide();
+            $("#ccd:input").attr("disabled", true);
+            //alert('#');
+            $('input[name="payment-type"]').val(1);
+            $("#front").attr("action", '#');
+        }
+    });
+
+
+
+    $(document).ready(function() {
+        //working
+        $('#click1').click(function() {
+            //  $( '#cbp-ntaccordion #li2' ).show();
+            $('#cbp-ntaccordion #li2').addClass("cbp-ntopen");
+        });
+
+
+        //working
+        $('#click2').click(function() {
+            //  $("input[name=travellerName]").valid();
+            // $("input[name=travellerEmail]").valid();
+
+
+            $("#front").validate({
+                // errorElement: "span",
+                rules: {
+                    travellerName: {
+                        required: true
+                    },
+                    travellerEmail: {
+                        required: true
+                    },
+                    streetname: {
+                        required: true
+                    },
+                    travellerCity: {
+                        required: true
+                    },
+                    travellerZip: {
+                        required: true
+                    },
+                    travellerState: {
+                        required: true
+                    },
+                    travellerCountry: {
+                        required: true
+                    },
+                    travellerPhone: {
+                        required: true
+                    },
+                    travellerDOB: {
+                        required: true
+                    },
+                },
+                messages: {
+                    travellerName: "Enter Name",
+                    travellerEmail: "Enter Email Id",
+                    streetname: "Enter Street Name",
+                    travellerPhone:{ required:"Enter Phone No."},
+                    travellerDOB:{ required:"Select Date of Birth"},
+                    travellerCity: "Enter City",
+                    travellerZip: "Enter Zip",
+                    travellerState: "Enter State",
+                    travellerCountry: "Select Country"
+
+
+                },
+                // the errorPlacement has to take the table layout into account
+                errorPlacement: function(error, element) {
+                    error.appendTo(element.parent());
+                },
+                highlight: function(element) {
+                    $(element).parent().removeClass("error");
+                }
+            });
+
+
+
+            if ($("#front").valid()) {
+                //  $( '#cbp-ntaccordion #li3' ).show();
+                $('#cbp-ntaccordion #li3').addClass("cbp-ntopen");
+                $('#cbp-ntaccordion #li2').removeClass("cbp-ntopen");
+                $('#cbp-ntaccordion #li4').removeClass("cbp-ntopen");
+                                
+                //ajax call to save reservation step 1
+                $("#step").val(1);
+                var postData = $("#front").serializeArray();
+                var formURL = $("#front").attr("action");
+                $.ajax(
+                {
+                    url : formURL,
+                    type: "POST",
+                    data : postData,
+                    success:function(data, textStatus, jqXHR)
+                    {
+                       $("#reservationId").val(data.id);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                       console.log("error");
+                    }
+                });
+            }
+            /* else{
+             
+             alert('please fill name and email');
+             
+             }*/
+
+
+
+        });
+
+
+        //
+        $('#click3').click(function() {
+            //   $( '#cbp-ntaccordion #li4' ).show();
+             $('#cbp-ntaccordion #li3').removeClass("cbp-ntopen");
+             $('#cbp-ntaccordion #li2').removeClass("cbp-ntopen");
+             $('#cbp-ntaccordion #li4').addClass("cbp-ntopen");
+
+        });
+
+        $('#click4').click(function() {
+            // $( '#cbp-ntaccordion #li5' ).show();
+
+            //alert('1234');
+            $("#front").validate({
+                // errorElement: "span",
+                rules: {
+                    travellerName: {
+                        required: true
+                    },
+                    travellerEmail: {
+                        required: true
+                    },
+                    streetname: {
+                        required: true
+                    },
+                    travellerCity: {
+                        required: true
+                    },
+                    travellerZip: {
+                        required: true
+                    },
+                    travellerState: {
+                        required: true
+                    },
+                    travellerCountry: {
+                        required: true
+                    },
+                    checkdetail: {
+                        required: true
+                    },
+                    checkagree: {
+                        required: true
+                    },
+                    travellerPhone: {
+                        required: true
+                    },
+                    travellerDOB: {
+                        required: true
+                    },
+                },
+                messages: {
+                    checkdetail: "Enter Name",
+                    checkagree: "Enter Email Id",
+                    travellerName: "Enter Name",
+                    travellerEmail: "Enter Email Id",
+                    travellerPhone:{ required:"Enter Phone No."},
+                    travellerDOB:{ required:"Select Date of Birth"},
+                    streetname: "Enter Street Name",
+                    travellerCity: "Enter City",
+                    travellerZip: "Enter Zip",
+                    travellerState: "Enter State",
+                    travellerCountry: "Select Country"
+
+
+
+                },
+                // the errorPlacement has to take the table layout into account
+                errorPlacement: function(error, element) {
+                    error.appendTo(element.parent());
+                },
+                highlight: function(element) {
+                    $(element).parent().removeClass("error");
+                }
+            });
+
+
+
+            if ($("#front").valid()) {
+                //  $( '#cbp-ntaccordion #li3' ).show();
+                var isValid = checkValidate();
+                    var val=$("input[name='checkagree']").is(':checked');
+                    var val1=$("input[name='checkdetail']").is(':checked');
+
+                     if(val!= true || val1!= true){
+                        alert('Please agree to the terms and confirm Reservation details boxes.');
+                        $('#cbp-ntaccordion #li5').removeClass("cbp-ntopen");
+                         $('#cbp-ntaccordion #li4').removeClass("cbp-ntopen");
+                          //$('#cbp-ntaccordion #li3').removeClass("cbp-ntopen");
+                            if($('#cbp-ntaccordion #li3').length != 0){
+                                $('#cbp-ntaccordion #li3').removeClass("cbp-ntopen");
+                           }
+                        $('#cbp-ntaccordion #li2').removeClass("cbp-ntopen");
+                    }else{
+                         $('#cbp-ntaccordion #li5').addClass("cbp-ntopen");
+                          $('#cbp-ntaccordion #li4').removeClass("cbp-ntopen");
+                          //$('#cbp-ntaccordion #li3').removeClass("cbp-ntopen");
+                            if($('#cbp-ntaccordion #li3').length != 0){
+                                $('#cbp-ntaccordion #li3').removeClass("cbp-ntopen");
+                           }
+                            $('#cbp-ntaccordion #li2').removeClass("cbp-ntopen");
+                             
+                            $("#step").val(3);
+                            var postData = $("#front").serializeArray();
+                            var formURL = $("#front").attr("action");
+                            $.ajax(
+                            {
+                                url : formURL,
+                                type: "POST",
+                                data : postData,
+                                success:function(data, textStatus, jqXHR)
+                                {
+
+                                },
+                                error: function(jqXHR, textStatus, errorThrown)
+                                {
+                                   console.log("error");
+                                }
+                            });
+                    }
+            } else {
+
+                alert('Please agree to the terms and confirm Reservation details boxes.');
+            }
+
+
+
+
+        });
+
+
+
+    });
+
+
+
+
+</script>
+
+
+
+<script type="text" id="add-traveller">
+
+    <div class="fbox03" id="fbox03_1" addId="1">
+
+
+    <div class="b4 tnum"><strong> Traveller info</strong></div><br>
+
+    <div class="b01">  <?php echo $this->formLabel($form->get('travellerName')); ?>
+    </div>
+    <div class="b02">
+    <input type="text" name="tname[]" id="tname_1" class="span input" required="required">
+    </div>
+    <div class="b01"><?php echo $this->formLabel($form->get('travellerEmail')); ?>
+    </div>
+    <div class="b02">
+    <input type="email" name="tEmail[]" class="span input" >
+    </div>
+
+
+    <div class="b01"> <?php echo $this->formLabel($form->get('travellerDOB')); ?></div>
+    <div class="b02"><input type="date" name="tDob[]" class="tbod" required="required"> </div>
+
+		
+        <div class="b01">Sex</div>
+
+            <div name="sex" class="b02">
+                <p>
+                    <input type="radio" id="male_11" class="sex" required="required" name="tsex" onClick="callPriceCal(this);"  value="1">
+                    <label id="labm_11" for="male_11"><span></span>Male</label>
+                    <input type="radio" id="female_11" required="required" class="sex" name="tsex" onClick="callPriceCal(this);" value="2">
+                    <label id="labf_11" for="female_11"><span></span>Female</label>
+                </p>
+                  
+        </div>
+ 
+    </div>
+
+
+
+</script>
+
+<script type="text" id="show-traveller">
+    <div class="testtravlr" id="travlr_add_1" addId="1">
+    <div class="orderbox" id="travlr">
+    <div class="left" id="travlno_1">Traveller</div>
+    <div class="right testing" id="nexttravllr_1">-</div>
+    </div>
+    </div>
+
+
+</script>
+
+
+
+<script type="text" id="show-items">
+
+    <div class="orderbox" id="item_">
+    <div class="left" id="itemsname">Item1</div>
+    <div class="right" id="itemrate">$20</div>
+    </div>
+
+</script>
+
+<script type="text" id="show-transfers">
+
+    <div class="orderbox" id="transfer_">
+    <div class="left" id="transfersname">Item1</div>
+    <div class="right" id="transfersrate">$20</div>
+    </div>
+
+</script>
+
+
+<script type="text" id="show-excursions">
+
+    <div class="orderbox" id="excursion_">
+    <div class="left" id="excursionsname">Item1</div>
+    <div class="right" id="excursionsrate">$20</div>
+    </div>
+
+</script>
+
+<div id="more-guest-modal" title="Extra Guest" style="display:none;">
+<div>To proper calculate rate, please select the gender of the additional person</div>
+<div>
+    <input type="radio" name="extra_gender" id="extra_gender_m" class="ext-gen" value="1" onclick="triggerGenderCal(this)"/>Male
+    <input type="radio" name="extra_gender" id="extra_gender_f" class="ext-gen" value="2" onclick="triggerGenderCal(this)"/>Female
+</div>
+<!--<div id="dialog-extra-but">
+   <button  val="0" id="extra-cancel-button" class="extra-dialog-btn btn-danger btn-small metro" type="button">Cancel</button>
+   <button  val="1" id="extra-proceed-button" class="extra-dialog-btn btn-danger btn-small metro" type="button">Proceed</button>
+</div>-->
+</div>
+
+
+<div id="more-guest-modal-view" title="Extra Guest" style="display:none;">
+<div>Adding more travellers may affect your nightly cost</div>
+
+<!--<div id="dialog-extra-but">
+   <button  val="0" id="extra-cancel-button" class="extra-dialog-btn btn-danger btn-small metro" type="button">Cancel</button>
+   <button  val="1" id="extra-proceed-button" class="extra-dialog-btn btn-danger btn-small metro" type="button">Proceed</button>
+</div>-->
+</div>
+
+
+<script src="/js/reservationfront.js"></script>
+<script src="/js/date-formater.js"></script>
+<script>
+    ReservationFront.init();
+
+
+
+</script>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        $('#myselect').on('change', function() {
+            var travlrcountrty = $("#myselect option:selected").text();
+            $('#testcountry').html(travlrcountrty);
+
+        });
+
+        $("input:radio[name='sex[]']").click(function() {
+//            alert(this.value)
+        })
+
+        $("input[name='items[]']").on('click', function() {
+            var itemsCost = 0;
+//           alert(this.id);
+            if ($('#' + this.id).is(":checked")) {
+                //alert(this.id);
+
+                itemsCost = itemsCost + parseFloat($(this).attr('grossPrice'));
+
+                var appendDiv = $('#show-items').html();
+
+
+                var iname = parseFloat($(this).attr('grossPrice'));
+                var itemname = $(this).attr('itemname');
+
+                $(appendDiv).insertAfter("#insurance");
+
+                $('#item_').attr('id', 'it_' + this.id);
+                $('#itemrate').html("<?php echo $symbol; ?>" + iname);
+                $('#itemsname').html(itemname);
+                $('#itemrate').attr('id', this.id);
+            }
+            else if ($('#' + this.id).is(":unchecked")) {
+                $("#it_" + this.id).remove();
+            }
+
+        });
+
+
+
+        $("input[name='transfers[]']").on('click', function() {
+            //alert(this.id);
+            //   alert('here');          //  var transfersCost = 0;
+            if ($('#' + this.id).is(":checked")) {
+
+                //     alert(this.id);
+                var appendDiv = $('#show-transfers').html();
+
+                var transferamount = parseFloat($(this).attr('grossPrice'));
+                var transfername = $(this).attr('transfername');
+
+                // alert(transfername);
+                // alert(transferamount);
+
+                $(appendDiv).insertAfter("#insurance");
+
+                $('#transfer_').attr('id', 'transfer_' + this.id);
+                $('#transfersrate').html("<?php echo $symbol; ?>" + transferamount);
+                $('#transfersname').html(transfername);
+                $('#transfersrate').attr('id', this.id);
+            }
+            else if ($('#' + this.id).is(":unchecked")) {
+                $("#transfer_" + this.id).remove();
+            }
+
+        });
+
+
+        $("input[name='excursions[]']").on('click', function() {
+
+            if ($('#' + this.id).is(":checked")) {
+                var appendDiv = $('#show-excursions').html();
+//                alert(appendDiv);
+                var excursionsamount = parseFloat($(this).attr('grossPrice'));
+                var excursionsname = $(this).attr('excursionname');
+
+                $(appendDiv).insertAfter("#insurance");
+
+                $('#excursion_').attr('id', 'excursion_' + this.id);
+                $('#excursionsrate').html("<?php echo $symbol; ?>" + excursionsamount);
+                $('#excursionsname').html(excursionsname);
+                $('#excursionsrate').attr('id', this.id);
+            }
+            else if ($('#' + this.id).is(":unchecked")) {
+                $("#excursion_" + this.id).remove();
+            }
+
+        });
+
+
+
+
+
+    })
+
+
+
+</script>
+
+
+<script>
+$(function(){
+    $('[name=travellerCountry]').val(236);
+    
+    $('#li3').click(function(){
+//        var val=$("input[name='travellerName']").val();
+//        var valemail=$("input[name='travellerEmail']").val();
+//        if(val=="" || valemail==""){
+//            alert('PLease fill above form and then Proceed..');
+//            $('#cbp-ntaccordion #li3').removeClass("cbp-ntopen");
+//        }
+        checkValidate();
+        var price=$("input[name='roomRate']").val();
+        if(price==0){
+            alert('Cannot Proceed Room is not available.');
+            $('#cbp-ntaccordion #li3').removeClass("cbp-ntopen");
+        }
+    });
+    
+     $('#li4').click(function(){
+        checkValidate();
+        
+        var price=$("input[name='roomRate']").val();
+        if(price==0){
+            alert('Cannot Proceed Room is not available.');
+            $('#cbp-ntaccordion #li4').removeClass("cbp-ntopen");
+        }
+        
+    });
+    
+    $('#li5').click(function(){
+        var isValid = checkValidate();
+
+            var price=$("input[name='roomRate']").val();
+            if(price==0){
+                alert('Cannot Proceed Room is not available.');
+                $('#cbp-ntaccordion #li5').removeClass("cbp-ntopen");
+            }
+            
+            var val=$("input[name='checkagree']").is(':checked');
+            var val1=$("input[name='checkdetail']").is(':checked');
+             if(val!= true|| val1!= true){
+                alert('Please agree to the terms and confirm Reservation details boxes.');
+                $('#cbp-ntaccordion #li5').removeClass("cbp-ntopen");
+            }
+            
+            var check = $('input[name="paymentType"]').is(':checked');
+           // alert(check);
+            if(check != true){
+                alert("Please select payment option Full Payment or Deposit Payment.");    
+                return false;
+            }
+            
+            
+            
+    });
+    
+    $("#submitbutton").click(function(){
+        checkValidate();
+        var check = $('input[name="paymentType"]').is(':checked');
+           // alert(check);
+            if(check != true){
+                alert("Please select payment option Full Payment or Deposit Payment.");    
+                return false;
+            }
+    })
+    
+   
+});
+
+</script>
+<style>
+    .b02 label,.sex{
+        float:left;
+        padding:10px;
+    }
+    
+    .error{
+        color:red;
+    }
+    
+    .extra-dialog-btn{
+        background: none repeat scroll 0 0 #414141 !important;
+        border-radius: 7px !important;
+        color: #fff !important;
+        cursor: pointer !important;
+        float: right !important;
+        font-size: 18px !important;
+        height: 40px !important;
+        margin: 0 10px 0 0 !important;
+        text-align: center !important;
+        text-decoration: none !important;
+        width: 116px !important;
+    }
+    
+    .promo-btn{
+        background: none repeat scroll 0 0 #414141 !important;
+        border-radius: 7px !important;
+        color: #fff !important;
+        cursor: pointer !important;
+        float: right !important;
+        font-size: 18px !important;
+        margin: 0 10px 0 0 !important;
+        text-align: center !important;
+        text-decoration: none !important;
+        width: 116px !important;
+    }
+</style>
+<script>
+function checkValidate() {
+    var flag = true;
+    $('.error_msg').remove();
+
+    $('#li2 .required').each(function() {
+        var value = $(this).val();
+        if (value == false && value =="") {
+            //var error_msg = $(this).attr('error_msg');
+            //$(this).parent().append("<div class='error_msg'>" + error_msg + "</div>");
+            //$(this).focus(); 
+            flag = false;
+        } else {
+            /*$(this).parent().append("<div class='error_msg'>&nbsp;</div>");*/
+        }
+    });
+    if (flag == true)
+    {
+    } else {
+        $("#click2").trigger("click");
+       $('#cbp-ntaccordion #li3').removeClass("cbp-ntopen");
+       $('#cbp-ntaccordion #li4').removeClass("cbp-ntopen");
+    }
+
+    return flag;
+}
+
+</script>
+
+
+<script src="/js/jquery.simplemodal.js"></script>
+<!--<script src="/js/slimScroll.js"></script>-->
+<script>
+    $(function(){
+        $('#aterms').click(function(){
+                    $("#terms").modal();
+                });
+                
+    });
+    
+    
+</script>
+
+<!--<script>
+$(function(){
+	$(".forscroll").slimScroll({
+    width: '100%',
+    height: '100%',
+    color: '#ffffff',
+    railVisible: true,
+    railColor: 'gray',
+    railOpacity: 100,
+    wheelStep: 10,
+    allowPageScroll: false,
+    disableFadeOut: false,
+	});
+        
+        //$('ul.pagination').css('display','none');
+         
+});
+
+</script>-->
+
+<div id="terms">
+    <a href="javascript:void(0);" class="modalCloseImg simplemodal-close" style="display:block;"><img src="/img/cross_btn.png" alt="close"></a>
+    <h2 style="color:black; font-size: 40px;">Terms and Conditions</h2>
+    <br>
+    <div class="termContent">
+        <?php echo $this->terms->getContent(); ?>
+    </div>
+    
+</div>
+
+<div id="single-share" style="display: none;">
+<p>Please select the room option below</p>
+<p></p>
+<p>
+    <input type="radio" name="share" value="1" checked>Single to share
+   <input type="radio" name="share" value="0">Premium occupancy
+</p>
+<!--<p></p>
+<p>
+    <input type="button" name="share-btn" value="Continue" >
+   <input type="button" name="share-btn" value="Cancel">
+</p>-->
+</div>
+
+<style>
+    #terms{
+        position:absolute;
+        z-index: 100;
+        height:100%;
+        width: 100%;
+        background: #e8e8e8;
+        padding: 50px;
+        display:none;
+        opacity: 1;
+    }
+    .modalCloseImg{
+        float:right;
+        font-size:20px;
+        margin-right: 5%;
+    }
+    .termContent{
+         color: black;
+        font-size: 14px;
+        height: 80%;
+        opacity: 1 !important;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        text-align: left;
+        width: 95%;
+    }
+    
+/*    .forscroll{
+        width:74% !important;
+        height:80% !important;
+        overflow:hidden !important;
+        overflow-x:hidden !important;
+      
+    }*/
+    </style>
+
+<!-------------------------------- New Script ----------------------------------------------->
+    
+    <!--  Script added 6th Nov 2014  -- start -- -->
+    <script>
+        $(function(){
+            var days=$('input[name="noOfDays"]').val();
+            $('#total_nights').html(days);
+            
+            //var fees=$('input[name="merchantFee"]').val();
+            //$('#merchant_fees').html("<?php echo $symbol ?>"+fees);
+            
+            var totalCost=$('input[name="totalCost"]').val();
+           // var finalCost=parseFloat(totalCost)+parseFloat(fees);
+            var finalCost=parseFloat(totalCost);
+            $('#final_cost').html("<?php echo $symbol ?>"+finalCost);
+            
+            $('#dateFrom').blur(function(){
+                var days=$('input[name="noOfDays"]').val();
+                $('#total_nights').html(days);
+                
+                //var fees=$('input[name="merchantFee"]').val();
+                //$('#merchant_fees').html("<?php echo $symbol ?>"+fees);
+                
+                var totalCost=$('input[name="totalCost"]').val();
+                //var finalCost=parseFloat(totalCost)+parseFloat(fees);
+                var finalCost=parseFloat(totalCost);
+                $('#final_cost').html("<?php echo $symbol ?>"+finalCost);
+            });
+            $('#dateTo').blur(function(){
+                var days=$('input[name="noOfDays"]').val();
+                $('#total_nights').html(days);
+                
+                //var fees=$('input[name="merchantFee"]').val();
+                //$('#merchant_fees').html("<?php echo $symbol ?>"+fees);
+                
+                var totalCost=$('input[name="totalCost"]').val();
+                //var finalCost=parseFloat(totalCost)+parseFloat(fees);
+                var finalCost=parseFloat(totalCost);
+                $('#final_cost').html("<?php echo $symbol ?>"+finalCost);
+            });
+        });
+                
+         $(function() {
+//        $( "#single-share" ).dialog();
+        })
+    </script>
+    
+    <!--  Script added 6th Nov 2014  -- end -- -->
+    
+    <!--  Script added 7th Nov 2014  -- start -- -->
+    <script>
+    $(function(){
+        $('#addButtonNew').click(function(){
+            var count=parseInt($('input[name="noOfPersons"]').val());
+            var type=$('input[name="type"]').val();
+            var typeId=$('input[name="dataTypeId"]').val();
+            var roomId=$('input[name="roomCategory"]').val();
+            var start=$('input[name="travelFrom"]').val();
+            var end=$('input[name="travelTo"]').val();
+            if(count<4){
+                $.ajax({
+                    url:"/addTraveller/"+count,
+                    type:'POST',
+                    data:{type:type,typeId:typeId,roomId:roomId,start:start,end:end},
+                    success:function(result){
+                        if(confirm('Adding Traveller will affect your nightly cost.')){
+                            if(result.status==2 || result.status==3){
+                                alert(result.msg);
+                            }else{
+                                $('#travellers').append(result);
+                                count=parseInt(count)+1;
+                                $('input[name="noOfPersons"]').val(count);
+                                adjustGuestNumber();
+                                 //$(".rmtrv:first").attr("onclick","openShare(this)");
+                            }
+                        }
+                  }});
+            }else{
+                alert('Cannot add more than 4 travellers.');
+            }
+         });
+    });
+    function ajaxPriceCal(value,count){
+          var male_count_increment = 0;
+	  var female_count_increment = 0;
+	  $('.sex').each(function(){	    
+	      if($(this).is(':checked'))
+	      {
+		 if($(this).val() == 1)
+		 {
+		    male_count_increment++;  
+		 }else{
+		   
+		   female_count_increment++;
+		}		
+	      }	    
+	  });
+          var type=$('input[name="type"]').val();
+          var typeId=$('input[name="dataTypeId"]').val();
+          var roomId=$('input[name="roomCategory"]').val();
+          var start=$('input[name="travelFrom"]').val();
+          var end=$('input[name="travelTo"]').val();
+          var currency=$('input[name="currencytype"]').val();
+         // alert('male:'+male_count_increment+" female:"+female_count_increment);
+         
+         $.ajax({
+                url:"/checkRoomAvailabilty",
+                type:'POST',
+                data:{type:type,typeId:typeId,roomId:roomId,males:male_count_increment,females:female_count_increment,start:start,end:end,currency:currency},
+                success:function(result){
+                    if(result.price==0){
+                        if(result.msg!=''){
+                            alert(result.msg);
+                        }
+//                        if(count==0){
+//                            $('input[name="sex').attr('checked',false);
+//                        }else{
+//                            $('input[name="tsex_'+count+'"]').attr('checked',false);
+//                        }
+//                        alert(result.price);
+                        //applyChanges(result);
+                        $(value).attr("checked",false);
+                        $('#click2').hide();
+                    }else{
+                        applyChanges(result);
+                        $('#click2').show();
+                    }
+              }});
+    }
+        
+    function openShare(d){
+        var noOfpersons=parseInt($('input[name="noOfPersons"]').val());
+        if(noOfpersons==2){
+      $( "#single-share" ).dialog({
+                dialogClass: "no-close",
+                buttons: [{
+                text: "Continue",
+                    click: function() {
+                            $( this ).dialog( "close" );
+                            $(d).parents('.added-traveller').remove();
+                            $('input[name="noOfPersons"]').val(parseInt($('input[name="noOfPersons"]').val())-1);
+                            var male_count_increment = 0;
+                            var female_count_increment = 0;
+                            var shareChecked=$('input[name=share]:checked').val();
+                            $('.sex').each(function(){	    
+                                if($(this).is(':checked'))
+                                {
+                                   if($(this).val() == 1)
+                                   {
+                                      male_count_increment++;  
+                                   }else{
+
+                                     female_count_increment++;
+                                  }		
+                                }	    
+                            });
+                                var type=$('input[name="type"]').val();
+                                var typeId=$('input[name="dataTypeId"]').val();
+                                var roomId=$('input[name="roomCategory"]').val();
+                                var start=$('input[name="travelFrom"]').val();
+                                var end=$('input[name="travelTo"]').val();
+                                var currency=$('input[name="currencytype"]').val();
+                                var count=parseInt($('input[name="noOfPersons"]').val());
+
+                                $.ajax({
+                                       url:"/checkRoomAvailabilty",
+                                       type:'POST',
+                                       async:false,
+                                       data:{share:shareChecked,type:type,typeId:typeId,roomId:roomId,males:male_count_increment,females:female_count_increment,start:start,end:end,currency:currency},
+                                       success:function(result){
+                                               if(result.price==0){
+                                                   if(count==1){
+                                                       alert('Single Traveller Not allowed.');
+                                                       //$('#addButtonNew').trigger('click');
+                                                   }
+                                                   $('#click2').hide();
+                                                   $('#cbp-ntaccordion #li3').removeClass("cbp-ntopen");
+                                                   $('#cbp-ntaccordion #li4').removeClass("cbp-ntopen");
+                                                   $('#cbp-ntaccordion #li5').removeClass("cbp-ntopen");
+                                               }else{
+                                                   $('#click2').show();
+                                               }
+                                               applyChanges(result);
+                                     }});
+                                           alert("Removing travellers may affect your room night cost.");
+                                           adjustGuestNumber();
+                               }},
+                 {
+                text: "Cancel",
+                    click: function() {
+                    $( this ).dialog( "close" );
+                }
+                }],
+            });
+        }else{
+            removeTraveller(d);
+        }
+    }
+    
+    function removeTraveller(d){
+        //var count=$('input[name="noOfPersons"]').val();
+          //$('#person'+count).remove();
+          $(d).parents('.added-traveller').remove();
+          $('input[name="noOfPersons"]').val(parseInt($('input[name="noOfPersons"]').val())-1);
+          var male_count_increment = 0;
+	  var female_count_increment = 0;
+	  $('.sex').each(function(){	    
+	      if($(this).is(':checked'))
+	      {
+		 if($(this).val() == 1)
+		 {
+		    male_count_increment++;  
+		 }else{
+		   
+		   female_count_increment++;
+		}		
+	      }	    
+	  });
+          var type=$('input[name="type"]').val();
+          var typeId=$('input[name="dataTypeId"]').val();
+          var roomId=$('input[name="roomCategory"]').val();
+          var start=$('input[name="travelFrom"]').val();
+          var end=$('input[name="travelTo"]').val();
+          var currency=$('input[name="currencytype"]').val();
+          var count=parseInt($('input[name="noOfPersons"]').val());
+          
+         // alert('male:'+male_count_increment+" female:"+female_count_increment);
+         
+         $.ajax({
+                url:"/checkRoomAvailabilty",
+                type:'POST',
+                async:false,
+                data:{type:type,typeId:typeId,roomId:roomId,males:male_count_increment,females:female_count_increment,start:start,end:end,currency:currency},
+                success:function(result){
+//                     alert(result.price);
+                        
+                        if(result.price==0){
+                            if(count==1){
+                                alert('Single Traveller Not allowed.');
+                                //$('#addButtonNew').trigger('click');
+                            }
+                            $('#click2').hide();
+                            $('#cbp-ntaccordion #li3').removeClass("cbp-ntopen");
+                            $('#cbp-ntaccordion #li4').removeClass("cbp-ntopen");
+                            $('#cbp-ntaccordion #li5').removeClass("cbp-ntopen");
+                        }else{
+                            $('#click2').show();
+                        }
+                        applyChanges(result);
+                        
+              }});
+          alert("Removing travellers may affect your room night cost.");
+          adjustGuestNumber();
+          
+    }
+    
+    function adjustGuestNumber(){
+        var i =1;
+          $('.guest-add').each(function(){       
+               $(this).html("<strong>Traveller Info  #"+i+"</strong>");
+               i++;
+            });
+    }
+    
+    function applyChanges(result){
+        if(result.price!=0){
+            $('.j-price').html(result.currency+' '+result.price+'<span id="num_left">per Night</span>');
+        }else{
+            $('.j-price').html('Not Available');
+        }
+                
+        $('input[name="roomRate"]').val(result.price);
+        $('input[name="roomNetPrice"]').val(result.netprice);
+        var totalCost=result.price*parseInt($('input[name="noOfDays"]').val());
+        $('input[name="totalCost"]').val(totalCost.toFixed(2));
+        
+        ReservationFront.init();
+        
+        $('#total_nights').html($('input[name="noOfDays"]').val());
+        $('#room_p').html(result.currency+" "+result.price);
+        $('#finalCost').html(result.currency+' '+$('input[name="totalCost"]').val());
+        //var merchantFee=parseFloat($('input[name="merchantFee"]').val());
+        //$('#merchant_fees').html(result.currency+' '+merchantFee.toFixed(2));
+        //var finalCost=parseFloat($('input[name="merchantFee"]').val())+parseFloat($('input[name="totalCost"]').val());
+        var finalCost=parseFloat($('input[name="totalCost"]').val());
+        finalCost=finalCost.toFixed(2);
+        $('#final_cost').html(result.currency+' '+finalCost);
+    }
+    </script>
+    
+    <!--  Script added 7th Nov 2014  -- end -- -->
+    
+    
+    <!--  Script added 8th Nov 2014  -- start -- -->
+
+    <script>
+    function roomAvailability(){
+        var type=$('input[name="type"]').val();
+        var roomId=$('input[name="roomCategory"]').val();
+        var start=$('input[name="travelFrom"]').val();
+        var end=$('input[name="travelTo"]').val();
+
+
+        $.ajax({
+            url:"/admin/orders/ajax/rooms-available",
+            type:'POST',
+            data:{type:type,roomId:roomId,start:start,end:end},
+            success:function(result){
+                    $('#inventory_room_available').html(result.count+" Rooms Available");
+                    $('#testdatefrom').html(start);
+                    $('#testdateto').html(end);
+                    $('#total_nights').html($('input[name="noOfDays"]').val());
+                    $('#finalCost').html($('input[name="totalCost"]').val());
+                    //$('#merchant_fees').html($('input[name="merchantFee"]').val());
+//                    $('#final_cost').html(parseFloat($('input[name="merchantFee"]').val())+parseFloat($('input[name="totalCost"]').val()));
+                    $('#final_cost').html(parseFloat($('input[name="totalCost"]').val()));
+            }});
+      
+       if ($('input[name="paymentType"]:checked').val() == 1 || $('input[name="paymentType"]:checked').val() == 0) {
+                  var checkedVal = $('input[name="paymentType"]:checked').val();
+                    if(parseInt(checkedVal) == 0){
+                        $("#deposits").trigger("click");
+                    }else{
+                         $("#full-payments").trigger("click");
+                    }
+        }
+    }
+
+    $(function(){
+         $('#testdatefrom').html($('input[name="travelFrom"]').val());
+         $('#testdateto').html($('input[name="travelTo"]').val());
+//        $('#dateFroms').Zebra_DatePicker({
+//            onSelect: function() {
+//                 ReservationFront.init();
+//                //ReservationFront._bindNoOfDays();
+//                roomAvailability();
+//                
+//            }
+//        })
+//        $('#dateTos').Zebra_DatePicker({
+//            onSelect: function() {
+//                ReservationFront.init();
+//                //ReservationFront._bindNoOfDays();
+//                roomAvailability();
+//            }
+//        });
+        Date.prototype.addHours = function(amount) {
+            return new Date(this.getTime() + (amount * 60 * 60 * 1000));
+        }
+        Date.prototype.minusHours = function(amount) {
+            return new Date(this.getTime() - (amount * 60 * 60 * 1000));
+        }
+        var type=$('input[name=type]').val();
+	    if(type==2){
+	      var start = $("#hid-mod-start").val();
+	      var end = $("#hid-mod-end").val();
+              var fmin = start;
+              var fmax = '<?php echo date('Y-m-d', strtotime("-".$minimum_stay_days." Day",strtotime($orgEventEndDate))); ?>'; 
+              var tmin = '<?php echo date('Y-m-d', strtotime("+".$minimum_stay_days." Day",strtotime($orgEventStartDate))); ?>';
+              var tmax = end; 
+	    }else{
+	      var start = $("#dateFroms").val();
+	      var end = $("#dateTos").val();
+              var fmin = "0D"; 
+              var fmax = "";
+              var tmin = "1D";
+              var tmax = "";
+	    }
+            var from=$("#org_event_start").val();
+         $( "#dateFroms" ).datepicker({
+            minDate:fmin,
+            maxDate:fmax,
+            dateFormat:'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            onClose: function( selectedDate ) {
+                var d = selectedDate.split('-');
+                var start = from.split('-');
+                var oneDay = 24*60*60*1000;
+                var firstDate = new Date(parseInt(d[0]),parseInt(d[1])-1,parseInt(d[2]));                
+                var secondDate = new Date(parseInt(start[0]),parseInt(start[1])-1,parseInt(start[2]));        
+                if(firstDate < secondDate){
+                    var e = secondDate;
+                }else{
+                    var e = firstDate;
+                }
+                var newDate=e.addHours(<?php echo $minimum_stay_days*24; ?>);
+                var month=newDate.getMonth()+1;
+//                var newDate1=month+"-"+newDate.getDate()+"-"+newDate.getFullYear();
+                var newDate1=newDate.getFullYear()+"-"+month+"-"+newDate.getDate();
+                
+                $( "#dateTos" ).datepicker( "option", "minDate", newDate1 );
+                ReservationFront.init();
+                //ReservationFront._bindNoOfDays();
+                roomAvailability();
+            }
+        });
+        var to = $("#org_event_end").val();
+        $( "#dateTos" ).datepicker({
+            maxDate:tmax,
+            minDate: tmin,
+            dateFormat:'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            onClose: function( selectedDate ) {
+                var d = selectedDate.split('-');
+                var start = to.split('-');
+                var oneDay = 24*60*60*1000;
+                var firstDate = new Date(parseInt(d[0]),parseInt(d[1])-1,parseInt(d[2]));                
+                var secondDate = new Date(parseInt(start[0]),parseInt(start[1])-1,parseInt(start[2]));        
+                if(firstDate > secondDate){
+                    var e = secondDate;
+                }else{
+                    var e = firstDate;
+                }
+                
+                var newDate=e.minusHours(<?php echo $minimum_stay_days*24; ?>);
+                var month=newDate.getMonth()+1;
+//                var newDate1=month+"-"+newDate.getDate()+"-"+newDate.getFullYear();
+                var newDate1=newDate.getFullYear()+"-"+month+"-"+newDate.getDate();
+                $( "#dateFroms" ).datepicker( "option", "maxDate", newDate1 );
+                ReservationFront.init();
+                //ReservationFront._bindNoOfDays();
+                roomAvailability();
+            }
+        });
+    });
+    </script>
+<!--  Script added 8th Nov 2014  -- end -- -->
+
+
+<!--  Script added 10th Nov 2014  -- start -- -->
+
+<script type="text/javascript">
+$(function(){
+    var flag = true;
+    $('.error_msg').remove();
+
+    $('#click2').click(function(){
+         var count=2;
+        $('.name').each(function() {
+               var value = $(this).val();
+               if (value == false && value =="") {
+                   var error_msg = "Enter Name";
+                   $(this).parent().append("<div class='error_msg' id='err"+count+"' >" + error_msg + "</div>");
+                   //$(this).focus(); 
+                   flag = false;
+               } else {
+                   /*$(this).parent().append("<div class='error_msg'>&nbsp;</div>");*/
+               }
+               count=count+1;
+           });
+         
+         var counts=2;
+        $('.email').each(function() {
+               var value = $(this).val();
+               if (value == false && value =="") {
+                   var error_msg = "Enter Email";
+                   $(this).parent().append("<div class='error_msg' id='erremail"+counts+"'>" + error_msg + "</div>");
+                   //$(this).focus(); 
+                   flag = false;
+               } else {
+                   /*$(this).parent().append("<div class='error_msg'>&nbsp;</div>");*/
+               }
+               counts=counts+1;
+           });
+           
+           var countss=2;
+        $('.dob').each(function() {
+               var value = $(this).val();
+               if (value == false && value =="") {
+                   var error_msg = "Select Date of Birth";
+                   $(this).parent().append("<div class='error_msg' id='errdate"+countss+"'>" + error_msg + "</div>");
+                   //$(this).focus(); 
+                   flag = false;
+               } else {
+                   /*$(this).parent().append("<div class='error_msg'>&nbsp;</div>");*/
+               }
+               countss=countss+1;
+           });
+           //alert(flag);
+           if(flag == true){
+            if($('#cbp-ntaccordion #li3').length == 0){
+                 $('#cbp-ntaccordion #li4').addClass("cbp-ntopen");
+            }
+           }
+           
+           return flag;
+
+
+    });
+    
+    $('#click4').click(function(){
+        
+    });
+   
+});
+</script>
+
+<style>
+    .error_msg{
+        color:red;
+    }
+</style>
+<!--  Script added 10th Nov 2014  -- end -- -->
+
+<!--  Script added 11th Nov 2014  -- start -- -->
+<script type="text/javascript">
+$(function(){
+    $('.payment').click(function(){
+        var paymentType=$(this).val();
+        var type=$('input[name="type"]').val();
+        var typeId=$('input[name="dataTypeId"]').val();
+        var roomId=$('input[name="roomCategory"]').val();
+        var start=$('input[name="travelFrom"]').val();
+        var end=$('input[name="travelTo"]').val();
+        var currency=$('input[name="currencytype"]').val();
+        var finalCost=$('input[name="totalCost"]').val();
+	var today = $('#today').val();
+
+       $.ajax({
+              url:"/getDeposits",
+              type:'POST',
+              data:{type:type,typeId:typeId,roomId:roomId,dateFrom:start,exceptionStart:today,paymentType:paymentType,finalCost:finalCost},
+              success:function(result){
+                      $('#depositDiv').html(result);
+                      //var mfee=parseFloat($('input[name="merchantFee"]').val());
+                      var currency=$('input[name="currencytype"]').val();
+                      var totalCost=parseFloat($('input[name="totalCost"]').val());
+                      //var finalCost=totalCost+mfee;
+                      var deposit = parseFloat($('input[name="depositAmount"]').val());
+                      //var mfee = parseFloat(deposit) * 0.025;
+                      //$('input[name="merchantFee"]').val(mfee.toFixed(2));
+                      //$('#merchant_fees').html(currency+" "+mfee);
+                     // $('#final_cost').html(currency+" "+(deposit+mfee));
+                      $('#final_cost').html(currency+" "+(deposit));
+            }});
+    });
+});
+</script>
+
+
+<script type="text/javascript">
+$( "[id^='transfers_']" ).on('click',function(){
+var transferId = $(this).attr('id');
+	if($('#'+transferId).is(':checked')) {
+		var totalAddons = $('#'+transferId).attr('guestprice') * $('input[name="noOfPersons"]').val();
+		$('#'+transferId).val(totalAddons);
+		$('#'+transferId).attr('grossprice',totalAddons);
+		$('#'+transferId+'_guestCost').text(totalAddons);
+	}else{
+		$('#'+transferId).attr('grossprice',$('#'+transferId).attr('guestprice'))
+		$('#'+transferId+'_guestCost').text($('#'+transferId).attr('guestprice'));
+	}
+	console.log($(this).attr('id'));
+});
+
+function item(){
+//    //ReservationFront.init();
+//    var currency=$('input[name="currencytype"]').val();
+//    $('#merchant_fees').html(currency+" "+$('input[name="merchantFee"]').val().toFixed(2));
+//    var finalCost=parseFloat($('input[name="merchantFee"]').val())+parseFloat($('input[name="totalCost"]').val());
+//    $('#final_cost').html(currency+" "+finalCost);
+}
+
+$(document).ready(function(){
+        
+        $('select[name="romname"]').on('change', function(){ 
+                $("#depositDiv").html("");
+                $('input[name="paymentType"]:checked').removeAttr("checked");
+                var roomId=$(this).val();
+                var type=$('input[name="type"]').val();
+                $('input[name="roomCategory"]').val(roomId);
+                
+          var male_count_increment = 0;
+	  var female_count_increment = 0;
+	  $('.sex').each(function(){	    
+	      if($(this).is(':checked'))
+	      {
+		 if($(this).val() == 1)
+		 {
+		    male_count_increment++;  
+		 }else{
+		   
+		   female_count_increment++;
+		}		
+	      }	    
+	  });
+          var type=$('input[name="type"]').val();
+          var typeId=$('input[name="dataTypeId"]').val();
+          var roomId=$('input[name="roomCategory"]').val();
+          var start=$('input[name="travelFrom"]').val();
+          var end=$('input[name="travelTo"]').val();
+          var currency=$('input[name="currencytype"]').val();
+         
+         if(parseInt(male_count_increment) + parseInt(female_count_increment) == 1){
+            $( "#single-share" ).dialog({
+                dialogClass: "no-close",
+                buttons: [{
+                text: "Continue",
+                    click: function() {
+                            $( this ).dialog( "close" );
+                            var male_count_increment = 0;
+                            var female_count_increment = 0;
+                            var shareChecked=$('input[name=share]:checked').val();
+                            $('.sex').each(function(){	    
+                                if($(this).is(':checked'))
+                                {
+                                   if($(this).val() == 1)
+                                   {
+                                      male_count_increment++;  
+                                   }else{
+
+                                     female_count_increment++;
+                                  }		
+                                }	    
+                            });
+                                var type=$('input[name="type"]').val();
+                                var typeId=$('input[name="dataTypeId"]').val();
+                                var roomId=$('input[name="roomCategory"]').val();
+                                var start=$('input[name="travelFrom"]').val();
+                                var end=$('input[name="travelTo"]').val();
+                                var currency=$('input[name="currencytype"]').val();
+                                var count=parseInt($('input[name="noOfPersons"]').val());
+
+                                $.ajax({
+                                       url:"/checkRoomAvailabilty",
+                                       type:'POST',
+                                       async:false,
+                                       data:{share:shareChecked,type:type,typeId:typeId,roomId:roomId,males:male_count_increment,females:female_count_increment,start:start,end:end,currency:currency},
+                                       success:function(result){
+                                               if(result.price==0){
+                                                   if(count==1){
+                                                       alert('Single Traveller Not allowed.');
+                                                       //$('#addButtonNew').trigger('click');
+                                                   }
+                                                   $('#click2').hide();
+                                                   $('#cbp-ntaccordion #li3').removeClass("cbp-ntopen");
+                                                   $('#cbp-ntaccordion #li4').removeClass("cbp-ntopen");
+                                                   $('#cbp-ntaccordion #li5').removeClass("cbp-ntopen");
+                                               }else{
+                                                   $('#click2').show();
+                                               }
+                                               applyChanges(result);
+                                              // _getRoomsAvailability(roomId,type);
+                                               //_getRoomDetails(roomId,type);
+                                                ReservationFront.init();
+                                     }});
+                               }},
+                 {
+                text: "Cancel",
+                    click: function() {
+                    $( this ).dialog( "close" );
+                }
+                }],
+            });
+           
+         }else{
+         
+         $.ajax({
+                url:"/checkRoomAvailabilty",
+                type:'POST',
+                data:{type:type,typeId:typeId,roomId:roomId,males:male_count_increment,females:female_count_increment,start:start,end:end,currency:currency},
+                success:function(result){
+                    if(result.price==0){
+                        if(result.msg!=''){
+                            alert(result.msg);
+                        }
+                         $('select[name="romname"]').val('');
+                         if(result.price==0){
+                         $('.j-price').html('Not Available');
+                          }else{
+                              $('.j-price').html(result.currency+' '+result.price+'<span id="num_left">per Night</span>');
+                          }
+                        // $('.j-price').html(result.currency+' '+result.price+'<span id="num_left">per Night</span>');
+                        $('input[name="roomRate"]').val(result.price);
+                        $('input[name="roomNetPrice"]').val(result.netprice);
+                        var totalCost=result.price*parseInt($('input[name="noOfDays"]').val());
+                        $('input[name="totalCost"]').val(totalCost.toFixed(2));
+                        $('#total_nights').html($('input[name="noOfDays"]').val());
+                        $('#room_p').html(result.currency+" "+result.price);
+                        $('#finalCost').html(result.currency+' '+$('input[name="totalCost"]').val());
+                        //var merchantFee=parseFloat($('input[name="merchantFee"]').val());
+                        //$('#merchant_fees').html(result.currency+' '+merchantFee.toFixed(2));
+                        //var finalCost=parseFloat($('input[name="merchantFee"]').val())+parseFloat($('input[name="totalCost"]').val());
+                        var finalCost=parseFloat($('input[name="totalCost"]').val());
+                        finalCost=finalCost.toFixed(2);
+                        $('#final_cost').html(result.currency+' '+finalCost);
+                        $("#inventory_room_available").html("Not Available");
+                        //_calcFinalCost();
+                         alert("Please select different room");
+                    }else{
+                        if(result.price==0){
+                         $('.j-price').html('Not Available');
+                          }else{
+                              $('.j-price').html(result.currency+' '+result.price+'<span id="num_left">per Night</span>');
+                          }
+                       // $('.j-price').html(result.currency+' '+result.price+'<span id="num_left">per Night</span>');
+                        $('input[name="roomRate"]').val(result.price);
+                        $('input[name="roomNetPrice"]').val(result.netprice);
+                        var totalCost=result.price*parseInt($('input[name="noOfDays"]').val());
+                        $('input[name="totalCost"]').val(totalCost.toFixed(2));
+
+                        $('#total_nights').html($('input[name="noOfDays"]').val());
+                        $('#room_p').html(result.currency+" "+result.price);
+                        $('#finalCost').html(result.currency+' '+$('input[name="totalCost"]').val());
+                        //var merchantFee=parseFloat($('input[name="merchantFee"]').val());
+                        //$('#merchant_fees').html(result.currency+' '+merchantFee.toFixed(2));
+                        //var finalCost=parseFloat($('input[name="merchantFee"]').val())+parseFloat($('input[name="totalCost"]').val());
+                         var finalCost=parseFloat($('input[name="totalCost"]').val());
+                        finalCost=finalCost.toFixed(2);
+                        $('#final_cost').html(result.currency+' '+finalCost);
+                        //_calcFinalCost();
+                    }
+              }});
+              ReservationFront.init();
+               // ReservationFront._getRoomsAvailability(roomId,type);
+               // ReservationFront._getRoomDetails(roomId,type);
+         }
+                
+              
+            });
+})
+
+//$("#click2").click(function(){
+//    $("#step").val(1);
+//    var postData = $("#front").serializeArray();
+//    var formURL = $("#front").attr("action");
+//    $.ajax(
+//    {
+//        url : formURL,
+//        type: "POST",
+//        data : postData,
+//        success:function(data, textStatus, jqXHR)
+//        {
+//           $("#reservationId").val(data.id);
+//        },
+//        error: function(jqXHR, textStatus, errorThrown)
+//        {
+//           console.log("error");
+//        }
+//    });
+//});
+
+$("#click3").click(function(){
+    $("#step").val(2);
+    var postData = $("#front").serializeArray();
+    var formURL = $("#front").attr("action");
+    $.ajax(
+    {
+        url : formURL,
+        type: "POST",
+        data : postData,
+        success:function(data, textStatus, jqXHR)
+        {
+           
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+           console.log("error");
+        }
+    });
+});
+
+//$("#click4").click(function(){
+//    $("#step").val(3);
+//    var postData = $("#front").serializeArray();
+//    var formURL = $("#front").attr("action");
+//    $.ajax(
+//    {
+//        url : formURL,
+//        type: "POST",
+//        data : postData,
+//        success:function(data, textStatus, jqXHR)
+//        {
+//           
+//        },
+//        error: function(jqXHR, textStatus, errorThrown)
+//        {
+//           console.log("error");
+//        }
+//    });
+//});
+
+
+$("#add-span").click(function(){
+        var check = checkValidate();
+        if(check == true){
+            //ajax call to save reservation step 1
+                $("#step").val(1);
+                var postData = $("#front").serializeArray();
+                var formURL = $("#front").attr("action");
+                $.ajax(
+                {
+                    url : formURL,
+                    type: "POST",
+                    data : postData,
+                    success:function(data, textStatus, jqXHR)
+                    {
+                       $("#reservationId").val(data.id);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                       console.log("error");
+                    }
+                });
+        }
+    });
+        
+$("#order-summary-span").click(function(){
+        var check = checkValidate();
+        if(check == true){
+            //ajax call to save reservation step 1
+                $("#step").val(2);
+                var postData = $("#front").serializeArray();
+                var formURL = $("#front").attr("action");
+                $.ajax(
+                {
+                    url : formURL,
+                    type: "POST",
+                    data : postData,
+                    success:function(data, textStatus, jqXHR)
+                    {
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                       console.log("error");
+                    }
+                });
+        }
+        
+        
+        
+});
+
+$("#how-pay-span").click(function(){
+        var check = checkValidate();
+        if(check == true){
+            //ajax call to save reservation step 1
+                $("#step").val(3);
+                var postData = $("#front").serializeArray();
+                var formURL = $("#front").attr("action");
+                $.ajax(
+                {
+                    url : formURL,
+                    type: "POST",
+                    data : postData,
+                    success:function(data, textStatus, jqXHR)
+                    {
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                       console.log("error");
+                    }
+                });
+        }
+        
+        
+        
+});
+
+
+</script>
+
+<!--  Script added 11th Nov 2014  -- end -- -->

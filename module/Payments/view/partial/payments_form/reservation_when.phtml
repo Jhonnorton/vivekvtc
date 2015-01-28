@@ -1,0 +1,20 @@
+<div id="entity-reservation-when">
+<div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('travelFrom')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('travelFrom')
+                                                    ->setAttribute('id', 'dateFrom')
+                                                    ->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('travelFrom'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('travelTo')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('travelTo')
+                                                   ->setAttribute('id', 'dateTo')
+                                                   ->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('travelTo'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+</div>

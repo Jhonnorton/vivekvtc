@@ -1,0 +1,38 @@
+<?php
+if ($this->collection):
+    //d($this->collection);die;
+    ?>
+    <div class="formRow control-group">
+        <h4>Excursions</h4>
+        <hr />
+    </div>
+    <label>Select Excursions</label>    
+    <div class="formRight multicheckbox">
+        <div class="distance distance-2">
+            <?php $i = 0; ?>
+            <?php foreach ($this->collection as $item): ?>
+                    <label>
+                        <input type="checkbox" name="excursions[]" class="span input" value="<?php echo $item->getId(); ?>" netprice="<?php echo $item->getNetPrice(); ?>" grossprice="<?php echo $item->getGrossPrice(); ?>"><?php echo $item->getExcursionName() . ' ($' . $item->getGrossPrice() . ')'; ?>
+                    </label>                
+            <?php endforeach; ?>
+        </div>
+    </div>
+    </div>
+    <div class="formRow control-group">
+        <label for="excursionsCost">Excursions Cost</label>                
+        <div class="formRight">    
+            <input name="excursionsCost" type="number" min="0" readonly="readonly" class="span input" value="0">                                    
+        </div>
+    </div>
+    <script>
+//        $('.chzn-select').chosen();
+//        $('input[name="items[]"]').change(function() {
+//            var itemsCost = 0;
+//            $.each($('input[name="items[]"]:checked'), function() {
+//                itemsCost = itemsCost + parseFloat($(this).attr('grossPrice'));
+//            });
+//            $('input[name="itemsCost"]').val(itemsCost);
+//            calcTotalCost();
+//        });
+    </script>
+<?php endif; ?>

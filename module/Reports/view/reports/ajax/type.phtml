@@ -1,0 +1,18 @@
+ 
+<?php //echo '<pre>'; print_r($this->collection)?> 
+
+  
+    <select id="resorts" name="resortId" required="required" class="span input chzn-select">                
+        <?php foreach ($this->collection as $item):?>                
+            <option value="<?php echo $item->getId();?>" <?php if ($this->typeId==$item->getId()) { echo 'selected'; }?>>
+                <?php if($this->id == 4){ echo $item->getName();}elseif($this->id == 6){ echo $item->getTransferName(); }elseif($this->id == 5){ echo $item->getExcursionName(); }else{echo $item->getTitle();}?>
+            </option>
+        <?php endforeach;?>    
+    </select> 
+
+<script>
+    $(document).ready(function(){
+        $('.chzn-select').chosen();
+    });
+</script>
+

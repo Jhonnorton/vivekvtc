@@ -1,0 +1,162 @@
+<?php
+
+//d($this->collection[0]->getPaySchedule());
+if (!is_null($this->message)):
+    
+   // d($this->message);
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+
+<?php
+$date = date('Y-m-d');
+//d($this->collection); die; //echo $date; die;
+?>
+
+<script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->paymenttyp)) {
+    echo $this->paymenttyp;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+    });
+</script>    
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Raise and Bonus</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+
+
+      
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Agent Name</th>
+                    <th class="hidden-mobile">Role</th> 
+                    <th class="hidden-mobile">Type</th> 
+                    <th class="hidden-mobile">Amount</th> 
+                    <th class="hidden-mobile">Status</th> 
+
+                    <th class="hidden-mobile">Added On</th>
+                    <th class="hidden-mobile">Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+      
+                $i = 0;
+              
+                foreach ($this->collection as $item):
+                ?>                  
+
+                    <tr>
+
+                        <td class="hidden-mobile"> <?php echo $item->getUserId()->getFirstName();?></td>				
+
+
+                        <td class="hidden-mobile"><?php echo $item->getUserId()->getRole()->getName();?></td>
+                         <td class="hidden-mobile"><?php echo ($item->getType())?'Raise Monthly':'One Time Bonus';?></td>
+                        <td class="hidden-mobile">$<?php echo $item->getAmount();?></td>
+                        <td class="hidden-mobile"><?php echo ($item->getStatus())?'Applied':'Pending'?></td>
+
+                        <td class="hidden-mobile"><?php echo ($item->getCreated() instanceof \DateTime) ? $item->getCreated()->format('Y-m-d') : $item->getCreated(); ; ?></td>
+     
+                        <td class="action-table">                            
+                       
+                                <a href="#" onclick="view(<?php echo $item->getId(); ?>)" title="View">
+                                    <img src="/images/icon/table_view.png" alt="View">
+                                </a> 
+                            
+                                <a href="<?php echo $this->url('accounts-bonus-edit',array('id'=>$item->getId())); ?>" title="Edit">
+                                   <img src="/images/icon/table_edit.png" alt="Edit">
+                               </a>
+                            <?php if($item->getStatus()){?>
+                            <a href="<?php echo $this->url('accounts-bonus-revert', array('id' => $item->getId())); ?>" title="Revert">
+                               <img src="/images/icon/icon_cont_close.png" alt="Revert">
+                               </a>
+                            <?php }else{ ?>
+                                <a href="<?php echo $this->url('accounts-bonus-apply', array('id' => $item->getId())); ?>" title="Apply">
+                               <img src="/images/icon/icon_cont_check.png" alt="Apply">
+                               </a>
+                            <?php } ?>
+                            
+                             <a data-confirm="Are You Sure.?" href="<?php echo $this->url('accounts-bonus-delete',array('id'=>$item->getId())); ?>" title="Delete">
+                                   <img src="/images/icon/table_del.png" alt="Edit">
+                               </a>
+                            
+                        </td>
+
+                    </tr>                    
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+       
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close">×</button>
+    <h3 id="myModalLabel"></h3>
+  </div>
+  <div class="modal-body">
+    <p></p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn close">Close</button>
+  </div>
+</div>
+
+<script>
+function view(id){
+    $.ajax({
+                async:false,    
+                url: '/admin/accounts/bonus/view/'+id,
+                type: 'POST',
+                data: {id:id},
+                beforeSend:function(){
+                   $(".modal-body").html('<center><img src="/images/ajax-loader.gif" alt="Loading..."></center>');  
+                    $("#myModalLabel").html('View Bonus Details');
+                    $("#myModal").css({"display": "block"});
+                    $("#myModal").modal();
+                },
+                success: function(data){
+                    $(".modal-body").html(data)  
+//                  $("#myModal").modal()  
+                }
+            });
+}
+
+$(document).ready(function(){
+    $('.close').click(function(){
+        $("#itemModal").css({"display": "none"});
+        $("#myModal").css({"display": "none"});
+    });
+});
+</script>

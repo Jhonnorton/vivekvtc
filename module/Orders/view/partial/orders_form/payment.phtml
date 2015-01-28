@@ -1,0 +1,23 @@
+<?php 
+    $form = $this->form;
+?>
+<div class="formRow control-group">
+                <h4>Payment</h4>
+                <hr />
+</div>
+<div class="formRow control-group">
+    <div class="formRight">
+        <div class="distance distance-2">
+            <p>
+                <input type="radio" name="paymentType" id="full-payment" value="1" >
+                <label for="full-payment"><span></span> Full Payment</label>
+            </p>
+            <p id="deposit-hide">
+                <input type="radio" name="paymentType" id="deposit" value="0"  <?php //if(!$form->get('paymentType')->getValue()) echo 'checked="checked"';?>>
+                <label for="deposit"><span></span> Deposit</label>
+            </p>
+        </div>
+    </div>
+</div>
+<div id="deposit-div"></div>
+

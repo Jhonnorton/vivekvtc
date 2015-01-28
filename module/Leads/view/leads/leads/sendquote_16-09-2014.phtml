@@ -1,0 +1,576 @@
+<?php
+//echo "hello"; die;
+//d($this->rooms[0]->getDescription());
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'lead-generate-quote', array('id' => $this->id)
+));
+$form->setAttribute('method', 'post');
+$form->setAttribute('enctype', 'multipart/form-data');
+//d($form->get('email')->getValue());
+$data = $this->data['leads'];
+//d($data);
+
+$type = $data['typeid'];
+if($data['roomid']==0){
+    $roomId='';
+}else{
+    $roomId = $data['roomid'];
+}
+//d($roomId);
+//d($this->roomdetails);
+if ($form->get('dateFrom')->getValue() instanceof DateTime)
+    $form->get('dateFrom')->setValue($form->get('dateFrom')->getValue()->format('Y-m-d')); // DateTime to str fix;
+if ($form->get('dateTo')->getValue() instanceof DateTime)
+    $form->get('dateTo')->setValue($form->get('dateTo')->getValue()->format('Y-m-d'));
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Send Quote</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+        <div class="formRow control-group">                        
+            <input type="hidden" name="id" value="<?php echo $this->id; ?>">
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('name')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('name')->setAttribute('class', 'span input')); ?>
+                    <?php echo $this->formElementErrors($form->get('name'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('email')); ?>
+                <div class="formRight">
+                    <?php
+                    echo $this->formElement($form->get('email')
+                                    ->setAttribute('id', 'email')
+                                    ->setAttribute('class', 'span input'));
+                    ?>
+                    <?php echo $this->formElementErrors($form->get('email'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>     
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('phone')); ?>
+                <div class="formRight">
+                    <?php
+                    echo $this->formElement($form->get('phone')
+                                    ->setAttribute('id', 'phone')
+                                    ->setAttribute('class', 'span input'));
+                    ?>
+                    <?php echo $this->formElementErrors($form->get('phone'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+
+
+
+
+            <?php
+            switch ($data['lead']->getType()) {
+                case 1:
+                    $typeName = "Resort";
+                    if($this->roomdetails){
+                        $description = $this->roomdetails->getDescription();
+                        $roomName = $this->roomdetails->getTitle();
+                    }else{
+                       $description = "";
+                       $roomName="";
+                    }
+                    break;
+                case 2:
+                    $typeName = "Event";
+                    if($this->roomdetails){
+                        $description = $this->roomdetails->getRoomId()->getDescription();
+                        $roomName = $this->roomdetails->getRoomCategory();
+                    }else{
+                       $description = "";
+                       $roomName="";
+                    }
+                    break;
+                case 3:
+                    $typeName = "Cruise";
+                    if($this->roomdetails){
+                        $description = $this->roomdetails->getDescription();
+                        $roomName = $this->roomdetails->getDeckName();
+                    }else{
+                       $description = "";
+                       $roomName="";
+                    }
+                    break;
+            }
+            ?>
+            <div class="formRow control-group">			
+                <label for="reservationType" class="">Reservation Type</label>
+                <div class="formRight">
+                    <div name="reservationType" class="distance distance-2">
+                        <label for="reservationType1" class=""><?php echo $typeName; ?></label>
+                        <input type="hidden" name="type" value="<?php echo $data['lead']->getType(); ?>"/>
+                    </div>
+                </div>
+            </div>
+            <div class="formRow control-group">
+                <label class="" for="typeName"><?php echo $typeName; ?></label>
+                <div class="formRight">
+                    <?php echo $data['hotelName']; ?>
+                </div>
+
+            </div>
+
+
+
+
+            <div class="formRow control-group">
+                <?php// echo $this->formLabel($form->get('dateFrom')); ?>
+                <label>Travel Date From</label>
+                <div class="formRight">
+                    <?php 
+                    $dateFrom = ($data['dateFrom'] instanceof \DateTime) ? $data['dateFrom']->format('Y-m-d') : $data['dateFrom'];
+                    if(date('Y-m-d',strtotime($dateFrom))<date('Y-m-d')){
+                        $val='';
+                    }else{
+                        $val=date('Y-m-d',strtotime($dateFrom));
+                    } ?>
+                    <input type="date" name="dateFrom" id="dateFrom" class="span input" value="<?php echo $val; ?>">
+                    <?php
+//                    echo $this->formElement($form->get('dateFrom')
+//                                    ->setAttribute('id', 'dateFrom')
+//                                    ->setAttribute('class', 'span input'));
+                    ?>
+                    <?php // echo $this->formElementErrors($form->get('dateFrom'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+            <div class="formRow control-group">
+                <?php // echo $this->formLabel($form->get('dateTo')); ?>
+                <label>Travel Date To</label>
+                <div class="formRight">
+                    <?php 
+                    $dateTo = ($data['dateTo'] instanceof \DateTime) ? $data['dateTo']->format('Y-m-d') : $data['dateTo'];
+                    if(date('Y-m-d',strtotime($dateTo))<date('Y-m-d')){
+                        $valto='';
+                    }else{
+                        $valto=date('Y-m-d',strtotime($dateTo));
+                    } ?>
+                     <input type="date" name="dateTo" id="dateTo" class="span input" value="<?php echo $valto; ?>">
+                    <?php
+//                    echo $this->formElement($form->get('dateTo')
+//                                    ->setAttribute('id', 'dateTo')
+//                                    ->setAttribute('class', 'span input'));
+                    ?>
+                    <?php // echo $this->formElementErrors($form->get('dateTo'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+            <div class="formRow control-group">
+                <label>No. Of Persons</label>
+                <div class="formRight">
+                   <input type="number" class="span input" name="persons" value="<?php echo $data['no_of_persons']; ?>">
+                </div>
+            </div>
+
+            <?php
+            if ($type == 1) {
+                $dataExtraType = 4;
+                if($roomId!=''){
+                ?>
+                <input type="hidden" name="roomCategory[]" value="<?php echo $roomId; ?>">
+
+
+                <?
+                }
+            } else if ($type == 2) {
+
+
+                $dataExtraType = 6;
+                // echo   $data['Typename'];die; 
+                if($roomId!=''){
+                ?>
+
+                <input type="hidden" name="roomCategory[]" value="<?php echo $roomId; ?>">
+                <?php
+                }
+            } else {
+
+                $dataExtraType = 7;
+                if($roomId!=''){
+                ?>
+
+                <input type="hidden" name="suiteName[]" value="<?php echo $roomId; ?>">
+            <?php } 
+            }?>
+
+
+
+            <input type="hidden" name="dataExtraType" id="data-extra-type" value="<?php echo $dataExtraType; ?>">
+            <input type="hidden" name="dataTypeId" id="data-type-id" value="<?php echo $data['Typename']; ?>">
+
+            <div id="ajax-what" class="formRow control-group">
+
+
+
+                <label for="roomCategory">Room Category</label>                    
+                <div class="formRight">    
+                    <?php 
+                    if($roomName){
+                        echo $roomName; 
+                    }else{                    
+                     
+                        switch ($data['lead']->getType()) {
+                            case 1:
+                                $typeName = "Resort";  ?>
+                                 <select  data-type="<?php echo \Leads\Controller\AjaxController::RESORT_ROOMS; ?>" id="resort-rooms>" name="roomCategory[]" required="required" class="chzn-select chosen_select width-100 load-item">                
+                                    <option value="">please select room category...</option>
+                                    <?php foreach ($this->rooms as $item): ?>                
+                                        <option value="<?php echo $item->getId(); ?>"  resortid="<?php echo $item->getResortId()->getId(); ?>"><?php echo $item->getTitle(); ?></option>
+                                    <?php endforeach; ?>    
+                                </select> 
+                        <?php   break;
+                            case 2:
+                                $typeName = "Event"; ?>
+                               <select data-type="<?php echo \Leads\Controller\AjaxController::EVENT_ROOMS; ?>"  id="event-rooms" data-url="/event/room/" name="roomCategory[]" required="required" class="chzn-select chosen_select width-100 load-item">                
+                                    <option value="">please select room category...</option>
+                                    <?php foreach ($this->rooms as $item): ?>                
+                                        <option  value="<?php echo $item->getId(); ?>"><?php echo $item->getRoomCategory(); ?></option>
+
+                                    <?php endforeach; ?>    
+                                </select> 
+                       <?php    break;
+                            case 3:
+                                $typeName = "Cruise"; ?>
+                                <select data-type="<?php echo \Leads\Controller\AjaxController::CRUISE_CABINS; ?>" id="cruise-cabins" name="suiteName[]" required="required" class="chzn-select chosen_select width-100 load-item">                
+                                    <option value="">please select room category...</option>
+                                    <?php foreach ($this->rooms as $item): ?>                
+                                        <option value="<?php echo $item->getId(); ?>"><?php echo $item->getDeckName(); ?></option>
+                                                        <?php endforeach; ?>    
+                                </select> 
+                      <?php     break;
+                        }
+                    }
+            ?>
+                </div>
+
+             
+
+
+
+            </div>
+
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('description[]')); ?>
+                <div class="formRight">
+                    <?php
+                    echo $this->formElement($form->get('description[]')
+                                    ->setAttribute('id', 'description')
+                                    ->setAttribute('class', 'ckeditor')
+                                    ->setAttribute('value', $description));
+                    ?>
+                    <?php echo $this->formElementErrors($form->get('description[]'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('image[]')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('image[]')); //->setAttribute('required', 'required')); ?>
+                    <?php echo $this->formElementErrors($form->get('image[]'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+
+
+
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('cost[]')); ?>
+                <div class="formRight">
+                    <?php
+                    echo $this->formElement($form->get('cost[]')
+                                    ->setAttribute('id', 'cost[]')
+                                    ->setAttribute('class', 'span input'));
+                    ?>
+                    <?php echo $this->formElementErrors($form->get('cost[]'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+            <div class="formRow control-group">
+                <label>Net Cost</label>
+                <div class="formRight">
+                   <input type="number" class="span input" name="netcost[]">
+                </div>
+            </div>
+
+
+            <div class="formRight">
+                <div class="distance distance-2">
+                    <p>
+                        <input type="radio" name="paymentType_0" id="per-person" value="1" checked="checked">
+                        <label for="per-person"><span></span>Per Person</label>
+                    </p>
+                    <p id="deposit-hide">
+                        <input type="radio" name="paymentType_0" id="per-room" value="0"  <?php //if(!$form->get('paymentType')->getValue()) echo 'checked="checked"';        ?>>
+                        <label for="per-room"><span></span>Per Room</label>
+                    </p>
+                </div>
+            </div>
+            <div class="formRow control-group">
+                <div class="formLeft">
+                    <a href="javascript:void(0)" id="add-rooms">Add Rooms</a>
+                </div>
+            </div>
+            <style>
+                #inventory_room_available{color:green;}
+            </style>
+
+
+            <div id="ajax-what_1" class="formRow control-group"></div>
+
+
+            <input type="hidden" id="today" value="<?php echo date('Y-m-d'); ?>">
+
+            <input type="hidden" id="savesend">
+
+
+
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('accomodationDetails')); ?>
+                <div class="formRight">
+                    <?php
+                    echo $this->formElement($form->get('accomodationDetails')
+                                    ->setAttribute('id', 'accomodationDetails')
+                                    ->setAttribute('class', 'ckeditor'));
+                    ?>
+                    <?php echo $this->formElementErrors($form->get('accomodationDetails'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>    
+
+
+
+
+
+
+            <div id="ajax-items" class="formRow control-group"></div>
+            <div id="ajax-excursion" class="formRow control-group"></div>
+            <div id="ajax-transfer" class="formRow control-group"></div>
+
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('notes')); ?>
+                <div class="formRight">
+                    <?php
+                    echo $this->formElement($form->get('notes')
+                                    ->setAttribute('id', 'notes')
+                                    ->setAttribute('class', 'ckeditor'));
+                    ?>
+                    <?php echo $this->formElementErrors($form->get('notes'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>           
+
+
+            <div class="formRow control-group">
+
+                <!-- <button id="creat" class="btn btn-success" type="submit"  name="submit" onclick=''>Save</button>!-->
+                <button id="creat1" class="btn btn-success" type="submit"  name="submit" onclick="" value="1">Email Quote</button>
+
+            </div>
+
+
+            <div id="ajax-script"></div>
+            <div class="clearfix"></div>
+
+        </div>
+        <?php echo $this->form()->closeTag() ?>
+    </div>
+</div>
+
+<?php //echo $this->partial('orders/ajax/modal.phtml');        ?>
+<script src="/js/date-formater.js"></script>
+<script src="/js/leadsedit.js"></script>
+<script>
+    LeadsEdit.init();
+    $(function() {
+        $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+        $('.error input').keyup(function() {
+            $(this).parents('.formRow').removeClass('error');
+            $(this).next('ul.help-inline').remove();
+        });
+
+        //   var _getExtraItems = function(typeCode, id) {
+
+        //     $.post('/admin/orders/ajax/items', {typeCode: 4, id: id}, function(data) {
+        //       $('#ajax-items').html(data);
+
+        // });
+        // }
+
+
+
+        // var selected = $('select[name="dancerCountry"]').val() ;
+        // var selected = $('# resort-rooms').find('option:selected');
+        // var description = selected.data('description');
+        // alert(description);
+        //  $("textarea#description").val("<?php //echo $this->roomdetails->getDescription();          ?>"); 
+
+
+        $('#add-rooms').click(function() {
+
+            var clickCount = jQuery.data(this, 'clickCount');
+            if (!clickCount) {
+                clickCount = 0
+            }
+            clickCount++;
+            jQuery.data(this, 'clickCount', clickCount);
+            var id =<?php echo $data['Typename']; ?>;
+            var type =<?php echo $type; ?>;
+            //  var resource ='resort/rooms/';
+
+            $.post('/admin/leads/ajaxroomdetails/', {id: id, type: type, count: clickCount}, function(data) {
+
+                if (clickCount == 1) {
+                    $('#ajax-what_1').attr('id', 'it_');
+                    var appendDiv = $('#it_' + clickCount).html(data);
+                    // console.log(appendDiv);
+                    $("#it_").append(data);
+                    //  $(appendDiv).insertAfter('#it_');
+                } else {
+                    // alert(clickCount-1);
+                    // var appendDiv = $('#it_'+clickCount).html('hello');
+                    //  $('#it_').attr('id', 'it_'); 
+                    $("#it_").append(data);
+                    $('.chzn-select').chosen();
+                }
+                // $('#it_'+clickCount).html(data);
+                $('.chzn-select').chosen();
+
+            });
+<?php //echo $this->partial('partial/leads_form/notes_part');          ?>
+
+
+            //alert(clickCount);
+        });
+        
+        $('#dateFrom').Zebra_DatePicker({
+                format: 'Y-m-d',
+                direction: 1,
+                onSelect: function(date, dateFormat, dateObj, ev) {
+                dateObj.setDate(dateObj.getDate());
+                var day = (dateObj.getDate().toString().length) < 2 ? ('0' + dateObj.getDate()+1) : dateObj.getDate()+1;
+                var month = ((dateObj.getMonth() + 1).toString().length) < 2 ? ('0' + (dateObj.getMonth() + 1)) : dateObj.getMonth() + 1;
+                var date = dateObj.getFullYear() + '-' + month + '-' + day;
+
+                $('#dateTo').Zebra_DatePicker({
+                    format: 'Y-m-d',
+                    show_clear_date: false,
+                    direction: [date.toString(), false],
+                    onSelect : function(){
+                       // $("#dateTo").val("");
+                    }
+                });
+                }
+            });
+
+    });
+
+
+
+</script>
+
+
+<script>
+    $(function() {
+
+        $("#resort-rooms").on('change', function() {
+            //      alert(this.id);
+            var id = $(this).val();
+            var resource = $(this).attr('data-resource');
+            var type = $(this).attr('data-type');
+            var selected = $(this).find('option:selected');
+            var description = selected.data('description');
+            //  alert(description);
+            $("textarea#description").val(description);
+//            alert(description);
+            //   console.log(description);
+
+            /*   if (id) {
+             $.post('/admin/leads/ajaxroomdetails/', {id: id, type: type}, function(data) {
+             
+             //console.log(data);
+             
+             $('#ajax-what_1').html(data);
+             // $('.ckeditor').ckeditor();
+             });
+             
+             } else {
+             _clearAll();
+             }*/
+
+            //   alert('here');          //  var transfersCost = 0;
+            /* if ($('#' + this.id).is(":checked")) {
+             
+             //     alert(this.id);
+             var appendDiv = $('#show-transfers').html();
+             
+             var transferamount = parseFloat($(this).attr('grossPrice'));
+             var transfername = $(this).attr('transfername');
+             
+             // alert(transfername);
+             // alert(transferamount);
+             
+             $(appendDiv).insertAfter("#insurance");
+             
+             $('#transfer_').attr('id', 'transfer_' + this.id);
+             $('#transfersrate').html("<?php //echo $symbol;             ?>" + transferamount);
+             $('#transfersname').html(transfername);
+             $('#transfersrate').attr('id', this.id);
+             }
+             else if ($('#' + this.id).is(":unchecked")) {
+             $("#transfer_" + this.id).remove();
+             }*/
+
+        });
+        $('savesend').click(function() {
+
+            alert('hello');
+        });
+
+    });
+
+
+</script>
+
+
+<script>
+// Make sure the DOM elements are loaded and accounted for
+
+
+    $(document).ready(function() {
+        $('a[data-toggle="modal-preview"]').click(function() {
+            var remote_content = $(this).attr('href');
+            //console.log(remote_content);            
+            var modal = $('.bs-example-modal-lg');
+            var modalBody = $('.bs-example-modal-lg .modal-body');
+            var data = $("#orders").serialize();
+
+            $.post(remote_content, {data: data}, function(data) {
+                modalBody.html(data);
+                modal.modal();
+            });
+
+            return false;
+        });
+        
+        
+    });
+
+</script>
+
+
+

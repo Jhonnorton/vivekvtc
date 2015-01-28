@@ -1,0 +1,67 @@
+<ul class="additional-menu">
+	
+    <li class="menu-group">
+        <a href="<?php echo $this->url('accounts'); ?>">
+            <i class="icon-home"></i>Payroll
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('accounts')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('accounts'); ?>"><i class="icon-list"></i>View Payroll</a>
+            </li>
+       
+        </ul>
+    </li>
+
+      <li class="menu-group">
+        <a href="<?php echo $this->url('commission'); ?>">
+            <i class="icon-eye-open"></i>Commission
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('commission') || $this->url() === $this->url('commission-set')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('commission'); ?>"><i class="icon-list"></i>View Commission</a>
+            </li>
+            
+            <li <?php if ($this->url() === $this->url('role-commission')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('role-commission'); ?>"><i class="icon-list"></i>Role Commission</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('role-commission-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('role-commission-add'); ?>"><i class="icon-plus"></i>Add Role Commission</a>
+            </li>
+            
+        </ul>        
+    </li>
+    
+    <li class="menu-group">
+        <a href="<?php echo $this->url('accounts-bonus'); ?>">
+            <i class="icon-home"></i>Raise and Bonus
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('accounts-bonus')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('accounts-bonus'); ?>"><i class="icon-list"></i>View Bonus</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('accounts-bonus-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('accounts-bonus-add'); ?>"><i class="icon-plus"></i>Add Bonus</a>
+            </li>
+       
+        </ul>
+    </li>
+    <li class="menu-group">
+        <a href="<?php echo $this->url('accounts-expense'); ?>">
+            <i class="icon-home"></i>Expense
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('accounts-expense')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('accounts-expense'); ?>"><i class="icon-list"></i>View Expense</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('accounts-expense-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('accounts-expense-add'); ?>"><i class="icon-plus"></i>Add Expense</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('accounts-expense-add-category')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('accounts-expense-add-category'); ?>"><i class="icon-plus"></i>Add Expense Category</a>
+            </li>
+       
+        </ul>
+    </li>
+    
+    
+</ul>

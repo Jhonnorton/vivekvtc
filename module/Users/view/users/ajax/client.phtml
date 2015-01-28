@@ -1,0 +1,68 @@
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title"></div>
+            <span>Client</span>
+            <div class="clearfix"></div>
+        </div>        
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content overflow">
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <tbody>                               
+                <tr>
+                    <th class="hidden-mobile">Name</th>
+                    <td class="hidden-mobile"><?php echo $this->item->getName(); ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">DOB</th>
+                    <td><?php echo $this->item->getDOB()->format('M d, Y'); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Phone</th>
+                    <td><?php echo $this->item->getPhone(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Email</th>
+                    <td><?php echo $this->item->getEmail(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Address Line 1</th>
+                    <td><?php echo $this->item->getAddressLine1(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Address Line 2</th>
+                    <td><?php echo $this->item->getAddressLine2(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">City</th>
+                    <td><?php echo $this->item->getCity(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">State</th>
+                    <td><?php echo $this->item->getState(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Country</th>
+                    <td class="hidden-mobile"><?php echo ($this->country)?$this->country->getLongName(): 'none'; ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Zip</th>
+                    <td><?php echo $this->item->getZip(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Action</th>
+                    <td>
+                        <a style="color: #fff" href="<?php echo $this->url('clients-edit', array( 'id' => $this->item->getId()))?>">
+                            <button class="btn btn-primary ajax-action" >
+                                Edit
+                            </button>
+                        </a>
+                    </td> 
+                </tr>
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
+   </div>
+</div>
+

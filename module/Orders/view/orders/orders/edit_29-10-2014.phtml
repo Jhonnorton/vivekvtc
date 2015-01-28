@@ -1,0 +1,437 @@
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'orders-edit',array("id"=>$data->getId())
+));
+$form->setAttribute('method', 'post');
+//d($this->data);
+
+switch ($this->data->getType()) {
+    case 1:
+        $typeName = "Resort Name";
+       // d($this->collection['reservation']);
+        $roomCategory = $this->collection['reservation']['roomId']->getTitle();
+        $roomCategoryId = $this->collection['reservation']['roomId']->getId();
+        $dataExtraType = \Inventory\Model\Items::LINKED_TO_RESORT_NAME;
+        
+        $start = $this->data->getDateFrom()->format("Y-m-d");
+        $end = $this->data->getDateTo()->format("Y-m-d");
+      //  $start = $this->collection['reservation']['hotelId']->getStartDate()->format("Y-m-d");
+        //$end = $this->collection['reservation']['hotelId']->getEndDate()->format("Y-m-d");
+        break;
+    case 2:
+        $typeName = "Event Name";
+        $roomCategory = $this->collection['reservation']['roomId']->getRoomCategory();
+        $roomCategoryId = $this->collection['reservation']['roomId']->getId();
+
+        $dataExtraType = \Inventory\Model\Items::LINKED_TO_EVENT_NAME;
+        $eventStartModified = date('Y-m-d', strtotime($this->collection['reservation']['hotelId']->getStartDate()->format("Y-m-d")) - (24 * 3600 * 5));
+        $eventEndTwoModified = date('Y-m-d', strtotime($this->collection['reservation']['hotelId']->getStartDate()->format("Y-m-d")) + (24 * 3600 * 2));
+        $eventEndModified = date('Y-m-d', strtotime($this->collection['reservation']['hotelId']->getEndDate()->format("Y-m-d")) + (24 * 3600 * 5));
+//        $start = $this->collection['reservation']['hotelId']->getStartDate()->format("Y-m-d");
+//        $end = $this->collection['reservation']['hotelId']->getEndDate()->format("Y-m-d");
+        
+         $start = $this->data->getDateFrom()->format("Y-m-d");
+        $end = $this->data->getDateTo()->format("Y-m-d");
+        break;
+    case 3:
+      //  d($this->collection['reservation']);
+        $typeName = "Cruise Name";
+        $roomCategory =$this->collection['reservation']['roomId']->getDeckName();
+        $roomCategoryId =$this->collection['reservation']['roomId']->getId();
+   
+        $dataExtraType = \Inventory\Model\Items::LINKED_TO_CRUISE_NAME;
+        
+         $start = $this->data->getDateFrom()->format("Y-m-d");
+        $end = $this->data->getDateTo()->format("Y-m-d");
+   //     $start =$this->collection['reservation']['hotelId']->getTourStartDate()->format("Y-m-d");
+     //   $end =$this->collection['reservation']['hotelId']->getTourEndDate()->format("Y-m-d");
+        break;
+}
+
+?>
+
+<style>
+    .over-lay{
+        z-index: 999;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display:none;
+    }
+    .over-lay img{margin-left: 50%;margin-top: 20%;max-width: 100%;}
+</style>
+<div class="over-lay"><img src="/images/loader.gif" alt="loader"></div>        
+        
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Update Reservation</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+        <div class="formRow control-group">                        
+           
+                            <!-- Booking of Resort/Cruise/Event -->
+                            <?php
+
+                            switch ($data->getType()) {
+                                case 1:
+                                    $typeName = "Resort";
+                                    $dataresource = '<input type="hidden" name="data-resource" id="data-resource" value="resorts"/>';
+                                    break;
+                                case 2:
+                                    $typeName = "Event";
+                                    $dataresource = '<input type="hidden" name="data-resource" id="data-resource" value="events"/>';
+                                    break;
+                                case 3:
+                                    $typeName = "Cruise";
+                                    $dataresource = '<input type="hidden" name="data-resource" id="data-resource" value="cruises"/>';
+                                    break;
+                            }
+                            ?>
+                            <div class="formRow control-group">			
+                                <label for="reservationType" class="">Reservation Type</label>
+                                <div class="formRight">
+                                    <div name="reservationType" class="distance distance-2">
+                                        <label for="reservationType1" class=""><?php echo $typeName; ?></label>
+                                        <input type="hidden" name="type" value="<?php echo $data->getType(); ?>"/>
+                                        <?php echo $dataresource ; ?>
+                                    </div>
+                                </div>
+                            </div>
+
+<?php //d($this->collection);?>
+            <div id="entity-details">
+                        <!-- Type name details -->
+                        <div id="ajax-where" class="formRow control-group">
+                            <?php //echo $this->formLabel($form->get('resortId')); ?>
+                            <label class="" for="typeName"><?php echo $typeName; ?></label>
+                            <div class="formRight">
+                                <?php echo $this->collection['reservation']['hotelId']->getTitle(); ?>
+                                 <a  href="javascript:void(0);" class="load-type">Edit</a> 
+                            </div>
+                        </div>
+
+    <div id="ajax-what" class="formRow control-group">
+        <label for="roomCategory" class="required">Room Category</label> 
+        <div class="formRight">
+            <?php echo $roomCategory; ?>
+            <a  href="javascript:void(0);" class="load-type-category">Edit</a> 
+        </div>
+    </div>
+                        
+    <!-- hidden -->
+    <input type ="hidden" name="pageaction" value="0">
+<input type="hidden" name="stc" id="stc" value="<?php echo $stock ; ?>">
+    <input type="hidden" name="roomNetPrice" id="rnp" value="<?php echo $this->data->getRoomNetCost();?>">
+     <input type="hidden" name="addonsNetPrice" id="anp" value="<?php echo $this->data->getAddonsNetCost();?>">
+    <input type="hidden" name="dataTypeId" class="hid-type-Id" id="data-type-id" value="<?php echo $this->collection['reservation']['hotelId']->getId(); ?>">
+    <?php if ($this->data->getType() == 2) { ?>
+         <input type="hidden" name="roomCategory" class="hid-roomCategory" id="event-rooms" value="<?php echo $roomCategoryId ?>">
+         <input type="hidden" name="dataExtraType" id="data-extra-type" value="<?php echo $dataExtraType; ?>">
+        <input type="hidden" name="eventStart" id="hid-start" value="<?php echo $this->collection['reservation']['hotelId']->getStartDate()->format("Y-m-d") ?>">
+        <input type="hidden" name="eventEnd" id="hid-end" value="<?php echo $this->collection['reservation']['hotelId']->getEndDate()->format("Y-m-d"); ?>">
+        <input type="hidden" name="eventStart_modified" id="hid-mod-start" value="<?php echo $eventStartModified; ?>">
+        <input type="hidden" name="eventend_two" id="hid-mod-end-two" value="<?php echo $eventEndTwoModified; ?>">
+        <input type="hidden" name="eventEnd_modified" id="hid-mod-end" value="<?php echo $eventEndModified; ?>">
+    <?php } elseif ($this->data->getType() == 3) { ?>
+        <input type="hidden" name="roomCategory" class="hid-roomCategory" id="cruise-cabins" value="<?php echo $roomCategoryId  ?>">
+        <input type="hidden" name="dataExtraType" id="data-extra-type" value="<?php echo $dataExtraType; ?>">
+        <input type="hidden" name="cruiseStart" id="hid-start" value="<?php echo $this->collection['reservation']['hotelId']->getTourStartDate()->format('Y-m-d'); ?>">
+        <input type="hidden" name="cruiseEnd" id="hid-end" value="<?php echo $this->collection['reservation']['hotelId']->getTourEndDate()->format('Y-m-d'); ?>">
+    <?php }else{ ?>
+        <input type="hidden" name="roomCategory" class="hid-roomCategory" id="resort-rooms" value="<?php echo $roomCategoryId; ?>">
+        <input type="hidden" name="dataExtraType" id="data-extra-type" value="<?php echo $dataExtraType; ?>">
+   <?php  } ?>
+        
+        <!-- end -->
+                                
+                                    
+                <div id="dates">    
+                    <div class="formRow control-group">
+                        <?php echo $this->formLabel($form->get('travelFrom')); ?>
+                        <div class="formRight">
+                            <?php
+                            echo $this->formElement($form->get('travelFrom')
+                                            ->setAttribute('id', 'dateFrom')
+                                            ->setAttribute('class', 'span input'));
+//                            echo $start;
+                            
+                            ?>
+<?php //echo $this->formElementErrors($form->get('travelFrom'), array('class' => 'help-inline')); ?>
+                             <!--<input type ="hidden" name="travelFrom" value="<?php echo $start;?>">-->
+                        </div>
+                    </div>
+                    <div class="formRow control-group">
+                            <?php echo $this->formLabel($form->get('travelTo')); ?>
+                        <div class="formRight">
+                            <?php
+                            echo $this->formElement($form->get('travelTo')
+                                            ->setAttribute('id', 'dateTo')
+                                            ->setAttribute('class', 'span input'));
+//                            echo $end;
+                            ?>
+                <?php //echo $this->formElementErrors($form->get('travelTo'), array('class' => 'help-inline')); ?>
+                         <!--<input type ="hidden" name="travelTo" value="<?php echo $end;?>">-->
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div id="entity-item-details">
+<!--                    <div class="formRow control-group">
+                            <?php echo $this->formLabel($form->get('travelFrom')); ?>
+                        <div class="formRight">
+<?php
+echo $this->formElement($form->get('travelFrom')
+                ->setAttribute('id', 'dateFrom')
+                ->setAttribute('class', 'span input'));
+?>
+                            <?php echo $this->formElementErrors($form->get('travelFrom'), array('class' => 'help-inline')); ?>
+                        </div>
+                    </div>
+                    <div class="formRow control-group">
+                            <?php echo $this->formLabel($form->get('travelTo')); ?>
+                        <div class="formRight">
+<?php
+echo $this->formElement($form->get('travelTo')
+                ->setAttribute('id', 'dateTo')
+                ->setAttribute('class', 'span input'));
+?>
+                            <?php echo $this->formElementErrors($form->get('travelTo'), array('class' => 'help-inline')); ?>
+                        </div>
+                    </div>-->
+                    <div class="formRow control-group">
+                        <?php echo $this->formLabel($form->get('noOfDays')); ?>
+                        <div class="formRight">
+<?php echo $this->formElement($form->get('noOfDays')->setAttribute('class', 'span input')); ?>
+                            <?php echo $this->formElementErrors($form->get('noOfDays'), array('class' => 'help-inline')); ?>
+                        </div>
+                    </div>
+                    <div class="formRow control-group">
+                            <?php echo $this->formLabel($form->get('roomRate')); ?>
+                        <div class="formRight input-prepend">
+                            <span class="add-on">$</span>
+<?php
+echo $this->formElement($form->get('roomRate')
+                ->setAttribute('id', 'grossPrice')
+                ->setAttribute('class', 'span8 input'));
+?>
+<?php echo $this->formElementErrors($form->get('roomRate'), array('class' => 'help-inline')); ?>
+                        </div>
+                    </div>
+                    <div class="formRow control-group">
+                        <label for="inv_room_avail"></label>
+                        <div class="formRight">
+                            <span id="inventory_room_available"> </span>
+                        </div>
+                    </div>
+                    <div class="formRow control-group">
+<?php echo $this->formLabel($form->get('roomRequired')); ?>
+                        <div class="formRight">
+<?php echo $this->formElement($form->get('roomRequired')->setAttribute('class', 'span input')); ?>
+<?php echo $this->formElementErrors($form->get('roomRequired'), array('class' => 'help-inline')); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                #inventory_room_available{color:green;}
+            </style>
+
+                <?php echo $this->partial('partial/orders_form/traveller_details_edit'); ?> 
+
+<?php echo $this->partial('partial/orders_form/flight_details_edit'); ?>
+
+            <div id="ajax-items" class="formRow control-group">
+<?php
+if ($this->addons['items']):
+    //d($this->addons['items']);
+    ?>
+                    <div class="formRow control-group">
+                        <h4>Items</h4>
+                        <hr />
+                    </div>
+                    <label for="items">Select Items</label>    
+                    <div class="formRight multicheckbox">
+                        <div class="distance distance-2">
+    <?php $i = 0; ?>
+    <?php foreach ($this->addons['items'] as $item): 
+        $check = in_array($item->getId(), $this->collection['reservation']['items']);
+    //echo "sd";die;
+        ?>
+                                <label>
+                                    <input type="checkbox" name="items[]" <?php if($check){echo "checked='checked'"; }?> class="span input" value="<?php echo $item->getId(); ?>" netprice="<?php echo $item->getNetPrice(); ?>" grossprice="<?php echo $item->getGrossPrice(); ?>"><?php echo $item->getName() . ' ($' . $item->getGrossPrice() . ')'; ?>
+                                </label>                
+    <?php endforeach; ?>
+                        </div>
+                </div>
+                <div class="formRow control-group">
+                    <label for="itemsCost">Items Cost</label>                
+                    <div class="formRight">    
+                        <input name="itemsCost" type="number" min="0" readonly="readonly" class="span input" value="<?php echo $data->getItemCost(); ?>">                                    
+                    </div>
+                </div>
+            <?php endif; ?>
+
+        </div>
+        <div id="ajax-excursion" class="formRow control-group">
+<?php
+if ($this->addons['excursions']):
+    //d($this->collection);die;
+    ?>
+                <div class="formRow control-group">
+                    <h4>Excursions</h4>
+                    <hr />
+                </div>
+                <label>Select Excursions</label>    
+                <div class="formRight multicheckbox">
+                    <div class="distance distance-2">
+    <?php $i = 0; ?>
+    <?php foreach ($this->addons['excursions'] as $item): 
+        $check = in_array($item->getId(), $this->collection['reservation']['excursions']);
+        ?>
+                            <label>
+                                <input type="checkbox" name="excursions[]" <?php if($check){echo "checked='checked'"; }?> class="span input" value="<?php echo $item->getId(); ?>" netprice="<?php echo $item->getNetPrice(); ?>" grossprice="<?php echo $item->getGrossPrice(); ?>"><?php echo $item->getExcursionName() . ' ($' . $item->getGrossPrice() . ')'; ?>
+                            </label>                
+    <?php endforeach; ?>
+                    </div>
+            </div>
+            <div class="formRow control-group">
+                <label for="excursionsCost">Excursions Cost</label>                
+                <div class="formRight">    
+                    <input name="excursionsCost" type="number" min="0" readonly="readonly" class="span input" value="<?php echo $data->getExcursionCost(); ?>">                                    
+                </div>
+            </div>
+        <?php endif; ?> 
+
+    </div>
+    <div id="ajax-transfer" class="formRow control-group">
+<?php
+if ($this->addons['transfers']):
+    //d($this->collection);die;
+    ?>
+            <div class="formRow control-group">
+                <h4>Transfers</h4>
+                <hr />
+            </div>
+            <label>Select Transfers</label>    
+            <div class="formRight multicheckbox">
+                <div class="distance distance-2">
+    <?php $i = 0; ?>
+    <?php foreach ($this->addons['transfers'] as $item): 
+        $check = in_array($item->getId(), $this->collection['reservation']['transfers']);
+        ?>
+                        <label>
+                            <input type="checkbox" name="transfers[]" <?php if($check){echo "checked='checked'"; }?> class="span input" value="<?php echo $item->getId(); ?>" netprice="<?php echo $item->getNetPrice(); ?>" grossprice="<?php echo $item->getGrossPrice(); ?>"><?php echo $item->getTransferName() . ' ($' . $item->getGrossPrice() . ')'; ?>
+                        </label>                
+    <?php endforeach; ?>
+                </div>
+        </div>
+        <div class="formRow control-group">
+            <label for="transfersCost">Transfers Cost</label>                
+            <div class="formRight">    
+                <input name="transfersCost" type="number" min="0" readonly="readonly" class="span input" value="<?php echo $data->getTransferCost(); ?>">                                    
+            </div>
+        </div>
+<?php endif; ?>
+
+</div>
+<?php echo $this->partial('partial/orders_form/cost_part'); ?>
+
+<?php echo $this->partial('partial/orders_form/notes'); ?>
+
+    <?php echo $this->partial('partial/orders_form/payment_edit', array('form' => $form,'collection'=>$collection)); ?>
+<div class="formRow control-group"> 
+    <label for="Status" class="required">Status</label>                    
+    <div class="formRight">    
+        <select  id="status" name="status" required="required" class="chzn-select chosen_select width-100">                
+            <option value="">please select</option>
+            <option value="1" <?php if($data->getStatus() == 1):echo "selected='selected'"; endif;?> >Open</option>
+            <option value="2" <?php if($data->getStatus() == 2):echo "selected='selected'"; endif;?>>Closed</option>
+            <option value="0" <?php if($data->getStatus() == 0):echo "selected='selected'"; endif;?> >Cancelled</option>
+        </select> 
+    </div>
+</div>
+
+<input type="hidden" id="today" value="<?php echo date('Y-m-d'); ?>">
+<input type="hidden" name="id" value="<?php echo $data->getId(); ?>">
+
+<div class="formRow control-group">
+<?php //echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info'))    ?>
+    <a data-toggle="modal-preview" class="btn btn-info" href="<?php echo $this->url('orders-ajax-reservation'); ?>" data-target=".bs-example-modal-lg">
+        Preview
+    </a> 
+<!--    <a data-toggle="modal-preview" class="btn btn-info" href="#<?php //echo $this->url('orders-ajax-reservation');    ?>" data-target=".bs-example-modal-lg">
+        Email as Quote
+    </a>-->
+    <button id="creat_pay" class="btn btn-success" type="submit"  name="submit" onclick=''>Update</button>
+<!--    <button id="creat" class="btn btn-success" type="submit"  name="submit" onclick=''>Save As Draft</button>-->
+    <button id="resetbutton" class="btn btn-warning" type="reset"  name="reset" >Reset</button>                                
+
+</div>
+<div id="ajax-script"></div>
+<div class="clearfix"></div>
+
+</div>
+<?php echo $this->form()->closeTag() ?>
+</div>
+    
+</div>
+<?php echo $this->partial('orders/ajax/modal.phtml'); ?>
+<script src="/js/date-formater.js"></script>
+<script src="/js/reservation.js"></script>
+<script>
+    Reservation.init();
+    $(function() {
+        $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+        $('.error input').keyup(function() {
+            $(this).parents('.formRow').removeClass('error');
+            $(this).next('ul.help-inline').remove();
+        });
+
+
+
+
+    });
+
+
+
+</script>
+<script>
+// Make sure the DOM elements are loaded and accounted for
+
+
+    $(document).ready(function() {
+        $('a[data-toggle="modal-preview"]').click(function() {
+            var remote_content = $(this).attr('href');
+            //console.log(remote_content);            
+            var modal = $('.bs-example-modal-lg');
+            var modalBody = $('.bs-example-modal-lg .modal-body');
+            var data = $("#orders").serialize();
+
+            $.post(remote_content, {data: data}, function(data) {
+                modalBody.html(data);
+                modal.modal();
+            });
+
+            return false;
+        });
+        $('input[name="noOfPersons"]').val(<?php echo $data->getNoOfPersons(); ?>);
+    });
+
+</script>
+
+
+

@@ -1,0 +1,72 @@
+<div id="entity-details">
+    <div id="ajax-where" class="formRow control-group">
+        <?php echo $this->formLabel($form->get('resortId')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('resortId')
+                            ->setAttribute('data-resource', 'resort/rooms/')
+                            ->setAttribute('data-type',1)
+                            ->setAttribute('class', 'chzn-select chosen_select width-100 entity-items')); ?>
+            <?php echo $this->formElementErrors($form->get('resortId'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <!-- added date first to suit needs of reservation -->
+    <div id="dates">    
+    <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('travelFrom')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('travelFrom')
+                                                    ->setAttribute('id', 'dateFrom')
+                                                    ->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('travelFrom'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('travelTo')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('travelTo')
+                                                   ->setAttribute('id', 'dateTo')
+                                                   ->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('travelTo'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+    </div>
+    
+    <div id="ajax-what" class="formRow control-group"></div>
+    <div id="entity-item-details" style="display:none">
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('noOfDays')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('noOfDays')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('noOfDays'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('roomRate')); ?>
+            <div class="formRight input-prepend">
+                <span class="add-on">$</span>
+                <?php echo $this->formElement($form->get('roomRate')
+                                                   ->setAttribute('id', 'grossPrice')
+                                                   ->setAttribute('class', 'span8 input')); ?>
+                <?php echo $this->formElementErrors($form->get('roomRate'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+         <div class="formRow control-group">
+             <label for="inv_room_avail">Rooms Available</label>
+            <div class="formRight">
+                <span id="inventory_room_available">6 rooms Available</span>
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('roomRequired')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('roomRequired')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('roomRequired'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+#inventory_room_available{color:green;}
+</style>

@@ -1,0 +1,173 @@
+<?php
+$cruise = $this->collection['cruise'];
+$cabins = $this->collection['cruiseCabins'];
+$itinerary = $this->collection['cruiseItinerary'];
+$ports = $this->collection['cruisePorts'];
+
+$status = $cruise->getStatus() == 1 ? 'Enabled' : 'Disabled';
+?>
+
+<div class="grid">   
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Reseller Cruise</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class='grid'>
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered " id="">
+            <tbody>
+
+                <tr>                    
+                    <th>Reseller Name</th>
+                    <td><?php echo $cruise->getUserId()->getfirstName(); ?></td>				
+                </tr>
+                
+                <tr>                    
+                    <th>Reseller Email</th>
+                    <td><?php echo $cruise->getUserId()->getEmail(); ?></td>				
+                </tr>
+                
+                
+                <tr>                    
+                    <th>Cruise Title</th>
+                    <td><?php echo $cruise->getTitle(); ?></td>				
+                </tr>
+                
+                <tr>
+                    
+                   <th>Cruise Image</th>
+                   <td><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/img/user_uploads/cruise/thumbnails_158x106/<?php echo $cruise->getImage(); ?>" ></td>
+               </tr>     
+
+                <tr>                    
+                    <th>Overview</th>
+                    <td><?php echo $cruise->getOverview(); ?></td>				
+                </tr>
+
+                <tr>                    
+                    <th>Tour Start Date</th>
+                    <td><?php echo $cruise->getTourStartDate()->format('Y-m-d'); ?></td>				
+                </tr>
+
+                <tr>                    
+                    <th>Event End Date</th>
+                    <td><?php echo $cruise->getTourEndDate()->format('Y-m-d'); ?></td>				
+                </tr>
+
+                
+                <tr>                    
+                    <th>Status</th>
+                    <td><?php echo $status; ?></td>				
+                </tr>
+
+                
+                 <tr>                    
+                    <th>Event Meta Title</th>
+                    <td><?php echo $cruise->getMetaTitle(); ?></td>				
+                </tr>
+                
+                 <tr>                    
+                    <th>Event Meta Description</th>
+                    <td><?php echo $cruise->getMetaDescription(); ?></td>				
+                </tr>
+                
+                 <tr>                    
+                    <th>Event Meta Keywords</th>
+                    <td><?php echo $cruise->getMetaKeywords(); ?></td>				
+                </tr>
+
+        </table>
+
+        <br><br>
+            <h3>Cruise Cabins</h3>
+            <table class="table table-bordered table-mod-2">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Deck Image</th>
+                    <th class="hidden-mobile">Deck Name</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php if($cabins){ ?>
+              <?php foreach ($cabins as $cabin){ ?>
+                <tr>
+                    <td><img alt="<?php echo $cabin->getDeckName(); ?>" src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/img/user_uploads/deck/thumbnails_80x80/<?php echo $cabin->getDeckImageUrl(); ?>"></td>
+                    <td><?php echo $cabin->getDeckName(); ?></td>
+                </tr>
+                 <?php } }else{?>
+                <tr><td colspan='2'>No Data Available</td></tr>
+                <?php } ?>
+                </tbody>
+            </table>
+           
+            <br><br>
+            <h3>Cruise Itineraries</h3>
+            <table class="table table-bordered table-mod-2">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Day</th>
+                    <th class="hidden-mobile">Port</th>
+                    <th class="hidden-mobile">Arrive</th>
+                    <th class="hidden-mobile">Depart</th>
+                    <th class="hidden-mobile">Activity</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php if(!empty($itinerary)){ ?>
+              <?php foreach ($itinerary as $iti){ ?>
+                <tr>
+                    <td><?php echo $iti->getDay(); ?></td>
+                    <td><?php echo $iti->getPort(); ?></td>
+                    <td><?php echo $iti->getArrive(); ?></td>
+                    <td><?php echo $iti->getDepart(); ?></td>
+                    <td><?php echo $iti->getActivity(); ?></td>
+                </tr>
+                <?php } }else{?>
+                <tr><td colspan='5'>No Data Available</td></tr>
+                <?php } ?>
+                </tbody>
+            </table>
+            
+            <br><br>
+            <h3>Cruise Ports</h3>
+            <table class="table table-bordered table-mod-2">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Title</th>
+                    <th class="hidden-mobile">Description</th>
+                    <th class="hidden-mobile">Thing To do</th>
+                    <th class="hidden-mobile">Don't Miss</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php if(!empty($ports)){ ?>
+              <?php foreach ($ports as $port){ ?>
+                <tr>
+                    <td><?php echo $port->getTitle(); ?></td>
+                    <td><?php echo $port->getDescription(); ?></td>
+                    <td><?php echo $port->getThingsToDo(); ?></td>
+                    <td><?php echo $port->getDontMiss(); ?></td>
+                </tr>
+                 <?php } }else{?>
+                <tr><td colspan='4'>No Data Available</td></tr>
+                <?php } ?>
+                </tbody>
+            </table>
+                </body>
+        <div class="clearfix"></div>
+    </div>
+</div>

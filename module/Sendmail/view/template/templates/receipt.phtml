@@ -1,0 +1,55 @@
+<?php 
+$receipt=$this->receipt;
+//($receipt['id']);
+?>
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title"></div>
+            <span>Receipt</span>
+            <div class="clearfix"></div>
+        </div>        
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content overflow">
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <tbody>                               
+                <tr>
+                    <th class="hidden-mobile">Receipt Number</th>
+                    <td class="hidden-mobile"><?php echo $receipt['id']; ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Name</th>
+                    <td><?php echo $receipt['name']; ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">E-mail</th>
+                    <td><?php echo $receipt['email']; ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Total Received</th>
+                    <td class="hidden-mobile"><?php echo $receipt['total_received']; ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">For</th>
+                    <td><?php echo $receipt['for_type']; ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Name</th>
+                    <td><?php echo $receipt['for_id']; ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Date</th>
+                    <td><?php echo $receipt['date']; ?></td> 
+                </tr>
+                
+               
+                
+                 
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
+   </div>
+</div>
+

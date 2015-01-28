@@ -1,0 +1,45 @@
+<?php
+if (count($results) > 0) {
+    $fh = @fopen('php://output', 'w');
+//d($fh);
+
+    $header_row = array();
+    $str = "Order No,";
+    $str.= "Item Sold,";
+    $str.= "Order Date,";
+    $str.= "Order Total,";
+    $str.= "Order Received";
+    $strt = preg_replace("/([,])(\\1+)/i", '\\1', rtrim($str, ','));
+    $header_row = explode(',', rtrim($strt, ','));
+  
+    fputcsv($fh, $header_row, ',', '"');
+
+
+    foreach ($results['collection'] as $item) {
+        
+        $invoice = $item['invoice'];
+
+        $reservation = $item['reservation'];    
+        
+        $orderno=$invoice[0]->getId();
+        
+        $hotelName = $item['hotelName'];
+      
+        $orderDate=($invoice[0]->getdateAdded() instanceof \DateTime) ? $invoice[0]->getdateAdded()->format('Y-m-d') : $invoice[0]->getdateAdded();
+
+        $orderTotal =$reservation->getfinalCost();
+        $orderRec = $reservation->getdepositAmoun();
+      
+        $str1 = $orderno. ",";
+        $str1.= $hotelName. ",";
+        $str1.=$orderDate . "," ;
+        $str1.='$'.$orderTotal. "," ;
+        $str1.='$'.$orderRec. ",";
+        $strt1 = preg_replace("/([,])(\\1+)/i", '\\1', rtrim($str1, ','));
+
+        $row = explode(',', $strt1);
+       
+        fputcsv($fh, $row, ',', '"');
+    }
+    fclose($fh);
+}

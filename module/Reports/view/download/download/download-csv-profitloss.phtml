@@ -1,0 +1,52 @@
+<?php
+
+if (count($results) > 0) {
+    $fh = @fopen('php://output', 'w');
+//d($fh);
+
+    $header_row = array();
+
+    $str.= "Reservation For,";
+    $str.= "Type,";
+    $str.= "Reservation Date,";
+    $str.= "Gross Amount,";
+    $str.= "Net Amount,";
+    $str.= "Discount,";
+    $str.= "Profit,";
+    $strt = preg_replace("/([,])(\\1+)/i", '\\1', rtrim($str, ','));
+    $header_row = explode(',', rtrim($strt, ','));
+
+    fputcsv($fh, $header_row, ',', '"');
+
+
+    foreach ($results['collection'] as $item) {
+        $reservation=$item['reservation'];
+        $hotelName=$item['hotelName'];
+        $date = ($reservation->getCreatedAt() instanceof \DateTime) ? $reservation->getCreatedAt()->format('Y-m-d') : $reservation->getCreatedAt();   
+        
+        $grossroom=$reservation->getRoomRequired()*$reservation->getRoomRate()*$reservation->getNoOfDays();
+        $totalgross=$grossroom+$reservation->getExcursionCost()+$reservation->getTransferCost()+$reservation->getItemCost()+$reservation->getMerchantFee();
+
+        $totalnet=$reservation->getRoomNetCost()+$reservation->getAddonsNetCost();
+
+        $discount=($reservation->getAppliDiscount()/100)*$totalgross;
+
+        $profit=$totalgross-($totalnet+$discount);
+                
+        $str1 = $hotelName . ",";
+        $str1.= $item['type'] . ",";
+
+        $str1.=$date. ",";
+        
+        $str1.="$".$totalgross.",";
+        $str1.="$".$totalnet.",";
+        $str1.="$".$discount.",";
+        $str1.="$".$profit.",";
+        $strt1 = preg_replace("/([,])(\\1+)/i", '\\1', rtrim($str1, ','));
+
+        $row = explode(',', $strt1);
+
+        fputcsv($fh, $row, ',', '"');
+    }
+    fclose($fh);
+}

@@ -1,0 +1,140 @@
+
+<?php
+
+/*	echo "<pre>";
+	print_r($this->collection);
+	$type = $this->collection[0]['transactionIds'];
+	
+        die; 
+*/
+$invoiceid = $this->collection[0]['inid'];
+$transactionIds = $this->collection[0]['transactionIds'];
+$amountpaid= $this->collection[0]['amountpaid'];
+$amountdue=$this->collection[0]['amountDue'];
+
+$amounttotal=$this->collection[0]['totalamount'];
+
+$paymentMode = $this->collection[0]['paymentMode'];
+$dateAdded = $this->collection[0]['dateAdded'];
+$currencyCode= $this->collection[0]['currencyCode'];
+$traveller= $this->collection[0]['clientName'];
+$travelleremail= $this->collection[0]['clientemail'];
+
+//echo ($this->collection[0]['travelDateFrom'] instanceof \DateTime)  ;
+
+?>
+<!--
+ <tr>                    
+    <th>Date From</th>
+    <td><?php //echo ($reservation->getDateFrom() instanceof \DateTime) ? $reservation->getDateFrom()->format('Y-m-d') : $reservation->getDateFrom(); ?></td>				
+ </tr>
+
+-->
+
+<script src="/js/jquery.min.js"></script>
+<script>
+    function PrintElem(elem)
+    {
+        Popup($(elem).html());
+    }
+
+    function Popup(data)
+    {
+        var mywindow = window.open('', '', 'left=10,top=10,height=0,width=0');
+        mywindow.document.write('<html><head><title>Reservation</title>');
+        /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+        mywindow.document.close();
+        mywindow.focus();
+        mywindow.print();
+        mywindow.close();
+        return true;
+    }
+</script>
+<style>
+    .printBtn{margin: 8px 5px 0px 8px;}
+    .printBtn input{float: right;background-color: #54CCF1;height: 25px;font-weight: bold;border: 1px solid #CCC;}
+    #header{height:auto;width:auto;}
+    .spacer30{margin-bottom: 30px;}
+    table{text-align: left;}
+</style>
+<div class="printBtn">
+    <input type="button" onclick="PrintElem('#mainContainer')" value="Print" id="printPage">
+</div>
+<div class="grid" id='mainContainer'>
+    <div id='header'>
+        <img src='/images/logo1.png'/>
+    </div>
+    <div class='spacer30'></div>
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered " id="" align='center'>
+            <tbody>
+                <tr>                    
+                    <th>Invoice No</th>
+                    <td><?php echo $invoiceid; ?></td>				
+                </tr>
+
+		<tr>
+                    <th>Traveller</th>
+                    <td><?php
+                    
+                        echo $traveller;
+                    
+                    ?></td>
+                </tr>
+
+		<tr>
+                    <th>Traveller Email</th>
+                    <td><?php
+                    
+                        echo $travelleremail;
+                    
+                    ?></td>
+                </tr>
+
+    
+		
+                <tr>                    
+                    <th>Total Amount</th>
+                    <td><?php echo  $currencyCode .' '.$amounttotal; ?></td>				
+                </tr>
+
+
+                <tr>                    
+                    <th>Amount Paid</th>
+                    <td><?php echo  $currencyCode .' '.$amountpaid; ?></td>				
+                </tr>
+
+		<?php	if($amountdue>0){ ?>
+
+		<tr>                    
+                        <th>Balance After Deposit</th>
+                        <td> <?php echo $currencyCode .' '. $amountdue; ?></td>				
+                </tr>
+
+		<?php   } ?>
+               
+                <tr>                    
+                    <th>Transaction Id</th>
+                    <td><?php echo $transactionIds ; ?></td>				
+                </tr>
+                <tr>                    
+                    <th>Payment Mode</th>
+                    <td><?php echo $paymentMode ; ?></td>				
+                </tr>
+<!--
+                <tr>                    
+                    <th>Date</th>
+                    <td><?php //echo $dateadded['date']->format('M d, Y')  instanceof \DateTime; ?></td>				
+                </tr>
+-->                <tr>                    
+                    <td></td>
+                </tr>
+                </body>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>

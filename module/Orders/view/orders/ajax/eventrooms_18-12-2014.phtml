@@ -1,0 +1,29 @@
+<?php // d($this->collection);?>
+<label for="roomCategory" class="required">Room Category</label> 
+<div class="formRight">    
+    <select eventStartDate="<?php echo $this->data->getStartDate()->format('Y-m-d'); ?>" eventEndDate="<?php echo $this->data->getEndDate()->format('Y-m-d'); ?>" data-extra-type="<?php echo \Inventory\Model\Items::LINKED_TO_EVENT_NAME; ?>" data-type="<?php echo \Orders\Controller\AjaxController::EVENT_ROOMS; ?>"  id="event-rooms" data-url="/event/room/" name="roomCategory" required="required" class="chzn-select chosen_select width-100 load-item">                
+        <option value="">please select room category...</option>
+        <?php foreach ($this->collection as $item):?>                
+            <option value="<?php echo $item->getId();?>" room_id="<?php echo $item->getId();?>"><?php echo $item->getRoomCategory() ; ?></option>
+        <?php endforeach;?>    
+    </select> 
+</div>
+<input type="hidden" name="eventStart" id="hid-start" value="<?php echo $this->data->getStartDate()->format('Y-m-d'); ?>">
+<input type="hidden" name="eventEnd" id="hid-end" value="<?php echo $this->data->getEndDate()->format('Y-m-d'); ?>">
+
+<?php 
+$eventStartModified = date('Y-m-d',strtotime($this->data->getStartDate()->format("Y-m-d")) - (24*3600*5));
+$eventEndTwoModified = date('Y-m-d',strtotime($this->data->getStartDate()->format("Y-m-d")) + (24*3600*2));
+$eventEndModified = date('Y-m-d',strtotime($this->data->getEndDate()->format("Y-m-d")) + (24*3600*5));
+?>
+
+<input type="hidden" name="eventStart_modified" id="hid-mod-start" value="<?php echo $eventStartModified ; ?>">
+<input type="hidden" name="eventend_two" id="hid-mod-end-two" value="<?php echo $eventEndTwoModified ; ?>">
+<input type="hidden" name="eventEnd_modified" id="hid-mod-end" value="<?php echo $eventEndModified; ?>">
+
+<script>
+    $(document).ready(function(){
+        $("#minimum-stay-days").val(<?php echo $this->data->getMinimumStayDays()?>);
+    })
+    </script>
+

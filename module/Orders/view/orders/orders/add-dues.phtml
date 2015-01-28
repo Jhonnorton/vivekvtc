@@ -1,0 +1,41 @@
+<?php 
+    $form = $this->form;
+    $ran = rand(1,999);
+?>
+
+<div class="added-dues">
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('nextPaymentDue[]')); ?>
+        <div class="formRight input-prepend">
+            <span class="add-on">$</span>
+            <?php echo $this->formElement($form->get('nextPaymentDue[]')->setAttribute('class', 'span8 input cnt req')
+                                                                        ->setAttribute('value',0)); ?>
+            <?php echo $this->formElementErrors($form->get('nextPaymentDue[]'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('dueDate1[]')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('dueDate1[]')
+                                               ->setAttribute('min', date('Y-m-d'))
+                                               ->setAttribute('value','')
+                                               ->setAttribute('id','duedate_'.$ran)
+                                               ->setAttribute('class', 'span input req')); ?>
+            <?php echo $this->formElementErrors($form->get('dueDate1[]'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+
+    <div class="formRow control-group">			
+    <div class="formRight">
+       <button type="button" class="remove-dues btn btn-danger btn-small metro">Remove Dues</button>     	
+    </div>
+</div>
+    
+</div>
+<script>
+     $("#duedate_"+<?php echo $ran ; ?>).Zebra_DatePicker({
+                    format: 'Y-m-d',
+                    direction: [$("#today").val(), false]
+                });
+    </script>
+

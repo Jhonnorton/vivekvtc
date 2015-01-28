@@ -1,0 +1,59 @@
+<?php
+//$leads = $this->leads;
+// echo "<pre>";
+// print_r($this->url());
+// die; 
+
+//d($this->collection);
+$item=$this->collection;
+$name=$item->getFirstName().' '.$item->getLastName();
+$schedule=$item->getPaySchedule();
+$role= $item->getRole()->getName();
+$rate=   $item->getRate();      
+?>
+
+<div class="grid">    
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered " id="">
+            <tbody>
+                <tr>                    
+                    <th>Name</th>
+                    <td><?php echo $name; ?></td>				
+                </tr>
+                <tr>                    
+                    <th>Schedule</th>
+                    <td><?php if($schedule==0){ echo 'Weekly';}elseif($schedule==1){echo 'Bi-Weekly';}else{echo 'Monthly';}?></td>
+			
+                </tr>
+                <tr>                    
+                    <th>Role</th>
+                    <td><?php echo $role; ?></td>				
+                </tr>
+                <tr>                    
+                    <th>Rate</th>
+                    <td>$<?php echo $rate; ?></td>				
+                </tr>
+                
+                <tr>                    
+                    <th>Start Date</th>
+                    <td><?php echo '-';// ($dateFrom instanceof \DateTime) ? $dateFrom->format('Y-m-d') : $dateFrom; ?></td>				
+                </tr>
+                
+                <tr>                    
+                    <th>Total Earning</th>
+                    <td><?php echo '-'; ?></td>				
+                </tr>
+                
+                 <tr>                    
+                    <th>Payment Status</th>
+                    <td><?php echo '-' ?></td>				
+                </tr>
+                
+             
+
+                </body>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>

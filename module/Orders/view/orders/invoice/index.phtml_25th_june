@@ -1,0 +1,66 @@
+
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+                            <i class="icon-list"></i>
+                        </div> 
+			<span>View Invoices</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	
+	
+	
+	
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                    <th class="hidden-mobile">Invoice No.</th>
+                    <th class="hidden-mobile">Invoice Date</th>
+                    <th class="hidden-mobile">Contact Person</th>
+                    <th class="hidden-mobile">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php                
+                //foreach ($this->collection as $item): ?>
+                    <tr>
+                        <td class="hidden-mobile">139</td>                        
+                        <td class="hidden-mobile"><?php echo '12/17/2012 8:07:23 PM'; ?></td>                        
+                        <td class="hidden-mobile"><?php echo 'Mohnish Malviya'; ?></td>                        
+                                                                        
+                        <td class="action-table">                            
+                            <a href="javascript:alert('In Progress...')" title="Print Invoice">
+                                <i class="icon-print"></i>
+                            </a>
+                             <a href="javascript:alert('In Progress...')" title="Mail Invoice">
+                                <i class="icon-envelope"></i>
+                             </a>
+                            <a href="javascript:alert('In Progress...')" title="Payment Receipts">
+                                <i class="icon-user"></i>
+                             </a>
+                            <a href="javascript:alert('In Progress...')" title="Make Payment">
+                                <i class="icon-money"></i>
+                             </a>
+                            <a href="javascript:alert('In Progress...')<?php //echo $this->url('invoice-edit', array('id' => $item->getId())); ?>">
+                                <img src="/images/icon/table_edit.png" title="Edit Invoice">
+                            </a>
+                            <a href="javascript:alert('In Progress...')<?php //echo $this->url('invoice-delete', array('id' => $item->getId())); ?>"
+                               data-confirm="Are you sure?">
+                                <img src="/images/icon/table_del.png" title="Delete Invoice">
+                            </a>
+                        </td>
+                        
+                    </tr>                    
+                <?php //endforeach; ?>
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>

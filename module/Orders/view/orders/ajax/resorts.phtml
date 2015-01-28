@@ -1,0 +1,9 @@
+<label for="resortId" class="required">Hotel Name</label>                    
+<div class="formRight">    
+    <select data-extra-type="<?php echo \Inventory\Model\Items::LINKED_TO_RESORT_NAME; ?>" data-resource="resort/rooms/" id="resorts" name="resortId" data-type="<?php echo \Orders\Controller\AjaxController::RESORT_ROOMS; ?>"  required="required" class="chzn-select chosen_select width-100 entity-items">                
+        <option value="">please select hotel...</option>
+        <?php foreach ($this->collection as $item):?>                
+            <option value="<?php echo $item->getId();?>"><?php echo $item->getTitle();?></option>
+        <?php endforeach;?>    
+    </select> 
+</div>

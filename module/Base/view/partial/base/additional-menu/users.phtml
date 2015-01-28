@@ -1,0 +1,41 @@
+<ul class="additional-menu">
+    <li class="menu-group">
+        <a href="<?php echo $this->url('users'); ?>">
+            <i class="icon-user"></i>Users
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('users')) echo 'class="active"' ?> >
+                <a href="<?php echo $this->url('users'); ?>"><i class="icon-list"></i>View Users</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('users-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('users-add'); ?>"><i class="icon-plus"></i> Add User</a>
+            </li>
+        </ul>
+    </li>
+    <li class="menu-group">
+        <a href="<?php echo $this->url('acl'); ?>">
+            <i class="icon-group"></i>Roles
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('acl')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('acl'); ?>"><i class="icon-list"></i> View Roles</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('acl-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('acl-add'); ?>"><i class="icon-plus"></i> Add Role</a>
+            </li>
+        </ul>
+    </li>
+<!--    <li class="menu-group">
+        <a href="<?php echo $this->url('clients'); ?>">
+            <i class="icon-eye-open"></i>Clients
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('clients')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('clients'); ?>"><i class="icon-list"></i> View Clients</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('clients-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('clients-add'); ?>"><i class="icon-plus"></i> Add Client</a>
+            </li>
+        </ul>
+    </li>-->
+</ul>

@@ -1,0 +1,143 @@
+<?php
+$date = date('Y-m-d');
+//d($this->collection); die; //echo $date; die;
+?>
+
+<script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->paymenttyp)) {
+    echo $this->paymenttyp;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+    });
+</script>    
+
+<?php if (!is_null($this->message)):
+    
+   // d($this->message);
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Reseller Accounts Setup</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a href="#"><i class="icon-plus-sign"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+
+
+
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+
+     
+<!--        <a href="#" class="btn btn-info">Add New Feature</a>&nbsp;&nbsp;&nbsp;
+        <a href="#" class="btn btn-info">Add New Account Type</a><br><br>-->
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Account Name</th>
+                    <th class="hidden-mobile">Setup Fee</th>
+                    <th class="hidden-mobile">Time Span</th>
+                    <th class="hidden-mobile">Status</th>
+                    <th class="hidden-mobile">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->collection as $item){ ?>
+                    <tr>
+
+                        <td class="hidden-mobile"><?php echo $item->getName(); ?></td>    
+                        <td class="hidden-mobile">$<?php echo $item->getSetupFee(); ?></td>    
+                        <td class="hidden-mobile"><?php echo $item->getTimespan(); ?> months</td>    
+                        <td class="hidden-mobile"><?php echo ($item->getStatus())?'<span class="s_green"> Active </span>':'<span class="s_gray"> InActive </span>'; ?></td>    
+
+                        <td class="action-table">   
+                            
+                            <a href="<?php echo $this->url('affiliate-accounts-update',array('id'=>$item->getId())); ?>" title="Update">
+                                
+                                <img alt="Update" src="/images/icon/table_edit.png" height="18" width="18">
+                            </a>
+                        </td>
+
+
+
+                    </tr>    
+                <?php } ?>
+            </tbody>
+        </table>
+<br><br><br>
+        <a href="<?php echo $this->url('affiliate-roles-add'); ?>" class="btn btn-info">Add New Role</a>&nbsp;&nbsp;&nbsp;
+        <a href="<?php echo $this->url('affiliate-roles-add-activity'); ?>" class="btn btn-info">Add New Role Activity</a>&nbsp;&nbsp;&nbsp;
+        <!--<a href="#" class="btn btn-info">Add New Account Type</a><br><br>-->
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close">×</button>
+    <h3 id="myModalLabel"></h3>
+  </div>
+  <div class="modal-body">
+    <p></p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn close">Close</button>
+  </div>
+</div>
+
+<script>
+function view(id){
+
+    $.ajax({
+                async:false,    
+                url: '/admin/affiliate/template/ajax/view',
+                type: 'POST',
+                data: {id:id},
+                beforeSend:function(){
+                    $(".modal-body").html('<center><img src="/images/ajax-loader.gif" alt="Loading..."></center>');
+                    $("#myModalLabel").html('Users Using This Template');
+                    $("#myModal").css({"display": "block"});
+                    $("#myModal").modal();
+                },
+                success: function(data){
+                    $(".modal-body").html(data)  
+//                  $("#myModal").modal()  
+                }
+            });
+}
+
+$('.close').click(function(){
+    $("#myModal").hide();
+});
+</script>

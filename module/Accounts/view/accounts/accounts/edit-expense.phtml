@@ -1,0 +1,57 @@
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-edit"></i>
+            </div>
+            <span>Edit Expense</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content">
+
+        <form method='post' action=''>
+         <input name="id" type="hidden" value="<?php echo $this->data['0']->getId(); ?>">
+         <div class="formRow control-group">
+             <label>Name : </label>
+            <div class="formRight">
+                <input type="text" class='span input' name="name" value="<?php echo $this->data['0']->getName(); ?>">
+            </div>
+        </div>	
+        
+         <div class="formRow control-group">
+             <label>Category : </label>
+            <div class="formRight">
+                <select name="category" class="span input">
+                    <?php foreach($this->categories as $category){?>
+                    <option value="<?php echo $category->getId(); ?>"
+                            <?php if($this->data['0']->getExpenseCategoryId()->getid()==$category->getId()){echo "selected";}?>>
+                                <?php echo $category->getName(); ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>	
+        
+        <div class="formRow control-group">
+             <label>Amount : </label>
+            <div class="formRight">
+                <input type="number" class='span input' name="amount" placeholder="$" value="<?php echo $this->data['0']->getAmount(); ?>">
+            </div>
+        </div>	
+      
+
+        
+        <div class="formRow control-group">
+            <input type='submit' value='Submit' class='btn btn-info'>
+        </div>
+
+        <div class="clearfix"></div>
+        </form>
+    </div>
+
+
+</div>
+
+

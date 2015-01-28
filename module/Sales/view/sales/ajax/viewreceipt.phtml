@@ -1,0 +1,53 @@
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title"></div>
+            <span>Receipt</span>
+            <div class="clearfix"></div>
+        </div>        
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content overflow">
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <tbody>                               
+                <tr>
+                    <th class="hidden-mobile">Receipt Number</th>
+                    <td class="hidden-mobile"><?php echo $this->receipt->getId(); ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Name</th>
+                    <td><?php echo $this->receipt->getName(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">E-mail</th>
+                    <td><?php echo $this->receipt->getEmail(); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Total Received</th>
+                    <td class="hidden-mobile"><?php echo $this->receipt->getTotalReceived(); ?></td>
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">For</th>
+                    <td><?php $type = $this->receipt->getForType(); if($type == 4){ echo "Items";}elseif($type == 6){ echo "Transfer"; }elseif($type == 5){ echo "Excursion"; }elseif($type == 1){ echo "Resorts"; }elseif($type == 2){ echo "Events"; }elseif($type == 3){ echo "Crusies"; } ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Name</th>
+                    <td><?php $type = $this->receipt->getForType(); if($type == 4){ echo $forId->getName();}elseif($type == 6){ echo $forId->getTransferName(); }elseif($type == 5){ echo $forId->getExcursionName(); }else{echo $forId->getTitle();} ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Date</th>
+                    <td><?php echo $this->receipt->getDate()->format('M d, Y'); ?></td> 
+                </tr>
+                <tr>
+                    <th class="hidden-mobile">Mail Status</th>
+                    <td class="hidden-mobile"><?php $m_status=$this->receipt->getMailStatus(); if($m_status==0){echo "Mail not sent";}elseif($m_status==1){echo "Mail Sent";} ?></td>
+                </tr>
+               
+                
+                 
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
+   </div>
+</div>
+

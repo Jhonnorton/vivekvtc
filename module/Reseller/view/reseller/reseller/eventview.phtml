@@ -1,0 +1,93 @@
+<?php
+$reservation = $this->data;
+$status = $reservation->getStatus() == 1 ? 'Enabled' : 'Disabled';
+$approval = $reservation->getApproved() == 1 ? 'Approved' : 'Pending';
+?>
+
+<div class="grid">    
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered " id="">
+            <tbody>
+
+                <tr>                    
+                    <th>Reseller Name</th>
+                    <td><?php echo $reservation->getUserId()->getfirstName(); ?></td>				
+                </tr>
+                
+                <tr>                    
+                    <th>Reseller Email</th>
+                    <td><?php echo $reservation->getUserId()->getEmail(); ?></td>				
+                </tr>
+                
+                
+                <tr>                    
+                    <th>Event Title</th>
+                    <td><?php echo $reservation->getTitle(); ?></td>				
+                </tr>
+                
+                <tr>
+                    
+                   <th>Event Image</th>
+                   <td><img src="<?php echo $this->image; ?>" alt=""></td>
+               </tr>     
+
+                <tr>                    
+                    <th>Event Overview</th>
+                    <td><?php echo $reservation->getOverview(); ?></td>				
+                </tr>
+
+                <tr>                    
+                    <th>Event Start Date</th>
+                    <td><?php echo $reservation->getStartDate()->format('Y-m-d'); ?></td>				
+                </tr>
+
+                <tr>                    
+                    <th>Event End Date</th>
+                    <td><?php echo $reservation->getEndDate()->format('Y-m-d'); ?></td>				
+                </tr>
+
+                <tr>                    
+                    <th>Event Minimum Stay Days</th>
+                    <td><?php echo $reservation->getMinimumStayDays(); ?></td>				
+                </tr>
+
+                <tr>                    
+                    <th>Event Page Heading</th>
+                    <td><?php echo $reservation->getPageHeading(); ?></td>				
+                </tr>
+                
+                <tr>                    
+                    <th>Event Status</th>
+                    <td><?php echo $status; ?></td>				
+                </tr>
+
+                
+                <tr>                    
+                    <th>Event Approval</th>
+                    <td><?php echo $approval; ?></td>				
+                </tr>
+                
+                 <tr>                    
+                    <th>Event Meta Title</th>
+                    <td><?php echo $reservation->getMetaTitle(); ?></td>				
+                </tr>
+                
+                 <tr>                    
+                    <th>Event Meta Description</th>
+                    <td><?php echo $reservation->getMetaDescription(); ?></td>				
+                </tr>
+                
+                 <tr>                    
+                    <th>Event Meta Keywords</th>
+                    <td><?php echo $reservation->getMetaKeywords(); ?></td>				
+                </tr>
+
+
+
+
+                </body>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>

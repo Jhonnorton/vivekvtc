@@ -1,0 +1,28 @@
+ <div addid="<?php echo $this->count; ?>" id="person<?php echo $this->count; ?>" class="fbox03">
+               <div class="b4 tnum">
+                   <strong>Traveller Info <?php echo $this->count; ?></strong></div><br>
+
+                <div class="b01">  <label for="travellerName">Full Name</label>    </div>
+                <div class="b02">
+                    <input type="text" required="required" class="span input" id="tname_1" name="tname[]">
+                </div>
+                <div class="b01"><label for="travellerEmail">Email</label>    </div>
+                <div class="b02">
+                    <input type="email" class="span input" name="tEmail[]">
+                </div>
+                <div class="b01"> <label for="dob">D.O.B</label></div>
+                <div class="b02"><input type="date" class="span input" name="tDOB[]"> </div>
+
+
+                    <div class="b01">Sex</div>
+                        <div class="b02" name="sex">
+                            <p>
+                                <input type="radio" value="1" onclick="ajaxPriceCal(this,<?php echo $this->count ;?>);" name="tsex_<?php echo $this->count; ?>" required="required" class="sex" id="male_<?php $this->count; ?>">
+                                <label for="male_2" id="male_<?php $this->count; ?>"><span></span>Male</label>
+                                <input type="radio" value="2" onclick="ajaxPriceCal(this,<?php echo $this->count ;?>);" name="tsex_<?php echo $this->count; ?>" class="sex" required="required" id="female_<?php $this->count; ?>">
+                                <label for="female_2" id="female_<?php $this->count; ?>"><span></span>Female</label>
+                            </p>
+
+                    </div>
+                    <input type="button" value="Remove" onclick="removeTraveller(<?php echo $this->count; ?>)" class="btn btn-danger btn-small" id="removeButtonNew">
+                </div>

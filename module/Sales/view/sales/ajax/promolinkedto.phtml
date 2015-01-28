@@ -1,0 +1,29 @@
+<?php 
+use Inventory\Model\Promos as Model;
+if($this->collection):
+$linkedTo = Model::linkedTo();	
+?>
+<label for="ids"><?php echo $linkedTo[$this->typeCode]['name']?></label>    
+<div class="formRight multicheckbox">
+    <?php foreach ($this->collection as $item):?>             
+    <label><input type="checkbox" name="ids[]" class="span input" value="<?php echo $item->getId();?>"><?php 
+    switch ($this->typeCode) {
+        case Model::LINKED_TO_EVENT_CATEGORY:
+            echo $item->getName();
+            break;
+        case Model::LINKED_TO_EVENT_ROOM:
+            echo $item->getRoomCategory().'($'.$item->getNetPrice().')';
+            break;
+        case Model::LINKED_TO_ROOM_CATEGORY:
+            echo $item->getRoomCategory().'($'.$item->getNetPrice().')';
+            break;
+        case Model::LINKED_TO_CABIN_NAME:
+            echo $item->getSuiteName().'($'.$item->getNetPrice().')';
+            break;
+        default:
+            echo $item->getTitle();
+            break;
+    }?></label>                
+    <?php endforeach;?>
+</div>
+<?php endif;?>

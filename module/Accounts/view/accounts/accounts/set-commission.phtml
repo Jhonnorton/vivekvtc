@@ -1,0 +1,185 @@
+<?php
+
+//d($this->collection[0]->getPaySchedule());
+if (!is_null($this->message)):
+    
+   // d($this->message);
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-edit"></i>
+            </div>
+            <span style="width:300px;">Set Commission For <?php echo $this->userdata['0']->getFirstName(); ?></span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content">
+        <?php if(!empty($this->commission)){?>
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                    <!--<th class="hidden-mobile">Agent Name</th>-->
+                    <th class="hidden-mobile">Role</th> 
+                    <th class="hidden-mobile">Activity</th> 
+
+                    <th class="hidden-mobile">Type</th>
+                    <th class="hidden-mobile">Amount</th>
+                
+                    <th class="hidden-mobile">Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->commission as $item){?>
+                <tr>
+                    <td><?php echo $item->getRoleId()->getName(); ?></td>
+                    <td><?php echo $item->getResourceId()->getOriginalname(); ?></td>
+                    <td><?php echo ($item->getCommissionType())?"%":"$"; ?></td>
+                    <td><?php echo $item->getAmount(); ?></td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="edit(<?php echo $item->getId(); ?>)" title="Update">
+                            <img src="/images/icon/table_edit.png" alt="Update" height="18" width="18">
+                        </a> 
+                        <a data-confirm="Are You Sure.?" href="<?php echo $this->url('commission-set-delete', array('id' => $item->getId())); ?>" title="Delete">
+                            <img src="/images/icon/table_del.png" alt="Delete" height="18" width="18">
+                        </a> 
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <br><br>
+        <?php } ?>
+        <hr>
+        <form method='post' action=''>
+            <input type="hidden" name="user" value="<?php echo $this->userdata['0']->getId(); ?>">
+         <div class="formRow control-group">
+             <label>Role : </label>
+            <div class="formRight">
+                <select class="span input" name='role' id="role" style="width:100%">
+                    <option value=''>Select Role</option>
+                    <?php foreach($this->collection as $role){ ?>
+                    <option value='<?php echo $role->getId(); ?>'><?php echo $role->getName(); ?></option>
+                    <!--<option value='7'>Reservation Manager</option>-->
+                    <?php } ?>
+                    
+                </select>
+            </div>
+        </div>	
+            <div id="reservation" style="display:none">
+                <?php foreach($this->reservation as $acti){?>
+                <?php if($acti->getOriginalname()=="Add"){ ?>
+                <input type="hidden" name="activity[]" value="<?php echo $acti->getId(); ?>">
+                <div class="formRow control-group">
+                    <label><?php echo $acti->getOriginalname(); ?> Reservation</label>
+                   <div class="formRight">
+                       <select class="" name='type[]'>
+                           <option value=''>Select Type</option>
+                           <option value='0'>$</option>
+                           <option value='1'>%</option>
+
+                       </select>
+                       <input type="text" name="amount[]">
+                   </div>
+               </div>	
+                <?php } } ?>
+            </div>
+        
+            <div id="reseller" style="display:none">
+                <?php foreach($this->reseller as $actir){?>
+                <?php if($actir->getOriginalname()=="Add"){ ?>
+                <input type="hidden" name="activity[]" value="<?php echo $actir->getId(); ?>">
+                <div class="formRow control-group">
+                    <label><?php echo $actir->getOriginalname(); ?> Reseller</label>
+                   <div class="formRight">
+                       <select class="" name='type[]'>
+                           <option value=''>Select Type</option>
+                           <option value='0'>$</option>
+                           <option value='1'>%</option>
+
+                       </select>
+                       <input type="text" name="amount[]">
+                   </div>
+               </div>	
+                <?php } } ?>
+            </div>
+      
+
+        
+        <div class="formRow control-group">
+            <input type='submit' value='Submit' class='btn btn-info'>
+        </div>
+
+        <div class="clearfix"></div>
+        </form>
+    </div>
+
+
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close">×</button>
+    <h3 id="myModalLabel"></h3>
+  </div>
+  <div class="modal-body">
+    <p></p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn close">Close</button>
+  </div>
+</div>
+
+
+<script>
+function edit(id){
+    
+    $.ajax({
+                async:false,    
+                url: '/admin/accounts/commission/set/edit/'+id,
+                beforeSend:function(){
+                   $(".modal-body").html('<center><img src="/images/ajax-loader.gif" alt="Loading..."></center>');  
+                    $("#myModalLabel").html('Edit User Commission');
+                    $("#myModal").css({"display": "block"});
+                    $("#myModal").modal();
+                },
+                success: function(data){
+                    $(".modal-body").html(data)  
+//                  $("#myModal").modal()  
+                }
+            });
+}
+
+$(function(){
+    $('#role').change(function(){
+        var value=$(this).val();
+        if(value==6){
+            $('#reseller').show();
+            $('#reservation').hide();
+        }else if(value==7){
+            $('#reseller').hide();
+            $('#reservation').show()
+        }
+    });
+    
+    $('.close').click(function(){
+        $("#itemModal").css({"display": "none"});
+        $("#myModal").css({"display": "none"});
+    });
+});
+</script>
+

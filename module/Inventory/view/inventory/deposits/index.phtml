@@ -1,0 +1,74 @@
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div>
+            <span>Deposits</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a href="<?php //echo $this->url('inventory-promos-add'); ?>"><i class="icon-plus-sign"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content overflow">
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+                       
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+               <?php foreach ($this->collection as $item){?>
+                <?php $dateFrom = ($item->getdateFrom() instanceof \DateTime) ? $item->getdateFrom()->format('Y-m-d') : $item->getdateFrom();   
+                    $dateTo = ($item->getdateTo() instanceof \DateTime) ? $item->getdateTo()->format('Y-m-d') : $item->getdateTo();   
+                 
+                ?>
+                <tr>
+                    <td><?php echo $item->getdepositName(); ?></td>
+                    <td><?php echo ($item->getdepositName()=='1')?'Percent':'Fixed'; ?></td>
+                     <td><?php echo $dateFrom; ?></td>
+                     <td><?php echo $dateTo; ?></td>
+                     <td>
+                          <a href="<?php echo $this->url('inventory-deposits-view', array('id' => $item->getId())); ?>">
+                                <img src="/images/icon/table_view.png" alt="View" height="20" width="20">
+                            </a>
+                         <a href="<?php echo $this->url('inventory-deposits-update', array('id' => $item->getId())); ?>">
+                                <img src="/images/icon/table_edit.png" alt="" height="20" width="20">
+                            </a>
+                            <a href="<?php echo $this->url('inventory-deposits-delete', array('id' => $item->getId())); ?>"
+                               data-confirm="Are you sure?">
+                                <img src="/images/icon/table_del.png" alt="" height="20" width="20">
+                            </a>
+                     </td>
+                </tr>
+           
+               <?php } ?>
+            </tbody>
+        </table>
+     
+        <div class="clearfix"></div>
+    </div>
+</div>

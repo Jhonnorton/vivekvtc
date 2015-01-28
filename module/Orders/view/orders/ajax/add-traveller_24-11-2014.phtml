@@ -1,0 +1,67 @@
+ 
+                        <div class="added-traveller">
+                        <div class="formRow control-group">
+
+                        <hr/>
+                        <div class="formRight">
+
+
+                        </div>
+                        </div> 
+                        <div class="formRow control-group">
+                        <label for="tname" class="required">Name</label>
+                        <div class="formRight">
+                        <input type="text" name="tname[]" class="span input" required="required">
+                        </div>
+                        </div>
+
+<div class="formRow control-group">			
+        <label for="sex" class="required">Sex</label>
+        <div class="formRight">
+            <div name="sex" class="distance distance-2">
+                <p>
+                    <input type="radio" id="male_<?php echo $this->count; ?>" class="sex" required="required" name="tsex_<?php echo $this->count; ?>" onClick="ajaxPriceCal(this,<?php echo $this->count; ?>);"  value="1">
+                    <label id="labm_<?php echo $this->count; ?>" for="male_<?php echo $this->count; ?>"><span></span>Male</label>
+                </p>
+                <p>
+                    <input type="radio" id="female_<?php echo $this->count; ?>" required="required" class="sex" name="tsex_<?php echo $this->count; ?>" onClick="ajaxPriceCal(this,<?php echo $this->count; ?>);" value="2">
+                    <label id="labf_<?php echo $this->count; ?>" for="female_<?php echo $this->count; ?>"><span></span>Female</label>
+                </p>
+                  
+            </div>
+        </div>
+    </div>
+                        <div class="formRow control-group">
+                        <label for="tEmail">Email</label>
+                        <div class="formRight">
+                        <input type="email" name="tEmail[]" class="span input" >
+                        </div>
+                        </div>
+                        <div class="formRow control-group">
+                       <label for="tPhone">Phone</label>
+                        <div class="formRight">
+                        <input type="text" name="tPhone[]" class="span input" >
+                        </div>
+                        </div>
+                        <div class="formRow control-group">
+                        <label for="tDob">DOB</label>
+                        <div class="formRight">
+                        <input type="date" name="tDob[]" class="span input" required="required"> 
+                        </div>
+                        </div>
+                        <div class="formRow control-group">
+                        <label for="tAddress">Address</label>
+                        <div class="formRight">
+                        <input type="text" name="tAddress[]" class="span input" /> 
+                        </div>
+                        </div>
+                        <div class="formRow control-group">
+
+                        <div class="formRight">
+                        <span style="float: right">
+                        <button type="button" onclick="removeTraveller(this)" class="btn btn-danger btn-small metro">Remove Guest</button>
+                        <span>
+                        <div class="clearfix"></div>
+                        </div>
+                        </div>
+                        </div>          

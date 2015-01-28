@@ -1,0 +1,1055 @@
+<?php
+//$date1 = new DateTime("2010-07-06");
+//$date2 = new DateTime("2015-07-09");
+//$diff = $date2->diff($date1)->format("%a");
+//d($diff);
+?>
+<?php
+//d($this->collection[0]);
+//$coll = $this->collection;
+$reservation = $this->collection[0];
+//d($reservation);
+$type = $reservation['type'];
+
+
+$currencyexchange= $reservation['currencyexchange'];
+$currencytype= $reservation['currencytype'];
+if($currencytype=='CAD' || $currencytype=='USD'){
+    
+    $symbol='$';
+    
+}elseif($currencytype=='GBP'){
+    $symbol='£';
+}elseif ($currencytype=='EUR') {
+    $symbol='€';
+}
+
+if ($type == 1) {
+
+//d($reservation);    
+
+    $event = $reservation['event'];
+//d($event->getTitle());
+//$eventName=$event->getTitle();
+//$eventroom = $reservation['eventroom'];
+//d($event->getName());
+    $room = $reservation['room'];
+    $roomName = $room->getTitle();
+
+
+
+//d($room->getDescription());
+    $hotelName = $reservation['hotel'];
+//$travellers = $reservation['travellers'];
+
+    $description = $room->getDescription();
+    $inventory = $reservation['inventory'];
+//d($inventory->getNetPrice());
+
+    $leftcount = $inventory->getNumberAvailable() - $inventory->getBookedCount();
+    $startdate = ($inventory->getDateFrom() instanceof \DateTime) ? $inventory->getDateFrom()->format('M jS') : $inventory->getDateFrom();
+    $enddate = ($inventory->getDateTo() instanceof \DateTime) ? $inventory->getDateTo()->format('M jS Y') : $inventory->getDateTo();
+
+
+    $travelfromdate = ($inventory->getDateFrom() instanceof \DateTime) ? $inventory->getDateFrom()->format('Y-m-d') : $inventory->getDateFrom();
+    $traveltodate = ($inventory->getDateTo() instanceof \DateTime) ? $inventory->getDateTo()->format('Y-m-d') : $inventory->getDateTo();
+} else if ($type == 2) {
+
+//d($reservation);    
+
+    $event = $reservation['event'];
+//d($event->getTitle());
+    $eventName = $event->getTitle();
+    $eventroom = $reservation['eventroom'];
+//d($event->getName());
+    $room = $reservation['room'];
+    $roomName = $room->getTitle();
+
+
+
+//d($room->getDescription());
+    $hotelName = $reservation['hotel'];
+//$travellers = $reservation['travellers'];
+
+    $description = $room->getDescription();
+    $inventory = $reservation['inventory'];
+//d($inventory->getNetPrice());
+
+    $leftcount = $inventory->getTotalAvailable() - $inventory->getBookedCount();
+    $startdate = ($event->getStartDate() instanceof \DateTime) ? $event->getStartDate()->format('M jS') : $event->getStartDate();
+    $enddate = ($event->getEndDate() instanceof \DateTime) ? $event->getEndDate()->format('M jS Y') : $event->getEndDate();
+
+    $travelfromdate = ($event->getStartDate() instanceof \DateTime) ? $event->getStartDate()->format('Y-m-d') : $event->getStartDate();
+    $traveltodate = ($event->getEndDate() instanceof \DateTime) ? $event->getEndDate()->format('Y-m-d') : $event->getEndDate();
+
+
+
+    //$date1 = new DateTime("2010-07-06");
+    //$date2 = new DateTime("2015-07-09");
+} else if ($type == 3) {
+//d('sdasda');
+    $event = $reservation['event'];
+
+    $hotelName = $event->getTitle();
+
+    $eventroom = $reservation['eventroom'];
+    $roomName = $eventroom->getDeckName();
+
+    $description = $eventroom->getDescription();
+
+    $room = $reservation['room'];
+
+    $inventory = $reservation['inventory'];
+
+    $startdate = ($event->getTourStartDate() instanceof \DateTime) ? $event->getTourStartDate()->format('M jS') : $event->getTourStartDate();
+
+    $enddate = ($event->getTourEndDate() instanceof \DateTime) ? $event->getTourEndDate()->format('M jS Y') : $event->getTourEndDate();
+
+
+    $travelfromdate = ($event->getTourStartDate() instanceof \DateTime) ? $event->getTourStartDate()->format('Y-m-d') : $event->getTourStartDate();
+
+    $traveltodate = ($event->getTourEndDate() instanceof \DateTime) ? $event->getTourEndDate()->format('Y-m-d') : $event->getTourEndDate();
+
+
+    $leftcount = $inventory->getTotalAvailable() - $inventory->getBookedCount();
+}
+?>
+<div class="top-secure"> <a href="#"><img src="images/top-secure.jpg" alt="Top Secure"></a> </div>
+<h1 class="topheading">Welcome to this secured online Reservation Portal, hosted by Sunset Destinations and Adult Tours Inc</h1>
+<h2 class="topsubheading">This page is fully encrypted and your private information will be delivered securely to our inbox</h2>
+<div id="content-section">
+         <?php echo $this->form()->openTag($form); ?>
+    
+                        <input type="hidden" name="type"  value="<?php echo $type; ?>" >
+                        <input type="hidden" name="roomavail"  value="<?php echo $leftcount; ?>" >
+                         <input type="hidden" name="currencytype"  value="<?php echo $currencytype; ?>" >
+                        <?php      echo $this->formElement($form->get('roomRate')
+                                        ->setAttribute('id', 'grossPrice')
+                                        ->setAttribute('type', 'hidden')
+                                        ->setAttribute('value', round(($inventory->getGrossPrice())*$currencyexchange,2))
+                              //  round(($inventory->getGrossPrice())*$currencyexchange,2)
+                                        ->setAttribute('class', 'span8 input'));
+                        ?>
+                         
+                         <input type="hidden" name="eventStart" id="hid-start" value="<?php echo $travelfromdate; //$this->data->getStartDate()->format('Y-m-d'); ?>">
+                         <input type="hidden" name="eventEnd" id="hid-end" value="<?php echo $traveltodate;//$this->data->getEndDate()->format('Y-m-d'); ?>">
+
+                         <?php 
+                         $eventStartModified = date('Y-m-d',strtotime($travelfromdate) - (24*3600*5));
+                         $eventEndTwoModified = date('Y-m-d',strtotime($travelfromdate) + (24*3600*2));
+                         $eventEndModified = date('Y-m-d',strtotime($traveltodate) + (24*3600*5));
+                         ?>
+
+                         <input type="hidden" name="eventStart_modified" id="hid-mod-start" value="<?php echo $eventStartModified ; ?>">
+                         <input type="hidden" name="eventend_two" id="hid-mod-end-two" value="<?php echo $eventEndTwoModified ; ?>">
+                         <input type="hidden" name="eventEnd_modified" id="hid-mod-end" value="<?php echo $eventEndModified; ?>">
+
+
+                         
+    <ul id="cbp-ntaccordion" class="cbp-ntaccordion">
+        <li>
+            <h3 class="cbp-nttrigger">
+                <div class="arrow01"><span>You selected</span></div>
+            </h3>
+            <div class="cbp-ntcontent">
+                <div id="step01">
+                    <?php ?>
+                    <h2 class="heading"><?php
+                        if (!empty($eventName)) {
+                            echo $eventName . ',';
+                        }
+                        ?><?php echo $hotelName; ?>,<?php echo $startdate . ' - ' . $enddate; ?> </h2>
+                    <p class="subheading"><?php echo $roomName; //$room->getTitle();           ?><!--Ocean front Jacuzzi room--></p>
+                    <div class="roomdetails">
+                        <img src="images/front/homepic01.jpg" alt="Vip Form" class="imgleft">
+                        <div class="textsection">
+                            <p>
+                                <!--This room is the best room at the resort and feature a spectacular view of the ocean. There is Jacuzzi tub on the patio and the room is very spacious.-->
+
+                                <?php echo $description; //$room->getDescription();     ?>
+                            </p>
+                        </div>
+                        <a class="btn" href="javascript:void(0)" id="click1">Continue</a>
+                        <a class="btn" href="javascript:void(0)">Go Back Room</a>
+                    </div>
+                    <div class="roomprice">
+                        <p class="price"><?php echo $symbol ?><?php echo round(($inventory->getGrossPrice())*$currencyexchange,2); ?><span><?php echo '(only ' . $leftcount . ' left)' ?></span></p>
+                     <!--   <p class="pricesub">Per person nightly</p>
+                        <p class="selecttext"><label><input name="" type="checkbox" value=""> Select</label></p>-->
+                    </div>
+                    <div class="clr"></div>
+                </div>
+            </div>
+        </li>
+        <li id="li2"> 
+
+            <h3 class="cbp-nttrigger">
+                <div class="arrow01"><span>Complete the form below</span></div>
+            </h3>
+            <?php //echo $this->form()->openTag($form);   ?>
+            <div class="cbp-ntcontent">
+           
+                <div id="step02">
+
+
+                    <div class="fbox01">
+                        <div class="b01"> <?php echo $this->formLabel($form->get('travellerName')); ?></div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('travellerName')->setAttribute('class', 'span input')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerName'), array('class' => 'help-inline')); ?>
+                        </div>
+
+                        <div class="b01">
+                            <?php echo $this->formLabel($form->get('travellerEmail')); ?>
+                        </div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('travellerEmail')->setAttribute('class', 'span input')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerEmail'), array('class' => 'help-inline')); ?>
+                        </div>
+                    </div>
+                    <div class="fbox02" id="traveller-info">
+                        <div class="b01">
+                            <?php echo $this->formLabel($form->get('travellerPhone')); ?>
+                        </div>
+                        <div class="b02"> 
+                            <?php echo $this->formElement($form->get('travellerPhone')->setAttribute('class', 'span input')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerPhone'), array('class' => 'help-inline')); ?>
+                        </div>
+                        <div class="b01">
+                            <?php echo $this->formLabel($form->get('travellerDOB')); ?>
+                        </div>
+                        <div class="b02">   
+                            <?php echo $this->formElement($form->get('travellerDOB')->setAttribute('class', 'span input')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerDOB'), array('class' => 'help-inline')); ?>
+                        </div>
+                    <!--    <div class="b03"><img src="images/front/calender.jpg" alt=""></div>-->
+                        <div class="b03"> <?php echo $this->formLabel($form->get('noOfPersons')); ?></div>
+                        <div class="b02">         
+                            <?php
+                            echo $this->formElement($form->get('noOfPersons')
+                                            ->setAttribute('value', '1')
+                                            ->setAttribute('class', 'span input'));
+                            ?>
+                            <?php echo $this->formElementErrors($form->get('noOfPersons'), array('class' => 'help-inline')); ?>
+                        </div>      
+                               <div class="b0"><!--<select name=""></select>-->
+
+                            <?php //echo $this->formElement($form->get('travellerButtom')->setAttribute('class', 'btn')); ?>	   
+                        <input type="button" value="Add" class="btn" id="addbutton" addid = "1" name="travellerButtom">
+                        </div>
+                    </div>
+
+                    <div class="fbox04">
+                        <?php if ($type == 2) { ?>
+                            <div class="b01">Event Name</div>
+                            <div class="b02"><input type="text" name="ename" class="span input" value="<?php echo $eventName; ?>" ></div>
+                            <div class="b01"><span>Auto Populate</span></div>
+
+                        <?php } ?>
+                        <div class="b06"><?php
+                            if ($type == 3) {
+                                echo 'Cruise';
+                            } else {
+                                ?>Hotel<?php } ?></div>
+                        <div class="b02"><input type="text" name="hname" class="span input" value="<?php echo $hotelName; ?>"></div>
+                        <div class="b01"><span>Auto Populate</span></div>
+                         
+                        <?php
+               /*         echo $this->formElement($form->get('roomRate')
+                                        ->setAttribute('id', 'grossPrice')
+                                        ->setAttribute('type', 'hidden')
+                                        ->setAttribute('value', $inventory->getGrossPrice())
+                                        ->setAttribute('class', 'span8 input'));
+                 */       ?>
+
+                    </div>
+
+
+
+                    <div class="fbox05">
+                        <div class="b01">Fr</div>
+                        <div class="b02">
+                            <?php
+                            echo $this->formElement($form->get('travelFrom')
+                                            ->setAttribute('class', '')
+                                            ->setAttribute('id', 'dateFrom')
+                                            ->setAttribute('value', $travelfromdate));
+                            ?>
+                            <?php echo $this->formElementErrors($form->get('travelFrom'), array('class' => 'help-inline')); ?>
+                        <!--    <img src="images/front/calender.jpg" alt="">--></div>
+                        <div class="b01">To</div>
+                        <div class="b02">
+                            <?php
+                            echo $this->formElement($form->get('travelTo')
+                                            ->setAttribute('class', '')
+                                            ->setAttribute('id', 'dateTo')
+                                            ->setAttribute('value', $traveltodate));
+                            ?>
+                            <?php echo $this->formElementErrors($form->get('travelTo'), array('class' => 'help-inline')); ?>
+
+                         <!--<img src="images/front/calender.jpg" alt="">-->
+                        </div>
+                        <!--<div class="b03"><span>(Auto populate but allow user to edit)</span></div>-->
+                        <div class="b04">Total Nights</div>
+                        <div class="b04"> 
+
+                            <?php echo $this->formElement($form->get('noOfDays')->setAttribute('class', '')); ?>
+                            <?php echo $this->formElementErrors($form->get('noOfDays'), array('class' => 'help-inline')); ?>
+                        </div>
+                        <div class="b05"><span>(Auto populate but allow user to edit)</span></div>
+
+
+                        <div class="b04">  <?php echo $this->formLabel($form->get('roomRequired')); ?></div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('roomRequired')->setAttribute('class', 'span input')); ?>
+                            <?php echo $this->formElementErrors($form->get('roomRequired'), array('class' => 'help-inline')); ?>
+                        </div>
+                    </div>
+
+
+                    <div class="fbox06">
+
+
+
+                        <div class="b03">Rooms categories dropdown</div>
+                        <div class="b02"><input type="text" name="romname" class="span input" value="<?php echo $roomName; ?>">
+                        </div>
+                      <!--  <div class="b05"><span>(Dropdown selection of applicable rooms)</span></div> -->
+                        <div class="b03"><input name="" type="checkbox" value=""> Trip Insurance</div>
+                        <div class="b03">
+                           <!-- <input name="" type="checkbox" value=""> Flight -->
+                            <input type="checkbox" id="flight" name="flight"> Flight
+
+
+                        </div>
+
+                    </div>
+
+                    <?php echo $this->partial('partial/reservation_form/flight_details'); ?>
+                    <div class="fbox07">
+                        <div class="b03">Street Name</div>
+                        <div class="b02"><input name="streetname" type="text"></div>
+                        <div class="b04">Suite#</div>
+                        <div class="b02"><input name="suitename" type="text"></div>
+
+                    </div>
+
+
+                    <div class="fbox08">
+                        <div class="b03"><?php echo $this->formLabel($form->get('travellerCity')); ?></div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('travellerCity')->setAttribute('class', 'span input')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerCity'), array('class' => 'help-inline')); ?>
+
+                        </div>
+                        <div class="b04">ZIP/Postal</div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('travellerZip')->setAttribute('class', 'span input')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerZip'), array('class' => 'help-inline')); ?>
+                        </div>
+
+                    </div>
+
+                    <div class="fbox08">
+                        <div class="b03"><?php echo $this->formLabel($form->get('travellerState')); ?></div>
+                        <div class="b02">
+                            <?php echo $this->formElement($form->get('travellerState')->setAttribute('class', 'span input')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerState'), array('class' => 'help-inline')); ?>
+                        </div>
+                        <div class="b04"><?php echo $this->formLabel($form->get('travellerCountry')); ?></div>
+                        <div class="b02">
+
+                            <?php echo $this->formElement($form->get('travellerCountry')->setAttribute('class', '')); ?>
+                            <?php echo $this->formElementErrors($form->get('travellerCountry'), array('class' => 'help-inline')); ?>
+
+                        </div>
+
+                    </div>
+
+                    <div class="fbox09">
+                        <!--   <div class="b03">State/Province</div>
+                           <div class="b02"><input name="" type="text"></div>
+                        --> <div class="b05">
+
+                            <p class="splbtn"><a class="btn" href="javascript:void(0)" id="click2">Proceed</a></p>
+                        </div>
+
+
+                    </div>
+                    <?php // echo $this->form()->closeTag()      ?>
+                </div>
+            </div>
+
+            <?php //echo $this->form()->closeTag()  ?>
+        </li>
+        <li id="li3">
+            <h3 class="cbp-nttrigger">
+                <div class="arrow01"><span>Add</span></div>
+            </h3>
+            <div class="cbp-ntcontent">
+                <div id="step03">
+                    <input type="hidden" id="today" value="<?php echo date('Y-m-d'); ?>">
+
+                    <?php
+                    $items = $reservation['item'];
+                    $excursion = $reservation['excursion'];
+                    $transfer = $reservation['transfers'];
+
+//    d($items);
+//    if ($items):
+                    ?>
+
+                    <?php foreach ($items as $item): ?>
+                        <div class="box01">
+                            <p class="greytext"><?php echo $item->getName(); ?></p>
+                            <div class="l01"><img src="images/front/homepic01.jpg" alt=""></div>
+                            <div class="l02"><?php echo $item->getNotes(); ?></div>
+                            <div class="l03">
+                                <p class="price"><?php echo $symbol ?><?php //echo $item->getGrossPrice();
+                                
+                               echo round(($item->getGrossPrice())*$currencyexchange,2)
+                                
+                                ?></p>
+                                <p class="pricesub">Per person</p>
+                                <p class="selecttext"><label>
+                                        <input type="checkbox" name="items[]" class="span input" value="<?php echo $item->getId(); ?>" netprice="<?php echo round(($item->getNetPrice())*$currencyexchange,2) //$item->getNetPrice(); ?>" grossprice="<?php echo round(($item->getGrossPrice())*$currencyexchange,2)//echo $item->getGrossPrice(); ?>">Select
+                                    </label></p>
+                            </div>
+                        </div>
+
+                    <?php endforeach; ?>   
+                    <input name="itemsCost" type="hidden" min="0" readonly="readonly" class="span input" value="0">     
+
+                    <?php foreach ($excursion as $item): ?>         
+                        <div class="box01">
+                            <p class="greytext"><?php echo $item->getExcursionName(); ?></p>
+                            <div class="l01"><img src="images/front/homepic01.jpg" alt=""></div>
+                            <div class="l02"><?php echo $item->getNotes() ?></div>
+                            <div class="l03">
+                                <p class="price"><?php echo $symbol ?><?php //echo $item->getGrossPrice(); 
+                               echo round(($item->getGrossPrice())*$currencyexchange,2)
+                                ?></p>
+                                <p class="pricesub">Per person</p>
+                                <p class="selecttext"><label>
+
+                                        <input type="checkbox" name="excursions[]" class="span input" value="<?php echo $item->getId(); ?>" netprice="<?php echo round(($item->getNetPrice())*$currencyexchange,2)//$item->getNetPrice(); ?>" grossprice="<?php echo round(($item->getGrossPrice())*$currencyexchange,2);//$item->getGrossPrice(); ?>">
+                                        Select</label></p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>   
+                    <!--   <label for="excursionsCost">Excursions Cost</label>     -->           
+                    <input name="excursionsCost" type="hidden" min="0" readonly="readonly" class="span input" value="0">                                    
+
+                    <?php foreach ($transfer as $item): ?>
+
+                        <div class="box01">
+                            <p class="greytext"><?php echo $item->getTransferName(); ?></p>
+                            <div class="l01"><img src="images/front/homepic01.jpg" alt=""></div>
+                            <div class="l02"><?php echo $item->getNotes(); ?></div>
+                            <div class="l03">
+                                <p class="price"><?php echo $symbol ?><?php //echo $item->getGrossPrice(); 
+                                
+                               echo round(($item->getGrossPrice())*$currencyexchange,2)
+                                ?></p>
+                                <p class="pricesub">Per person</p>
+                                <p class="selecttext"><label>   <input type="checkbox" name="transfers[]" class="span input" value="<?php echo $item->getId(); ?>" netprice="<?php echo round(($item->getNetPrice())*$currencyexchange,2);/*echo $item->getNetPrice();*/ ?>" grossprice="<?php /*echo $item->getGrossPrice();*/echo round(($item->getGrossPrice())*$currencyexchange,2) ?>">
+                                        Select</label></p>
+                            </div>
+                        </div>
+
+                    <?php endforeach; ?>         
+                    <!--<label for="transfersCost">Transfers Cost</label>     -->           
+
+                    <input name="transfersCost" type="hidden" min="0" readonly="readonly" class="span input" value="0">                                    
+
+
+
+
+                    <input type="hidden" name="inventortyid" value="<?php echo $inventory->getId(); ?>">
+
+                    <!--  <button id="creat_pay" class="btn btn-success" type="submit"  id="click3" name="submit" onclick=''>Continue</button><!--<a class="btn" href="#">Proceed</a>-->
+                    <a class="btn" href="javascript:void(0)" id="click3">Continue</a>
+
+                    <div class="clr"></div>
+                </div>
+            </div>
+            <?php //echo $this->form()->closeTag()  ?>
+        </li>
+        <li id="li4">
+            <h3 class="cbp-nttrigger">
+                <div class="arrow01"><span>Order Summary</span></div>
+            </h3>
+            <div class="cbp-ntcontent">
+                <div id="step04">
+                    <div class="orderbox" id="ftraveller">
+                        <div class="left">1st Traveler</div>
+                        <div class="right" id="testtraveller1"></div>
+                    </div>
+
+                    <div class="orderbox">
+                        <div class="left">Event name</div>
+                        <div class="right"><?php echo $eventName; ?></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Hotel</div>
+                        <div class="right"><?php echo $hotelName; ?></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Room Cat</div>
+                        <div class="right"><?php echo $roomName; ?></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Departure date</div>
+                        <div class="right" id="testdatefrom"></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Return date</div>
+                        <div class="right" id="testdateto"></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Phone</div>
+                        <div class="right" id="testphone"></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Email</div>
+                        <div class="right" id="testemail"></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Address</div>
+                        <div class="right">123 Lane</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">City</div>
+                        <div class="right" id="testcity"></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">State</div>
+                        <div class="right" id="teststate"></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Country</div>
+                        <div class="right" id="testcountry">USA</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">ZIP</div>
+                        <div class="right" id="testzip"></div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Flight</div>
+                        <div class="right" id="testflight"></div>
+                    </div>
+                    <div class="orderbox" id="insurance">
+                        <div class="left">Trip insurance</div>
+                        <div class="right">$80</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">Item1</div>
+                        <div class="right">$20</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">item2</div>
+                        <div class="right">$30</div>
+                    </div>
+                    <div class="orderbox">
+                        <div class="left">room cost per night</div>
+                        <div class="right"><?php echo $symbol ?><?php //echo $inventory->getGrossPrice(); 
+                        
+                       echo round(($item->getGrossPrice())*$currencyexchange,2); 
+                        ?>&nbsp;</div>
+                    </div>
+                    <div class="orderbox botb">
+                        <div class="left">Total cost</div>
+                        <div class="right" id="finalCost">&nbsp;</div>
+
+                        <input type="hidden" name="finalCost">
+
+                    </div>
+                    <div class="block01">
+                        <div class="box01"><input name="checkdetail" type="checkbox"> I confirm all the above details are correct <span>(Dropdown selection of applicable rooms)</span></div>
+                        <div class="box01"><input name="checkagree" type="checkbox"> I agree to the terms of this reservation <span>( <a href="#">View Terms</a>)</span></div>
+                    </div>
+
+
+
+
+
+                    <?php echo $this->partial('partial/reservation_form/payment', array('form' => $form)); ?>
+
+
+
+
+
+
+
+
+                    <div class="block05">(Minimum deposite amount. You can enter an amount greater than the above total)
+                    </div>
+
+                    <div class="block02">
+                        <a class="btn" href="javascript:void(0)" id="click4">Proceed</a>
+                        <!--       <button id="creat_pay" class="btn btn-success" type="submit"  id="click3" name="submit" onclick=''>Proceed to payment</button><!--<a class="btn" href="#">Proceed</a>-->
+
+                    </div>
+
+                </div>
+            </div>
+
+            <?php //echo $this->form()->closeTag() ?>
+        </li>
+        <li id="li5">
+            <h3 class="cbp-nttrigger">
+                <div class="arrow01"><span>How would you like to pay</span></div>
+            </h3>
+            <div class="cbp-ntcontent">
+                <div id="step05">
+                    <div class="formbox" >
+                 <!--     <div class="box01"><input name="" type="checkbox" value=""> Secure credit checkout</div>
+                        <div class="box01"><input name="" type="checkbox" value=""> Paypal</div>
+                        <div class="box01"><input name="" type="checkbox" value=""> Mailed check</div>
+                        -->      
+
+                        <div class="box01">
+                            <input type="radio" id="ex" class="click-pay" name="ptype" checked="checked" value="1" >
+                            Paypal
+                        </div>
+                        <div class="box01">
+                            <input type="radio" id="cc" class="click-pay" name="ptype" value="2" >
+                            Secure credit checkout
+                        </div>
+                        <!-- <div class="box01">
+                             <input type="radio" name="paymentType" id="deposit" value="0" >
+                             Mailed check
+                         </div>-->
+
+
+
+                    </div>
+
+                    <p class="greytext">(minimum deposit amount. You can enter an amount greater that the above total)</p><br>
+
+
+
+
+                    <?php echo $this->partial('partial/reservation_form/billing', array('form' => $form)); ?>
+
+
+                </div>
+            </div>
+
+           
+        </li>
+    </ul>
+     <?php echo $this->form()->closeTag() ?>
+</div>
+
+<script>
+    
+    $(document).ready(function() {
+     
+     
+      $("#front").validate({
+                // errorElement: "span",
+                rules: {
+                    travellerName: {
+                        required: true
+                    },
+                    travellerEmail: {
+                        required: true
+                    },
+                    streetname: {
+                        required: true
+                    },
+                    travellerCity: {
+                        required: true
+                    },
+                    travellerZip: {
+                        required: true
+                    },
+                    travellerState: {
+                        required: true
+                    },
+                    travellerCountry: {
+                        required: true
+                    }
+                },
+                messages: {
+                    travellerName: "Enter Name",
+                    travellerEmail: "Enter Email Id",
+                    streetname: "Enter Street Name",
+                    travellerCity: "Enter City",
+                    travellerZip: "Enter Zip",
+                    travellerState: "Enter State",
+                    travellerCountry: "Select Country"
+
+
+                },
+                // the errorPlacement has to take the table layout into account
+                errorPlacement: function(error, element) {
+                    error.appendTo(element.parent());
+                },
+                highlight: function(element) {
+                    $(element).parent().removeClass("error");
+                }
+            });
+     
+     });
+    
+    
+ </script>   
+
+<script>
+    $(function() {
+        /*
+         - how to call the plugin:
+         $( selector ).cbpNTAccordion( [options] );
+         - destroy:
+         $( selector ).cbpNTAccordion( 'destroy' );
+         */
+
+        $('#cbp-ntaccordion').cbpNTAccordion();
+
+        $('#cbp-ntaccordion').children("li").first().addClass("cbp-ntopen");
+        
+        
+       //$('.tbod').Zebra_DatePicker();
+		
+
+
+        /*   $( '#cbp-ntaccordion #li2' ).hide();
+         $( '#cbp-ntaccordion #li3' ).hide();
+         $( '#cbp-ntaccordion #li4' ).hide();
+         $( '#cbp-ntaccordion #li5' ).hide();
+         */ /*      $("#click1").click(function(e){
+          // alert('here');
+          if (jQuery(this).parent().has("ul")) {
+          //  alert('here inside ul');
+          //$('#cbp-ntaccordion').closest('li').addClass("cbp-ntopen");
+          $(this).children('li').slideToggle();
+          e.preventDefault();
+          }
+          $(this).children('li').addClass("cbp-ntopen");
+          });
+          */
+
+
+    });
+
+    $('.click-pay').click(function() {
+        var type = $(this).val();
+
+        // alert(type);
+
+        if (type == 2) {
+            $("#ccd").show();
+            $("#billingdetail").show();
+            $('input[name="payment-type"]').val(2);
+           
+            $("#front").attr("action", '/reservation');
+        } else {
+            $("#ccd").hide();
+            $("#billingdetail").hide();
+             $("#ccd:input").attr("disabled", true);
+            //alert('#');
+            $('input[name="payment-type"]').val(1);
+            $("#front").attr("action", '#');
+        }
+    });
+
+
+
+    $(document).ready(function() {
+        //working
+        $('#click1').click(function() {
+            //  $( '#cbp-ntaccordion #li2' ).show();
+            $('#cbp-ntaccordion #li2').addClass("cbp-ntopen");
+        });
+
+
+        //working
+        $('#click2').click(function() {
+
+            //  $("input[name=travellerName]").valid();
+            // $("input[name=travellerEmail]").valid();
+
+
+            $("#front").validate({
+                // errorElement: "span",
+                rules: {
+                    travellerName: {
+                        required: true
+                    },
+                    travellerEmail: {
+                        required: true
+                    },
+                    streetname: {
+                        required: true
+                    },
+                    travellerCity: {
+                        required: true
+                    },
+                    travellerZip: {
+                        required: true
+                    },
+                    travellerState: {
+                        required: true
+                    },
+                    travellerCountry: {
+                        required: true
+                    }
+                },
+                messages: {
+                    travellerName: "Enter Name",
+                    travellerEmail: "Enter Email Id",
+                    streetname: "Enter Street Name",
+                    travellerCity: "Enter City",
+                    travellerZip: "Enter Zip",
+                    travellerState: "Enter State",
+                    travellerCountry: "Select Country"
+
+
+                },
+                // the errorPlacement has to take the table layout into account
+                errorPlacement: function(error, element) {
+                    error.appendTo(element.parent());
+                },
+                highlight: function(element) {
+                    $(element).parent().removeClass("error");
+                }
+            });
+
+
+
+            if ($("#front").valid()) {
+                //  $( '#cbp-ntaccordion #li3' ).show();
+                $('#cbp-ntaccordion #li3').addClass("cbp-ntopen");
+            }
+            /* else{
+             
+             alert('please fill name and email');
+             
+             }*/
+
+
+
+        });
+
+
+        //
+        $('#click3').click(function() {
+            //   $( '#cbp-ntaccordion #li4' ).show();
+            $('#cbp-ntaccordion #li4').addClass("cbp-ntopen");
+
+        });
+
+        $('#click4').click(function() {
+            // $( '#cbp-ntaccordion #li5' ).show();
+
+           //alert('1234');
+            $("#front").validate({
+                // errorElement: "span",
+                rules: {
+                    
+                    travellerName: {
+                        required: true
+                    },
+                    travellerEmail: {
+                        required: true
+                    },
+                   
+                    streetname: {
+                        required: true
+                    },
+                    travellerCity: {
+                        required: true
+                    },
+                    travellerZip: {
+                        required: true
+                    },
+                    travellerState: {
+                        required: true
+                    },
+                    travellerCountry: {
+                        required: true
+                    },
+                    checkdetail: {
+                        required: true
+                    },
+                    checkagree: {
+                        required: true
+                    }
+                },
+                messages: {
+                    checkdetail: "Enter Name",
+                    checkagree: "Enter Email Id",
+                    travellerName: "Enter Name",
+                    travellerEmail: "Enter Email Id",
+                    streetname: "Enter Street Name",
+                    travellerCity: "Enter City",
+                    travellerZip: "Enter Zip",
+                    travellerState: "Enter State",
+                    travellerCountry: "Select Country"
+                    
+
+
+                },
+                // the errorPlacement has to take the table layout into account
+                errorPlacement: function(error, element) {
+                    error.appendTo(element.parent());
+                },
+                highlight: function(element) {
+                    $(element).parent().removeClass("error");
+                }
+            });
+
+
+
+            if ($("#front").valid()) {
+                //  $( '#cbp-ntaccordion #li3' ).show();
+                 $('#cbp-ntaccordion #li5').addClass("cbp-ntopen");
+            }else{
+                
+                alert('check both checkboxes');
+            }     
+
+
+           
+
+        });
+
+
+
+    });
+    
+    
+     
+    
+</script>
+
+
+<script type="text" id="add-traveller">
+    
+    <div class="fbox03" id="fbox03_1" addId="1">
+    
+    
+    <div class="b4"><strong> Traveller info</strong></div><br>
+
+    <div class="b01">  <?php echo $this->formLabel($form->get('travellerName')); ?>
+    </div>
+    <div class="b02">
+    <input type="text" name="tname[]" id="tname_1" class="span input" required="required">
+    </div>
+    <div class="b01"><?php echo $this->formLabel($form->get('travellerEmail')); ?>
+    </div>
+    <div class="b02">
+    <input type="email" name="tEmail[]" class="span input" >
+    </div>
+
+
+    <div class="b01"> <?php echo $this->formLabel($form->get('travellerDOB')); ?></div>
+    <div class="b02"><input type="date" name="tDob[]" class="tbod" required="required"> </div>
+
+    <span style="float: right">
+    <button type="button" class="remove-traveller btn btn-danger btn-small metro" id="rem_1" addId="1">Remove Guest</button>
+    <span>
+    </div>
+
+
+
+</script>
+
+<script type="text" id="show-traveller">
+    <div class="testtravlr" id="travlr_add_1" addId="1">
+    <div class="orderbox" id="travlr">
+    <div class="left" id="travlno_1">Traveller</div>
+    <div class="right testing" id="nexttravllr_1">Mary Brown</div>
+    </div>
+    </div>
+
+
+</script>
+
+<script type="text" id="show-items">
+
+    <div class="orderbox">
+    <div class="left">Item1</div>
+    <div class="right" id="itemrate">$20</div>
+    </div>
+
+</script>
+
+
+<script src="/js/reservationfront.js"></script>
+<script src="/js/date-formater.js"></script>
+<script>
+    ReservationFront.init();
+
+
+
+</script>
+
+
+
+<script type="text/javascript">
+
+    /*  $(document).ready(function() {
+     
+     //new nicEditor({fullPanel : true}).panelInstance('desc');
+     
+     
+     
+     
+     // validation for registration form for user    
+     $("#reservationform").validate({
+     //alert('here');
+     /*	rules: {
+     'data[Blog][title]': {
+     required: true
+     
+     },
+     
+     'data[Blog][description]':{
+     required: true
+     }
+     
+     
+     },
+     messages:{
+     
+     'data[Blog][title]':{
+     required: "Please provide blog title."
+     
+     },
+     
+     'data[Blog][description]':{
+     required: "Please provide description." 
+     
+     }
+     
+     } ,                  
+     // the errorPlacement has to take the table layout into account
+     errorPlacement: function(error, element) {
+     error.appendTo( element.parent() );											
+     },
+     highlight: function(element) {
+     $(element).parent().removeClass("error");
+     },*/
+    /*        submitHandler: function() {
+     //alert('dsa');
+     $.ajax({data: $("#reservationform").serialize(), dataType: "html", success: function(data, textStatus) {
+     $("#content").html(data);
+     }, type: "post", url: "<?php //echo $this->url('reservation');   ?>"});
+     return false;
+     }
+     
+     });
+     
+     $('#title').focus();
+     
+     });
+     */
+
+</script>
+
+<style>
+    .error{color:red;}
+</style>

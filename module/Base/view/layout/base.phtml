@@ -1,0 +1,22 @@
+<?php echo $this->doctype(); ?>
+<html lang="en"  >
+    <?php echo $this->partial('layout/components/base/head.phtml');?>
+    <body>
+    	<?php echo $this->partial('layout/components/base/header.phtml');?>
+        <div id="wrap">
+        	<?php echo $this->partial('partial/base/sidebar.phtml');?>
+        	<div id="main" role="main">
+        		<div class="block">
+        			<div class="clearfix"></div>
+            			<?php echo $this->content;?>
+            			<?php echo $this->partial('layout/components/base/footer.phtml');?>
+            		<div class="clearfix"></div>
+            	</div>
+            </div>
+        </div>
+        <?php echo $this->partial('layout/components/base/js.phtml');?>	
+    </body>
+</html>
+
+
+

@@ -1,0 +1,24 @@
+<?php //d($this->collection[0]->getSuiteId());?>
+<label for="suiteName" class="required">Suite Name</label>                    
+<div class="formRight">    
+    <select data-type="<?php echo \Leads\Controller\AjaxController::CRUISE_CABINS; ?>" id="cruise-cabins" name="suiteName" required="required" class="chzn-select chosen_select width-100 load-item">                
+        <option value="">please select room category...</option>
+        <?php foreach ($this->collection as $item):?>                
+            <option value="<?php echo $item->getId();?>"><?php echo $item->getSuiteName().' ($'.$item->getGrossPrice().')'.' (Deck Number: '.$item->getDeckNumber().')';?></option>
+        <?php endforeach;?>    
+    </select> 
+</div>
+<script>
+//    $('.chzn-select').chosen();   
+//    $('#cruise-cabins').change(function() {
+//        var id = $(this).val();         
+//        if(id){
+//            $.post('/admin/orders/ajax/cruise/cabin/'+id,{id:id}, function(data){            
+//                $('#ajax-script').html(data);              
+//            });  
+//            loadItems(7, id);
+//        }else{
+//            clearAll();
+//        }
+//    });
+</script>

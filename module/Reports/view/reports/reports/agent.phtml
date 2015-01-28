@@ -1,0 +1,151 @@
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Agent Report</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<script>
+$(function() {
+        var id = <?php echo $this->role; ?>;        
+      //  alert(id);
+        $.post('/admin/report/ajax/agent/user/'+id, {id:id}, function(data){
+            
+//            alert(data);
+            $('#users').html(data);                        
+        });      
+    });
+</script>
+
+<script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->role)) {
+    echo $this->role;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+        $('#users option[value=<?php
+if (!empty($this->userid)) {
+    echo $this->userid;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+    });
+</script>    
+
+
+
+<div class="grid">  
+    
+
+    <div class="grid-content overflow">
+        
+            
+        <div class="formRight">
+            <form method="post" action="<?php echo $this->url('report-agent'); ?>">
+            
+                <select name="myselect" id="myselect" class="chzn-select">
+                    <option value="">Select Agent Role</option>
+                     <?php foreach($this->collection as $role){  ?>
+                    <option value="<?php echo $role->getId(); ?>"><?php echo $role->getName(); ?></option>
+                     <?php } ?>
+                </select>
+                <span id="users"></span>
+                
+               
+                <input type="date" id="startDate" name="mydate" class="" placeholder="Date From" value="<?php
+                if (!empty($this->startdat)) {
+                    echo $this->startdat;
+                } else {
+                    echo '';
+                }
+                ?>">  
+                <input type="date" id="endDate" name="mydate1" class="" placeholder="Date To" value="<?php
+                if (!empty($this->enddat)) {
+                    echo $this->enddat;
+                } else {
+                    echo '';
+                }
+                ?>">
+                
+                <input type="submit" name="submit" class="btn btn-info" id="btnmargin" value="Search">
+            </form>
+              </div>
+        
+        <br><br>
+        
+        <table class="table table-bordered table-mod-2" id="datatable_7">
+            <thead>
+                <tr>                    
+                    <th class="hidden-mobile">Agent Name</th> 
+                    <th class="hidden-mobile">Date</th>
+                    <th class="hidden-mobile">Time</th>
+                    <th class="hidden-mobile">Activity</th>
+                    <th class="hidden-mobile">Ref. #</th>
+                    <th class="hidden-mobile">Comm. Earned</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->search as $item): ?>
+               <?php $date = ($item->getDateAdded() instanceof \DateTime) ? $item->getDateAdded()->format('Y-m-d') : $item->getDateAdded(); 
+               $time = ($item->getDateAdded() instanceof \DateTime) ? $item->getDateAdded()->format('H:i:s') : $item->getDateAdded(); 
+       
+               ?>
+                 <tr>
+
+
+                        <td class="hidden-mobile"><?php echo $item->getUserId()->getFirstName()." ".$item->getUserId()->getLastName(); ?></td>
+
+                        <td class="hidden-mobile"> <?php echo $date; ?></td>
+
+                        <td class="hidden-mobile"><?php echo $time; ?></td>
+
+                        <td class="hidden-mobile"> <?php echo $item->getActivityName(); ?></td>
+                        <?php if($item->getReservationId()){ ?>
+                        <td class="hidden-mobile"><?php echo $item->getReservationId()->getReferenceNumber(); ?></td>
+                        <?php }else{  ?>
+                        <td class="hidden-mobile"><?php echo '-'; ?></td>
+                        <?php }?>
+                        <td class="hidden-mobile"><?php echo '-'; ?></td>
+                     
+                    </tr>
+                <?php endforeach; ?>
+                 </tbody>
+        </table>
+        <br><br>
+        <form method="post" action="<?php echo $this->url('csv-agent'); ?>">
+
+
+            <input type="hidden" name="strdate" value=<?php echo $this->startdat; ?>>   
+            <input type="hidden" name="enddate" value=<?php echo $this->enddat; ?>>    
+            <input type="hidden" name="filename" value="agent-report">   
+            <input type="hidden" name="userId" value="<?php echo $this->userid; ?>"> 
+            <input type="submit" name="submit" class="btn btn-info" id="btnmargin" value="Download Csv">
+        </form> 
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<script>
+   
+  $('#myselect').change(function(){        
+        var id = $(this).val();        
+      //  alert(id);
+        $.post('/admin/report/ajax/agent/user/'+id, {id:id}, function(data){
+            
+//            alert(data);
+            $('#users').html(data); 
+        });        
+    });
+    
+   
+ </script>   

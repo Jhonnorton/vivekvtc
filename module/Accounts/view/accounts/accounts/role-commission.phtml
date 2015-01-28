@@ -1,0 +1,87 @@
+<?php
+
+//d($this->collection[0]->getPaySchedule());
+if (!is_null($this->message)):
+    
+   // d($this->message);
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+
+<?php
+$date = date('Y-m-d');
+//d($this->collection); die; //echo $date; die;
+?>
+
+<script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->paymenttyp)) {
+    echo $this->paymenttyp;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+    });
+</script>    
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Role Commission</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+
+
+      
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Role Name</th>
+                    <th class="hidden-mobile">Activity Name</th>
+                    <th class="hidden-mobile">Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->collection as $comm){ ?>
+                <tr>
+                    <td><?php echo $comm->getRoleId()->getName(); ?></td>
+                    <td><?php echo $comm->getResourceId()->getOriginalname(); ?></td>
+                    <td>
+                        <a href="<?php echo $this->url('role-commission-edit',array('id'=>$comm->getId())); ?>" title="Update">
+                                <img alt="Update" src="/images/icon/table_edit.png" height="18" width="18">
+                        </a>
+                        
+                        <a data-confirm="Are You Sure..?" href="<?php echo $this->url('role-commission-delete',array('id'=>$comm->getId())); ?>" title="Delete">
+                                <img alt="Delete" src="/images/icon/table_del.png" height="18" width="18">
+                        </a>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+       
+        <div class="clearfix"></div>
+    </div>
+</div>
+<?php //echo $this->partial('payments/ajax/modal.phtml'); ?>
+

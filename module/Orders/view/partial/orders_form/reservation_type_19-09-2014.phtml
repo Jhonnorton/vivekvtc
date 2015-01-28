@@ -1,0 +1,150 @@
+<?php
+//d($this->data);
+switch ($this->data[0]['type']) {
+    case 1:
+        $typeName = "Resort Name";
+        $roomCategory = $this->data[0]['inventory']->getTitle();
+        $roomCategoryId = $this->data[0]['inventory']->getId();
+       // $stock = $this->data[0]['inventory']->getNumberAvailable();
+       // $available=2;
+        $dataExtraType = \Inventory\Model\Items::LINKED_TO_RESORT_NAME;
+        
+        $start = $this->dataSearch->start;
+        $end = $this->dataSearch->end;
+        break;
+    case 2:
+        $typeName = "Event Name";
+        $roomCategory = $this->data[0]['inventory']->getRoomCategory();
+        $roomCategoryId = $this->data[0]['inventory']->getId();
+       // $available = $this->data[0]['inventory']->getTotalAvailable();
+        $dataExtraType = \Inventory\Model\Items::LINKED_TO_EVENT_NAME;
+        $eventStartModified = date('Y-m-d', strtotime($this->data[0]['event']->getStartDate()->format("Y-m-d")) - (24 * 3600 * 5));
+        $eventEndTwoModified = date('Y-m-d', strtotime($this->data[0]['event']->getStartDate()->format("Y-m-d")) + (24 * 3600 * 2));
+        $eventEndModified = date('Y-m-d', strtotime($this->data[0]['event']->getEndDate()->format("Y-m-d")) + (24 * 3600 * 5));
+        $start = $this->data[0]['event']->getStartDate()->format("Y-m-d");
+        $end = $this->data[0]['event']->getEndDate()->format("Y-m-d");
+        break;
+    case 3:
+        $typeName = "Cruise Name";
+        $roomCategory = $this->data[0]['inventory']->getDeckName();
+        $roomCategoryId = $this->data[0]['inventory']->getId();
+        //$available = $this->data[0]['inventory']->getTotalAvailable();
+        $dataExtraType = \Inventory\Model\Items::LINKED_TO_CRUISE_NAME;
+        
+        $start = $this->data[0]['event']->getTourStartDate()->format("Y-m-d");
+        $end = $this->data[0]['event']->getTourEndDate()->format("Y-m-d");
+        break;
+}
+?>
+<div id="entity-details">
+    <div id="ajax-where" class="formRow control-group">
+        <?php //echo $this->formLabel($form->get('resortId')); ?>
+        <label class="" for="typeName"><?php echo $typeName; ?></label>
+        <div class="formRight">
+            <?php echo $this->data[0]['event']->getTitle(); ?>
+        </div>
+    </div>
+
+    <div id="ajax-where" class="formRow control-group">
+        <label for="roomCategory" class="required">Room Category</label> 
+        <div class="formRight">
+            <?php echo $roomCategory; ?>
+        </div>
+    </div>
+    <input type ="hidden" name="pageaction" value="1">
+    <input type="hidden" name="stc" id="stc" value="<?php echo $stock ; ?>">
+    <input type="hidden" name="roomNetPrice" id="rnp" value="0">
+     <input type="hidden" name="addonsNetPrice" id="anp" value="0">
+    <input type="hidden" name="dataTypeId" id="data-type-id" value="<?php echo $this->data[0]['event']->getId(); ?>">
+    <?php if ($this->data[0]['type'] == 2) { ?>
+         <input type="hidden" name="roomCategory" id="event-rooms" value="<?php echo $roomCategoryId ?>">
+         <input type="hidden" name="dataExtraType" id="data-extra-type" value="<?php echo $dataExtraType; ?>">
+        <input type="hidden" name="eventStart" id="hid-start" value="<?php echo $this->data[0]['event']->getStartDate()->format("Y-m-d") ?>">
+        <input type="hidden" name="eventEnd" id="hid-end" value="<?php echo $this->data[0]['event']->getEndDate()->format("Y-m-d"); ?>">
+        <input type="hidden" name="eventStart_modified" id="hid-mod-start" value="<?php echo $eventStartModified; ?>">
+        <input type="hidden" name="eventend_two" id="hid-mod-end-two" value="<?php echo $eventEndTwoModified; ?>">
+        <input type="hidden" name="eventEnd_modified" id="hid-mod-end" value="<?php echo $eventEndModified; ?>">
+    <?php } elseif ($this->data[0]['type'] == 3) { ?>
+        <input type="hidden" name="roomCategory" id="cruise-cabins" value="<?php echo $roomCategoryId  ?>">
+        <input type="hidden" name="dataExtraType" id="data-extra-type" value="<?php echo $dataExtraType; ?>">
+        <input type="hidden" name="cruiseStart" id="hid-start" value="<?php echo $this->data[0]['event']->getTourStartDate()->format('Y-m-d'); ?>">
+        <input type="hidden" name="cruiseEnd" id="hid-end" value="<?php echo $this->data[0]['event']->getTourEndDate()->format('Y-m-d'); ?>">
+    <?php }else{ ?>
+        <input type="hidden" name="roomCategory" id="resort-rooms" value="<?php echo $roomCategoryId; ?>">
+        <input type="hidden" name="dataExtraType" id="data-extra-type" value="<?php echo $dataExtraType; ?>">
+   <?php  } ?>
+    <!-- added date first to suit needs of reservation -->
+
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travelFrom')); ?>
+        <div class="formRight">
+            <?php
+//            echo $this->formElement($form->get('travelFrom')
+//                            ->setAttribute('id', 'dateFrom')
+//                            ->setAttribute('class', 'span input')
+//                            ->setAttribute('value', $start));
+            echo $start;
+            ?>
+<?php //echo $this->formElementErrors($form->get('travelFrom'), array('class' => 'help-inline')); ?>
+        </div>
+        <input type ="hidden" name="travelFrom" value="<?php echo $start;?>">
+    </div>
+    <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('travelTo')); ?>
+        <div class="formRight">
+            <?php
+//            echo $this->formElement($form->get('travelTo')
+//                            ->setAttribute('id', 'dateTo')
+//                            ->setAttribute('class', 'span input')
+//                            ->setAttribute('value', $end));
+            echo $end;
+            ?>
+        <input type ="hidden" name="travelTo" value="<?php echo $end;?>">
+<?php echo $this->formElementErrors($form->get('travelTo'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div id="ajax-what" class="formRow control-group"></div>
+    <div id="entity-item-details">
+
+        <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('noOfDays')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('noOfDays')->setAttribute('class', 'span input')); ?>
+<?php echo $this->formElementErrors($form->get('noOfDays'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div class="formRow control-group">
+<?php echo $this->formLabel($form->get('roomRate')); ?>
+            <div class="formRight input-prepend">
+                <span class="add-on">$</span>
+                <?php
+                echo $this->formElement($form->get('roomRate')
+                                ->setAttribute('id', 'grossPrice')
+                                ->setAttribute('class', 'span8 input')
+                                ->setAttribute('value', $this->dataSearch->price));
+                ?>
+<?php echo $this->formElementErrors($form->get('roomRate'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        <div class="formRow control-group">
+            <label for="inv_room_avail">Rooms Available</label>
+            <div class="formRight">
+                <span id="inventory_room_available">  </span>
+            </div>
+        </div>
+        <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('roomRequired')); ?>
+            <div class="formRight">
+<?php echo $this->formElement($form->get('roomRequired')->setAttribute('class', 'span input')); ?>
+<?php echo $this->formElementErrors($form->get('roomRequired'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    #inventory_room_available{color:green;}
+</style>
+
+

@@ -1,0 +1,29 @@
+
+<div class="search-data">
+      <?php foreach($this->data as $rows=>$key):?>
+    <div class="type_title"><?php echo $key[0]->getHotelName(); ?></div>
+    <table class="table table-bordered" width=100%>
+        <tr>
+            <th>Room Name</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+        <?php foreach($key as $row) :
+            $data_url = array("type"=>1 ,"typeId"=>$row->getResortId(),"id"=>$row->getId(),"start"=>$this->searchData['from'],"end"=>$this->searchData['to']);
+            $data_url = urlencode(json_encode($data_url));
+            ?>
+        <tr>
+            <td><?php echo $row->getRoomId()->getTitle();?></td>
+            <td><img src="<?php echo $this->imgPath.$row->getRoomId()->getImage();?>"></td>
+            <td><?php echo $row->getGrossPrice(); ?></td>
+            <td><a href="<?php echo $this->url("orders-add",array('dataUrl'=> $data_url)); ?>"><input type="button" value="Book" class="btn btn-info" id="search" name="book"> </a></td>
+        </tr>
+            <?php endforeach;?>
+    </table>
+    <?php endforeach; ?>
+</div>
+
+<style>
+    .type_title{font-weight: bold;font-size: 20px;}
+    </style>

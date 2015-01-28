@@ -1,0 +1,59 @@
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php 
+    endif;
+endif;
+
+
+?>
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-plus"></i>
+			</div>
+			<span>Newsletters</span>
+			<div class="clearfix"></div>
+		</div>
+        
+		<div class="clearfix"></div>
+	</div>
+	<div class="grid-content overflow">
+                <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+                    <th class="hidden-mobile">Subject</th>
+                    <th class="hidden-mobile">To</th>
+                    <th class="hidden-mobile">Template</th>
+                    <th class="hidden-mobile">Date</th>
+                                       
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($newsletter as $news){?>
+                <tr>
+                    <td><?php echo $news->getSubject();?></td>
+                    <td><?php $to = $news->getToType(); if($to==1){echo "Client";}if($to==2){echo "Reseller";}if($to==3){echo "Agent";}?></td>
+                    <td><?php echo "New Template 1";?></td>
+                    <td><?php echo $news->getAddedOn()->format('M d, Y');?></td>
+                    
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+		<div class="clearfix"></div>
+	</div>
+	
+</div>
+<?php echo $this->partial('users/ajax/modal.phtml');?>
+
+
+

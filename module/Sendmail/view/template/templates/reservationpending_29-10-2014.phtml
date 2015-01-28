@@ -1,0 +1,220 @@
+<?php //d($this->affiliatename);
+//d($this->data['travellers']);
+     
+$reservation=$this->data['reservation'];
+$affiliate=$reservation->getAffiliateId();
+
+$type=$reservation->getType();
+
+$paymentDue=$this->data['paymentDues'];
+
+//d($reservation);
+$reservationdate = ($reservation->getCreatedAt() instanceof \DateTime) ? $reservation->getCreatedAt()->format('M jS/Y') : $reservation->getCreatedAt();
+$travelfromdate = ($reservation->getDateFrom() instanceof \DateTime) ? $reservation->getDateFrom()->format('M jS') : $reservation->getDateFrom();
+$traveltodate = ($reservation->getDateTo() instanceof \DateTime) ? $reservation->getDateTo()->format('M jS Y') : $reservation->getDateTo();
+$transfer=$reservation->getTransferCost();
+$excursion=$reservation->getExcursionCost();
+$item =$reservation->getItemCost();
+$totalcost=$reservation->getTotalCost();
+$finalcost=$reservation->getfinalCost();
+$discount=$reservation->getAppliDiscount();
+$merchantfee=$reservation->getMerchantFee();  
+$notes=$reservation->getClientNotes();
+
+$depositeamount=$reservation->getDepositAmoun();
+$balance=$reservation->getBalansAfterDeposit();
+
+$clientdetail=$this->clientdetail;
+$clientname=$clientdetail->getName();
+$clientaddress=$clientdetail->getAddress();
+$clientcity=$clientdetail->getCity();
+$clientstate=$clientdetail->getState();
+$clientcountry=$clientdetail->getCountry();
+$clientzip=$clientdetail->getZip();
+$clientphone=$clientdetail->getPhone();
+$clientemail=$clientdetail->getEmail();
+
+
+$invoice=$this->invoice;
+
+if($reservation->getType()==2){
+//d($resorts);
+$itemname=$this->itemname;
+$hotelName=$resorts->getTitle();
+$roomcategory=$itemname->getRoomId()->getTitle();
+$grossprice=$reservation->getRoomRate();
+$country=$this->country;
+
+}elseif ($reservation->getType()==1) {
+$itemname=$this->itemname;
+$hotelName=$resorts->getTitle();
+$roomcategory=$itemname->getTitle();
+$grossprice=$reservation->getRoomRate();
+$country=$this->country;
+}else{
+    
+$itemname=$this->itemname;
+$hotelName=$cruise->getTitle();
+$roomcategory=$itemname->getDeckName();
+$grossprice=$reservation->getRoomRate();
+$country=$this->country;
+    
+    
+}
+?>
+<table width="690" border="0" cellspacing="0" cellpadding="0" style="background:#fff url(http://192.155.246.146:9065/images/template/mainBg.jpg) repeat-x bottom left; margin:0 auto; font-family:Century Gothic; font-size:14px;">
+  <tr>
+    <td width="20">&nbsp;</td>
+    <td colspan="2">&nbsp;</td>
+    <td width="20">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td width="20">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td rowspan="3" valign="top" style="background:#fdcc0a; padding:20px; font-size:12px;" width="270">
+    <p style="margin:0; padding:0; color:#fff;"><?php if($this->affliatename){ echo $this->affliatename;}else{ echo 'Agent';}?><br />
+   
+      Res No.  <?php echo $reservation->getReferenceNumber();?><br/>
+      Date:<?php echo $reservationdate;?></p>
+    
+   <!-- <p style="margin:10px 0; padding:0; color:#333;">Your reservation is pending  <?php if($type==2){?>for <?php echo $this->data['hotelName'];}?> at <?php echo $hotelName;?>, In <?php echo $country;?>. you will find all the information relevant to your reservation. Please call the attached number for further instructions</p>-->
+
+	<p style="margin:10px 0; padding:0; color:#333;"> Below you will find the details of your reservations and payment.Please call the attached number with any questions you may have.</p>
+    
+    <p style="margin:10px 0; padding:0; color:#333;"><strong style="font-size:20px; letter-spacing:-2px;">GUEST TRAVELLING: <?php echo count($this->data['travellers']);?></strong><br>
+      <?php // foreach($this->data['travellers'] as $traveller){
+                           // echo $traveller.'<br>';
+             // }
+      
+       foreach($this->data['travellers'] as $traveller){
+                            echo $traveller->getTraveller()->getName().'<br>';
+              }
+       ?>     
+    </p>
+    <p style="margin:10px 0; padding:0; color:#333;"><strong style="font-size:20px; letter-spacing:-2px;">WHERE YOU WILL BE STAYING</strong><br>
+    <?php if($type==3){ echo 'Cruise';}else{ echo 'Hotel';}?>:  <?php echo $hotelName;?><br>
+      Location:<?php echo $country;?><br>
+      Board: All exclusive</p>
+    <p style="margin:10px 0; padding:0; color:#333;"><strong style="font-size:20px; letter-spacing:-2px;">ACCOMODATIONS</strong><br>
+      Room Cat: <?php echo $roomcategory;?><br>
+      Stay:<?php echo $travelfromdate.' - '. $traveltodate  ?><br>
+      Cost:<?php echo $grossprice;?> per room <!-- person nightly --></p>
+    <p style="margin:10px 0; padding:0; color:#333;"><strong style="font-size:20px; letter-spacing:-2px;">FLIGHT</strong><br>
+      <?php if($reservation->getFlight()==1){?>  
+      Roundtrip from <?php echo $reservation->getReturnFrom()?> to <?php echo $reservation->getReturnTo()?><br>
+      Total: $<?php echo $reservation->getFlightTotalCost(); ?></p>
+      <?php }else{
+          
+          echo "No flight Details Available";
+      } ?>
+    <p style="margin:10px 0; padding:0; color:#333;"><strong style="font-size:20px; letter-spacing:-2px;">EXTRAS</strong><br>
+      
+      Transfers: $<?php echo $transfer;?><br>
+      Trip insurance: $120<br>
+      Excursion: $<?php echo $excursion; ?><br>
+      Items:$<?php echo $item;?><br>
+      Total: $<?php echo ($transfer+$excursion+$item);?></p>
+    <p style="margin:10px 0; padding:0; color:#333;"><strong style="font-size:20px; letter-spacing:-2px;">COST</strong><br>
+     
+ 
+    <?php if(!empty($discount)||!empty($merchantfee)){ ?>  
+      Total: $<?php echo $finalcost;?><br>
+      Discount:-$<?php echo $discount;?><br>
+      Merchant Fee: $<?php echo $merchantfee;?><br>
+      New Total: $<?php echo ($finalcost-($discount+$merchantfee))?>
+    <?php }else{?>
+       Total: $<?php echo $finalcost;?><br>
+    <?php }?> 
+    
+    </p>
+    
+    
+    <p style="margin:10px 0; padding:0; color:#333;"><strong style="font-size:20px; letter-spacing:-2px;">NOTES</strong><br>
+   
+    <?php if($notes) {
+      echo  $notes;
+    }else{ ?>   
+    No notes were recorded for this reservation</p></td>
+    <?php } ?>
+    <td rowspan="3" valign="bottom" style="background:#fdcc0a; padding:0 " width="31"><img src="http://192.155.246.146:9065/images/template/vertclTxt.png" width="31" height="397" alt=""></td> 
+    <!--leftpanel ends-->
+    
+    
+    
+    <td>&nbsp;</td>
+    <td rowspan="3" valign="top" align="right" style="width:300px;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="right"><img src="http://192.155.246.146:9065/images/template/logo.jpg" width="267" height="116" alt="" /></td>
+      </tr>
+      <tr>
+        <td align="right" style="color:#a1a2a4; font-size:10px;">Sunset Destination and Adults Tours Inc.<br />
+          Tico Reg#:<br />
+          IATA#:<br />
+          30 Eglinton Ave.West.Suite C-12<br />
+          Mississauga ON<br />
+          Canada L5R 3E7<br />
+          Phone: 1800 458 2099<br />
+          Email: reservations@vacationparties.com</td>
+      </tr>
+      <tr>
+        <td><br>
+          <br>
+          <br></td>
+      </tr>
+      <tr>
+        <td align="right" style="font-size:14px;">Client Name:<?php echo $clientname;?><br>
+          Address:<?php echo $clientaddress;?><br>
+          City :<?php echo $clientcity;?><br>
+          State:<?php echo $clientstate;?><br>
+          Country:<?php echo $clientcountry;?><br>
+          Zip:<?php echo $clientzip;?><br>
+          Phone:<?php echo $clientphone?><br>
+          Email:<?php echo $clientemail?></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      
+        <tr>
+        <td><h2 style="font-size:20px; color:#000; font-weight:normal; margin:0;
+        padding:0;">TERM OF BOOKING</h2>
+        
+        <p style="font-size:12px; color:#87887e; margin:0; padding:0; text-align:justify"> You can cancel this reservation without penalty within 24 hours of completing your first payment.
+                            After 24 hours, your rights to any refund are limited to the terms and conditions contained
+                            within this link:<br/>
+                            <a href="http://vacationparties.com/termofbooking">Terms of Booking</a> <br/>
+                            Travel Insurance:<br/>
+                            Travel Insurance was offered to you and you declined.Please view our terms on refusal of trip insurance:<br/> 
+                            <a href="http://vacationparties.com/termofbooking">Terms of Booking</a> </p>
+        </td>
+      </tr>
+    </table></td><!--rightpanel ends-->
+    
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td colspan="2">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+ <?php /*if(isset($this->link)):?>
+      <p>
+          <a href="<?php echo isset($this->link)? $this->link:'#';?>"><?php echo isset($this->linkName)? $this->linkName:'link';?></a>
+      </p>        
+ <?php endif; */?>
+<?php //die;?>

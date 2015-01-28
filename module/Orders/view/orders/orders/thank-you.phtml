@@ -1,0 +1,29 @@
+<?php 
+
+$response = $this->data;
+?>
+
+<div class="grid">    
+    <div class="grid-content overflow">
+        <?php if($data): ?>
+        <div class="status-msg"><?php echo $data['message']; ?></div>
+        <div class="return_home"> <a href="<?php echo $this->url('dashboard'); ?>">Click here</a> to go to Dashboard.</div>
+        
+        <?php
+        else:?>
+        <div class="status-msg">The page is expired.<a href="<?php echo $this->url('dashboard'); ?>">Click here</a> to go to Dashboard. </div>
+        
+        <?php endif; ?>
+        
+        <div class="clearfix"></div>
+    </div>
+</div>
+<style>
+    .status-msg{
+        color:lightseagreen;
+        font-size: 30px;
+        margin-bottom: 23%;
+        margin-left: 20%;
+        margin-top: 16%;
+    }
+    </style>

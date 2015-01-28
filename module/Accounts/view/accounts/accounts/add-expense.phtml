@@ -1,0 +1,55 @@
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-edit"></i>
+            </div>
+            <span>Add Expense</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content">
+
+        <form method='post' action=''>
+         
+         <div class="formRow control-group">
+             <label>Name : </label>
+            <div class="formRight">
+                <input type="text" class='span input' name="name">
+            </div>
+        </div>	
+        
+         <div class="formRow control-group">
+             <label>Category : </label>
+            <div class="formRight">
+                <select name="category" class="span input">
+                    <?php foreach($this->categories as $category){?>
+                    <option value="<?php echo $category->getId(); ?>"><?php echo $category->getName(); ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>	
+        
+        <div class="formRow control-group">
+             <label>Amount : </label>
+            <div class="formRight">
+                <input type="text" class='span input' name="amount" placeholder="$">
+            </div>
+        </div>	
+      
+
+        
+        <div class="formRow control-group">
+            <input type='submit' value='Submit' class='btn btn-info'>
+        </div>
+
+        <div class="clearfix"></div>
+        </form>
+    </div>
+
+
+</div>
+
+

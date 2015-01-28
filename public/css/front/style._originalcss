@@ -1,0 +1,307 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 	-----------------------------------------------------
+	------------------- General Styles ------------------
+	----------------------------------------------------- */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, main {display:block;}
+audio, canvas, video {display:inline-block; *display:inline; *zoom:1;}
+audio:not([controls]) {display:none;}
+	
+* {margin:0; padding:0; outline:none;}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin:0; padding:0; border:0; outline:0; font-size:100%; background:transparent;}
+
+blockquote, q {quotes:none;}
+blockquote:before, blockquote:after, q:before, q:after,  {content:''; content:none;}
+:focus {outline:0;}
+ins {text-decoration:none;}
+del {text-decoration:line-through;}
+table {border-collapse:collapse; border-spacing:0;}
+
+
+a, a:hover, a:active, a:focus {outline:none; outline-style:none; outline-width:0; }
+
+img {width:auto\9; height:auto; max-width:100%; vertical-align:middle; border:0; -ms-interpolation-mode:bicubic;}
+button, html input[type="button"], input[type="reset"], input[type="submit"] {cursor:pointer; -webkit-appearance:button;}
+label, select, button, input[type="button"], input[type="reset"], input[type="submit"], input[type="radio"], input[type="checkbox"] {cursor:pointer;}
+input[type="search"] {-webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; -webkit-appearance:textfield;}
+input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-search-cancel-button {-webkit-appearance:none;}
+textarea {overflow:auto; vertical-align:top;}
+
+body {margin:0; padding:0; font-family:"Myriad Pro"; color:#797979; background:#fff; font-size:12px;}
+
+.clr {font-size:0; height:0; line-height:0; clear:both;}
+.left {margin:0; padding:0; width:auto; height:auto; float:left;}
+.right {margin:0; padding:0; width:auto; height:auto; float:right;}
+
+.imgleft{ float:left; margin:0px 15px 15px 0px; }
+.imgright{ float:right; margin:0px 0px 15px 15px; }
+
+
+.cbp-ntaccordion {	list-style: none;	margin: 0;	padding: 0;}
+
+.cbp-ntsubaccordion {	list-style: none;}
+
+.cbp-ntaccordion .cbp-nttrigger {	cursor: pointer;} 
+
+.cbp-ntaccordion h3 {	font-family:"Myriad Pro"; color:#240e24; font-size:32px; font-weight:normal;  height:40px; line-height:40px; text-align:left; border-bottom:none; padding:10px 0px;  }
+.cbp-ntaccordion .bigborder{  height:40px; }
+.cbp-ntaccordion .cbp-ntcontent {	height: 0;	overflow: hidden;}
+
+.cbp-ntaccordion .cbp-ntopen > .cbp-ntcontent, .cbp-ntsubaccordion .cbp-ntopen > .cbp-ntcontent, .no-js .cbp-ntaccordion .cbp-ntcontent { 	height: auto;}
+
+.arrow01{ padding:0px 0px 0px 0px;   }
+
+.cbp-ntopen h3.cbp-nttrigger{  }
+
+.cbp-ntopen h3.cbp-nttrigger .arrow01{  padding:0px 0px 0px 0px; color:#240e24; font-size:32px; font-family:"Myriad Pro"; font-weight:normal; }
+.arrow01 span{ background:#fff; padding:0px 0px; }
+
+
+.cbp-ntcontent{ background:none; }
+
+
+	.top-secure{ width:97%; margin:0px; padding:30px 3% 30px 0px; display:table; text-align:right; }
+	
+	.topheading{ color:#240e24; font-size:24px; font-family:"Myriad Pro"; font-weight:normal; text-align:center; margin:0px 0px 20px 0px;  }
+	.topsubheading{ color:#240e24; font-size:14px; font-weight:normal; text-align:center; }
+	
+	input[type="text"]{ width:95%; margin:0px; padding:4px 2%; background:#fbfbfb; border:1px solid #d5d5d5; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; height:18px; line-height:18px; }
+	
+	input[type="email"]{ width:95%; margin:0px; padding:4px 2%; background:#fbfbfb; border:1px solid #d5d5d5; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; height:18px; line-height:18px; }
+	
+	input[type="password"]{ width:95%; margin:0px; padding:4px 2%; background:#fbfbfb; border:1px solid #d5d5d5; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; height:18px; line-height:18px; }
+	
+	select{ width:100%; margin:0px; padding:4px 2%; background:#fbfbfb; border:1px solid #d5d5d5; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; height:26px; line-height:18px; }
+	
+	.btn{ color:#fff; background:#414141; border-radius:7px; -moz-border-radius:7px; -webkit-border-radius:7px; text-align:center; font-size:18px; width:170px; height:50px; text-decoration:none; float:left; line-height:50px; cursor:pointer; margin:0px 10px 0px 0px; }
+	
+	
+/* 	-----------------------------------------------------
+	------------------- Content Styles ------------------
+	----------------------------------------------------- */
+	
+	#content-section{ border-top:1px solid #7f7f7f; width:960px; margin:40px auto; padding:40px 0px 0px 0px; }
+	
+
+
+/* 	-----------------------------------------------------
+	------------------- Step01 Styles ------------------
+	----------------------------------------------------- */
+	
+	#step01{ margin:0px; padding:20px 0px; width:100%; border-bottom:1px solid #7f7f7f; }
+		#step01 .heading{ color:#240e24; font-size:22px; font-family:"Myriad Pro"; font-weight:normal; margin:0px 0px 6px 0px; }
+		#step01 .subheading{ color:#959595; font-size:14px; font-family:"Myriad Pro"; font-weight:normal; margin:0px 0px 16px 0px; }
+		
+		#step01 .roomdetails{ width:60%; float:left; margin:0px; padding:0px; display:table; }
+		#step01 .roomdetails .textsection{ height:130px; margin:0px; padding:0px; }
+		#step01 .roomdetails .textsection p{ color:#000; font-size:15px; font-style:italic; font-weight:bold; }
+		#step01 .roomdetails .btn{ color:#fff; background:#414141; border-radius:7px; -moz-border-radius:7px; -webkit-border-radius:7px; text-align:center; font-size:18px; width:170px; height:50px; text-decoration:none; float:left; line-height:50px; cursor:pointer; margin:0px 10px 0px 0px; }
+		
+		#step01 .roomprice{ width:30%; float:right; margin:0px; padding:0px; display:table; }
+		#step01 .roomprice p.price{ color:#000; font-size:50px; }
+		#step01 .roomprice p.price span{ font-size:11px; }
+		#step01 .roomprice p.pricesub{ color:#959595; font-size:14px; margin:0px 0px 10px 0px; padding:0px 0px 0px 20px; }
+		#step01 .roomprice p.selecttext{ color:#240e24; font-size:17px; padding:0px 0px 0px 30px; }
+		
+	
+		/* 	-----------------------------------------------------
+	------------------- Step02 Styles ------------------
+	----------------------------------------------------- */
+	
+	#step02{ width:100%; margin:0px; padding:10px 0px; border-bottom:1px solid #7f7f7f; }
+	
+		#step02 .fbox01{ margin:0px; padding:0px 0px 35px 0px; display:table; width:100%; color:#959595; font-size:14px; }
+			#step02 .fbox01 .b01{ width:5%; float:left; line-height:26px; }
+			#step02 .fbox01 .b02{ width:21%; float:left; padding:0px 2% 0px 0px; }
+			
+		
+		#step02 .fbox02{ margin:0px; padding:0px 0px 35px 0px; display:table; width:100%; color:#959595; font-size:14px; }
+			#step02 .fbox02 .b01{ width:5%; float:left; line-height:26px; }
+			#step02 .fbox02 .b02{ width:21%; float:left; padding:0px 2% 0px 0px; }
+			#step02 .fbox02 .b03{ width:13%; float:left; }
+			#step02 .fbox02 .b04{ width:10%; float:left; line-height:26px; }
+			
+			#step02 .fbox02 .b05{ width:18%; float:left; padding:0px 2% 0px 0px;  }
+			
+		#step02 h2.travelinfo{ color:#240e24; font-size:17px; margin:0px 0px 20px 0px;}
+		
+		
+		#step02 .fbox03{ margin:0px; padding:0px 0px 15px 0px; display:table; width:100%; color:#959595; font-size:14px; }
+			#step02 .fbox03 .b01{ width:5%; float:left; line-height:26px; }
+			#step02 .fbox03 .b02{ width:21%; float:left; padding:0px 2% 0px 0px; }
+			#step02 .fbox03 .b03{ width:13%; float:left; }
+			#step02 .fbox03 .b04{ width:10%; float:left; line-height:26px; }
+			
+			#step02 .fbox03 .b05{ width:18%; float:left; padding:0px 2% 0px 0px;  }
+			
+			
+			#step02 .fbox04{ margin:0px; padding:0px 0px 15px 0px; display:table; width:100%; color:#959595; font-size:14px; }
+			#step02 .fbox04 .b01{ width:10%; float:left; line-height:26px; }
+			#step02 .fbox04 .b02{ width:16%; float:left; padding:0px 2% 0px 0px; }
+			#step02 .fbox04 .b03{ width:13%; float:left; }
+			#step02 .fbox04 .b04{ width:10%; float:left; line-height:26px; }
+			
+			#step02 .fbox04 .b05{ width:18%; float:left; padding:0px 2% 0px 0px;  }
+			#step02 .fbox04 .b06{ width:5%; float:left; line-height:26px; }
+			#step02 .fbox04 span{ color:#000; font-style:italic; }
+			
+			
+			#step02 .fbox05{ margin:0px; padding:0px 0px 15px 0px; display:table; width:100%; color:#959595; font-size:14px; }
+			#step02 .fbox05 .b01{ width:3%; float:left; line-height:26px; }
+/*comment strat july 7th			
+			#step02 .fbox05 .b02{ width:12%; float:left; padding:0px 2% 0px 0px; }
+*/
+			#step02 .fbox05 .b02{ width:25%; float:left; padding:0px 2% 0px 0px; }
+/* end comment*/			
+			#step02 .fbox05 .b03{ width:23%; float:left; }
+			#step02 .fbox05 .b04{ width:8%; float:left; line-height:26px; }
+			
+			#step02 .fbox05 .b05{ width:23%; float:left; padding:0px 0% 0px 2%;  }
+			#step02 .fbox05 .b06{ width:5%; float:left; line-height:26px; }
+			#step02 .fbox05 span{ color:#000; font-style:italic; line-height:26px; }
+			
+			
+			#step02 .fbox06{ margin:0px; padding:0px 0px 15px 0px; display:table; width:100%; color:#959595; font-size:14px; line-height:26px; }
+			#step02 .fbox06 .b01{ width:3%; float:left; line-height:26px; }
+			#step02 .fbox06 .b02{ width:12%; float:left; padding:0px 2% 0px 0px; }
+			#step02 .fbox06 .b03{ width:18%; float:left; }
+			#step02 .fbox06 .b04{ width:8%; float:left; line-height:26px; }
+			
+			#step02 .fbox06 .b05{ width:27%; float:left; padding:0px 0% 0px 2%;  }
+			#step02 .fbox06 .b06{ width:5%; float:left; line-height:26px; }
+			#step02 .fbox06 span{ color:#000; font-style:italic; line-height:26px; }
+			
+			
+			#step02 .fbox07{ margin:0px; padding:30px 0px 15px 0px; display:table; width:100%; color:#959595; font-size:14px; line-height:26px; }
+			#step02 .fbox07 .b01{ width:3%; float:left; line-height:26px; }
+			#step02 .fbox07 .b02{ width:16%; float:left; padding:0px 2% 0px 0px; }
+			#step02 .fbox07 .b03{ width:10%; float:left; }
+			#step02 .fbox07 .b04{  width:10%; float:left; padding:0px 2% 0px 0px; text-align:right; }
+			
+			#step02 .fbox07 .b05{ width:27%; float:left; padding:0px 0% 0px 2%;  }
+			#step02 .fbox07 .b06{ width:5%; float:left; line-height:26px; }
+			#step02 .fbox07 span{ color:#000; font-style:italic; line-height:26px; }
+			
+			
+			#step02 .fbox08{ margin:0px; padding:0px 0px 25px 0px; display:table; width:100%; color:#959595; font-size:14px; line-height:26px; }
+			#step02 .fbox08 .b01{ width:3%; float:left; line-height:26px; }
+			#step02 .fbox08 .b02{ width:16%; float:left; padding:0px 2% 0px 0px; }
+			#step02 .fbox08 .b03{ width:10%; float:left; }
+			#step02 .fbox08 .b04{  width:10%; float:left; padding:0px 2% 0px 0px; text-align:right; }
+			
+			#step02 .fbox08 .b05{ width:27%; float:left; padding:0px 0% 0px 2%;  }
+			#step02 .fbox08 .b06{ width:5%; float:left; line-height:26px; }
+			#step02 .fbox08 span{ color:#000; font-style:italic; line-height:26px; }
+			
+			
+			#step02 .fbox09{ margin:0px; padding:0px 0px 25px 0px; display:table; width:100%; color:#959595; font-size:14px; line-height:26px; }
+			#step02 .fbox09 .b01{ width:3%; float:left; line-height:26px; }
+			#step02 .fbox09 .b02{ width:46%; float:left; padding:0px 2% 0px 0px; }
+			#step02 .fbox09 .b03{ width:10%; float:left; }
+			#step02 .fbox09 .b04{  width:10%; float:left; padding:0px 2% 0px 0px; text-align:right; }
+			
+			#step02 .fbox09 .b05{ width:37%; float:left; padding:0px 0% 0px 2%;  }
+			#step02 .fbox09 .b06{ width:5%; float:left; line-height:26px; }
+			#step02 .fbox09 span{ color:#000; font-style:italic; line-height:26px; }
+			
+			#step02 .fbox09 a.btn{ margin:-22px 0px 0px 0px; float:right; }
+		
+	
+	/* 	-----------------------------------------------------
+	------------------- Step03 Styles ------------------
+	----------------------------------------------------- */
+	
+		#step03{ width:100%; margin:0px; padding:10px 0px; border-bottom:1px solid #7f7f7f; }
+		
+		#step03 p.greytext{ color:#959595; font-size:14px; margin:10px 0px 10px 0px; }
+		
+		#step03 .box01{ width:100%; margin:0px; padding:0px 0px 20px 0px; display:table; }
+		
+		#step03 .box01 .l01{ width:20%; margin:0px; padding:0px; float:left; }
+		#step03 .box01 .l03{ width:15%; margin:0px; padding:30px 5% 0px 0px; float:left; text-align:right; }
+		#step03 .box01 .l02{ width:54%; margin:0px; padding:80px 3% 0px 3%; float:left; text-align:center; color:#000; font-size:18px; font-style:italic; }
+		
+		#step03 .box01 .l03 p.price{ color:#000; font-size:50px; }
+		#step03 .box01 .l03 p.price span{ font-size:11px; }
+		#step03 .box01 .l03 p.pricesub{ color:#959595; font-size:14px; margin:0px 0px 10px 0px; padding:0px 0px 0px 0px; }
+		#step03 .box01 .l03 p.selecttext{ color:#240e24; font-size:17px; padding:0px 0px 0px 0px; }
+		
+		#step03 p.splbtn{ text-align:right; padding:0px 4% 0px 0px; }
+		#step03 p.splbtn a.btn{ float:right; }
+		
+
+/* 	-----------------------------------------------------
+	------------------- Step04 Styles ------------------
+	----------------------------------------------------- */
+	
+	#step04{ width:100%; margin:0px; padding:20px 0px; border-bottom:1px solid #7f7f7f; }
+	
+		.orderbox{ width:100%; margin:0px; padding:10px 0px; display:table; border-top:1px solid #cccccc; color:#240e24; font-size:18px; }
+		.orderbox.botb{ border-bottom:1px solid #cccccc; }
+			.orderbox .left{ width:auto; float:left; margin:0px; padding:0px 0px 0px 1%; }
+			.orderbox .right{ width:auto; float:right; margin:0px; padding:0px 1% 0px 0px; }
+			
+	
+	#step04 .block01{ width:100%; margin:0px; padding:30px 0px 0px 0px; }
+	
+	#step04 .block01 .box01{ margin:0px; padding:0px 0px 15px 1%; display:table; color:#240e24; font-size:17px; }
+	#step04 .block01 .box01 span{ font-size:13px; font-style:italic; margin:0px 0px 0px 10px; }
+	#step04 .block01 .box01 input[type="checkbox"]{ margin:0px 10px 0px 0px; }
+	
+	#step04 .block01 .box01 span a{ color:#240e24; text-decoration:underline; }
+	
+	#step04 .block02{ width:100%; margin:0px; padding:70px 0px 70px 0px; display:table; text-align:right; }
+	#step04 .block02 a.btn{ float:right; }
+	
+	#step04 .block03{ width:100%; margin:0px; padding:0px 0px 0px 1%; display:table; }
+	
+		#step04 .block03 .box01{ width:auto; float:left; margin:0px; padding:0px 30px 0px 0px; color:#240e24; font-size:18px; }
+		#step04 .block03 .box01 input[type="checkbox"]{ margin:0px 10px 0px 0px; }
+		
+	
+	#step04 .block04{ width:100%; margin:0px; padding:30px 0px 0px 1%; display:table; }
+	#step04 .block04 .box01{ width:30%; margin:0px; padding:0px 20px 0px 0px; float:left;  }
+	#step04 .block04 .box02{ width:40%; line-height:26px; color:#000; font-size:13px; font-style:italic; float:left; }
+	
+	#step04 .block05{ width:100%; margin:0px; padding:10px 0px 0px 1%; display:table; color:#959595; font-size:14px; font-style:italic; }
+
+		
+/* 	-----------------------------------------------------
+	------------------- Step05 Styles ------------------
+	----------------------------------------------------- */
+	
+	#step05{ width:100%; margin:0px; padding:20px 0px; border-bottom:1px solid #7f7f7f; }
+	
+		#step05 .formbox{ width:99%; margin:0px; padding:0px 0px 0px 1%; display:table; }
+			#step05 .formbox .box01{ width:auto; margin:0px; padding:0px 40px 10px 0px; float:left; color:#240e24; font-size:18px; }
+			#step05 .formbox .box01 input[type="checkbox"]{ margin:0px 10px 0px 0px; }
+			
+			#step05 .formbox01{ width:100%; margin:0px; padding:0px 0px 0px 0%; display:table; }
+			#step05 .formbox01 .box01{ width:auto; margin:0px; padding:0px 40px 10px 0px; float:left; color:#240e24; font-size:18px; }
+			#step05 .formbox01 .box01 input[type="checkbox"]{ margin:0px 10px 0px 0px; }
+			
+			#step05 p.greytext{ color:#959595; font-size:14px; font-style:italic; margin:10px 0px 10px 0px; }
+			#step05 .formbox01 .box01 h2{ font-size:24px; font-weight:normal; }
+			
+		#step05 .formbox01{ width:100%; margin:0px; padding:15px 0 0 0; display:table; }
+		
+		#step05 .formbox01 .left{ width:70%; margin:0px; padding:0px; float:left; }
+		
+		
+		#step05 .formbox01 .left .formrow{ width:100%; margin:0px 0px 16px 0px; padding:0px; display:table; }
+		#step05 .formbox01 .left .formrow .l01{ margin:0px; padding:0px; width:15%; float:left; color:#959595; font-size:14px; line-height:26px; text-align:right; }
+		#step05 .formbox01 .left .formrow .l02{ margin:0px; padding:0px 0px 0px 2%; width:30%; float:left; }
+		
+		
+		#step05 .formbox01 .right{ width:20%; margin:0px; padding:110px 0 0 0; float:right; }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+

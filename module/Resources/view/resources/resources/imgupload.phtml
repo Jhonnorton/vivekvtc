@@ -1,0 +1,67 @@
+<?php
+$form = $this->form;
+
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'imgupload'
+));
+
+$form->setAttribute('method', 'post');
+$form->setAttribute('enctype', 'multipart/form-data');
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-bookmark"></i>
+            </div>
+            <span>Add User</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a href="#"><i class="icon-refresh"></i></a>
+            </div>
+            <div class="icon-title">
+                <a href="#"><i class="icon-user"></i></a>
+            </div>
+            <div class="icon-title">
+                <a href="#"><i class="icon-cog"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+<?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+        <div class="formRow control-group">
+<?php echo $this->formLabel($form->get('image')); ?>
+            <div class="formRight">
+            <?php echo $this->formFile($form->get('image')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('image'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+        <div class="formRow control-group">
+<?php echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+<?php echo $this->form()->closeTag() ?>
+</div>
+
+<script>
+
+    $(function() {
+        $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+        $('.error input').keyup(function() {
+            $(this).parents('.formRow').removeClass('error');
+            $(this).next('ul.help-inline').remove();
+        });
+
+
+    });
+</script>
+
+

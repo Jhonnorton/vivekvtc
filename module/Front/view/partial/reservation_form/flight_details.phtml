@@ -1,0 +1,84 @@
+  <div class="fbox07" id="flightinfo" style="display:none">
+      <div class="b03"> <?php // echo $this->formLabel($form->get('flightGoingAway')); ?><label>Preferred Airport</label></div>
+                        <div class="b02">
+                          <?php echo $this->formElement($form->get('flightGoingAway')->setAttribute('class', 'span input')); ?>
+                          <?php echo $this->formElementErrors($form->get('flightGoingAway'), array('class' => 'help-inline')); ?>
+                         <span>Airfare quote will be provided separately.</span>
+                        </div>
+     
+<!--                        <div class="b04"><?php echo $this->formLabel($form->get('flightReturnHome')); ?></div>
+                        <div class="b02">
+                              <?php echo $this->formElement($form->get('flightReturnHome')->setAttribute('class', 'span input')); ?>
+                               <?php echo $this->formElementErrors($form->get('flightReturnHome'), array('class' => 'help-inline')); ?>
+                        </div>
+                        
+                        <div class="b04">Return From</div>
+                        <div class="b02">
+                         <input type="text" name="returnFrom" class="span input"/> 
+                        </div>
+                      -->
+
+ </div>  
+<!--<div class="fbox07" id="flightinfo1" style="display:none">
+                        <div class="b03">Return To</div>
+                        <div class="b02"> <input type="text" name="returnTo" class="span input"/></div>
+                        <div class="b04"><?php echo $this->formLabel($form->get('flightTotalCost')); ?></div>
+                        <div class="b02">  <?php echo $this->formElement($form->get('flightTotalCost')->setAttribute('class', 'span input')); ?>
+                        <?php echo $this->formElementErrors($form->get('flightTotalCost'), array('class' => 'help-inline')); ?>
+                      </div>
+
+ </div>-->
+
+<!--
+<div class="flight" style="display:none">
+    <div class="formRow control-group">
+        <?php /*echo $this->formLabel($form->get('flightGoingAway')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('flightGoingAway')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('flightGoingAway'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('flightReturnHome')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('flightReturnHome')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('flightReturnHome'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <label for="returnFrom">Return From</label>
+        <div class="formRight">
+            <input type="text" name="returnFrom" class="span input"/>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <label for="returnTo">Return To</label>
+        <div class="formRight">
+            <input type="text" name="returnTo" class="span input"/>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('flightTotalCost')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('flightTotalCost')->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('flightTotalCost'), array('class' => 'help-inline'));*/ ?>
+        </div>
+    </div>
+</div>-->
+<script>
+$(function(){
+    $('#flight').click(function(){
+        //console.log($(this).is(':checked'));
+        if($(this).is(':checked')){
+            $('#flightinfo').show();
+            $('#flightinfo1').show();
+        } else {
+            $('#flightinfo').hide();
+            $('#flightinfo1').hide();
+            $('input[name="flightGoingAway"]').val('');
+            $('input[name="flightReturnHome"]').val('');
+            $('input[name="flightTotalCost"]').val(0);
+        }
+    });
+});
+</script>

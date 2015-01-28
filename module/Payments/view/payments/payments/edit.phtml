@@ -1,0 +1,260 @@
+<?php
+$form = $this->form;
+
+//d($view);
+$collection = $this->collection;
+$paymentDue = $collection['paymentDues'];
+//d($paymentDue);
+foreach ($paymentDue as $item) {
+    $transfers[] = $item->getreservation();
+    //   $transfers[]=$item->getdueDate()->format('Y-m-d') instanceof \DateTime;
+}
+$id=$paymentDue[0]->getreservation()->getId();
+//d($transfers);
+//die;
+//d($paymentDue);
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'payments-edit',array('id' =>$id)
+));
+$form->setAttribute('method', 'post');
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Update Payment</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+        <div class="formRow control-group">                        
+
+
+
+            <?php //echo $this->partial('partial/payments_form/cost_part');   ?>
+
+            <?php //echo $this->partial('partial/payments_form/notes');   ?>
+
+            <?php //echo $this->partial('partial/payments_form/payment', array('form' => $form));   ?>
+            <input type="hidden" id="today" value="<?php echo date('Y-m-d'); ?>">
+
+
+            <div class="formRow control-group">
+                <h4>Payment</h4>
+                <hr />
+            </div>
+
+          
+
+            <?php foreach ($paymentDue as $item) { ?>
+                <div id="due-date">
+                    <div class="formRow control-group">
+                        <?php
+                        $transfers[] = $item->getdueDate();
+                        $dueAmount[] = $item->getpaymentDue();
+                      //  echo $item->getpaymentDue();
+                        ?>
+                       
+                        <?php  echo $this->formElement($form->get('dueid[]')
+                                            ->setAttribute('value',$item->getId())); ?>
+                        <?php echo $this->formLabel($form->get('nextPaymentDue[]')); ?>
+                        <div class="formRight input-prepend">
+                            <span class="add-on">$</span>
+                            <?php
+                            echo $this->formElement($form->get('nextPaymentDue[]')
+                                           ->setAttribute('value',$item->getpaymentDue())
+                                                   ->setAttribute('class', 'span8 input'));
+                            ?>
+                            <?php echo $this->formElementErrors($form->get('nextPaymentDue[]'), array('class' => 'help-inline')); ?>
+                        </div>
+                    </div>
+
+
+
+                    <div class="formRow control-group">
+                        <?php echo $this->formLabel($form->get('dueDate1[]')); ?>
+                        <div class="formRight">
+                            <?php
+                            echo $this->formElement($form->get('dueDate1[]')
+                                            ->setAttribute('min', date('Y-m-d'))
+                                            ->setAttribute('value', ($item->getdueDate() instanceof \DateTime) ? $item->getdueDate()->format('Y-m-d') : $item->getdueDate())
+                                            ->setAttribute('class', 'span8 input'));
+                            ?>
+                            <?php echo $this->formElementErrors($form->get('dueDate1[]'), array('class' => 'help-inline')); ?>
+                        </div>
+                    </div>
+                </div>
+
+            <? } ?>
+  
+            <div class="formRow control-group">			
+                <div class="formRight">
+                    <input type="button" value="Add" class="btn btn-info" id="addduebutton" name="dueButton">    
+                    <input type="button" value="Issue Refund" class="btn btn-info" onclick="issueRefund()" id="issueRefundButton" name="issueRefundButton"> 	
+                </div>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+<?php ?>
+    <button id="submitbtn" class="btn btn-success" type="submit"  name="submit" onclick=''>Save</button>
+    
+    <!--
+      <a href="<?php /*echo $this->url(
+                'payments-canceled',array('id' =>$id)
+); */?>">-->
+        <button class="btn btn-warning">
+                                      Cancel Reservation
+        </button>
+      </a>
+    
+    
+<!--    <button id="creat" class="btn btn-success" type="submit"  name="submit" onclick=''>Save As Draft</button>-->
+   <!-- <button id="resetbutton" class="btn btn-warning" type="reset"  name="reset" >Reset</button>                                
+-->
+</div>
+<div id="issue-refund-form" title="Issue Refund"
+			style="display: none;">
+			<input type="hidden" value="<?php echo $id;?>" id="paymentId">
+			<div id="due-date">
+                    <div class="formRow control-group">
+                        <label for="depositAmoun">Amount Collected</label>                        
+                        <div class="formRight input-prepend" style="width: 68%;">
+                            <input id="depositAmoun" type="text" readonly="readonly" value="<?php echo $item->getreservation()->getdepositAmoun();?>" class="span8 input" style="width:178px;" min="0" name="refundamt">                                                    </div>
+                        </div>
+                    </div>
+
+                    <div class="formRow control-group">
+                    <label for="refundAmt">Amount To Be Refunded</label> 
+                        <div class="formRight" style="width: 68%;">
+                            <input id="refundAmt" type="text" value="" class="span8 input" style="width:178px;" min="0" name="">                                                    </div>
+                        </div>   
+                        
+                        <div id="refundSuccessMsg" class="formRow control-group" style="text-align: center; color: red;display:none;">Issue refund has been processed.</div>                                               </div>
+                    </div>
+                </div>
+		</div>
+
+
+        <div id="ajax-script"></div>
+        <div class="clearfix"></div>
+
+    </div>
+    <?php echo $this->form()->closeTag() ?>
+</div>
+</div>
+<?php //echo $this->partial('orders/ajax/modal.phtml');    ?>
+<script src="/js/date-formater.js"></script>
+<script src="/js/reservation.js"></script>
+<script>
+    Reservation.init();
+    $(function() {
+        $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+        $('.error input').keyup(function() {
+            $(this).parents('.formRow').removeClass('error');
+            $(this).next('ul.help-inline').remove();
+        });
+    });
+</script>
+<script>
+
+var issueRefund = function(){
+	dialogForm.dialog('open');
+	$('div.ui-dialog-buttonset button:nth-child(1)').addClass("btn-info");
+	$("div.ui-dialog-buttonset button:nth-child(2)").addClass("btn-info");
+}
+
+var dialogForm = $("#issue-refund-form")
+.dialog({autoOpen : false,
+         height : 271.833,
+         width : 601.833,
+         modal : true, closeOnEscape: false,
+         buttons : {"Process" : function()
+                    {
+        	 $.ajax({
+     		        url : '/admin/payments/ajax/refundAmount',
+      		        type: 'POST',
+                    data : {refundAmount:$('#refundAmt').val(),depositAmoun:$('#depositAmoun').val(),id:$('#paymentId').val()},
+                    success : function(data)
+                    {
+                        if(data=='success') {
+                            $('#refundSuccessMsg').show();
+                        	window.setTimeout(function(){
+                                window.location.href = "/admin/payments";
+                            }, 2000);
+                        }
+                    },
+                    error : function(request,
+                                     status,
+                                     error)
+                    {
+
+                    }});
+//                         $(this).dialog("close");
+                    },
+                    "Cancel" : function()
+                    {
+                        $(this).dialog("close");
+                    }}});
+                    
+    $(function() {
+
+
+        if ($('#deposit').is(':checked')) {
+            $('#deposit-due-fields').show();
+        }
+        $('#deposit-due-fields').show();
+        $('input[name="paymentType"]').click(function() {
+            console.log('change');
+            if ($('#deposit').is(':checked')) {
+                $('#deposit-due-fields').show();
+            } else {
+                $('#deposit-due-fields').hide();
+            }
+
+        });
+
+    });
+</script>
+
+<script type="text" id="add-duedate">
+    <div class="added-duedates">
+    <div class="formRow control-group">
+
+    <hr/>
+    <div class="formRight">
+
+
+    </div>
+    </div>
+    <div class="formRow control-group">
+    <?php echo $this->formLabel($form->get('nextPaymentDue[]')); ?>
+    <div class="formRight input-prepend">
+    <span class="add-on">$</span>
+    <input type="text" name="nextPaymentDue[]" class="span8 input" >
+    </div>
+    </div>
+
+    <div class="formRow control-group">
+    <?php echo $this->formLabel($form->get('dueDate1[]')); ?>
+    <div class="formRight">
+    <input type="date" name="dueDate1[]" class="duedate  span input" required="required">
+    </div>
+    </div>           
+
+    <div class="formRow control-group">
+
+    <div class="formRight">
+    <span style="float: right">
+    <button type="button" class="remove-due btn btn-danger btn-small metro">Remove</button>
+    <span>
+    <div class="clearfix"></div>
+    </div>
+    </div>
+    </div>
+</script>

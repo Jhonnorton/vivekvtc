@@ -1,0 +1,26 @@
+<?php //d($this->roomId)?>
+<label for="roomId" class="required">Room Category</label>                    
+<div class="formRight">    
+    <select name="roomId" required="required" class="chzn-select chosen_select width-100 roomId">        
+        <option value="">please select room...</option>
+        <?php foreach ($this->collection as $item):?>                
+            <option value="<?php echo $item->getId();?>" <?php if($this->roomId == $item->getId()) echo 'selected="selected"' ;?>><?php echo $item->getRoomCategory();?></option>
+        <?php endforeach;?>    
+    </select> 
+</div>
+
+<input type="hidden" name="eventStart" id="hid-start" value="<?php echo $this->data->getStartDate()->format('Y-m-d'); ?>">
+<input type="hidden" name="eventEnd" id="hid-end" value="<?php echo $this->data->getEndDate()->format('Y-m-d'); ?>">
+
+<script>
+    $('.chzn-select').chosen();
+    
+     $('.roomId').change(function() {
+        var id = $(this).val();
+        $.post('/admin/inventory/ajax/resort/roomsbyid/' + id, {id: id}, function(data) {
+            d = jQuery.parseJSON(data);
+            //$("#noa").val(d.stock);
+            $("#netPrice").val(d.price);
+        });
+    });
+</script>

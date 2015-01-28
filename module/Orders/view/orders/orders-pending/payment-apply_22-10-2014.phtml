@@ -1,0 +1,245 @@
+<?php
+//d($collection['reservation']->getbalansAfterDeposit());
+$form = $this->form;
+
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'order-apply-payment', array('id' => $collection['id'])
+));
+
+$form->setAttribute('method', 'post');
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Due Payment</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('totalCost')); ?>
+            <div class="formRight">
+                <?php
+                echo $this->formElement($form->get('totalCost')
+                                ->setAttribute('max', $collection['reservation']->getFinalCost())
+                                ->setAttribute('class', 'span input')
+                                ->setAttribute('id', 'cost'));
+                ?>
+                <script>
+//                    $(document).ready(function(){
+//                     $('#cost').blur(function(){
+//                         
+////                     alert('cost');
+//                        var cost=$(this).val();
+//                        alert(cost);
+//                        var due=$(this).attr('rel');
+//                        alert(due);
+//                        if(cost>due){
+//                            alert('Please Enter Value less than your Due Amount');
+//                        }
+//                    });
+//                    });
+                </script>
+
+                <?php echo $this->formElementErrors($form->get('totalCost'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>    
+        <div class="formRow control-group">			
+            <label for="pay-option" class="required">Already Collected:</label>
+            <div class="formRight">
+                <div name="pay-option" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="ex" class="click-pay" name="type" checked="checked" value="2" >
+                        <label for="ex"><span></span>No </label>
+                    </p>
+                    <p>
+                        <input type="radio" id="cc" class="click-pay" name="type" value="1" >
+                        <label for="cc"><span></span>yes</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="ccd">
+
+            <div class="formRow control-group">			
+                <label for="payment-option" class="required">Select Payment Option:</label>
+                <div class="formRight">
+                    <div name="payment-option" class="distance distance-2">
+                        <p>
+                            <input type="radio" id="express" class="payment-mode" name="payment-type" value="1" >
+                            <label for="express"><span></span>Express Checkout </label>
+                        </p>
+                        <p>
+                            <input type="radio" id="credit" class="payment-mode" name="payment-type"  checked="checked" value="2" >
+                            <label for="credit"><span></span> Credit Card</label>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dodirect">
+                <div class="formRow control-group">
+                    <label for="billName">Name</label>                    
+                    <div class="formRight">
+                        <input type="text" value="" class="span input"  name="billName">                                        
+                    </div>
+                </div>
+                <div class="formRow control-group">
+                    <label for="billName">Street Name</label>                    
+                    <div class="formRight">
+                        <input type="text" value="" class="span input"  name="billSuite">                                        
+                    </div>
+                </div>
+                <div class="formRow control-group">
+                    <label for="billName">Suite #</label>                    
+                    <div class="formRight">
+                        <input type="text" value="" class="span input"  name="billStreet">                                        
+                    </div>
+                </div>
+                
+                 <div class="formRow control-group">
+                    <label for=" billCity">City</label>                    
+                    <div class="formRight">
+                        <input type="text" value="" class="span input"  name="billCity">                                        
+                    </div>
+                </div>
+                
+                 <div class="formRow control-group">
+                    <label for="billState">State</label>                    
+                    <div class="formRight">
+                        <input type="text" value="" class="span input"  name="billState">                                        
+                    </div>
+                </div>
+                
+                <div class="formRow control-group">
+                    <label for="billCountry">Country</label>                    
+                    <div class="formRight">
+                        <select name="billCountry" class="chzn-select chosen_select width-100 chzn-done">
+                            <?php foreach($this->countries as $country){ ?>
+                            <option value="<?php echo $country->getIso2(); ?>" <?php if($country->getCountryName()=="United States"){echo "selected";} ?>>
+                                <?php echo $country->getCountryName(); ?>
+                            </option>
+                            <?php } ?>
+                        </select>                                       
+                    </div>
+                </div>
+                
+                <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('typeOfCard')); ?>
+                    <div class="formRight">
+                        <?php echo $this->formElement($form->get('typeOfCard')->setAttribute('class', 'span input')); ?>
+                        <?php echo $this->formElementErrors($form->get('typeOfCard'), array('class' => 'help-inline')); ?>
+                    </div>
+                </div>
+
+                <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('cardNumber')); ?>
+                    <div class="formRight">
+                        <?php echo $this->formElement($form->get('cardNumber')->setAttribute('class', 'span input')); ?>
+                        <?php echo $this->formElementErrors($form->get('cardNumber'), array('class' => 'help-inline')); ?>
+                    </div>
+                </div>
+
+                <!-- chzn-select chosen_select width-100 -->
+                <div class="formRow control-group">
+                    <?php echo "Card Expiry" ?>
+                    <div class="formRight">
+                        <select name="cardMonth" class="">
+                            <option value="01">January</option>
+                            <option value="02">Febuary</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>    
+                        </select>
+
+                        <select  name="cardYear">
+                            <?php foreach (range(date('Y'), date('Y') + 15) as $i): ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('cvvNumber')); ?>
+                    <div class="formRight">
+                        <?php echo $this->formElement($form->get('cvvNumber')->setAttribute('class', 'span input')); ?>
+                        <?php echo $this->formElementErrors($form->get('cvvNumber'), array('class' => 'help-inline')); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div><input type="hidden" name="sec" value="<?php $collection; ?>"></div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formSubmit($form->get('billProcess')->setAttribute('class', 'btn btn-info')) ?>
+        </div>
+        <div class="clearfix"></div>
+
+        <?php echo $this->form()->closeTag(); ?>
+    </div>
+
+    <script>
+
+        $(document).ready(function() {
+
+            $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+            $('.error input').keyup(function() {
+                $(this).parents('.formRow').removeClass('error');
+                $(this).next('ul.help-inline').remove();
+            });
+
+            $('.chzn-select').chosen();
+
+        });
+
+        $('.click-pay').click(function() {
+            var type = $(this).val();
+
+            if (type == 2) {
+                $("#ccd").show();
+
+            } else {
+
+                $('input[name="cvvNumber"]').removeAttr('required');
+                $("#ccd").hide();
+
+            }
+        });
+
+
+        $('.payment-mode').click(function() {
+            var type = $(this).val();
+
+            if (type == 1) {
+               $("#dodirect").hide();
+
+            } else {
+
+                $('input[name="cvvNumber"]').removeAttr('required');
+                $("#dodirect").show();
+
+            }
+        });
+        
+       
+
+
+
+    </script>

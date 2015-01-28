@@ -1,0 +1,127 @@
+<?php
+
+//
+//d($this->collection[0]->getUserId()->getJoinedOn());
+if (!is_null($this->message)):
+    
+   // d($this->message);
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+
+<?php
+$date = date('Y-m-d');
+//d($this->collection); die; //echo $date; die;
+?>
+
+<script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->paymenttyp)) {
+    echo $this->paymenttyp;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+    });
+</script>    
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Reseller</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+
+
+    
+
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Reseller Name</th>
+                    <th class="hidden-mobile">Reg Date</th>
+                    <th class="hidden-mobile">Total Order</th>
+                    <th class="hidden-mobile">Total Clients</th>
+                    <th class="hidden-mobile">Status</th>
+                    <th class="hidden-mobile">Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+              $total = 0;
+                $i = 0;
+                $totalreceived = 0;
+                $totaldue = 0;
+                foreach ($this->collection as $item):
+                   // d($item->getUserId()->getJoinedOn()->format("Y-m-d"));
+                   //echo $item->getUserId()->getJoinedOn()->format("Y-m-d");die;
+                    $totalorder=$item['ordercount'];
+                    $agentName = $item['affiliate']->getName();
+                    $statue=$item['affiliate']->getIsApproved();    
+                 
+                    ?>                  
+
+                    <tr>
+                    
+                        <td class="hidden-mobile"><?php echo $agentName; ?></td>    
+
+                        <td class="hidden-mobile"> <?php
+                                           echo $item['regdate']->format("Y-m-d");
+                         ?></td>				
+
+                        <td class="hidden-mobile"><?php echo $totalorder?></td>
+                        
+                         <td class="hidden-mobile"><?php echo '0' ?></td>
+
+                        <td class="hidden-mobile">
+                            <span class="s_<?php echo $item['affiliate']->getIsApproved() ? 'green' : 'gray'; ?>">
+                            <?php echo $item['affiliate']->getIsApproved() ? 'Active' : 'Blocked'; ?>
+                            </span>
+                            
+                            
+                        </td>
+
+                       
+
+                        <td class="action-table">     
+                        
+                           <a href="<?php echo $this->url('affiliate-edit', array('id' => $item['affiliate']->getId())); ?>">
+                                <img src="/images/icon/table_edit.png" alt="">
+                            </a>
+                          <a href="<?php echo $this->url('affiliate-commission-set', array('id'=>$item['affiliate']->getId()));?>">
+                                Set Commission
+                            </a>
+                        
+                        </td>
+
+                    </tr>                    
+                <?php  endforeach;  ?>
+            </tbody>
+        </table>
+      
+      
+        <div class="clearfix"></div>
+    </div>
+</div>
+<?php //echo $this->partial('payments/ajax/modal.phtml'); ?>
+

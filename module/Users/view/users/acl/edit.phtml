@@ -1,0 +1,237 @@
+<?php
+$form = $this->form;
+
+//d($form->get('resource')->getValue());
+
+$resource = $form->get('resource')->getValue();
+
+
+//d($this->form);
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'acl-edit', array('id' => $form->get('id')->getValue())
+));
+
+$form->setAttribute('method', 'post');
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-edit"></i>
+            </div>
+            <span>Edit Role</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <?php echo $this->form()->openTag($form); ?>
+    <?php echo $this->formElement($form->get('id')); ?>
+    <div class="grid-content">
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('name')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('name')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('name'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('isActive')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('isActive')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+                <?php echo $this->formElementErrors($form->get('isActive'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+        
+        
+            <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('description')); ?>
+            <div class="formRight multicheckbox">
+                <?php echo $this->formElement($form->get('description')->setAttribute('class', 'ckeditor')); ?>
+                <?php echo $this->formElementErrors($form->get('description'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('resource')); ?>
+            <div class="formRight multicheckbox">
+                <?php echo $this->formElement($form->get('resource')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('resource'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+       <div class="selectall span">
+        <input type="checkbox"  id="checkAll" class="span input"> <label for="all" class="">Assign All</label>
+        </div>
+            <?php
+           /*$result = array();
+            foreach ($permission as $col) {
+
+
+                if ($col->getModule()) {
+
+
+
+                    $id = $col->getModule()->getId();
+                    // d($id);
+                    if (isset($result[$id])) {
+                        $result[$id][] = $col;
+                    } else {
+                        $result[$id] = array($col);
+                    }
+                } else {
+                    //echo 'else';
+                }
+            }?>
+        <div class="selectall span">
+        <input type="checkbox"  id="checkAll" class="span input"> <label for="all" class="">Assign All</label>
+        </div>
+        <ul class="span12">
+                
+           <?php
+            $i = 0;
+            foreach ($result as $item) {
+
+                //echo    "<pre>"; print_r($item);//$item->getModule
+                ?> <li class="span3">
+                    <input type="checkbox" name="module[]" id="tall" class="span input" value="<?php //echo $item[$i]->getModule()->getId();  ?>">
+                    <label for="tall"><?php echo $item[0]->getModule()->getName(); ?></label>
+                    <?php
+                    foreach ($item as $child) {
+                        ?>
+
+                        <ul>
+                            <?php if ( $child->getOriginalname() && $child->getStatus()== 1) { ?>
+                                <li>
+                                    <input type="checkbox" name="resource[]" <?php if (in_array($child->getId(),$this->checked)){?> checked <?php } ?>  id="tall-1" class="span input" value="<?php echo $child->getId() ?>">
+                                    <label for="tall-1"><?php echo $child->getOriginalname(); ?></label>
+                                </li>
+                            <?php } else { ?>
+                                <li>
+                                      <input type="hidden" name="resource[]<?php //echo $i;   ?>" id="tall-1" class="span input" value="<?php echo $child->getId() ?>">
+                                </li>
+
+                            <?php }
+                            ?>
+
+                        </ul>
+
+                        <?php
+                    }
+                    echo "</li>";
+
+                    $i++;
+                }
+                echo "</ul>";
+
+// d($result);
+//  die;
+            
+            */
+              ?>
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+    <?php echo $this->form()->closeTag() ?>
+</div>
+
+<script>
+    
+       $("#checkAll").click(function(){
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+        
+    var formChecked = false;
+
+    $(function() {
+        $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+        $('.error input').keyup(function() {
+            $(this).parents('.formRow').removeClass('error');
+            $(this).next('ul.help-inline').remove();
+        });
+
+// 		$('form').submit(function (e){
+
+// 			if (formChecked === false) {
+// 				e.preventDefault();
+// 			}
+
+// 			formChecked = true;
+
+// 			var form = this;
+
+// 			$('form input[type=checkbox]').not(':checked').each(function() {
+// 				$(form).append('<input class="deny" type="hidden" name="deny[]" value='+ $(this).val() +'>');
+// 			});
+
+// 			$(form).submit();
+// 		});
+    });
+</script>
+
+<script>
+    $(function() {
+        // Apparently click is better chan change? Cuz IE?
+        $('input[type="checkbox"]').change(function(e) {
+            var checked = $(this).prop("checked"),
+                    container = $(this).parent(),
+                    siblings = container.siblings();
+
+            container.find('input[type="checkbox"]').prop({
+                indeterminate: false,
+                checked: checked
+            });
+
+            function checkSiblings(el) {
+                var parent = el.parent().parent(),
+                        all = true;
+
+                el.siblings().each(function() {
+                    return all = ($(this).children('input[type="checkbox"]').prop("checked") === checked);
+                });
+
+                if (all && checked) {
+                    parent.children('input[type="checkbox"]').prop({
+                        indeterminate: false,
+                        checked: checked
+                    });
+                    checkSiblings(parent);
+                } else if (all && !checked) {
+                    parent.children('input[type="checkbox"]').prop("checked", checked);
+                    parent.children('input[type="checkbox"]').prop("checked", (parent.find('input[type="checkbox"]:checked').length > 0));
+                    checkSiblings(parent);
+                } else {
+                    el.parents("li").children('input[type="checkbox"]').prop({
+                        indeterminate: true,
+                        checked: false
+                    });
+                }
+            }
+
+            checkSiblings(container);
+        });
+    });
+</script>

@@ -1,0 +1,121 @@
+<?php
+$clientname = $leads['name'];
+$clientmail = $leads['email'];
+$clientphone = $leads['phone'];
+$type = $leads['type'];
+$roomName = $leads['roomName'];
+$hotelName = $leads['hotelName'];
+$id = $leads['id'];
+$dateFrom = $leads['dateFrom'];
+$dateTo = $leads['dateTo'];
+$subject = $leads['subject'];
+$message =  html_entity_decode($leads['message']);
+
+//echo $message;
+
+
+//die;
+        
+
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Send Email</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>	
+
+    <div class="grid-content">
+
+
+        <form method="post" action="<?php echo $this->url('leads-sendmail', array('id' => $leads['id'])); ?>">
+
+            <div class="formRow control-group">
+                To :
+                <div class="formRight">
+                    <input type="email" id="toemail" name="toemail" class="span input" value="<?php echo $clientmail; ?>">
+
+                </div>
+            </div>
+
+            <div class="formRow control-group">
+                CC :
+                <div class="formRight">
+                    <input type="email" id="ccemail" name="ccemail" class="span input">
+
+                </div>
+            </div>
+
+            <!--        <div class="formRow control-group">
+                                Reply To :
+                                <div class="formRight">
+                                    <input type="email" id="replytoemail" name="replytoemail" class="span input">
+                                
+                                </div>
+                   </div>
+            -->        
+
+            <div class="formRow control-group">
+                Subject :
+                <div class="formRight">
+                    <input type="text" id="subject" name="subject" class="span input" value="<?php echo $subject; ?>">
+
+                </div>
+            </div>
+
+            <div class="formRow control-group">
+                Message
+                <div class="formRight">
+                    <textarea class="ckeditor" name="message"><?php echo $message ?></textarea></div>
+            </div>
+
+
+            <div class="formRow control-group">
+                <input type="submit" name="submit" class="btn btn-info" id="" value="Send">
+            </div>
+
+            <input type="hidden" id="clientphone" name="clientphone" class="" value="<?php echo $leads['phone']; ?>"> 
+            <input type="hidden" id="id" name="id" class="" value="<?php echo $leads['id']; ?>">
+            <input type="hidden" id="type" name="type" class="" value="<?php echo $leads['typeid']; ?>">
+            <input type="hidden" id="clientname" name="clientname" class="" value="<?php echo $clientname ?>">
+            <input type="hidden" id="dateFrom" name="dateFrom" class="" value="<?php echo ($dateFrom instanceof \DateTime) ? $dateFrom->format('Y-m-d') : $dateFrom; ?>">
+            <input type="hidden" id="dateTo" name="dateTo" class="" value="<?php echo ($dateTo instanceof \DateTime) ? $dateTo->format('Y-m-d') : $dateTo; ?>">
+            <input type="hidden" id="roomid" name="roomid" class="" value="<?php echo $leads['roomid'] ?>">
+            <input type="hidden" id="Typename" name="Typename" class="" value="<?php echo $leads['Typename'] ?>">
+            <input type="hidden" id="status" name="status" class="" value="1<?php //echo $leads['status'] ?>">
+
+
+        </form> 
+
+
+        <!-- <div class="formRow control-group">
+        <?php //echo $this->formLabel($form->get('message'));   ?>
+                <div class="formRight">
+        <?php //echo $this->formElement($form->get('message')->setAttribute('class', 'ckeditor'));   ?>
+        <?php //echo $this->formElementErrors($form->get('message'), array('class' => 'help-inline')); ?>
+                </div>
+        </div>  -->
+
+
+    </div>
+
+</div>
+
+<script>
+
+    $(function() {
+        $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+        $('.error input').keyup(function() {
+            $(this).parents('.formRow').removeClass('error');
+            $(this).next('ul.help-inline').remove();
+        });
+
+    });
+</script>
+
+

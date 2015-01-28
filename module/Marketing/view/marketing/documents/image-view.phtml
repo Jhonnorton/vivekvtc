@@ -1,0 +1,64 @@
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php 
+    endif;
+endif;
+
+
+?>
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-plus"></i>
+			</div>
+			<span>Image</span>
+			<div class="clearfix"></div>
+		</div>
+        
+		<div class="clearfix"></div>
+	</div>
+	<div class="grid-content overflow">
+                <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+                    <th class="hidden-mobile">Image</th>
+                    <th class="hidden-mobile">Type</th>
+                    <th class="hidden-mobile">Name</th>
+                    <th class="hidden-mobile">Date</th>
+                    <th class="hidden-mobile">Actions</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($image as $img){?>
+                <tr>
+                    <td><img src="/img/user_uploads/userdocimage/thumbnails_80x80/<?php echo $img->getFile();?>"></td>
+                    <td><?php $to = $img->getType(); if($to==1){echo "Resort";}if($to==2){echo "Event";}if($to==3){echo "Cruise";} if($to==4){echo "Items";}if($to==5){echo "Excursion";}if($to==6){echo "Transfer";} ?></td>
+                    <td></td>
+                    <td><?php echo $img->getCreated()->format('M d, Y');?></td>
+                    <td class="action-table">
+                        <a title="Download" href="/img/user_uploads/userdocimage/<?php echo $img->getFile();?>" download>
+                                <img src="/images/icon/download-icon.png" alt="">
+                            </a>
+                    </td>
+                    
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+		<div class="clearfix"></div>
+	</div>
+	
+</div>
+<?php echo $this->partial('users/ajax/modal.phtml');?>
+
+
+

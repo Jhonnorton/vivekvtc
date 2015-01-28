@@ -1,0 +1,108 @@
+<?php 
+    $form = $this->form;
+?>
+
+<div class="formRow control-group">
+   
+    <div class="formRight">
+        <div class="distance distance-2 payment-type">
+            <p>
+                <input type="radio" name="depositMethod" id="deposit-due" value="0"  <?php if(!$form->get('depositMethod')->getValue()) echo 'checked="checked"';?>>
+                <label for="deposit-due"><span></span> Pay</label>
+            </p>
+            <p>
+                <input type="radio" name="depositMethod" id="rcvd" value="1"  <?php if($form->get('depositMethod')->getValue()) echo 'checked="checked"';?>>
+                <label for="rcvd"><span></span> RCVD</label>
+            </p>
+        </div>
+    </div>
+</div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('depositAmount')); ?>
+        <div class="formRight input-prepend">
+            <span class="add-on">$</span>
+            <?php echo $this->formElement($form->get('depositAmount')
+                                               ->setAttribute('readonly', 'readonly')
+                                               ->setAttribute('class', 'span8 input')->setAttribute('value',$paymentData['deposit'])); ?>
+            <?php echo $this->formElementErrors($form->get('depositAmount'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+<?php 
+//$merchantFee = $paymentData['deposit']*0.025;
+?>
+<?php if($paymentData['balance']!=0){ ?>
+<div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('balansAfterDeposit')); ?>
+        <div class="formRight input-prepend">
+            <span class="add-on">$</span>
+            <?php echo $this->formElement($form->get('balansAfterDeposit')->setAttribute('class', 'span8 input')->setAttribute('readonly', 'readonly')->setAttribute("value",$paymentData['balance'])); ?>
+            <?php echo $this->formElementErrors($form->get('balansAfterDeposit'), array('class' => 'help-inline')); ?>
+        </div>
+</div>
+<?php } ?>
+
+<?php 
+if((int)$post['paymentType'] == 0):
+    $i =1;
+foreach($paymentData['paymentArray'] as $payment ):
+    
+    ?>
+
+<div id="due-date">
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('nextPaymentDue[]')); ?>
+        <div class="formRight input-prepend">
+            <span class="add-on">$</span>
+            <?php echo $this->formElement($form->get('nextPaymentDue[]')->setAttribute('class', 'span8 input cnt')
+                                                                        ->setAttribute('id', 'dueAmount'+$i)
+                                                                        ->setAttribute('value',$payment['dueAmount'])); ?>
+            <?php echo $this->formElementErrors($form->get('nextPaymentDue[]'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('dueDate1[]')); ?>
+        <div class="formRight">
+            <?php echo $this->formElement($form->get('dueDate1[]')
+                                               ->setAttribute('min', date('Y-m-d'))
+                                               ->setAttribute('id', 'duedate_'.$i)
+                                               ->setAttribute('value',$payment['maxFinalPaymentDue']->format("Y-m-d"))
+                                               ->setAttribute('class', 'span input')); ?>
+            <?php echo $this->formElementErrors($form->get('dueDate1[]'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>
+</div>
+
+<script>
+     $("#duedate_"+<?php echo $i ; ?>).Zebra_DatePicker({
+                    format: 'Y-m-d',
+                    direction: [$("#today").val(), false]
+                });
+    </script>
+<?php $i++; endforeach;?>
+<div id="added-due-info"></div>
+    <div class="formRow control-group">			
+    <div class="formRight">
+        <input type="button" value="Add" class="btn btn-info" id="addduebutton" name="dueButton">     	
+    </div>
+</div>
+<?php endif;?>
+<!--<div class="formRow control-group">
+    <?php echo $this->formLabel($form->get('merchantFee')); ?>
+    <div class="formRight">
+        <?php echo $this->formElement($form->get('merchantFee')->setAttribute('class', 'span input')
+                                                                ->setAttribute('readonly','readonly')
+                                                                ->setAttribute('value',round($merchantFee,2))); ?> 
+        <input type="number" value="0.00" class="span input" step="any" min="0" id="merchantFee" name="merchantFee">
+    </div>
+</div>-->
+
+<!--<div id="added-due-info"></div>
+    <div class="formRow control-group">
+        Amount to Pay : 
+    <div class="formRight">
+           	<b><?php //echo round($paymentData['deposit'],2); ?></b>
+    </div>
+</div>-->
+
+
+

@@ -1,0 +1,176 @@
+<?php 
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url(
+		'inventory-deposits-update', array('id' => $form->get('id')->getValue())
+));
+$form->setAttribute('method', 'post');
+$form->setAttribute('enctype', 'multipart/form-data');
+
+$depositName=$this->data->getdepositName(); 
+$id=$this->data->getId(); 
+$linkedTo=$this->data->getlinkedTo();
+if($linkedTo==4){
+    $typeId=$this->data->getresortId();
+}elseif($linkedTo==5){
+    $typeId=$this->data->geteventId();
+}else{
+    $typeId=$this->data->getcruiseId();
+}
+$typeIds=explode(',',$typeId);
+//print_r($typeIds);
+$type=$this->data->gettype(); 
+$amount=$this->data->getamount(); 
+$datefrom = ($this->data->getdateFrom() instanceof \DateTime) ? $this->data->getdateFrom()->format('Y-m-d') : $this->data->getdateFrom(); 
+$dateto = ($this->data->getdateTo() instanceof \DateTime) ? $this->data->getdateTo()->format('Y-m-d') : $this->data->getdateTo(); 
+
+?>
+<script>
+$(function() {
+        var id = <?php echo $linkedTo; ?>;        
+        var typeid = 0;        
+      //  alert(id);
+//       $.ajax(
+//               url:'/admin/inventory/ajax/type/'+id+'/'+typeid,
+//                po{id:id,typeid:typeid}, function(data){
+             $("#users").html("");
+             if(id == 4 || id == 5 || id == 6){
+                $.ajax({
+                    async:false,    
+                    url: '/admin/inventory/ajax/type/'+id+'/'+typeid,
+                    type: 'POST',
+                    data: {id:id,typeid:typeid},
+                    success: function(data){
+                      $('#users').html(data); 
+                    }
+                });
+             }
+
+//            alert(data);
+//            $('#users').html(data); 
+            
+              var value;
+        var jsarray=<?php echo json_encode($typeIds); ?>;
+        for (value in jsarray){
+            $('#resorts option[value='+jsarray[value]+']').attr('selected', 'selected');
+            }
+        }); 
+        
+   
+   
+</script>
+
+<script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($linkedTo)) {
+    echo $linkedTo;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+        $('#type option[value=<?php echo $type; ?>]').attr('selected', 'selected');
+
+});
+
+
+
+</script>
+<span id="hid" style="display:none;"></span>       
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div>
+            <span>Update Deposit</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a href="<?php //echo $this->url('inventory-promos-add'); ?>"><i class="icon-plus-sign"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content overflow">
+       
+        <?php echo $this->form()->openTag($form); ?>
+
+            <?php echo $this->formElement($form->get('id')->setAttribute('class', 'span input')->setAttribute('value',$id)); ?>
+                    <?php echo $this->formElementErrors($form->get('id'), array('class' => 'help-inline')); ?>
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('depositName')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('depositName')->setAttribute('class', 'span input')->setAttribute('value',$depositName)); ?>
+                    <?php echo $this->formElementErrors($form->get('depositName'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>  
+            <div class="formRow control-group">
+                 <?php echo $this->formLabel($form->get('linkedTo')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('linkedTo')->setAttribute('class', 'span input width-100')); ?>
+                    <?php echo $this->formElementErrors($form->get('linkedTo'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>
+            <div class="formRow control-group">
+                <span id="users" style="width:80%; float: right;"></span>
+            </div>
+            <div class="formRow control-group">
+                   <?php echo $this->formLabel($form->get('type')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('type')->setAttribute('class', 'span input width-100')->setAttribute('id', 'type')); ?>
+                    <?php echo $this->formElementErrors($form->get('type'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('amount')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('amount')->setAttribute('class', 'span input')->setAttribute('value', $amount)); ?>
+                    <?php echo $this->formElementErrors($form->get('amount'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('dateFrom')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('dateFrom')->setAttribute('class', 'span input')->setAttribute('value', $datefrom)); ?>
+                    <?php echo $this->formElementErrors($form->get('dateFrom'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('dateTo')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('dateTo')->setAttribute('class', 'span input')->setAttribute('value', $dateto)); ?>
+                    <?php echo $this->formElementErrors($form->get('dateTo'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>
+        
+        <div class="formRow control-group">
+                    <?php echo $this->formSubmit( $form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+                    <input id="resetbutton" class="btn btn-info" type="reset" value="Reset" name="reset"></input>
+            </div>
+        
+        <?php echo $this->form()->closeTag() ?>
+        
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<script>
+   
+  $('#myselect').change(function(){        
+        var id = parseInt($(this).val()); 
+        var typeid=0;
+      //  alert(id);
+       $("#users").html("");
+       if(id == 4 || id == 5 || id == 6){
+        $.post('/admin/inventory/ajax/type/'+id+'/'+typeid, {id:id,typeid:typeid}, function(data){
+            
+//            alert(data);
+            $('#users').html(data); 
+        });
+       }
+    });
+    
+   
+ </script>   

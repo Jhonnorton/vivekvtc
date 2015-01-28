@@ -1,0 +1,117 @@
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-edit"></i>
+            </div>
+            <span>Update Account Details</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content">
+
+        <form action="" method="post">
+         <div class="formRow control-group">
+             <input type="hidden" name="id" value="<?php echo $this->account['0']->getId(); ?>">
+             <label>
+                 Title : </label>
+            <div class="formRight">
+                <input type="text" name="name" class="span input" value="<?php echo $this->account['0']->getName(); ?>" required>
+            </div>
+        </div>	
+            <br><br>
+        <ul class="span12">   
+        <?php
+        $i = 0;
+        foreach ($this->roles as $item) {
+          
+     ?> <li class="span3">
+                <input type="checkbox" name="role[]" id="<?php echo $i; ?>" data-i="<?php echo $i; ?>" class="span input chk" value="<?php //echo $item[$i]->getModule()->getId(); ?>">
+                <label for="tall" class=""><b><?php echo $item->getRoleName(); ?></b></label>
+                <?php
+                $j=0;
+                foreach ($this->rolesactivity as $child) {
+                    ?>
+
+                   <ul>
+                       <?php if($child->getResellerRoleId()->getId()==$item->getId()){?>
+                        <li>
+                            <input type="checkbox" name="activity[]" data-i="<?php echo $i; ?>" class="span input chka <?php echo $i; ?>" value="<?php echo $child->getId() ?>" <?php if(!empty($this->related[$j])){ if($this->related[$j]->getResellerRolesAcitivityId()->getId()==$child->getId()){ echo "checked";} }?>>
+                            <label for="tall-1"><?php echo $child->getName(); ?></label>
+                        </li>
+                       <?php } ?>
+                    </ul>
+
+            <?php
+                
+                    $j++;
+                }
+                echo "</li>";
+
+               $i++;
+           } 
+            ?>
+        </ul>    
+            <br>
+         <div class="formRow control-group">
+             <label>
+                 Setup Fees : </label>
+            <div class="formRight">
+                 <input type="text" name="setupFee" class="span input" value="<?php echo $this->account['0']->getSetupFee(); ?>" required>
+            </div>
+        </div>	
+         <div class="formRow control-group">
+             <label>
+                 Time Span (months): </label>
+            <div class="formRight">
+                 <input type="text" name="timespan" class="span input" value="<?php echo $this->account['0']->getTimespan(); ?>" required>
+            </div>
+        </div>	
+         <div class="formRow control-group">
+             <label>
+                 Monthly Recurring Amount : </label>
+            <div class="formRight">
+                 <input type="text" name="monthlyamount" class="span input" value="<?php echo $this->account['0']->getMonthlyAmount(); ?>" required>
+            </div>
+        </div>	
+     
+
+        
+        <div class="formRow control-group">
+            <input type="submit" value="Submit" class="btn btn-info">
+        </div>
+            </form>
+        <div class="clearfix"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+$(function(){
+    $('.chk').click(function(){
+        var checked=$(this).attr('checked');
+        var i=$(this).attr('data-i');
+        if(checked=="checked"){
+            $('.'+i).attr('checked','true');
+        }else{
+            $('.'+i).removeAttr('checked');
+        }
+    });
+    $('.chka').click(function(){
+        var checked=$(this).attr('checked');
+        var i=$(this).attr('data-i');
+        if(checked=="checked"){
+            //$('.'+i).attr('checked','true');
+        }else{
+            $('#'+i).removeAttr('checked');
+        }
+    });
+});
+</script>
+
+
+

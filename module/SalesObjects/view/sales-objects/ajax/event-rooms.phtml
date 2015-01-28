@@ -1,0 +1,38 @@
+
+<?php if($this->collection){ ?>
+<form action="<?php echo $this->url('ajax-event-rooms',array('id'=>$this->eventId)); ?>" method="post">
+
+    
+ <?php   foreach($this->collection as $room){ 
+        $display='';
+        foreach($this->eventRooms as $erooms){
+            if($erooms->getRoomId()->getId()==$room->getId()){
+                $display="checked";
+                break;
+            }
+        }
+?>
+        <input type="checkbox" name="roomId[]" value="<?php echo $room->getId(); ?>" class="chkbox" <?php if(!empty($display)){ echo $display;} ?>>
+            <label class="labelR"><?php echo $room->getTitle(); ?></label>
+            
+<?php  } ?>
+       <input type="submit" value="Submit" class="btn btn-info">
+        </form>      
+<?php }else{
+    echo "No rooms in this resort";
+}
+?>
+           
+
+
+<style>
+    .chkbox{
+        display: block !important;
+        width:10% !important;
+        float: left;
+    }
+    .labelR{
+        float: left;
+        width: 89%;
+    }
+    </style>

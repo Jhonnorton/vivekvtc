@@ -1,0 +1,1 @@
+[04-Sep-2013 17:42:32 UTC] PHP Fatal error:  Allowed memory size of 104857600 bytes exhausted (tried to allocate 83804 bytes) in /home/dpfoc/public_html/demos/avp/app/webroot/js/ckeditor/plugins/pgrfilemanager/PGRThumb/php/Image/GD.php on line 151

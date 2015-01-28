@@ -1,0 +1,77 @@
+ <?php $rand=rand(100,999); ?>
+                        <div class="added-traveller">
+                        <div class="formRow control-group">
+
+                        <hr/>
+                        <div class="formRight">
+
+
+                        </div>
+                        </div> 
+                        <div class="formRow control-group">
+                        <label for="tname" class="required">Name</label>
+                        <div class="formRight">
+                        <input type="text" name="tname[]" class="span input require" error_msg="Enter Name" required="required">
+                        </div>
+                        </div>
+
+<div class="formRow control-group">			
+        <label for="sex" class="required">Sex</label>
+        <div class="formRight">
+            <div name="sex" class="distance distance-2">
+                <p>
+                    <input type="radio" id="male_<?php echo $rand; ?>" class="sex" required="required" name="tsex_<?php echo $rand; ?>" onClick="ajaxPriceCal(this,<?php echo $rand; ?>);"  error_msg="Select Gender" value="1">
+                    <label id="labm_<?php echo $rand; ?>" for="male_<?php echo $rand; ?>"><span></span>Male</label>
+                </p>
+                <p>
+                    <input type="radio" id="female_<?php echo $rand; ?>" required="required" class="sex" name="tsex_<?php echo $rand; ?>" onClick="ajaxPriceCal(this,<?php echo $rand; ?>);" error_msg="Select Gender" value="0">
+                    <label id="labf_<?php echo $rand; ?>" for="female_<?php echo $rand; ?>"><span></span>Female</label>
+                </p>
+                  <input type="hidden" name="random" class="random" value="<?php echo $rand; ?>">
+            </div>
+            
+            <div id="sex<?php echo $rand; ?>"></div>
+        </div>
+        
+    </div>
+                        <div class="formRow control-group">
+                        <label for="tEmail">Email</label>
+                        <div class="formRight">
+                        <input type="email" name="tEmail[]" error_msg="Enter Email" class="span input" >
+                        </div>
+                        </div>
+                        <div class="formRow control-group">
+                       <label for="tPhone">Phone</label>
+                        <div class="formRight">
+                        <input type="text" name="tPhone[]" class="span input" >
+                        </div>
+                        </div>
+                        <div class="formRow control-group">
+                        <label for="tDob" class="required">DOB</label>
+                        <div class="formRight">
+                        <input type="text" name="tDob[]" id="dob_<?php echo $rand; ?>" class="span input require" error_msg="Enter Date of Birth" required="required" readonly="readonly"> 
+                        </div>
+                        </div>
+                        <div class="formRow control-group">
+                        <label for="tAddress">Address</label>
+                        <div class="formRight">
+                        <input type="text" name="tAddress[]" class="span input" /> 
+                        </div>
+                        </div>
+                        <div class="formRow control-group">
+
+                        <div class="formRight">
+                        <span style="float: right">
+                        <button type="button" onclick="removeTraveller(this)" class="btn btn-danger btn-small metro">Remove Guest</button>
+                        <span>
+                        <div class="clearfix"></div>
+                        </div>
+                        </div>
+                        </div>          
+<script>
+    $(function(){
+        $('#dob_<?php echo $rand; ?>').Zebra_DatePicker({
+            direction: -6570,
+        });
+    });
+    </script>

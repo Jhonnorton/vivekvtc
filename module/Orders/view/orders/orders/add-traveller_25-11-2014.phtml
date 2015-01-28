@@ -1,0 +1,100 @@
+<?php 
+$count = $travellerCount;
+$random = mt_rand(100, 999);
+?>
+<div class="added-traveller">
+    <div class="formRow control-group">
+            <hr/>
+             <span class="guest-add">Guest # <?php echo $count;?></span>
+        <div class="formRight">
+           
+        </div>
+    </div> 
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerName')); ?>
+        <div class="formRight">
+            <input type="text" name="tname[]" class="span input req" >
+        </div>
+    </div>
+    
+     <div class="formRow control-group">			
+        <label for="sex" class="required">Sex</label>
+        <div class="formRight">
+            <div name="sex" class="distance distance-2">
+                <p>
+                    <input type="radio" id="male_<?php echo $random;?>" class="sex" required="required" name="tsex_<?php echo $random;?>"   value="1">
+                    <label id="labm_<?php echo $random;?>" for="male_<?php echo $random;?>"><span></span>Male</label>
+                </p>
+                <p>
+                    <input type="radio" id="female_<?php echo $random;?>" required="required" class="sex" name="tsex_<?php echo $random;?>" value="0">
+                    <label id="labf_<?php echo $random;?>" for="female_<?php echo $random;?>"><span></span>Female</label>
+                </p>
+                  
+            </div>
+        </div>
+    </div>
+    
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerEmail')); ?>
+        <div class="formRight">
+            <input type="email" name="tEmail[]" class="span input req" >
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerPhone')); ?>
+        <div class="formRight">
+            <input type="text" name="tPhone[]" class="span input req" >
+        </div>
+    </div>
+    <div class="formRow control-group">
+         <label for="sex" class="required">DOB</label>
+        <div class="formRight">
+           <input type="date" name="tDob[]" class="span input req" id="dob_<?php echo $random;?>" required="required"> 
+        </div>
+    </div>
+    <div class="formRow control-group">
+        <?php echo $this->formLabel($form->get('travellerAddress')); ?>
+        <div class="formRight">
+            <input type="text" name="tAddress[]" class="span input" /> 
+        </div>
+    </div>
+     <div class="formRow control-group">
+        
+        <div class="formRight">
+            <span style="float: right">
+                <button type="button" class="remove-traveller btn btn-danger btn-small metro">Remove Guest</button>
+            <span>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div> 
+<script>
+//    $(document).ready(function(){
+//        $(".sex").click(function(){
+//            var male_count_increment = 0;
+//            var female_count_increment = 0;
+//            $('.sex').each(function(){       
+//                if($(this).is(':checked'))
+//                {
+//               if($(this).val() == 1)
+//               {
+//                  male_count_increment++; 
+//               }else{
+//
+//                 female_count_increment++;
+//              }       
+//                }  
+//            });
+//            $('input[name="male-count"]').val(male_count_increment);
+//            $('input[name="female-count"]').val(female_count_increment);
+//            _getRoomPricePerNight();
+//            _calcFinalCost();
+//        }); 
+//    });
+    
+
+    </script>
+    
+    <style>
+        #guest-add{font-weight:bold;}
+        </style>

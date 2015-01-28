@@ -1,0 +1,154 @@
+<?php 
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url(
+		'events-add'
+));
+$form->setAttribute('method', 'post');
+$form->setAttribute('enctype', 'multipart/form-data');
+?>
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-plus"></i>
+			</div>
+			<span>Add New Event</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<?php echo $this->form()->openTag($form); ?>
+	<div class="grid-content">
+	
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('resortId')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('resortId')->setAttribute('class', 'chzn-select chosen_select width-100')->setAttribute('required', 'required')); ?>
+	        	<?php echo $this->formElementErrors($form->get('resortId'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>	
+            
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('title')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('title')->setAttribute('class', 'span input')->setAttribute('required', 'required')); ?>
+	        	<?php echo $this->formElementErrors($form->get('title'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>	
+            
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('pageHeading')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('pageHeading')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('pageHeading'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('eventCategoryId')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('eventCategoryId')->setAttribute('class', 'chzn-select chosen_select width-100')->setAttribute('required', 'required')); ?>
+	        	<?php echo $this->formElementErrors($form->get('eventCategoryId'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('categoryId')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('categoryId')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+	        	<?php echo $this->formElementErrors($form->get('categoryId'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+                
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('startDate')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('startDate')->setAttribute('class', 'span input')->setAttribute('required', 'required')); ?>
+	        	<?php echo $this->formElementErrors($form->get('startDate'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+	
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('endDate')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('endDate')->setAttribute('class', 'span input')->setAttribute('required', 'required')); ?>
+	        	<?php echo $this->formElementErrors($form->get('endDate'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>            
+            
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('minimumStayDays')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('minimumStayDays')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('minimumStayDays'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+            
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('overview')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('overview')->setAttribute('class', 'ckeditor')); ?>
+	        	<?php echo $this->formElementErrors($form->get('overview'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>	
+            
+                <div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('image')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('image')->setAttribute('required', 'required')); ?>
+	        	<?php echo $this->formElementErrors($form->get('image'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+		
+                <div class="formRow control-group">
+			<h4>SEO Information</h4>
+			<hr />
+		</div>
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('metaTitle')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('metaTitle')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('metaTitle'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('metaDescription')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('metaDescription')->setAttribute('class', 'span input same-height-1')->setAttribute('rows', '3')); ?>
+	        	<?php echo $this->formElementErrors($form->get('metaDescription'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+		<div class="formRow control-group">
+			<?php echo $this->formLabel($form->get('metaKeywords')); ?>
+			<div class="formRight">
+				<?php echo $this->formElement($form->get('metaKeywords')->setAttribute('class', 'span input')); ?>
+	        	<?php echo $this->formElementErrors($form->get('metaKeywords'), array('class' => 'help-inline')); ?>
+			</div>
+		</div>
+            
+		<div class="formRow control-group">
+			<?php echo $this->formSubmit( $form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+                        <input id="resetbutton" class="btn btn-info" type="reset" value="Reset" name="reset"></input>
+		</div>
+		<div class="clearfix"></div>
+
+	</div>
+	<?php echo $this->form()->closeTag() ?>
+</div>
+
+<script>
+
+				
+	$(function(){
+		$('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+		$('.error input').keyup(function(){
+					$(this).parents('.formRow').removeClass('error');
+					$(this).next('ul.help-inline').remove();
+		});
+
+		
+	});				
+</script>
+
+

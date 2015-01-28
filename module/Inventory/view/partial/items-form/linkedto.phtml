@@ -1,0 +1,111 @@
+<div class="formRow control-group">
+    Linked To
+    <div class="formRight">
+        <div class="distance distance-2">
+            <p>
+                <input type="checkbox" id="resorts" >
+                <label for="resorts"><span></span> Select Resorts</label>                
+            </p>
+            <p>
+                <input type="checkbox" id="events" >
+                <label for="events"><span></span> Select Events</label>
+            </p>
+            <p>
+                <input type="checkbox" id="cruises" >
+                <label for="cruises"><span></span> Select Cruises</label>
+            </p>
+            <p>
+                <input type="checkbox" id="all" >
+                <label for="all"><span></span> All</label>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="resorts" style="display:none">
+    <div class="formRow control-group">
+        <h4>Resorts</h4>
+        <hr />
+    </div>
+    <div class="formRow control-group">        
+        <div class="formRight multicheckbox">
+                <?php echo $this->formElement($form->get('resorts')->setAttribute('class', 'span input')); ?>
+        <?php echo $this->formElementErrors($form->get('resorts'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>    
+</div>
+<div class="events" style="display:none">
+    <div class="formRow control-group">
+        <h4>Events</h4>
+        <hr />
+    </div>
+    <div class="formRow control-group">        
+        <div class="formRight multicheckbox">
+                <?php echo $this->formElement($form->get('events')->setAttribute('class', 'span input')); ?>
+        <?php echo $this->formElementErrors($form->get('events'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>    
+</div>
+<div class="cruises" style="display:none">
+    <div class="formRow control-group">
+        <h4>Cruises</h4>
+        <hr />
+    </div>
+    <div class="formRow control-group">        
+        <div class="formRight multicheckbox">
+                <?php echo $this->formElement($form->get('cruises')->setAttribute('class', 'span input')); ?>
+        <?php echo $this->formElementErrors($form->get('cruises'), array('class' => 'help-inline')); ?>
+        </div>
+    </div>    
+</div>
+<script>
+$(function(){
+    $('#resorts').click(function(){        
+        if($(this).is(':checked')){
+            $('.resorts').show();
+        } else {
+            $('.resorts').hide();
+            $('input[name="resorts[]"]').prop('checked', false);
+        }
+    });
+    $('#events').click(function(){        
+        if($(this).is(':checked')){
+            $('.events').show();
+        } else {
+            $('.events').hide();
+            $('input[name="events[]"]').prop('checked', false);
+        }
+    });
+    $('#cruises').click(function(){        
+        if($(this).is(':checked')){
+            $('.cruises').show();
+        } else {
+            $('.cruises').hide();
+            $('input[name="cruises[]"]').prop('checked', false);
+        }
+    });
+    $('#all').click(function(){        
+        if($(this).is(':checked')){
+            $('#resorts').prop('checked', true);
+            $('.resorts').show();
+            $('input[name="resorts[]"]').prop('checked', true);
+            $('#events').prop('checked', true);
+            $('.events').show();
+            $('input[name="events[]"]').prop('checked', true);
+            $('#cruises').prop('checked', true);
+            $('.cruises').show();
+            $('input[name="cruises[]"]').prop('checked', true);
+           
+        } else {
+            $('#resorts').prop('checked', false);
+            $('.resorts').hide();
+            $('input[name="resorts[]"]').prop('checked', false);
+            $('#events').prop('checked', false);
+            $('.events').hide();
+            $('input[name="events[]"]').prop('checked', false);
+            $('#cruises').prop('checked', false);
+            $('.cruises').hide();
+            $('input[name="cruises[]"]').prop('checked', false);
+        }
+    });
+});
+</script>

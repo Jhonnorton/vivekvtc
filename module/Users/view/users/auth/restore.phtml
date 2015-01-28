@@ -1,0 +1,23 @@
+<div id="login" class="animate form position">
+                <form action="<?php echo $this->url('restore')?>" class="form-login" method="post"> 
+                    <div class="content-login">
+                    <div class="header">Restore Password</div>
+                    
+                    <div class="inputs">
+                        <input name="email" type="text" placeholder="Email" />                                                 
+                    </div>
+                    
+                    <div class="link-2"><a href="<?php echo $this->url('login')?>">Back to Login Form</a></div>
+                    
+                    <div class="clear"></div>
+                    <div class="button-login"><input type="submit" class="" value="Sign In"></div>
+                    </div>
+                    
+                    <div class="footer-login">
+                    <?php if (!empty($this->message)):?>
+                      <div class="pull-left" style="color:#f00;"><?php echo $this->message; ?></div>
+                    <?php endif; ?>
+                     <div class="clear"></div>
+                    </div>
+                </form>
+</div>

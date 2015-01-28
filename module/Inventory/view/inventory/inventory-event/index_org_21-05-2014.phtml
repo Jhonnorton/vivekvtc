@@ -1,0 +1,95 @@
+<?php
+if (!is_null($this->message)):
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+
+?>
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div>
+            <span>Event Rooms</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="pull-right">
+            <div class="icon-title">
+                <a href="<?php echo $this->url('inventory-event-rooms-add'); ?>"><i class="icon-plus-sign"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>
+                    <th class="t_center">
+                        <input type="checkbox" id="c0" name="cc" />
+                        <label for="c0"><span></span></label>
+                    </th>                    
+                    <th class="hidden-mobile">Event Name</th>
+                    <th class="hidden-mobile">Hotel Name</th>
+                    <th class="hidden-mobile">Room Category</th>
+                    <th class="hidden-mobile">Total Avaliable</th>                    
+                    <th class="hidden-mobile">Date From</th>                    
+                    <th class="hidden-mobile">Date To</th>
+                    <th class="hidden-mobile">Net Price</th>
+                    <th class="hidden-mobile">Gross Price</th>
+                    <th class="hidden-mobile">Promo Code</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $i = 1;
+                foreach ($this->collection as $item): ?>
+                    <tr>
+                        <td class="t_center">
+                            <input type="checkbox" id="c<?php echo $i; ?>" name="cc" />
+                            <label for="c<?php echo $i; ?>"><span></span></label>
+                        </td>
+                        <td class="hidden-mobile"><?php echo $item->getEventName(); ?></td>                        
+                        
+                        <td class="hidden-mobile">
+                            <a  data-toggle="modal" href="<?php echo $this->url('ajax-resorts-item', array('id' => $item->getResortId()));?>" data-target=".bs-example-modal-lg">
+                                <?php echo $item->getHotelName(); ?>
+                            </a>
+                        </td>
+                        <td class="hidden-mobile"><?php echo $item->getRoomCategory(); ?></td>
+                        <td class="hidden-mobile"><?php echo $item->getTotalAvailable(); ?></td>                        
+                        <td class="hidden-mobile"><?php echo $item->getDateFrom()->format('M d, Y'); ?></td>
+                        <td class="hidden-mobile"><?php echo $item->getDateTo()->format('M d, Y'); ?></td>                       
+                        <td class="hidden-mobile">$<?php echo $item->getNetPrice(); ?></td>
+                        <td class="hidden-mobile">$<?php echo $item->getGrossPrice(); ?></td>
+                        <td class="hidden-mobile"><?php echo $item->getPromo()?$item->getPromo()->getPromoCode():''; ?></td>
+                        <td class="action-table">                            
+                            <a href="<?php echo $this->url('inventory-event-rooms-edit', array('id' => $item->getId())); ?>">
+                                <img src="/images/icon/table_edit.png" alt="">
+                            </a>
+                            <a href="<?php echo $this->url('inventory-event-rooms-delete', array('id' => $item->getId())); ?>"
+                               data-confirm="Are you sure?">
+                                <img src="/images/icon/table_del.png" alt="">
+                            </a>
+                        </td>        
+                    </tr>
+                    <?php $i++; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <div class="clearfix"></div>
+    </div>
+
+</div>
+<?php echo $this->partial('sales-objects/ajax/modal.phtml');?>

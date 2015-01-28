@@ -1,0 +1,31 @@
+
+<form method='post' action='<?php echo $this->url('affiliate-commission-edit',array('id'=>$this->collection['commission']->getid(),'affiliateid'=>$this->userdata['0']->getId())); ?>'>
+            <input type="hidden" name="id" value="<?php echo $this->collection['commission']->getId(); ?>">
+         <div class="formRow control-group">
+             <label>Commission For: </label>
+            <div class="formRight">
+                <input type="text" class="span input" name='role' value="<?php echo $this->collection['data']->getTitle(); ?>" disabled>
+
+            </div>
+        </div>	
+                <div class="formRow control-group">
+                    <label>Commission</label>
+                   <div class="formRight">
+                       <select class="" name='type'>
+                           <option value=''>Select Type</option>
+                           <option value='fixed' <?php if($this->collection['commission']->getType()=='fixed'){echo "selected"; }?>>$</option>
+                           <option value='percent' <?php if($this->collection['commission']->getType()=='percent'){echo "selected"; }?>>%</option>
+
+                       </select>
+                       <input type="text" name="amount" value="<?php echo $this->collection['commission']->getAmount(); ?>">
+                   </div>
+               </div>	
+       
+
+        
+        <div class="formRow control-group">
+            <input type='submit' value='Submit' class='btn btn-info'>
+        </div>
+
+        <div class="clearfix"></div>
+        </form>

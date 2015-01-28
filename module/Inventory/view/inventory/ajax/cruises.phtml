@@ -1,0 +1,11 @@
+<label for="cruiseId" class="required">Cruise Name</label>                    
+<div class="formRight">    
+    <select id="cruises" name="cruiseId" required="required" class="chzn-select chosen_select width-100">                
+        <?php foreach ($this->collection as $item):?>                
+            <option value="<?php echo $item->getId();?>"><?php echo $item->getTitle();?></option>
+        <?php endforeach;?>    
+    </select> 
+</div>
+<script>
+    $('.chzn-select').chosen();
+</script>

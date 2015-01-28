@@ -1,0 +1,202 @@
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-plus"></i>
+            </div>
+            <span>Reservation Quote Form</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid-content">
+        <div class="valid" style="font:red;">
+           <?php 
+           if($error == 1):
+               echo "<p>(*) Please fill all required fields.</p>";
+          endif;
+           ?>
+        </div>
+        <form action="" method="post" id="searchForm" >
+            <div class="formRow control-group">			
+                <label for="reservationType" class="required">Reservation Type</label>
+                <div class="formRight">
+                    <div name="reservationType" class="distance distance-2">
+                        <p>
+                            <input type="radio" id="fit" class="load-entity" name="type" checked="checked" value="1" data-resource="resorts">
+                            <label for="fit"><span></span>Resort</label>
+                        </p>
+                        <p>
+                            <input type="radio" id="event" class="load-entity" name="type" value="2" data-resource="events">
+                            <label for="event"><span></span> Event</label>
+                        </p>
+                        <p>
+                            <input type="radio" id="cruise" class="load-entity" name="type" value="3" data-resource="cruises">
+                            <label for="cruise"><span></span> Cruise</label>
+                        </p>   
+                    </div>
+                </div>
+            </div>
+            <div class="formRow control-group">
+                <label for="from" class="required">From</label>                    
+                <div class="formRight">
+                    <input type="date" id="from" value="<?php echo date("Y-m-d", time() + 86400);?>" class="span input required"  name="from">                                        
+                </div>
+            </div>
+
+
+            <div class="formRow control-group">
+                <label for="from" class="required">To</label>                    
+                <div class="formRight">
+                    <input type="date" id ="to" value="<?php echo date("Y-m-d", time() + (86400*2));?>" class="span input required"  name="to">                                        
+                </div>
+            </div>
+            <div class="formRow control-group">
+                <label for="numMales">Number of Males</label>                    
+                <div class="formRight">
+                    <input type="number" value="0" min="0" max="4" class="span input required" required="required" id="males" name="numMales">                                        
+                </div>
+            </div>
+
+            <div class="formRow control-group">
+                <label for=" numFemales">Number of Females</label>                    
+                <div class="formRight">
+                    <input type="number" value="0" min="0" max="4" class="span input required" required="required" id="females"  name="numFemales">                                        
+                </div>
+            </div>
+
+            <div class="formRow control-group">			
+                <label for="single-share">If Single Occupant:</label>
+                <div class="formRight">
+                    <div name="single-share" class="distance distance-2">
+                        <p>
+                            <input type="radio" id="ss" class="single-share" name="singleShare"  value="1" >
+                            <label for="ss"><span></span>Single to Share </label>
+                        </p>
+                        <p>
+                            <input type="radio" id="sp" class="single-share" name="singleShare" value="2" >
+                            <label for="sp"><span></span>Single Premium</label>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="formRow control-group">            
+                <div class="formRight">
+                    <input type="button" value="Search" class="btn btn-info" id="search" name="search">                                     
+                </div>
+            </div>
+              <div id="error" class="formRow control-group" style="color:red; display:none;">
+        </div>
+        </form>
+        <div id="loading" class="formRow control-group">
+            <div class="formRight">
+                <img src="/images/ajax-loader.gif">
+            </div>
+        </div>
+        
+        <div class="spacer30"></div>
+        <div id="rooms-content"></div>
+        <div class="clearfix"></div> 
+    </div>
+
+    <script>
+        $('#loading').hide();
+        $(document).ready(function() {
+            
+            $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+            $('.error input').keyup(function() {
+                $(this).parents('.formRow').removeClass('error');
+                $(this).next('ul.help-inline').remove();
+            });
+
+            $('.chzn-select').chosen();
+
+            $('#from').Zebra_DatePicker({
+                format: 'Y-m-d',
+                direction: 1,
+                onSelect: function(date, dateFormat, dateObj, ev) {
+                dateObj.setDate(dateObj.getDate());
+                var day = (dateObj.getDate().toString().length) < 2 ? ('0' + dateObj.getDate()+1) : dateObj.getDate()+1;
+                var month = ((dateObj.getMonth() + 1).toString().length) < 2 ? ('0' + (dateObj.getMonth() + 1)) : dateObj.getMonth() + 1;
+                var date = dateObj.getFullYear() + '-' + month + '-' + day;
+
+                $('#to').Zebra_DatePicker({
+                    format: 'Y-m-d',
+                    show_clear_date: false,
+                    direction: [date.toString(), false],
+                });
+                }
+            });
+            
+             $('#to').Zebra_DatePicker({
+                    format: 'Y-m-d',
+                    show_clear_date: false,
+                    direction: 1
+                });
+
+
+            $('#search').click(function() {
+                $("#rooms-content").hide();
+                $("#error").hide();
+                var from = $("#from").val();
+                var to  = $("#to").val();
+                var males = $("#males").val();
+                var females = $("#females").val();
+                if(from !== "" && to !== "" && males !== "" && females !== ""){
+                var total = parseInt(males) + parseInt(females); 
+                if(total > 4){
+                    $("#nores").hide();
+                    $("#error").show();
+                    $("#error").html("Error : You cannot add more than 4 guest.");
+                    return false;
+                }else if(total <= 0){
+                    $("#nores").hide();
+                    $("#error").show();
+                    $("#error").html("Error : Please select at least 1 guest.");
+                    return false;
+                }else if(total == 1 && $('[name="singleShare"]').is(':checked')== false){
+                    $("#nores").hide();
+                    $("#error").show();
+                    $("#error").html("Error : Please select Single Occupant option.");
+                     return false;
+                }else if(total == 1 && $('[name="singleShare"]').is(':checked') == true){
+                    $("#error").hide();
+                }
+                $("#nores").show();
+                var values = {};
+                $.each($('#searchForm').serializeArray(), function(i, field) {
+                    values[field.name] = field.value;
+                });
+
+                $.post('/admin/reservation/order-reservation-search', {data:values}, function(data) {
+                    $("#rooms-content").show();
+                    $("#rooms-content").html(data);
+                    $("#loading").hide();
+                });
+                }else{
+                     if(from == ""){
+                        $("#from").focus();
+                    }else if(to == ""){
+                        $("#to").focus();
+                    }else if(males == ""){
+                         $("#males").focus();
+                    }else{
+                        $("#females").focus();
+                    }
+                    
+                }
+            });
+        });
+
+        $(document).ajaxStart(function() {
+            $("#loading").show();
+        });
+
+
+    </script>
+    <style>
+    .spacer30{
+        margin-top:30px;
+    }
+    </style>

@@ -1,0 +1,112 @@
+<?php 
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url(
+		'inventory-items-edit', array('id' => $form->get('id')->getValue())
+));
+$form->setAttribute('method', 'post');
+?>
+<div class="grid">
+	<div class="grid-title">
+		<div class="pull-left">
+			<div class="icon-title">
+				<i class="icon-plus"></i>
+			</div>
+			<span>Edit Item</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<?php echo $this->form()->openTag($form); ?>
+	<div class="grid-content">
+                        	                                                                             
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('name')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('name')->setAttribute('class', 'span input')); ?>
+                    <?php echo $this->formElementErrors($form->get('name'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>  
+            
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('linkedTo')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('linkedTo')->setAttribute('class', 'chzn-select chosen_select width-100')); ?>
+                    <?php echo $this->formElementErrors($form->get('linkedTo'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>               
+            <div id="ajax-data" class="formRow control-group">
+                
+            </div>            
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('numberAvailable')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('numberAvailable')->setAttribute('class', 'span input')); ?>
+                    <?php echo $this->formElementErrors($form->get('numberAvailable'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('netPrice')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('netPrice')->setAttribute('class', 'span input')); ?>
+                    <?php echo $this->formElementErrors($form->get('netPrice'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>            
+            <div class="formRow control-group">
+                    <?php echo $this->formLabel($form->get('grossPrice')); ?>
+                    <div class="formRight">
+                            <?php echo $this->formElement($form->get('grossPrice')->setAttribute('class', 'span input')); ?>
+                    <?php echo $this->formElementErrors($form->get('grossPrice'), array('class' => 'help-inline')); ?>
+                    </div>
+            </div>                        
+            <div class="formRow control-group">
+                    <?php echo $this->formSubmit( $form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+                    <input id="resetbutton" class="btn btn-info" type="reset" value="Reset" name="reset"></input>
+            </div>
+            <div class="clearfix"></div>
+
+	</div>
+	<?php echo $this->form()->closeTag() ?>
+</div>
+
+<script>
+$(function(){
+    $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+    $('.error input').keyup(function(){
+                            $(this).parents('.formRow').removeClass('error');
+                            $(this).next('ul.help-inline').remove();
+    });
+    $('#linkedTo').change(function(){  
+        var id = $(this).val(); 
+        switch (id) {
+            case '4':               
+               $.get('/admin/inventory/ajax/resorts', function(data){            
+                    $('#ajax-data').html(data);                        
+                });                 
+                break;            
+            case '5':               
+               $.get('/admin/inventory/ajax/event-categories', function(data){            
+                    $('#ajax-data').html(data);                        
+                });                 
+                break;
+            case '6':               {
+                $.get('/admin/inventory/ajax/events', function(data){                               
+                    $('#ajax-data').html(data);
+                });                  
+                break;
+            }
+            case '7':               
+                 $.get('/admin/inventory/ajax/cruises', function(data){                               
+                    $('#ajax-data').html(data);
+                });                  
+                break;
+            default:                
+                $('#ajax-data').html(null);
+                break;
+        }                    
+    });
+});	
+    
+</script>
+
+

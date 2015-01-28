@@ -1,0 +1,95 @@
+<?php
+//
+//d($this->collection);
+if (!is_null($this->message)):
+
+    // d($this->message);
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+
+<?php
+$date = date('Y-m-d');
+//d($this->collection); die; //echo $date; die;
+?>
+
+
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Reseller Orders</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+
+
+
+
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Order No</th>
+                    <th class="hidden-mobile">Item Ordered</th>
+                    <th class="hidden-mobile">Order Total</th>
+                    <th class="hidden-mobile">Status</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $total = 0;
+                $i = 0;
+                $totalreceived = 0;
+                $totaldue = 0;
+                foreach ($this->collection as $item):
+
+                    $reservation = $item['reservation'];
+                    $ordername = $item['hotelName'];
+
+                    $totaldue = $reservation->getBalansAfterDeposit();
+                    if ($totaldue == 0) {
+                        $status = 'Completed';
+                    } else {
+                        $status = 'Payment Due';
+                    }
+                    ?>                  
+
+                    <tr>
+
+                        <td class="hidden-mobile"><?php echo $reservation->getReferenceNumber(); ?></td>    
+
+                        <td class="hidden-mobile"><?php echo $ordername; ?> </td>
+                        <td class="hidden-mobile"> <?php echo '$ ' . $reservation->getFinalCost(); ?></td>				
+
+                        <td class="hidden-mobile"><?php echo $status ?></td>
+
+
+                    </tr>                    
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+
+        <div class="clearfix"></div>
+    </div>
+</div>
+<?php //echo $this->partial('payments/ajax/modal.phtml');  ?>
+

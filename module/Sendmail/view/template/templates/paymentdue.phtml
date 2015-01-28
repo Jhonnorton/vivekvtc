@@ -1,0 +1,133 @@
+<?php
+//d($this->affiliatename);
+//d('heteerer');
+$reservation = $this->data['reservation'];
+$affiliate = $reservation->getAffiliateId();
+//d($reservation);
+$type = $reservation->getType();
+
+$paymentDue = $this->paymentdue;
+
+//d($reservation);
+$reservationdate = ($reservation->getCreatedAt() instanceof \DateTime) ? $reservation->getCreatedAt()->format('M jS/Y') : $reservation->getCreatedAt();
+$travelfromdate = ($reservation->getDateFrom() instanceof \DateTime) ? $reservation->getDateFrom()->format('M jS') : $reservation->getDateFrom();
+$traveltodate = ($reservation->getDateTo() instanceof \DateTime) ? $reservation->getDateTo()->format('M jS Y') : $reservation->getDateTo();
+$transfer = $reservation->getTransferCost();
+$excursion = $reservation->getExcursionCost();
+$item = $reservation->getItemCost();
+$totalcost = $reservation->getTotalCost();
+$finalcost = $reservation->getfinalCost();
+$discount = $reservation->getAppliDiscount();
+$merchantfee = $reservation->getMerchantFee();
+$notes = $reservation->getAdminNotes();
+
+$depositeamount = $reservation->getDepositAmoun();
+$balance = $reservation->getBalansAfterDeposit();
+
+$clientdetail = $this->clientdetail;
+$clientname = $clientdetail->getName();
+$clientaddress = $clientdetail->getAddress();
+$clientcity = $clientdetail->getCity();
+$clientstate = $clientdetail->getState();
+$clientcountry = $clientdetail->getCountry();
+$clientzip = $clientdetail->getZip();
+$clientphone = $clientdetail->getPhone();
+$clientemail = $clientdetail->getEmail();
+
+
+$invoice = $this->invoice;
+//d($invoice);
+if ($reservation->getType() != 3) {
+
+    $itemname = $this->itemname;
+
+//d($itemname);
+//$hotelName=$itemname->getHotelName();
+//$roomcategory=$itemname->getRoomCategory();
+//$grossprice=$itemname->getGrossPrice();
+    $country = $this->country;
+} else {
+
+    $itemname = $this->itemname;
+//d($this->$itemname);
+//$hotelName=$itemname->getCruiseName();
+//$roomcategory=$itemname->getSuiteName();
+//$grossprice=$itemname->getGrossPrice();
+    $country = $this->country;
+}
+
+//d($paymentDue);
+$duedate = ($paymentDue->getDueDate() instanceof \DateTime) ? $paymentDue->getDueDate()->format('Y-m-d') : $paymentDue->getDueDate();
+
+$datetoday = date('Y-m-d');
+if ($datetoday > $duedate) {
+
+    $duedatestatus = 1; //past due date
+    $due = 'is past due ';
+} else {
+    $duedatestatus = 0; //comming due date
+    $due = 'will become due on';
+}
+
+$duedateactual = ($paymentDue->getDueDate() instanceof \DateTime) ? $paymentDue->getDueDate()->format('M jS, Y') : $paymentDue->getDueDate();
+?>
+
+
+Hello <?php echo $clientname; ?>,<br><br>
+
+<?php if ($duedatestatus == 0) { ?>
+    Your next payment on reservation  <?php echo $reservation->getReferenceNumber(); ?> <?php echo $due; ?> <?php echo $duedateactual; ?>. To view payment details and make a payment, please click on the below link:
+    <br><br>
+    View Payment details:<a href="<?php echo isset($this->link) ? $this->link : '#'; ?>"><?php echo isset($this->linkName) ? $this->linkName : 'link'; ?></a>
+
+    <br><br>
+    If you have any questions please contact 1 800 458 2099.
+    <br><br>
+<?php } else { ?>
+
+    Your payment on reservation  <?php echo $reservation->getReferenceNumber(); ?> <?php echo $due; ?>. To avoid cancellation of your reservation, please click on the link below to make a payment. 
+    <br><br>
+    View Payment details:<a href="<?php echo isset($this->link) ? $this->link : '#'; ?>"><?php echo isset($this->linkName) ? $this->linkName : 'link'; ?></a>
+
+    <br><br>
+    Please note that payments that are more than seven days past due, may result in your reservation being cancelled without refund.
+    <br><br>
+    If you wish to make other payment arrangements, please contact 1 800 458 2099.
+    <br><br>
+
+
+<?php } ?>
+
+
+Regards,<br>
+
+Reservations Team<br>
+Vacationparties.com<br>
+reservations@vacationparties.com<br>
+
+
+
+
+
+
+
+
+<!--This is a reminder that your payment of $<?php /* echo $paymentDue->getPaymentDue(); ?>, on Reservation no.  <?php echo $reservation->getReferenceNumber();?>,  <?php //if($type==2){?>for <?php// echo $itemname->getEventName();}?> at <?php //echo $hotelName;?> <?php echo $travelfromdate.' - '. $traveltodate  ?> is <?php echo $due;?> .Please click on the link below to view your invoice and submit payment:
+  <br><br>
+  <?php /* if(isset($this->link)):?>
+  <p>
+  <a href="<?php echo isset($this->link)? $this->link:'#';?>"><?php echo isset($this->linkName)? $this->linkName:'link';?></a>
+  </p>
+  <?php endif; */ ?>
+ 
+If you have any questions, or if you wish to make alternative payment arrangements, please contact, 1 800 458 2099.
+<br> <br>
+ 
+ 
+Thanks,<br>
+ 
+ 
+Reservations Team,<br>
+www.vacationparties.com<br>
+
+-->

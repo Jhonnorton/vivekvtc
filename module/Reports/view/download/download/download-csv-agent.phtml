@@ -1,0 +1,43 @@
+<?php
+
+if (count($results) > 0) {
+    $fh = @fopen('php://output', 'w');
+//d($fh);
+
+    $header_row = array();
+
+    $str.= "Agent Name,";
+    $str.= "Date,";
+    $str.= "Time,";
+    $str.= "Activity,";
+    $str.= "Ref #,";
+    $str.= "Commission";
+    $strt = preg_replace("/([,])(\\1+)/i", '\\1', rtrim($str, ','));
+    $header_row = explode(',', rtrim($strt, ','));
+
+    fputcsv($fh, $header_row, ',', '"');
+
+
+    foreach ($results['collection'] as $item) {
+         $date = ($item->getDateAdded() instanceof \DateTime) ? $item->getDateAdded()->format('Y-m-d') : $item->getDateAdded(); 
+         $time = ($item->getDateAdded() instanceof \DateTime) ? $item->getDateAdded()->format('H:i:s') : $item->getDateAdded(); 
+            
+        $str1 = $item->getUserId()->getFirstName()." ".$item->getUserId()->getLastName() . ",";
+        $str1.= $date . ",";
+
+        $str1.=$time. ",";
+        $str1.=$item->getActivityName() . ",";
+        if($item->getReservationId()){
+            $str1.=$item->getReservationId()->getReferenceNumber() . ",";
+        }else{
+            $str1.="-,";
+        }
+        $str1.="-,";
+        $strt1 = preg_replace("/([,])(\\1+)/i", '\\1', rtrim($str1, ','));
+
+        $row = explode(',', $strt1);
+
+        fputcsv($fh, $row, ',', '"');
+    }
+    fclose($fh);
+}

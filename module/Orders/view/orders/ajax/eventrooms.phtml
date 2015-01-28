@@ -1,0 +1,45 @@
+<?php // d($this->collection);?>
+<label for="roomCategory" class="required">Room Category</label> 
+<div class="formRight">    
+    <select eventStartDate="<?php echo $this->data->getStartDate()->format('Y-m-d'); ?>" eventEndDate="<?php echo $this->data->getEndDate()->format('Y-m-d'); ?>" data-extra-type="<?php echo \Inventory\Model\Items::LINKED_TO_EVENT_NAME; ?>" data-type="<?php echo \Orders\Controller\AjaxController::EVENT_ROOMS; ?>"  id="event-rooms" data-url="/event/room/" name="roomCategory" required="required" class="chzn-select chosen_select width-100 load-item">                
+        <option value="">please select room category...</option>
+        <?php foreach ($this->collection as $item):?>                
+            <option value="<?php echo $item->getId();?>" room_id="<?php echo $item->getId();?>"><?php echo $item->getRoomCategory() ; ?></option>
+        <?php endforeach;?>    
+    </select> 
+</div>
+<!--<input type="hidden" name="eventStart" id="hid-start" value="<?php echo $this->data->getStartDate()->format('Y-m-d'); ?>">
+<input type="hidden" name="eventEnd" id="hid-end" value="<?php echo $this->data->getEndDate()->format('Y-m-d'); ?>">-->
+
+<?php 
+$minimum_stay_days = $this->data->getMinimumStayDays();
+$eventStartModified = date('Y-m-d',strtotime($this->data->getStartDate()->format("Y-m-d")) - (24*3600*5));
+$eventEndTwoModified = date('Y-m-d',strtotime($this->data->getEndDate()->format("Y-m-d")) - (24*3600*$minimum_stay_days));
+$eventEndModified = date('Y-m-d',strtotime($this->data->getEndDate()->format("Y-m-d")) + (24*3600*5));
+$eventEndStartModified = date('Y-m-d', strtotime($this->data->getStartDate()->format("Y-m-d")) + (24 * 3600 * $minimum_stay_days));
+//echo $minimum_stay_days."-- start modified-".$eventStartModified."--event end two mod-".$eventEndTwoModified;
+$eventStart = $this->data->getStartDate()->format("Y-m-d");
+$eventEnd = $this->data->getEndDate()->format("Y-m-d");
+?>
+
+
+
+<!--<input type="hidden" name="eventStart_modified" id="hid-mod-start" value="<?php echo $eventStartModified ; ?>">
+<input type="hidden" name="eventend_two" id="hid-mod-end-two" value="<?php echo $eventEndTwoModified ; ?>">
+<input type="hidden" name="eventEnd_modified" id="hid-mod-end" value="<?php echo $eventEndModified; ?>">
+<input type="hidden" name="eventStartEnd" id="hid-mod-start-end" value="<?php echo $eventEndStartModified; ?>">-->
+
+<script>
+    $(document).ready(function(){
+        $("#hid-mod-start").val('<?php echo $eventStartModified; ?>');
+         $("#hid-mod-end-two").val('<?php echo $eventEndTwoModified; ?>');
+          $("#hid-mod-end").val('<?php echo $eventEndModified; ?>' );
+           $("#hid-mod-start-end").val('<?php echo $eventEndStartModified; ?>' );
+           $("#minimum-stay-days").val('<?php echo $minimum_stay_days; ?>' );
+           $("#hid-start").val('<?php echo $eventStart; ?>' );
+           $("#hid-end").val('<?php echo $eventEnd; ?>' );
+           
+            $("#hid-mod-end-start").val('<?php echo $eventEndStartModified; ?>' );
+           $("#min-days").val('<?php echo $minimum_stay_days; ?>' );
+    })
+</script>

@@ -1,0 +1,67 @@
+<?php
+$reservation = $this->data;
+
+$status = $reservation->getStatus() == 1 ? 'Enabled' : 'Disabled';
+?>
+
+<div class="grid">    
+    <div class="grid-content overflow">
+
+        <table class="table table-bordered " id="">
+            <tbody>
+
+                <tr>                    
+                    <th>Reseller Name</th>
+                    <td><?php echo $reservation->getUserId()->getfirstName(); ?></td>				
+                </tr>
+                
+                <tr>                    
+                    <th>Reseller Email</th>
+                    <td><?php echo $reservation->getUserId()->getEmail(); ?></td>				
+                </tr>
+                
+                
+                <tr>                    
+                    <th>Resort Title</th>
+                    <td><?php echo $reservation->getTitle(); ?></td>				
+                </tr>
+                
+                <tr>
+                    
+                   <th>Resort Image</th>
+                   <td><img src="<?php echo $this->image; ?>" alt=""></td>
+               </tr>     
+
+                <tr>                    
+                    <th>Resort Overview</th>
+                    <td><?php echo $reservation->getOverview(); ?></td>				
+                </tr>
+
+                <tr>                    
+                    <th>Added On</th>
+                    <td><?php echo $reservation->getAddedOn()->format('Y-m-d'); ?></td>				
+                </tr>
+
+                 <tr>                    
+                    <th>Resort Meta Title</th>
+                    <td><?php echo $reservation->getMetaTitle(); ?></td>				
+                </tr>
+                
+                 <tr>                    
+                    <th>Resort Meta Description</th>
+                    <td><?php echo $reservation->getMetaDescription(); ?></td>				
+                </tr>
+                
+                 <tr>                    
+                    <th>Resort Meta Keywords</th>
+                    <td><?php echo $reservation->getMetaKeywords(); ?></td>				
+                </tr>
+
+
+
+
+                </body>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+</div>

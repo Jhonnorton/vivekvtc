@@ -1,0 +1,15 @@
+<ul class="additional-menu">
+    <li class="menu-group">
+        <a href="<?php echo $this->url('sendmail'); ?>">
+            <i class="icon-envelope"></i>Email Templates
+        </a>
+        <ul>
+            <li <?php if ($this->url() === $this->url('sendmail')) echo 'class="active"' ?> >
+                <a href="<?php echo $this->url('sendmail'); ?>"><i class="icon-list"></i>View Email Templates</a>
+            </li>
+            <li <?php if ($this->url() === $this->url('sendmail-add')) echo 'class="active"' ?>>
+                <a href="<?php echo $this->url('sendmail-add'); ?>"><i class="icon-plus"></i> Add Email Templates</a>
+            </li>
+        </ul>
+    </li>
+</ul>

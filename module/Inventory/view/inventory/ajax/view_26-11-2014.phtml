@@ -1,0 +1,48 @@
+<?php
+
+//d($this->collection['collection']);
+
+if(!empty($this->collection)){
+    $total=$this->collection['inventory'];
+    ?>
+
+<p>Total : <?php echo $total; ?></p>
+
+<table class="table table-bordered table-mod-2" id="datatable_3">
+    <thead>
+    <th>Reservation Date</th>
+    <th>Booked</th>
+    <!--<th>Available</th>-->
+    </thead>
+    <tbody>
+        <?php if(!empty($this->collection['collection'])){ ?>
+<?php foreach($this->collection['collection'] as $item){ 
+foreach($item as $i){ 
+//    d($item);
+    $dateTo = ($i->getDateTo() instanceof \DateTime) ? $i->getDateTo()->format('M d, Y') : $i->getDateTo();   
+    $dateFrom = ($i->getDateFrom() instanceof \DateTime) ? $i->getDateFrom()->format('M d, Y') : $i->getDateFrom();   
+    $sold=$item['sumroom'];
+    ?>
+
+    <tr>
+        <td>[<?php echo $dateFrom."--".$dateTo; ?>]</td>
+        <td><?php echo $sold; ?></td>
+        <!--<td><?php echo $total-$sold; ?></td>-->
+    </tr>
+
+<?php break; }
+
+}
+        }else{
+?>
+    <tr><td colspan="3">NO RESERVATION DONE</td></tr>
+    
+        <?php } ?>
+    </tbody>
+    </table>
+
+<?php
+}else{
+    echo "NO RESERVATION FOUND";
+}
+?>

@@ -1,0 +1,640 @@
+<!doctype html>
+
+<?php
+$lead=$this->lead;
+$leadId=$this->leadId;
+$inventoryLead=$this->inventoryLead;
+$inventoryRooms=$this->inventoryRooms;
+$inventoryAddons=$this->inventoryAddons;
+//d($inventoryRooms);
+$leadDate = ($inventoryLead->getCreatedAt() instanceof \DateTime) ? $inventoryLead->getCreatedAt()->format('d.m.Y') : $inventoryLead->getCreatedAt();
+$leadDateFrom = ($inventoryLead->getTravelFrom() instanceof \DateTime) ? $inventoryLead->getTravelFrom()->format('Y-m-d') : $inventoryLead->getTravelFrom();
+$leadDateTo = ($inventoryLead->getTravelTo() instanceof \DateTime) ? $inventoryLead->getTravelTo()->format('Y-m-d') : $inventoryLead->getTravelTo();
+
+if($inventoryLead->getType()==1){
+    $title=$inventoryLead->getResortId()->getTitle();
+    $type=1;
+}elseif($inventoryLead->getType()==2){
+    $title=$inventoryLead->getEventId()->getTitle();
+    $type=2;
+}else{
+    $title=$inventoryLead->getCruiseId()->getTitle();
+    $type=3;
+}
+//d($inventoryRooms->getResortRoomId());
+?>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Quote-Reservation</title>
+	<link rel="stylesheet" href="/css/estilosreservation.css">
+</head>
+<body>
+	<div class="gral quote">
+		<br>
+		<div class="span6 block1">
+			Sunset Destinations and Adult Tours Inc. <br> 
+			1.800.458.2099<br> 
+			IATA# 965 342 33<br> 
+			TICO#: 50018479 
+		</div>
+		<div class="span6 derecha block1">
+			Quote#: <b><?php echo $inventoryLead->getId(); ?></b><br> 
+			Processed on : <?php echo $leadDate; ?>
+		</div>
+		<div class="span6">
+			<h2>YOUR QUOTE</h2>
+			<span class="st1">For <?php echo $lead->getName(); ?><br>
+			
+			Phone:<?php echo $lead->getPhone(); ?> Email: <?php echo $lead->getEmail(); ?></span><br> <br> 
+		</div>
+		<div class="tHp">
+			<?php echo $title; ?>
+		</div>
+		<div class="sHp">
+			
+		</div> <br>
+		<div class="tP">
+                    <?php echo $inventoryLead->getAccomodationDetails(); ?>
+                </div>
+                <form method="post">
+                    <input type="hidden" name="days">
+                    <input type="hidden" name="type" value="<?php echo $type; ?>">
+                    <input type="hidden" name="finalCost" value="0">
+		<div class="travel">
+			<div class="cont">
+				<div class="cien">
+					<div class="lab">TRAVEL DATE</div>
+					<input type="date" id="dateFrom" name="travelFrom" placeholder="FROM..." value="<?php echo $leadDateFrom; ?>"><div class="cal"></div>
+					<input type="date" id="dateTo" name="travelTo" placeholder="TO..." value="<?php echo $leadDateTo; ?>"><div class="cal"></div>
+				</div>
+				<div class="cien">
+					<div class="lab">NO. OF GUEST</div>
+					<input type="number" id="persons" min="1" max="4" placeholder="1" name="noOfpersons" value="<?php echo $inventoryLead->getNoOfPersons() ; ?>" disabled>
+					<div class="lab">NO. OF ROOMS</div>
+					<input type="number" id="rooms" placeholder="1" min="1" max="<?php echo $inventoryLead->getRoomRequired() ; ?>" name="roomRequired" value="<?php echo $inventoryLead->getRoomRequired() ; ?>">
+				</div>
+			</div>
+		</div>
+                
+                <?php $i=0; 
+                foreach($this->inventoryRooms as $room){
+                    
+                    if($type==1){
+                        $roomDetails=$room->getResortRoomId();
+                        $roomTitle=$roomDetails->getTitle();
+                    }elseif($type==2){
+                        $roomDetails=$room->getEventRoomId();
+                        $roomTitle=$roomDetails->getRoomId()->getTitle();
+                    }else{
+                        $roomDetails=$room->getCruiseCabinId();
+                        $roomTitle=$roomDetails->getDeckName();
+                    }
+                    ?>
+                    <input type="hidden" name="roomPrice<?php echo $room->getId(); ?>" value="<?php echo $room->getCost(); ?>">
+                    <input type="hidden" name="roomId<?php echo $i; ?>" value="<?php echo $room->getId(); ?>">
+                    <!--<input type="hidden" name="rroomId<?php echo $i; ?>" value="<?php echo $roomDetails->getId(); ?>">-->
+                    <input type="hidden" name="totalCost<?php echo $room->getId(); ?>">
+                    <input type="hidden" name="type<?php echo $room->getId(); ?>" value="<?php echo $room->getPricePer(); ?>">
+		<div class="detailRoom">
+			<div class="dRooms">
+				<div class="rImg">
+                                    <?php if($room->getImage()){ ?>
+                                        <?php if($inventoryLead->getComeFrom()==1){ ?>
+                                                <img src="http://192.155.246.146:9084/img/user_uploads/leadrooms/thumbnails_80x80/<?php echo $room->getImage(); ?>">
+                                        <?php }else{ 
+                                               if (strpos($room->getImage(),'/') !== false) {?>
+                                                <img src="<?php echo $room->getImage(); ?>">
+                                               <?php }else{ ?>
+                                                <img src="/img/user_uploads/leadrooms/<?php echo $room->getImage(); ?>">
+                                               <?php } ?>
+                                        <?php } ?>
+                                     <?php }else{ ?>
+                                        <img src="/img/demo1.png">
+                                     <?php } ?>
+                                        
+				</div>
+				<div class="timg"><?php echo $roomTitle; ?></div>
+				<input type="radio" class="check" id="<?php echo $room->getId(); ?>" data-id="<?php echo $roomDetails->getId(); ?>" name="chk"> <br> select
+			</div>
+			<div class="pRooms">
+                                <?php echo $room->getDescription(); ?>
+                        </div>
+			<div class="bRooms">
+                            <?php if($room->getPricePer()==1){ ?>
+				<div class="cope"> Cost Per Person Nightly</div>
+                            <?php }else{ ?>
+                                <div class="cope"> Cost Per Room Nightly</div>
+                            <?php } ?>
+				<div class="tGreen">$US<span id="price<?php echo $room->getId(); ?>"><?php echo $room->getCost(); ?></span></div>
+                                <div class="cope">  Total for <span class="days"></span> Days With <span class="person"><?php echo $inventoryLead->getNoOfPersons() ; ?></span> guest</div>
+				<div class="tYell">$US<span id="totalCost<?php echo $room->getId(); ?>"></span></div>
+			</div>
+		</div>
+
+                <?php 
+                    $i++;
+                            } ?>
+                    <input type="hidden" name="roomCount" value="<?php echo $i;?>">
+                    <input type="hidden" name="roomprice">
+                    <input type="hidden" name="totalcost">
+                    <input type="hidden" name="roomid">
+		<div class="tLine">
+			WOULD YOU LIKE TO ADD
+		</div>
+                    
+		<div class="add">
+                    <?php foreach($inventoryAddons as $addon){ 
+                            if($addon->getExcursion()){
+                        ?>
+                        <input type="hidden" value="0" name="excursion<?php echo $addon->getExcursion()->getId(); ?>">
+                        <input type="hidden" name="excursionPrice<?php echo $addon->getExcursion()->getId(); ?>" value="<?php echo $addon->getExcursion()->getGrossPrice(); ?>">
+                        <input type="hidden" name="excursionNetPrice<?php echo $addon->getExcursion()->getId(); ?>" value="<?php echo $addon->getExcursion()->getNetPrice(); ?>">
+			<div class="detailAdd">
+				<div class="add1">
+                                    <?php if($addon->getExcursion()->getImage()){ ?>
+					<img src="/img/user_uploads/excursions/<?php echo $addon->getExcursion()->getImage();?>" height="200" width="200">
+                                    <?php }else{ ?>
+                                        <img src="/img/demo3.png" height="200" width="200">
+                                    <?php } ?>
+				</div>
+				<div class="add2">
+					<div class="contP">
+                                            <?php if($addon->getExcursion()->getNotes()){
+                                                echo $addon->getExcursion()->getNotes(); 
+                                            }else{
+                                                echo "No Description Available";
+                                            }?>
+                                        </div>
+				</div>
+				<div class="add3">
+					<div class="title1">
+						Excursion-<?php echo $addon->getExcursion()->getExcursionName(); ?> 
+					</div>	
+					<div class="price">
+						$<?php echo $addon->getExcursion()->getGrossPrice(); ?> 
+					</div>
+					<input class="checkexcursion" data-id="<?php echo $addon->getExcursion()->getId(); ?>" price="<?php echo $addon->getExcursion()->getGrossPrice(); ?>" type="checkbox"> <br> select
+
+				</div>
+			</div>
+                            <?php } ?>
+                    
+                   <?php if($addon->getItem()){ ?>
+                        <input type="hidden" value="0" name="item<?php echo $addon->getItem()->getId(); ?>">
+                        <input type="hidden" name="itemPrice<?php echo $addon->getItem()->getId(); ?>" value="<?php echo $addon->getItem()->getGrossPrice(); ?>">
+                        <input type="hidden" name="itemNetPrice<?php echo $addon->getItem()->getId(); ?>" value="<?php echo $addon->getItem()->getNetPrice(); ?>">
+			<div class="detailAdd">
+				<div class="add1">
+                                    <?php if($addon->getItem()->getImage()){ ?>
+					<img src="/img/user_uploads/items/<?php echo $addon->getItem()->getImage();?>" height="200" width="200">
+                                    <?php }else{ ?>
+                                        <img src="/img/demo3.png" height="200" width="200">
+                                    <?php } ?>
+				</div>
+				<div class="add2">
+					<div class="contP">
+                                            <?php if($addon->getItem()->getNotes()){
+                                                echo $addon->getItem()->getNotes(); 
+                                            }else{
+                                                echo "No Description Available";
+                                            }?>
+                                        </div>
+				</div>
+				<div class="add3">
+					<div class="title1">
+						Item-<?php echo $addon->getItem()->getName(); ?> 
+					</div>	
+					<div class="price">
+						$<?php echo $addon->getItem()->getGrossPrice(); ?>
+					</div>
+					<input class="checkitem" data-id="<?php echo $addon->getItem()->getId(); ?>" price="<?php echo $addon->getItem()->getGrossPrice(); ?>" type="checkbox"> <br> select
+
+				</div>
+			</div>
+                            <?php } ?>
+                   <?php if($addon->getTransfer()){ ?>
+                        <input type="hidden" value="0" name="transfer<?php echo $addon->getTransfer()->getId(); ?>">
+                        <input type="hidden" name="transferPrice<?php echo $addon->getTransfer()->getId(); ?>" value="<?php echo $addon->getTransfer()->getGrossPrice(); ?>">
+                        <input type="hidden" name="transferNetPrice<?php echo $addon->getTransfer()->getId(); ?>" value="<?php echo $addon->getTransfer()->getNetPrice(); ?>">
+			<div class="detailAdd">
+				<div class="add1">
+                                    <?php if($addon->getTransfer()->getImage()){ ?>
+					<img src="/img/user_uploads/transfers/<?php echo $addon->getTransfer()->getImage();?>" height="200" width="200">
+                                    <?php }else{ ?>
+                                        <img src="/img/demo3.png" height="200" width="200">
+                                    <?php } ?>
+				</div>
+				<div class="add2">
+					<div class="contP">
+                                         <?php if($addon->getTransfer()->getNotes()){ 
+                                            echo $addon->getTransfer()->getNotes();
+                                            }else{
+                                                echo "No Description Available";
+                                            }
+                                            ?>
+                                        </div>
+				</div>
+				<div class="add3">
+					<div class="title1">
+						Transfer-<?php echo $addon->getTransfer()->getTransferName(); ?> 
+					</div>	
+					<div class="price">
+						$<?php echo $addon->getTransfer()->getGrossPrice(); ?> 
+					</div>
+					<input class="checktransfer" data-id="<?php echo $addon->getTransfer()->getId(); ?>" price="<?php echo $addon->getTransfer()->getGrossPrice(); ?>" type="checkbox"> <br> select
+
+				</div>
+			</div>
+                            <?php } ?>
+                    <?php } ?>
+
+			
+		</div>
+		<br><br><br><br><br>
+                <div class="tYell1">Final Cost $US<span id="finalCost">0</span></div>
+                <a javascript="javascript:void(0);" id="checkout" style="cursor:pointer;" class="continue">CONTINUE TO CHECKOUT</a>
+                
+                <div id="payment" style="display:none;">
+                    <br><br><br><br><br>
+                    <div class="tLine">
+                            TRAVELLERS INFORMATION
+                    </div>
+                    <div class="outerpaymentdiv">
+                        <?php for($i=1;$i<=$inventoryLead->getNoOfPersons();$i++){ ?>
+                        <div id='<?php echo $i; ?>'>
+                            <label class='label'>Traveller <?php echo $i; ?> Info</label><br>
+                            <label class='label1'>Name :</label><input type="text" class="input" name="travellername[]" placeholder="Traveller Name" value="<?php if($i==1){ echo $lead->getName(); }?>" style='width:15%' required>
+                            <label class='label1'>Email :</label><input type="email" class="input" name="travelleremail[]" placeholder="Traveller Email" value="<?php if($i==1){ echo $lead->getEmail(); }?>" style='width:15%' required>
+                            <label class='label1'>Gender :</label><input type='radio' name='travellersex<?php echo $i; ?>' value='1' checked><label class='label2'>Male</label><input type='radio' name='travellersex<?php echo $i; ?>' value='2'><label class='label2'>Female</label>
+                            <label class="label1">Dob :</label> <input type="date" class="input dob" name="travellerdob[]" placeholder="Traveller Dob" style='width:15%' readonly>
+                            <label class="label1">Phone :</label> <input type="number" class="input" name="travellerphone[]" placeholder="Traveller Phone" value="<?php if($i==1){ echo $lead->getPhone(); }?>" style='width:15%' required>
+                        </div>
+                        <br>
+                        <?php } ?>
+                    </div>
+                    <br><br><br><br><br>
+                    <div class="tLine">
+                            HOW WOULD YOU LIKE TO PAY
+                    </div>
+                    <div class="outerpaymentdiv">
+                       <div class="innerdivright"> 
+                           <img width="250" height="70" src="/img/paypal1.jpg"><br>
+                           <input type="radio" value="paypal" name="paymentType" checked>Paypal
+                       </div>
+                        <div class="innerdivleft">
+                            <img width="150" height="70" src="/img/visa1.jpg">
+                            <img width="150" height="70" src="/img/mastercard.jpg"><br>
+                        <input type="radio" value="card" name="paymentType">Secure Credit Card Checkout
+                        </div>
+                        
+                        
+                        <br><br>
+                    </div>
+                    
+                    <div id="cardDiv">
+                        <label class="label">Card Type</label> 
+                            <select class="input" name="cardType">
+                                <option value="Visa">Visa</option>
+                                <option value="MasterCard">MasterCard</option>
+                            </select><br>
+                        <label class="label">Name on Card</label> <input type="text" class="input" name="cardName" placeholder="Name on Card"><br>
+                       <label class="label">Card Number </label><input type="text" class="input" name="cardNumber" placeholder="Card Number"><br>
+                       <label class="label">Card Expiry</label> <input type="text" class="input" style="width:6%" name="cardMonth" placeholder="mm">
+                        <input type="text" name="cardYear" class="input" style="width:8%" placeholder="yyyy"><br>
+                       <label class="label">Card CVV </label><input type="text" name="cardCvv" class="input" style="width:6%" placeholder="CVV">
+                    </div>
+                    <br><br>
+                    <input type="submit" style="cursor:pointer;" class="continue" value="CHECKOUT">
+               
+                </div>
+         </form>
+		<div class="foot">Toronto Office: 30 Eglinton Ave W, Suite C-12, Mississauga, ON || New ampshire Office: 636 Lower Ridge Rd. Loudon, NH, 03307</div>
+
+	</div>
+    <script src="/js/jquery.min.js"></script>  
+    <script src="/js/zebra_datepicker.js"></script>  
+    <link rel="stylesheet" href="/css/default.css">
+    <script>
+    jQuery(document).ready(function($) {
+        
+           
+                
+                 if($('input[name="finalCost"]').val()<1){
+                        $('#checkout').hide();
+                    }else{
+                        $('#checkout').show();
+                    }
+            
+            var start = $("#dateFrom").val();
+            var end = $("#dateTo").val();
+            var person=$(".persons").val();
+            var days=$('.days').html();
+            
+             $('#dateFrom').Zebra_DatePicker({
+                direction: [start.toString(), end.toString()],
+                onSelect: function() {
+                    _bindNoOfDays();
+                }
+            })
+            $('#dateTo').Zebra_DatePicker({
+                direction: [start.toString(), end.toString()],
+                onSelect: function() {
+                    _bindNoOfDays();
+                }
+            });
+            
+            var _getDiffDays = function(from, to) {
+                var oneDay = 24 * 60 * 60 * 1000;
+                var firstDate = new Date(parseInt(from[0]), parseInt(from[1]), parseInt(from[2]));
+                var secondDate = new Date(parseInt(to[0]), parseInt(to[1]), parseInt(to[2]));
+                var diffDays = 0;
+                if (firstDate < secondDate) {
+                    diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
+                }
+                return diffDays;
+            };
+
+           var _bindNoOfDays = function(){
+                    var from = $('input[name="travelFrom"]').val().split("-"); 
+                    var to = $('input[name="travelTo"]').val().split("-"); 
+                    var person = $('#persons').val(); 
+                    var room = $('#rooms').val(); 
+//                    alert(_getDiffDays(from, to));
+                    
+                    var days=_getDiffDays(from, to);
+                    $('input[name="days"]').val(days);
+//                    alert(days);
+                    $('.days').html(days);
+                    
+                   for (var i = 0; i < <?php echo $i; ?>; i++) {
+                       var roomId=$('input[name="roomId'+i+'"]').val(); 
+                        _calcTotalCost(from, to, person, days, roomId,room);
+                   }
+                                       
+            };
+           
+            
+            
+            $("#persons").keyup(function(){
+               $('.person').html($(this).val());
+                  if($(this).val()>4){
+                      alert('Maximum 4 guests can be added.');
+                      $(this).val('4');
+                      _bindNoOfDays();
+                  }else{
+                      _bindNoOfDays();
+                  }
+            });
+            $("#persons").click(function(){
+                $('.person').html($(this).val());
+                  if($(this).val()>4){
+                      alert('Maximum 4 guests can be added.');
+                      $(this).val('4');
+                      _bindNoOfDays();
+                  }else{
+                      _bindNoOfDays();
+                  }
+//                 _bindNoOfDays();
+            });
+            $("#rooms").keyup(function(){
+//                $('.person').html($(this).val());
+                  var rooms=<?php echo $inventoryLead->getRoomRequired() ; ?>;
+                  if($(this).val()>rooms){
+                      alert('If you wish to add more rooms new Quote will have to be generated.');
+                      $(this).val(rooms);
+                      _bindNoOfDays();
+                  }else{
+                      _bindNoOfDays();
+                  }
+            });
+            $("#rooms").click(function(){
+//                $('.person').html($(this).val());
+                 var rooms=<?php echo $inventoryLead->getRoomRequired() ; ?>;
+                  if($(this).val()>rooms){
+                      alert('If you wish to add more rooms new Quote will have to be generated.');
+                      $(this).val(rooms);
+                      _bindNoOfDays();
+                  }else{
+                      _bindNoOfDays();
+                  }
+            });
+            
+            var _calcTotalCost = function(from, to, person, days, roomId,room){
+               
+                var pricePer=$('input[name="type'+roomId+'"]').val(); 
+                //alert(roomId);
+                if(pricePer=="1"){
+                    var totalCost=parseInt(person*days*$('#price'+roomId).html());
+                }else{
+                    var totalCost=parseInt(room*days*$('#price'+roomId).html());
+                }
+                
+                $('#totalCost'+roomId).html(totalCost);
+                $('input[name="totalCost'+roomId+'"]').val(totalCost);
+                
+                var checked=$('#'+roomId).attr('checked');
+//                alert(checked=="checked");
+                if(checked=="checked"){
+                    var cost=parseInt($('input[name="finalCost"]').val());
+                    $('input[name="roomprice"]').val($('#price'+roomId).html());
+                    $('input[name="totalcost"]').val(totalCost);
+                    $('input[name="roomid"]').val($('#'+roomId).attr('data-id'));
+                    var finalcost=totalCost;
+                    _calcFinalCost(finalcost);
+                }/*else{
+                    var cost=parseInt($('input[name="finalCost"]').val());
+                    var finalcost=cost-totalCost;
+                    _calcFinalCost(finalcost);
+                }*/
+            };
+            
+            var _calcFinalCost = function(totalCost){
+                $('#finalCost').html(totalCost);
+                $('input[name="finalCost"]').val(totalCost);
+                
+                 if(totalCost<1){
+                        $('#checkout').hide();
+                    }else{
+                        $('#checkout').show();
+                    }
+            
+            
+            };
+
+               $('.check').click(function(){
+                    
+                    var from = $('input[name="travelFrom"]').val().split("-"); 
+                    var to = $('input[name="travelTo"]').val().split("-"); 
+                    var person = $('#persons').val(); 
+                    var room = $('#rooms').val(); 
+                    var roomId=$(this).attr('id');
+                    var days=_getDiffDays(from, to);
+                    $('input[name="days"]').val(days);
+                    $('.days').html(days);
+                   _calcTotalCost(from, to, person, days, roomId,room);
+                   
+                });
+            
+            $('.checkitem').click(function(){
+                var checkedroom=$('input[name="chk"]').attr('checked');
+//                if(checkedroom=="checked"){
+                    var price=parseInt($(this).attr('price'));
+                    var checked=$(this).attr('checked');
+                    var id=$(this).attr('data-id');
+                    if(checked=="checked"){
+                        $('input[name="item'+id+'"]').val('1');
+                        var cost=parseInt($('input[name="finalCost"]').val());
+                        var finalcost=cost+price;
+                        _calcFinalCost(finalcost);
+                    }else{
+                        var cost=parseInt($('input[name="finalCost"]').val());
+                        var finalcost=cost-price;
+                        _calcFinalCost(finalcost);
+                    }
+//                }else{
+//                    alert('Please Select Room First...');
+//                    $(this).removeAttr('checked');
+//                }
+            });
+            $('.checkexcursion').click(function(){
+                var checkedroom=$('input[name="chk"]').attr('checked');
+//                if(checkedroom=="checked"){
+                    var price=parseInt($(this).attr('price'));
+                    var checked=$(this).attr('checked');
+                    var id=$(this).attr('data-id');
+                    if(checked=="checked"){
+                        $('input[name="excursion'+id+'"]').val('1');
+                        var cost=parseInt($('input[name="finalCost"]').val());
+                        var finalcost=cost+price;
+                        _calcFinalCost(finalcost);
+                    }else{
+                        var cost=parseInt($('input[name="finalCost"]').val());
+                        var finalcost=cost-price;
+                        _calcFinalCost(finalcost);
+                    }
+//                }else{
+//                    alert('Please Select Room First...');
+//                    $(this).removeAttr('checked');
+//                }
+            });
+            $('.checktransfer').click(function(){
+                var checkedroom=$('input[name="chk"]').attr('checked');
+                //if(checkedroom=="checked"){
+                    var price=parseInt($(this).attr('price'));
+                    var checked=$(this).attr('checked');
+                    var id=$(this).attr('data-id');
+                    if(checked=="checked"){
+                        $('input[name="transfer'+id+'"]').val('1');
+                        var cost=parseInt($('input[name="finalCost"]').val());
+                        var finalcost=cost+price;
+                        _calcFinalCost(finalcost);
+                    }else{
+                        var cost=parseInt($('input[name="finalCost"]').val());
+                        var finalcost=cost-price;
+                        _calcFinalCost(finalcost);
+                    }
+//                }else{
+//                    alert('Please Select Room First...');
+//                    $(this).removeAttr('checked');
+//                }
+            });
+             
+             $('.continue').click(function(){
+               $('#payment').show();  
+             });
+        _bindNoOfDays();
+        
+        
+        $('input[name=paymentType]').click(function(){
+            var value=$(this).val();
+            if(value=="card"){
+                $('#cardDiv').show();
+            }else{
+                $('#cardDiv').hide();
+            }
+                
+        });
+        
+         $('.dob').Zebra_DatePicker({
+            direction:-6570
+        });
+    });
+    </script>
+    
+    <style>
+        .tYell1 {
+            background-image: url("/img/h2.png");
+            color: black;
+            float: left;
+            font-family: bebas;
+            font-size: 23pt;
+            font-weight: bold;
+            height: 38px;
+            margin: 0 auto;
+            padding-top: 11px;
+            text-align: center;
+            width: 277px;
+        }
+        .outerpaymentdiv{
+            font-family: bebas;
+            font-size: 30px;
+            margin-bottom: 0;
+            margin-left: auto;
+            margin-top: 0;
+            padding: 20px;
+            width: 100%;
+        }
+        .innerdivright{
+            width: 45%;
+            padding: 20px;
+            float: left;
+            text-align: right;
+        }
+        .innerdivleft{
+            width: 45%;
+            padding: 20px;
+            float: left;
+            text-align: left;
+        }
+        .foot{
+              margin-top: 20px;
+              text-align: center;
+        }
+        .input{
+            background: linear-gradient(to bottom, white 0%, #efefef 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+            border: 2px solid #d6d6d6;
+            border-radius: 14px;
+            color: #000;
+            font-family: bebas;
+            font-size: 15pt;
+            font-weight: bold;
+            margin-left: 17px;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            width: 50%;
+        }
+        #cardDiv{
+             display:none; 
+             margin: 0 auto; 
+             width:50%;
+            padding-top: 100px;
+        }
+        .label{
+            width: 40%;
+            display: inline-block;
+        }
+        .label2{
+            font-size: 22px;
+            width: 3%;
+            display: inline-block;
+        }
+        .label1{
+            font-size:25px;
+            width: 5.6%;
+            display: inline-block;
+            margin-left: 3%;
+        }
+    </style>
+</body>
+</html>

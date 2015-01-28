@@ -1,0 +1,449 @@
+<?php
+//d($this->data);
+$form = $this->form;
+
+$form->prepare();
+$form->setAttribute('action', $this->url(
+                'tour-location-resort-rooms-edit', array('id' => $this->id)
+));
+
+$form->setAttribute('method', 'post');
+//d($this->data);
+$tripleOccupancy = $form->get('tripleOccupancyAllowed')->getValue();
+$pricePer = $form->get('pricePer')->getValue();
+$board = $form->get('board')->getValue();
+$doubleOccupancyRate = $form->get('doubleOccupancyRate')->getValue();
+$tripleOccupancyAllowed = $form->get('tripleOccupancyAllowed')->getValue();
+$quadOccupancy = $form->get('quadOccupancy')->getValue();
+$singlePremiumOccupancy = $form->get('singlePremiumOccupancy')->getValue();
+$singleShare = $form->get('singleShare')->getValue();
+$tripleFemaleNa = $form->get('tripleFemaleNa')->getValue();
+$tripleMaleNa = $form->get('tripleMaleNa')->getValue();
+//d($singleShare);
+?>
+<div class="grid">
+
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="grid-content">
+        <input type="hidden" name="id" value="<?php echo $this->id ?>">
+        <div class="formRow control-group">			
+            <label for="board">Board</label>
+            <div class="formRight">
+                <div name="board" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="all-inclusive" class="load-entity" name="board" <?php
+                        if ($board == 1) {
+                            echo "checked='checked'";
+                        }
+                        ?> value="1" data-resource="all-inclusive">
+                        <label for="all-inclusive"><span></span>All Inclusive</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="breakfast-included" class="load-entity" <?php
+                        if ($board == 2) {
+                            echo "checked='checked'";
+                        }
+                        ?> name="board" value="2" data-resource="breakfast-included">
+                        <label for="breakfast-included"><span></span>Breakfast Included</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="room-only" class="load-entity" name="board" <?php
+                        if ($board == 3) {
+                            echo "checked='checked'";
+                        }
+                        ?> value="3" data-resource="room-only">
+                        <label for="room-only"><span></span>Room Only</label>
+                    </p>
+                </div>
+
+            </div>
+        </div>    
+
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('netPrice')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('netPrice')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('netPrice'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>            
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('grossPrice')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('grossPrice')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('grossPrice'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>   
+
+
+
+
+
+        <!-- new fieds added as mockups -->
+
+        <div class="formRow control-group">			
+            <label for="pricePer">Price Per</label>
+            <div class="formRight">
+                <div name="pricePer" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="person" class="load-entity" name="pricePer" <?php
+                        if ($pricePer == 1) {
+                            echo "checked='checked'";
+                        }
+                        ?> value="1" data-resource="person">
+                        <label for="person"><span></span>Person</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="room" class="load-entity" name="pricePer" <?php
+                        if ($pricePer == 2) {
+                            echo "checked='checked'";
+                        }
+                        ?> value="2" data-resource="room">
+                        <label for="room"><span></span>Room</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="formRow control-group">			
+            <label for="doubleOccupancy"> Double Occupancy Rate</label>
+            <div class="formRight">
+                <div name="double-occupancy-rate" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="double-yes" class="load-entity" name="doubleOccupancyRate" <?php
+                        if ((int) $doubleOccupancyRate == 1) {
+                            echo "checked='checked'";
+                        }
+                        ?> value="1" data-resource="double-yes">
+                        <label for="double-yes"><span></span>Yes</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="double-no" class="load-entity" name="doubleOccupancyRate" <?php
+                        if ((int) $doubleOccupancyRate == 0) {
+                            echo "checked='checked'";
+                        }
+                        ?>  value="0" data-resource="double-no">
+                        <label for="double-no"><span></span>No</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('femalesCount')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('femalesCount')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('femalesCount'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+        <div class="formRow control-group">
+            <?php echo $this->formLabel($form->get('malesCount')); ?>
+            <div class="formRight">
+                <?php echo $this->formElement($form->get('malesCount')->setAttribute('class', 'span input')); ?>
+                <?php echo $this->formElementErrors($form->get('malesCount'), array('class' => 'help-inline')); ?>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="formRow control-group">			
+            <label for="tripleOccupancyAllowed"> Triple Occupancy Allowed</label>
+            <div class="formRight">
+                <div name="pricePer" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="yes" class="load-entity" name="tripleOccupancyAllowed" <?php
+                        if ($tripleOccupancyAllowed == 1) {
+                            echo "checked='checked'";
+                        }
+                        ?> value="1" data-resource="yes">
+                        <label for="yes"><span></span>Yes</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="no" class="load-entity" name="tripleOccupancyAllowed"<?php
+                        if ($tripleOccupancyAllowed == 0) {
+                            echo "checked='checked'";
+                        }
+                        ?>  value="0" data-resource="no">
+                        <label for="no"><span></span>No</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="triple_event">
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('triplePriceFemaleGross')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('triplePriceFemaleNet')->setAttribute('class', 'span')); ?>
+                    <?php echo $this->formElement($form->get('triplePriceFemaleGross')->setAttribute('class', 'span')); ?>
+
+
+                    <input type="checkbox" id="tripleFemaleNa" name="tripleFemaleNa" value="1" <?php
+                    if ($tripleFemaleNa == 1) {
+                        echo "checked='checked'";
+                    }
+                    ?>>
+                    <label for="tripleFemaleNa"><span></span> NA </label>
+
+                    <?php echo $this->formElementErrors($form->get('triplePriceFemaleNet'), array('class' => 'help-inline')); ?>
+                    <?php echo $this->formElementErrors($form->get('triplePriceFemaleGross'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>      
+
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('triplePriceMaleGross')); ?>
+                <div class="formRight">
+                    <?php echo $this->formElement($form->get('triplePriceMaleNet')->setAttribute('class', 'span')); ?>
+                    <?php echo $this->formElement($form->get('triplePriceMaleGross')->setAttribute('class', 'span')); ?>
+
+                    <input type="checkbox" id="tripleMaleNa" name="tripleMaleNa" value="1" <?php
+                    if ($tripleMaleNa == 1) {
+                        echo "checked='checked'";
+                    }
+                    ?>>
+                    <label for="tripleMaleNa"><span></span> NA </label>
+
+                    <?php echo $this->formElementErrors($form->get('triplePriceMaleNet'), array('class' => 'help-inline')); ?>
+                    <?php echo $this->formElementErrors($form->get('triplePriceMaleGross'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>  
+        </div>
+
+
+
+        <div class="formRow control-group">			
+            <label for="quadOccupancy">Quad Occupancy Allowed</label>
+            <div class="formRight">
+                <div name="quadOccupancy" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="quad-yes" class="load-entity" name="quadOccupancy"  <?php
+                        if ($quadOccupancy == 1) {
+                            echo "checked='checked'";
+                        }
+                        ?>  value="1" data-resource="quad-yes">
+                        <label for="quad-yes"><span></span>Yes</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="quad-no" class="load-entity" name="quadOccupancy" <?php
+                        if ($quadOccupancy == 0) {
+                            echo "checked='checked'";
+                        }
+                        ?>  value="0" data-resource="quad-no">
+                        <label for="quad-no"><span></span>No</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="quad" style="display:none">
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('quadPriceFemaleGross')); ?>
+                <div class="formRight">
+                    <?php
+                    echo $this->formElement($form->get('quadPriceFemaleNet')->setAttribute('class', 'span')
+                                    ->setAttribute('id', 'quad-price-female-net'));
+                    ?>
+                    <?php
+                    echo $this->formElement($form->get('quadPriceFemaleGross')->setAttribute('class', 'span')
+                                    ->setAttribute('id', 'quad-price-female-gross'));
+                    ?>
+                    <?php echo $this->formElementErrors($form->get('quadPriceFemaleNet'), array('class' => 'help-inline')); ?>
+                    <?php echo $this->formElementErrors($form->get('quadPriceFemaleGross'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>      
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('quadPriceMaleGross')); ?>
+                <div class="formRight">
+                    <?php
+                    echo $this->formElement($form->get('quadPriceMaleNet')->setAttribute('class', 'span')
+                                    ->setAttribute('id', 'quad-price-male-net'));
+                    ?>
+                    <?php
+                    echo $this->formElement($form->get('quadPriceMaleGross')->setAttribute('class', 'span')
+                                    ->setAttribute('id', 'quad-price-male-gross'));
+                    ?>
+                    <?php echo $this->formElementErrors($form->get('quadPriceMaleNet'), array('class' => 'help-inline')); ?>
+                    <?php echo $this->formElementErrors($form->get('quadPriceMaleGross'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="formRow control-group">			
+            <label for="singlePremiumOccupancy">Premium  for single Occupancy</label>
+            <div class="formRight">
+                <div name="singlePremiumOccupancy" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="single-yes" class="load-entity" name="singlePremiumOccupancy" <?php
+                        if ($singlePremiumOccupancy == 1) {
+                            echo "checked='checked'";
+                        }
+                        ?>  value="1" data-resource="single-yes">
+                        <label for="single-yes"><span></span>Yes</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="single-no" class="load-entity" name="singlePremiumOccupancy" <?php
+                        if ($singlePremiumOccupancy == 0) {
+                            echo "checked='checked'";
+                        }
+                        ?> value="0" data-resource="single-no">
+                        <label for="single-no"><span></span>No</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="single-price">
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('singlePriceNet')); ?>
+                <div class="formRight">
+                    <?php
+                    echo $this->formElement($form->get('singlePriceNet')->setAttribute('class', 'span input')
+                                    ->setAttribute('id', 'singlePriceNet'));
+                    ?>
+                    <?php echo $this->formElementErrors($form->get('singlePriceNet'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>      
+
+            <div class="formRow control-group">
+                <?php echo $this->formLabel($form->get('singlePriceGross')); ?>
+                <div class="formRight">
+                    <?php
+                    echo $this->formElement($form->get('singlePriceGross')->setAttribute('class', 'span input')
+                                    ->setAttribute('id', 'singlePriceGross'));
+                    ?>
+                    <?php echo $this->formElementErrors($form->get('singlePriceGross'), array('class' => 'help-inline')); ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="formRow control-group">			
+            <label for="singleShare">Allow single to Share</label>
+            <div class="formRight">
+                <div name="singleShare" class="distance distance-2">
+                    <p>
+                        <input type="radio" id="single-share-yes" class="load-entity" name="singleShare" <?php
+                        if ($singleShare == 1) {
+                            echo "checked='checked'";
+                        }
+                        ?>   value="1" data-resource="single-share-yes">
+                        <label for="single-share-yes"><span></span>Yes</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="single-share-no" class="load-entity" name="singleShare" <?php
+                        if ($singleShare == 0) {
+                            echo "checked='checked'";
+                        }
+                        ?>  value="0" data-resource="single-share-no">
+                        <label for="single-share-no"><span></span>No</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="formRow control-group">
+            <?php echo $this->formSubmit($form->get('submit')->setAttribute('class', 'btn btn-info')) ?>
+            <input id="resetbutton" class="btn btn-info" type="reset" value="Reset" name="reset"></input>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+    <?php echo $this->form()->closeTag() ?>
+</div>
+
+
+<script>
+
+
+    $(function() {
+        $('.grid-content .formRow ul.help-inline').parents('.formRow').addClass('error');
+        $('.error input').keyup(function() {
+            $(this).parents('.formRow').removeClass('error');
+            $(this).next('ul.help-inline').remove();
+        });
+
+<?php if (isset($tripleOccupancy) && $tripleOccupancy != "") : ?>
+            $("#triple_event").css("display", "block");
+<?php endif; ?>
+    });
+
+
+    $("input:radio[name=tripleOccupancyAllowed]").click(function() {
+        var value = $(this).val();
+        if (value == 1) {
+            $("#triple_event").css("display", "block");
+        } else {
+            $("#triple_event").css("display", "none");
+            //remove all values if tripleOccupancyAllowed = No
+            $("#triple-price-female-net").val('');
+            $("#triple-price-male-net").val('');
+            $("#triple-price-female-gross").val('');
+            $("#triple-price-male-gross").val('');
+        }
+    });
+
+    $("input:radio[name=singlePremiumOccupancy]").click(function() {
+        var value = $(this).val();
+        if (value == 1) {
+            $("#single-price").css("display", "block");
+        } else {
+            $("#single-price").css("display", "none");
+            //remove all values if tripleOccupancyAllowed = No
+            $("#singlePriceNet").val('');
+            $("#singlePriceGross").val('');
+        }
+    });
+
+    /* $("input:radio[name=quadOccupancy]").click(function() {
+     var value = $(this).val();
+     if (value == 1) {
+     $("#quad").css("display", "block");
+     } else {
+     $("#quad").css("display", "none");
+     //remove all values if tripleOccupancyAllowed = No
+     $("#quad-price-female-net").val('');
+     $("#quad-price-male-net").val('');
+     $("#quad-price-female-gross").val('');
+     $("#quad-price-male-gross").val('');
+     
+     }
+     });
+     */
+
+
+
+    $("#triple_event").css("display", "none");
+    $("#single-price").css("display", "none");
+    //   $("#quad").css("display", "none");
+
+
+</script>
+
+<?php if (isset($tripleOccupancy) && $tripleOccupancy != "") : ?>
+    <script> $("#triple_event").css("display", "block");</script>
+
+<?php endif; ?>
+<?php if (isset($singlePremiumOccupancy) && $singlePremiumOccupancy != "") : ?>
+    <script> $("#single-price").css("display", "block");</script>
+
+<?php endif; ?>
+
+<?php //if (isset($quadOccupancy) && $quadOccupancy != "") :   ?>
+<script> //$("#quad").css("display", "block");</script>
+
+<?php //endif;   ?>
+
+
+

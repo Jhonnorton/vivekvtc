@@ -1,0 +1,712 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,600,700);
+@font-face {
+  font-family: avenir;
+  src: url(Avenir.ttc);
+}
+@font-face {
+  font-family: bebas;
+  src: url(BebasNeueBook.otf);
+}
+@font-face {
+  font-family: bebasB;
+  src: url(BebasNeueBold.otf);
+}
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: #fff9e1;
+  font-family: open sans;
+}
+.gral {
+  max-width: 1150px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 0px 55px;
+}
+.gral .block1 {
+  width: 50%;
+}
+.gral .span6 {
+  width: 49%;
+  display: inline-block;
+  vertical-align: top;
+}
+.gral .span6 h2 {
+  font-family: bebas;
+  font-size: 66pt;
+  margin: 0px;
+}
+.gral .derecha {
+  text-align: right;
+}
+.gral .span12 {
+  width: 100%;
+}
+.gral table.tpay {
+  width: 100%;
+}
+.gral table.tpay td {
+  background-image: url(../img/tdGray1.jpg);
+  background-size: 100%;
+  width: 50%;
+  padding: 5px;
+  margin: 0px;
+  border: solid;
+  border: solid 1px #d5cccc;
+}
+.gral table.tpay td.yell {
+  background-image: url(../img/tdYell.jpg);
+  background-size: 100%;
+  color: transparent;
+}
+.gral table.tpay td.gray2 {
+  background-image: url(../img/tdGray2.jpg);
+  background-size: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+.gral .btsPay {
+  margin-top: 150px;
+}
+.gral .btPay {
+  font-family: bebas;
+  font-size: 20pt;
+  width: 290px;
+  margin: 0 auto;
+}
+.gral .btPay .bt-visa {
+  background-image: url(../img/visa.jpg);
+  width: 99px;
+  height: 106px;
+}
+.gral .btPay .bt-paypal {
+  background-image: url(../img/paypal.jpg);
+  width: 99px;
+  height: 106px;
+}
+.gral .btPay p {
+  float: right;
+  margin-top: 15px;
+}
+.gral .parr {
+  text-align: center;
+}
+.gral .parr .small {
+  font-size: 10pt;
+}
+.gral .small2 {
+  font-size: 9pt;
+  position: absolute;
+  color: #666666;
+  font-style: italic;
+}
+.gral .ipay {
+  font-family: bebas;
+  font-size: 16pt;
+  padding-left: 9px;
+  border-radius: 14px;
+  background-color: #eeeeee;
+  color: #635e5e;
+  font-weight: bold;
+  border: solid 2px #ebebeb;
+  background: -moz-linear-gradient(top, white 0%, #efefef 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #efefef));
+  background: -webkit-linear-gradient(top, white 0%, #efefef 100%);
+  background: -o-linear-gradient(top, white 0%, #efefef 100%);
+  background: -ms-linear-gradient(top, white 0%, #efefef 100%);
+  background: linear-gradient(to bottom, white 0%, #efefef 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#efefef', GradientType=0);
+}
+.bgGreen {
+  background-color: rgba(72, 112, 6, 0.67);
+}
+.bgGreen .pop {
+  background-color: rgba(72, 112, 6, 0.67);
+  width: 900px;
+  color: white;
+  margin: 0 auto;
+  padding: 10px 65px;
+}
+.bgGreen .pop h2 {
+  text-align: center;
+  font-family: bebas;
+  font-size: 28pt;
+}
+.bgGreen .pop .center {
+  width: 570px;
+  margin: 0 auto;
+}
+.bgGreen .pop .center .span3 {
+  width: 48%;
+  display: inline-block;
+}
+.bgGreen .pop .center .span3 .cal {
+  width: 49px;
+  height: 38px;
+  background-image: url(../img/calendar.png);
+  display: inline-block;
+  vertical-align: -11px;
+  margin-left: 5px;
+}
+.bgGreen .pop input {
+  font-family: bebas;
+  font-size: 16pt;
+  padding-left: 9px;
+  border-radius: 14px;
+  background-color: #eeeeee;
+  color: #635e5e;
+  font-weight: bold;
+  border: solid 2px #bbbaba;
+  background: -moz-linear-gradient(top, white 0%, #efefef 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #efefef));
+  background: -webkit-linear-gradient(top, white 0%, #efefef 100%);
+  background: -o-linear-gradient(top, white 0%, #efefef 100%);
+  background: -ms-linear-gradient(top, white 0%, #efefef 100%);
+  background: linear-gradient(to bottom, white 0%, #efefef 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#efefef', GradientType=0);
+}
+.bgGreen .pop .dates {
+  width: 700px;
+}
+.bgGreen .pop .dates .span6 {
+  width: 48%;
+  display: inline-block;
+  vertical-align: top;
+  text-align: right;
+  margin-bottom: 10px;
+}
+.bgGreen .pop .dates .span6 input[type="number"] {
+  width: 30px;
+  float: right;
+  vertical-align: 1px;
+  margin-left: 10px;
+  margin-top: -4px;
+}
+.bgGreen .pop p.if {
+  text-align: center;
+}
+.bgGreen .pop .checks {
+  width: 320px;
+  margin: 0 auto;
+}
+.bgGreen .pop .enviar {
+  color: white;
+  background-color: transparent;
+  background: transparent;
+  width: 153px;
+  height: 44px;
+  background-image: url(../img/bgSend.png);
+  border: solid 0px;
+  margin: 0 auto;
+  display: block;
+  margin-top: 30px;
+  text-align: center;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+.rooms .Toph2 {
+  padding-top: 12px;
+  width: 600px;
+  float: right;
+}
+.rooms .Toph2 select {
+  font-family: bebas;
+  font-size: 15pt;
+  padding-left: 9px;
+  border-radius: 14px;
+  background-color: #eeeeee;
+  color: #a0a0a0;
+  font-weight: bold;
+  border: solid 2px #e6e6e6;
+  background: -moz-linear-gradient(top, white 0%, #efefef 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #efefef));
+  background: -webkit-linear-gradient(top, white 0%, #efefef 100%);
+  background: -o-linear-gradient(top, white 0%, #efefef 100%);
+  background: -ms-linear-gradient(top, white 0%, #efefef 100%);
+  background: linear-gradient(to bottom, white 0%, #efefef 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#efefef', GradientType=0);
+  width: 260px;
+  margin-right: 20px;
+}
+.rooms .t2 {
+  font-family: bebas;
+  font-size: 21pt;
+  background-image: url(../img/h2.png);
+  width: 275px;
+  height: 39px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 5px;
+  display: inline-block;
+}
+.rooms .th2 {
+  font-family: bebas;
+  font-size: 30pt;
+  font-weight: bold;
+  padding-top: 61px;
+}
+.rooms .room {
+  width: 49%;
+  display: inline-block;
+  margin-right: 8px;
+}
+.rooms .room .sp {
+  font-size: 11pt;
+  text-align: justify;
+}
+.rooms .room .tH3 {
+  font-family: bebasB;
+  font-size: 38pt;
+  font-weight: bold;
+}
+.rooms .room .tGreen {
+  font-family: bebas;
+  font-size: 14pt;
+  background-image: url(../img/tGreen.png);
+  width: 212px;
+  height: 29px;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 9px;
+  margin-bottom: 20px;
+}
+.rooms .room .tRed {
+  font-family: bebas;
+  font-size: 14pt;
+  background-image: url(../img/tRed.png);
+  width: 212px;
+  height: 32px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 5px;
+  margin-bottom: 20px;
+}
+.rooms .room .img {
+  width: 271px;
+  height: 183px;
+  position: absolute;
+  transition: all 1s;
+  opacity: 0;
+  background-image: url(../img/demoHover.png);
+}
+.rooms .room .img:hover {
+  background-image: url(../img/demoHover.png);
+  opacity: .7;
+  cursor: pointer;
+}
+.rooms .room .only {
+  width: 70px;
+  height: 72px;
+  position: absolute;
+  background-image: url(../img/only.png);
+  margin-top: -209px;
+  margin-left: 215px;
+}
+.rooms .tPromo {
+  font-family: bebas;
+  font-size: 16pt;
+}
+.rooms .pPromo {
+  font-size: 10pt;
+  color: #666666;
+  margin-bottom: 20px;
+}
+.quote {
+  overflow: hidden;
+}
+.quote .span6 h2 {
+  font-size: 54pt;
+  font-weight: normal;
+}
+.quote .tHp {
+  font-family: bebas;
+  font-size: 28pt;
+  text-align: center;
+}
+.quote .sHp {
+  text-align: center;
+}
+.quote .tP {
+  text-align: center;
+  font-size: 11pt;
+  margin-bottom: 41px;
+}
+.quote .travel {
+  background: #fec803;
+  background: -moz-linear-gradient(top, #fec803 0%, #ff9f24 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fec803), color-stop(100%, #ff9f24));
+  background: -webkit-linear-gradient(top, #fec803 0%, #ff9f24 100%);
+  background: -o-linear-gradient(top, #fec803 0%, #ff9f24 100%);
+  background: -ms-linear-gradient(top, #fec803 0%, #ff9f24 100%);
+  background: linear-gradient(to bottom, #fec803 0%, #ff9f24 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fec803', endColorstr='#ff9f24', GradientType=0);
+  margin-left: -54px;
+  width: 106%;
+  height: 42px;
+  padding: 25px;
+  box-shadow: 1px -2px 12px #bbbbbb;
+  margin-bottom: 20px;
+  font-family: bebas;
+  font-size: 19pt;
+  font-weight: bold;
+}
+.quote .travel .cont {
+  margin: 0 auto;
+  width: 87%;
+}
+.quote .travel .lab {
+  display: inline-block;
+  margin-left: 20px;
+}
+.quote .travel input[type="date"] {
+  display: inline-block;
+}
+.quote .travel .cal {
+  display: inline-block;
+  width: 49px;
+  height: 38px;
+  background-image: url(../img/calendar.png);
+  vertical-align: -11px;
+  margin-left: 5px;
+}
+.quote .travel input {
+  font-family: bebas;
+  font-size: 15pt;
+  padding-left: 10px;
+  border-radius: 14px;
+  background-color: #eeeeee;
+  color: #aaaaaa;
+  font-weight: bold;
+  border: solid 2px #d6d6d6;
+  background: -moz-linear-gradient(top, white 0%, #efefef 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #efefef));
+  background: -webkit-linear-gradient(top, white 0%, #efefef 100%);
+  background: -o-linear-gradient(top, white 0%, #efefef 100%);
+  background: -ms-linear-gradient(top, white 0%, #efefef 100%);
+  background: linear-gradient(to bottom, white 0%, #efefef 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#efefef', GradientType=0);
+  margin-left: 17px;
+}
+.quote .travel input[type="number"] {
+  width: 30px;
+}
+.quote .travel .cien {
+  display: inline-block;
+}
+.quote .dRooms {
+  width: 220px;
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.quote .dRooms .timg {
+  font-family: bebas;
+  font-size: 26pt;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+.quote .pRooms {
+  width: 58%;
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 15px;
+  font-size: 11pt;
+  padding-left: 15px;
+  padding-right: 5px;
+  text-align: justify;
+  margin-right: 20px;
+}
+.quote .bRooms {
+  width: 190px;
+  display: inline-block;
+  vertical-align: top;
+}
+.quote .bRooms .tGreen {
+  font-family: bebas;
+  font-size: 23pt;
+  background-image: url(../img/tGreenB.png);
+  width: 166px;
+  height: 38px;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 0px;
+  margin-bottom: 10px;
+  margin: 0 auto;
+}
+.quote .bRooms .tYell {
+  font-family: bebas;
+  font-size: 23pt;
+  background-image: url(../img/tYellB.png);
+  width: 166px;
+  height: 38px;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 0px;
+  margin-bottom: 10px;
+  margin: 0 auto;
+}
+.quote .bRooms .cope {
+  font-size: 10pt;
+  font-style: italic;
+  color: #8f8f8f;
+  margin-bottom: 6px;
+  text-align: center;
+}
+.quote .tLine {
+  font-family: bebas;
+  font-size: 28pt;
+  text-align: center;
+  padding: 50px;
+  border-top: solid 2px #93c935;
+  border-bottom: solid 2px #93c935;
+  margin-bottom: 20px;
+}
+.quote .add1 {
+  width: 29%;
+  display: inline-block;
+  margin-bottom: 20px;
+  padding-top: 55px;
+}
+.quote .add1 img {
+  width: 100%;
+}
+.quote .add2 {
+  width: 35%;
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 55px;
+  font-size: 11pt;
+  padding-left: 29px;
+  padding-right: 5px;
+  text-align: justify;
+  margin-right: 20px;
+  font-weight: bold;
+}
+.quote .add3 {
+  width: 27%;
+  display: inline-block;
+  margin-left: 40px;
+  vertical-align: top;
+  text-align: center;
+  padding-top: 50px;
+}
+.quote .add3 .title1 {
+  font-family: bebas;
+  font-size: 25pt;
+}
+.quote .add3 .price {
+  font-family: bebasB;
+  font-size: 57pt;
+  font-weight: bold;
+  margin-top: 16px;
+  margin-bottom: 12px;
+}
+.quote .continue {
+  font-family: bebas;
+  font-size: 21pt;
+  background-image: url(../img/h2.png);
+  width: 275px;
+  height: 39px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 5px;
+  display: inline-block;
+  float: right;
+}
+.quote .foot {
+  float: left;
+  font-style: italic;
+  color: #555555;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+@media only screen and (max-width: 1255px) {
+  .quote .travel .lab {
+    margin-left: 5px;
+  }
+  .quote .travel input[type="date"] {
+    display: inline-block;
+    width: 156px;
+  }
+  .quote .travel .cont {
+    width: 98%;
+  }
+  .quote .pRooms {
+    width: 53%;
+    padding-right: 0px;
+    margin-right: 0px;
+  }
+  .quote .bRooms {
+    float: right;
+  }
+  .quote .add2 {
+    width: 22%;
+    margin-right: 0px;
+    padding-top: 5px;
+  }
+}
+@media only screen and (max-width: 1056px) {
+  .quote .travel {
+    height: 70px;
+    padding: 15px;
+  }
+  .quote .travel .lab {
+    margin-left: 5px;
+  }
+  .quote .travel input[type="date"] {
+    display: inline-block;
+    width: 156px;
+  }
+  .quote .travel .cont {
+    width: 98%;
+    margin-top: -12px;
+    margin-top: -30px;
+    margin: 0 auto;
+    max-width: 610px;
+    text-align: center;
+  }
+  .quote .bRooms {
+    width: 20%;
+    float: none;
+  }
+  .quote .dRooms {
+    width: 24%;
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .quote .dRooms img {
+    width: 100%;
+  }
+  .quote .pRooms {
+    width: 50%;
+    margin-right: 10px;
+  }
+  .quote  .travel {
+    width: 111%;
+  }
+  .quote .add3 {
+    width: 25%;
+    margin-left: 20px;
+    padding-top: 10px;
+  }
+  .quote .add2 {
+    font-size: 10pt;
+    margin-bottom: 20px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .gral {
+    padding: 0px 15px;
+  }
+  .gral .span6 {
+    width: 100%;
+    display: block;
+  }
+  .gral .span6 h2 {
+    font-size: 60pt;
+  }
+  .gral .btsPay {
+    margin-top: 60px;
+  }
+  .gral .derecha {
+    margin-top: 11px;
+  }
+  .gral .btPay {
+    font-family: bebas;
+    font-size: 14pt;
+    width: 240px;
+    margin: 0 auto;
+  }
+  .quote .pRooms {
+    width: 46%;
+    margin-right: 10px;
+    font-size: 10pt;
+    padding-top: 5px;
+  }
+}
+@media only screen and (max-width: 660px) {
+  .quote  .travel {
+    font-size: 12pt;
+    width: 111%;
+  }
+  .quote .travel input[type="date"] {
+    font-size: 12pt;
+    width: 84px;
+    padding-left: 5px;
+    margin-left: 2px;
+  }
+  .quote .travel .cal {
+    width: 33px;
+    height: 25px;
+    background-size: 100%;
+  }
+  .quote .bRooms {
+    width: 100%;
+    display: block;
+    margin-top: 0px;
+    margin-bottom: 48px;
+  }
+  .quote .dRooms {
+    width: 46%;
+  }
+  .quote .pRooms {
+    font-size: 9pt;
+  }
+  .quote .tLine {
+    padding: 20px;
+  }
+  .quote .add3 {
+    width: 98%;
+    display: block;
+  }
+  .quote .add2 {
+    font-size: 9pt;
+    margin-bottom: 20px;
+    width: 48%;
+    padding-left: 10px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .quote .travel {
+    font-size: 10pt;
+    width: 127%;
+    font-weight: normal;
+  }
+  .quote .travel input[type="date"] {
+    font-size: 10pt;
+    width: 56px;
+  }
+  .quote .travel input {
+    font-size: 11pt;
+  }
+  .quote .travel .cal {
+    width: 21px;
+    height: 24px;
+    background-repeat: no-repeat;
+  }
+  .quote .dRooms {
+    width: 100%;
+  }
+  .quote .pRooms {
+    width: 95%;
+    margin-bottom: 20px;
+  }
+  .quote .add1 {
+    width: 100%;
+    display: block;
+  }
+  .quote .add2 {
+    width: 95%;
+  }
+  .quote .add3 {
+    margin-bottom: 30px;
+    margin-left: 0px;
+  }
+}

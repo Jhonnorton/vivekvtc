@@ -1,0 +1,81 @@
+<?php
+
+if (count($results) > 0) {
+    $fh = @fopen('php://output', 'w');
+//d($fh);
+
+    $header_row = array();
+    $str = "Order,";
+    $str.= "Item Sold,";
+    $str.= "Order Date,";
+    $str.= "Order Total,";
+    $str.= "Gross Comm,";
+    $str.= "Net Comm,";
+    $str.= "Net Comm %";
+    $strt = preg_replace("/([,])(\\1+)/i", '\\1', rtrim($str, ','));
+    $header_row = explode(',', rtrim($strt, ','));
+
+    fputcsv($fh, $header_row, ',', '"');
+
+
+   foreach ($results['collection'] as $item){
+       
+                    $hotelName = $item['hotelName'];
+                    $type = $item['type'];
+                    $roomName = $item['roomName'];
+                    $travellers = $item['travellers'];
+                    $reservation = $item['reservation'];
+
+                    $order = $reservation->getReferenceNumber();
+
+                    $reservationdate = ($reservation->getcreatedAt() instanceof \DateTime) ? $reservation->getcreatedAt()->format('Y-m-d') : $reservation->getcreatedAt();
+                    $datefrom = ($reservation->getdateFrom() instanceof \DateTime) ? $reservation->getdateFrom()->format('Y-m-d') : $reservation->getdateFrom();
+                    $dateto = ($reservation->getdateTo() instanceof \DateTime) ? $reservation->getdateTo()->format('Y-m-d') : $reservation->getdateTo();
+
+                    $noofdays = $reservation->getnoOfDays();
+
+                    $status = $item['status'];
+                    $paymentDue = $item['paymentDues'];
+                    $invoice = $item['invoice'];
+                    $total = ($total + $reservation->getfinalCost());
+
+                    $discount = $reservation->getappliDiscount();
+
+                    $merchantfee = $reservation->getmerchantFee();
+
+                    $nettotal = $reservation->getfinalCost();
+
+                    $grosstotal = $nettotal - ($discount + $merchantfee);
+
+                    $totalnights = ($totalnights + $noofdays);
+
+                    $commtype=$item['commission']['0']['type'];
+                    $commamount=$item['commission']['0']['amount'];
+                    if($commtype==1){
+                        $amt=($commamount/100)*$nettotal;
+                    }else{
+                        $amt=$commamount;
+                    }
+
+                    if ($reservation->getbalansAfterDeposit() == 0) {
+                        $status = 'Completed';
+                    } else {
+                        $status = 'Due';
+                    }
+                    
+                    
+        $str1 = $order . ",";
+        $str1.= $hotelName . ",";
+        $str1.=$reservationdate . ",";
+        $str1.='$'.$grosstotal . ",";
+        $str1.='$'.$amt.",";
+        $str1.="-,";
+        $str1.="-";
+        $strt1 = preg_replace("/([,])(\\1+)/i", '\\1', rtrim($str1, ','));
+
+        $row = explode(',', $strt1);
+
+        fputcsv($fh, $row, ',', '"');
+    }
+    fclose($fh);
+}

@@ -1,0 +1,148 @@
+<?php
+$date = date('Y-m-d');
+//d($this->collection); die; //echo $date; die;
+?>
+
+<script>
+    $(function() {
+        $('#myselect option[value=<?php
+if (!empty($this->paymenttyp)) {
+    echo $this->paymenttyp;
+} else {
+    echo '';
+}
+?>]').attr('selected', 'selected');
+    });
+</script>    
+
+<?php if (!is_null($this->message)):
+    
+   // d($this->message);
+    if ($this->message):
+        ?>		
+        <div class="alert alert-dismissable alert-<?php echo $this->message[0]['type']; ?>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <ul>
+                <li><?php echo $this->message[0]['message']; ?></li>        
+            </ul>
+        </div>
+        <?php
+    endif;
+endif;
+?>
+
+<div class="grid">
+    <div class="grid-title">
+        <div class="pull-left">
+            <div class="icon-title">
+                <i class="icon-list"></i>
+            </div> 
+            <span>Reseller Event</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+
+
+
+</div>
+<div class="grid">    
+    <div class="grid-content overflow">
+
+     
+
+        <table class="table table-bordered table-mod-2" id="datatable_3">
+            <thead>
+                <tr>                    
+                 <!--   <th class="hidden-mobile">Reservation No.</th> -->
+                    <th class="hidden-mobile">Event Name</th>
+                    <th class="hidden-mobile">Date Added</th>
+                    <th class="hidden-mobile">Added By</th>
+                    <th class="hidden-mobile">Status</th>
+                    <th class="hidden-mobile">Approval</th>
+                    <th class="hidden-mobile">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $total = 0;
+                $i = 0;
+                $totalreceived = 0;
+                $totaldue = 0;
+                foreach ($this->collection as $items):
+                    
+                      $item=$items['events'];
+                      $setfeature=$items['eventfeature'];
+                   //   d($setfeature);
+                      $status = $item->getStatus()==1 ? 'Enabled' :'Disabled';  
+                      $approval = $item->getApproved()==1 ? 'Approved' :'Pending';  
+                    ?>                  
+
+                    <tr>
+
+                        <td class="hidden-mobile"><?php echo $item->getTitle(); ?></td>    
+
+                        <td class="hidden-mobile"><?php echo $item->getCreated()->format('Y-m-d'); ?> </td>
+                        <td class="hidden-mobile"> <?php echo  $item->getUserId()->getFirstName().' '. $item->getUserId()->getLastName(); ?></td>				
+
+                        <td class="hidden-mobile"><?php echo $status   ?></td>
+                          <td class="hidden-mobile"><?php echo $approval   ?></td>
+                        
+                        <td class="action-table">   
+                            
+                            <a href="<?php echo $this->url('affiliate-event-view', array('id' => $item->getId())); ?>">
+                                View
+                            </a>
+                            
+                        
+                           <a href="<?php echo $this->url('affiliate-event-edit', array('id' => $item->getId())); ?>">
+                                Edit
+                           </a>
+                          
+                            <a href="<?php echo $this->url('affiliate-gallery', array('id' => $item->getId())); ?>">
+                                Gallery
+                            
+                            </a>
+                            
+                            <a href="<?php echo $this->url('affiliate-event-feature', array('id' => $item->getId())); ?>">
+                                Feature
+                            </a>
+                        
+                                
+                            <a href="<?php echo $this->url('affiliate-event-itinerary', array('id' => $item->getId())); ?>">
+                                Itinerary
+                            </a>
+                            
+                              <a href="<?php echo $this->url('affiliate-event-rooms', array('id' => $item->getId())); ?>">
+                                Rooms
+                            </a>
+                           <?php if(!empty($setfeature)){ ?>
+                             <a href="<?php echo $this->url('affiliate-event-feature-unset', array('id' => $item->getId())); ?>">
+                                Unset Event Featured
+                            </a>
+                            <?php      }else{ ?>
+                            
+                            <a href="<?php echo $this->url('affiliate-event-feature-set', array('id' => $item->getId())); ?>">
+                                Set Event Featured
+                            </a>
+                            
+                          <?php  } ?>
+                            
+                            <a href="<?php echo $this->url('affiliate-event-delete', array('id' => $item->getId())); ?>">
+                                Delete
+                            </a>
+                        </td>
+
+
+
+                    </tr>                    
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+
+        <div class="clearfix"></div>
+    </div>
+</div>

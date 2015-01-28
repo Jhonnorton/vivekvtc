@@ -1,0 +1,17 @@
+<div style="background-color: #FAFAD2; display: block;">
+	<br />
+	<p>Welcome to <b><?php echo $site ?></b>,</p>
+	<p>Dear <b><?php echo $user->getFirstName().' '.$user->getLastName() ?></b>, You has been registered on our site.</p>
+	<p>Please visit <a href="<?php echo $url ?>">profile</a></p>
+	<table>
+		<tr>
+			<td>Login:</td>
+			<td><?php echo $user->getLogin(); ?></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td><?php echo $user->getPassword(); ?></td>
+		</tr>
+	</table>
+	<br />			
+</div>
