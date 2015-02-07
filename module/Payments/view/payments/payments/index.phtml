@@ -91,7 +91,7 @@ if (!empty($this->paymenttyp)) {
 
         </div>
 
-        <table class="table table-bordered table-mod-2" id="datatable_3">
+        <table class="table table-bordered table-mod-2" id="datatable_payments">
             <thead>
                 <tr>                    
                  <!--   <th class="hidden-mobile">Reservation No.</th> -->
@@ -263,7 +263,7 @@ if (!empty($this->paymenttyp)) {
                                 </a>
                             <?php } ?>
 
-                            <?php if ($reservation->getPaymentType() == 0 && $paymentDue['status'] == 0) { ?>
+                            <?php if ($reservation->getPaymentType() == 0 && isset($paymentDue['status']) && $paymentDue['status'] == 0) { ?>
                             <a href="<?php echo $this->url('payment-sendreminder', array('id' => $reservation->getId())); ?>" title="Reminder">
                                 Reminder
                             </a>

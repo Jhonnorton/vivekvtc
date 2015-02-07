@@ -274,7 +274,7 @@ class Payments extends \Base\Model\BaseModel implements InputFilterAwareInterfac
     protected function _getHotelName($reservationId, $type) {
 
         $em = $this->getEntityManager();
-
+        $name = null;
 
             switch ($type) {
             case self::RESORT_ROOM:
@@ -283,24 +283,24 @@ class Payments extends \Base\Model\BaseModel implements InputFilterAwareInterfac
                 if($item){
                     $resortid = $item->getRoom()->getResortId();
                     $na = $em->getRepository('\Base\Entity\Avp\Resorts')->findOneBy(array('id' => $resortid));
+                    $name = !is_null($na) ? $na->getTitle() : null;
                 }
-                $name = !is_null($na) ? $na->getTitle() : null;
                 break;
             case self::EVENT_ROOM:
                 $item = $em->getRepository('\Base\Entity\ReservationEventRoom')->findOneBy(array('reservation' => $reservationId));
                 if($item){
                      $eventId = $item->getEventRoom()->getEventId();
                      $na = $em->getRepository('\Base\Entity\Avp\Events')->findOneBy(array('id' => $eventId));
+                     $name = !is_null($na) ? $na->getTitle() : null;
                 }
-                $name = !is_null($na) ? $na->getTitle() : null;
                 break;
             case self::CRUISE_CABIN:
                 $item = $em->getRepository('\Base\Entity\ReservationCruiseCabin')->findOneBy(array('reservation' => $reservationId));
                 if($item){
                     $cruiseId = $item->getCabin()->getCruiseId();
                     $na = $em->getRepository('\Base\Entity\Avp\Cruises')->findOneBy(array('id' => $cruiseId));
+                    $name = !is_null($na) ? $na->getTitle() : null;
                 }
-                 $name = !is_null($na) ? $na->getTitle() : null;
                 break;
         }
         //d($item->getEventRoom()->getEventId()); //->getResortId());

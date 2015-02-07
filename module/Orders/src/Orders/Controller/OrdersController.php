@@ -42,9 +42,9 @@ class OrdersController extends \Base\Controller\BaseController {
     }
 
     public function indexAction() {
-        $this->model->updateReservationStatus();
-        $this->model->updateExtraPaymentStatus();
-        $this->model->updateDepositDueAmounts();
+//         $this->model->updateReservationStatus();
+//         $this->model->updateExtraPaymentStatus();
+//         $this->model->updateDepositDueAmounts();
         $data = array('collection' => $this->model->getCollection(), 'message' => $this->getPageMessages(),);
         if ($this->request->isPost()) {
             $startdate = $this->getRequest()->getPost('mydate');

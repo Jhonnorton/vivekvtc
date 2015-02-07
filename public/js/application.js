@@ -834,6 +834,18 @@ $(document).ready(function () {
 				$('#datatable_3').dataTable( {
 					"sPaginationType": "full_numbers"
 				} );
+				
+				$('#datatable_reservations').dataTable( {
+					"sPaginationType": "full_numbers"
+					,"iDisplayLength": 25
+				   ,"aLengthMenu":[[25,50,100,-1],[25,50,100,"All"]]
+				} );
+				
+				$('#datatable_payments').dataTable( {
+					"sPaginationType": "full_numbers"
+					,"iDisplayLength": 25
+				   ,"aLengthMenu":[[25,50,100,-1],[25,50,100,"All"]]
+				} );
 			} );
 			$(document).ready(function() {
 				$('#datatable_4').dataTable( {

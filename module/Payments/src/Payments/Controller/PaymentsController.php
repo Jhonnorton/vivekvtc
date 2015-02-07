@@ -34,9 +34,9 @@ class PaymentsController extends \Base\Controller\BaseController {
 
     public function indexAction() {
         $model = $this->getModel('Orders');
-        $model->updateReservationStatus();
+       /*  $model->updateReservationStatus();
         $model->updateExtraPaymentStatus();
-        $model->updateDepositDueAmounts();
+        $model->updateDepositDueAmounts(); */
         //  echo "hello index"; die;    
         $data = array('collection' => $this->model->getCollection(),);
 

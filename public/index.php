@@ -4,7 +4,9 @@
  * to the application root now.
  */
 
+
 ini_set('display_errors',1);
+ini_set('max_execution_time', 300);
 
 date_default_timezone_set('America/Los_Angeles');
 //date_default_timezone_set('Asia/Kolkata');

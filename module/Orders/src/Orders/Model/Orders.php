@@ -329,7 +329,7 @@ class Orders extends \Base\Model\BaseModel implements InputFilterAwareInterface 
     protected function _getHotelName($reservationId, $type) {
 
         $em = $this->getEntityManager();
-
+        $name='';
 
         switch ($type) {
             case self::RESORT_ROOM:
@@ -338,24 +338,24 @@ class Orders extends \Base\Model\BaseModel implements InputFilterAwareInterface 
                 if ($item) {
                     $resortid = $item->getRoom()->getResortId();
                     $na = $em->getRepository('\Base\Entity\Avp\Resorts')->findOneBy(array('id' => $resortid));
+                    $name = !is_null($na) ? $na->getTitle() : null;
                 }
-                $name = !is_null($na) ? $na->getTitle() : null;
                 break;
             case self::EVENT_ROOM:
                 $item = $em->getRepository('\Base\Entity\ReservationEventRoom')->findOneBy(array('reservation' => $reservationId));
                 if ($item) {
                     $eventId = $item->getEventRoom()->getEventId();
                     $na = $em->getRepository('\Base\Entity\Avp\Events')->findOneBy(array('id' => $eventId));
+                    $name = !is_null($na) ? $na->getTitle() : null;
                 }
-                $name = !is_null($na) ? $na->getTitle() : null;
                 break;
             case self::CRUISE_CABIN:
                 $item = $em->getRepository('\Base\Entity\ReservationCruiseCabin')->findOneBy(array('reservation' => $reservationId));
                 if ($item) {
                     $cruiseId = $item->getCabin()->getCruiseId();
                     $na = $em->getRepository('\Base\Entity\Avp\Cruises')->findOneBy(array('id' => $cruiseId));
+                    $name = !is_null($na) ? $na->getTitle() : null;
                 }
-                $name = !is_null($na) ? $na->getTitle() : null;
                 break;
         }
 
@@ -2672,21 +2672,26 @@ class Orders extends \Base\Model\BaseModel implements InputFilterAwareInterface 
                 $collectionDues = $em->getRepository('\Base\Entity\ReservationPaymentDue')->findBy(array('reservation' => $row->getId()));
                 $count = count($collectionDues);
                 $dueAmount = $row->getFinalCost() - $row->getDepositAmoun();
-                $amt = ($dueAmount / $count);
-                foreach ($collectionDues as $dues) {
-                    $em = $this->getEntityManager();
-                    $entity = $em->getRepository('\Base\Entity\ReservationPaymentDue')->findBy(array('id' => $dues->getId()));
-                    if (!empty($entity)) {
-                        $entity = $entity[0];
-                        $entity->setPaymentDue($amt);
-                        $em->persist($entity);
-                        $em->flush();
+                if($count!=0){
+                    $amt = ($dueAmount / $count);
+                    foreach ($collectionDues as $dues) {
+                        $em = $this->getEntityManager();
+                        $entity = $em->getRepository('\Base\Entity\ReservationPaymentDue')->findBy(array('id' => $dues->getId()));
+                        if (!empty($entity)) {
+                            $entity = $entity[0];
+                            $entity->setPaymentDue($amt);
+                            $em->persist($entity);
+                            $em->flush();
+                        }
                     }
                 }
             }
         }
     }
 
+    /**
+     * @see Orders
+     */
     public function updateReservationStatus() {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -2694,7 +2699,6 @@ class Orders extends \Base\Model\BaseModel implements InputFilterAwareInterface 
 
         $query = $qb->getQuery();
         $collection = $query->getResult();
-
         foreach ($collection as $row) {
             if ($row->getDepositAmoun() < $row->getFinalCost()) {
                 $em = $this->getEntityManager();
